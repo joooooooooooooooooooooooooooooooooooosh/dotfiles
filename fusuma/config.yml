@@ -1,0 +1,32 @@
+swipe:
+  3: 
+    left: 
+      command: 'i3-msg workspace next'
+    right: 
+      command: 'i3-msg workspace prev'
+    up: 
+      command: 'rofi -show drun'
+    down: 
+      command: 'xdotool key Escape'
+  4:
+    left: 
+      command: 'xdotool key alt+Left'
+    right: 
+      command: 'xdotool key alt+Right'
+    up: 
+      command: 'gnome-screensaver-command --lock'
+    down: 
+      command: 'i3-msg workspace 20'
+pinch:
+  in:
+    command: 'xdotool key ctrl+plus'
+  out:
+     command: 'xdotool key ctrl+minus'
+
+threshold:
+  swipe: 0.4
+  pinch: 0.1
+
+interval:
+  swipe: 0.8
+  pinch: 0.1
