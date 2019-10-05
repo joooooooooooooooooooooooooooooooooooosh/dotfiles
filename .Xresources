@@ -1,45 +1,64 @@
+urxvt*perl-lib: /usr/lib/urxvt/perl/
+URxvt.perl-ext: default,matcher
+URxvt.url-launcher: /usr/bin/xdg-open
+!urxvt*url-launcher:	/snap/bin/opera
+urxvt*matcher.pattern.1:   \\bwww\\.[\\w-]+\\.[\\w./?&@#-]*[\\w/-]
+URxvt.matcher.button: 1
+!urxvt*shading: 10
+URxvt.iso14755:	false
+URxvt.iso14755_52:	false
+urxvt*scrollBar:	false
+!urxvt*transparent:	true
+urxvt*intensityStyles:	true
+urxvt*cursorBlink:	true
+urxvt*font:	xft:Source Code Pro:style=Regular
+!urxvt*font:	xft:bitstream vera sans mono:size=12
+
+!! Common Keybinds for Navigations
+URxvt.keysym.Shift-Control-V:     eval:paste_clipboard
+URxvt.keysym.Shift-Control-C:     eval:selection_to_clipboard
+URxvt.keysym.Shift-Up: command:\033]720;1\007
+URxvt.keysym.Shift-Down: command:\033]721;1\007
+URxvt.keysym.Control-Up: \033[1;5A
+URxvt.keysym.Control-Down: \033[1;5B
+URxvt.keysym.Control-Right: \033[1;5C
+URxvt.keysym.Control-Left: \033[1;5D
+
 ! special
-*.foreground:   #a39e9b
-!*.background:   #2f1e2e
-*.cursorColor:  #a39e9b
+*.foreground:   #b7b8b9
+!*.background:   #0c0d0e
+*.background:	#0a0f14
+*.cursorColor:  #b7b8b9
 
 ! black
-*.color0:       #2f1e2e
-*.color8:       #776e71
+*.color0:       #0c0d0e
+*.color8:       #737475
 
 ! red
-*.color1:       #ef6155
-*.color9:       #ef6155
+*.color1:       #e31a1c
+*.color9:       #e31a1c
 
 ! green
-*.color2:       #48b685
-*.color10:      #48b685
+*.color2:       #31a354
+*.color10:      #31a354
 
 ! yellow
-*.color3:       #fec418
-*.color11:      #fec418
+*.color3:       #dca060
+*.color11:      #dca060
 
 ! blue
-*.color4:       #06b6ef
-*.color12:      #06b6ef
+*.color4:       #3182bd
+*.color12:      #3182bd
 
 ! magenta
-*.color5:       #815ba4
-*.color13:      #815ba4
+*.color5:       #756bb1
+*.color13:      #756bb1
 
 ! cyan
-*.color6:       #5bc4bf
-*.color14:      #5bc4bf
+*.color6:       #80b1d3
+*.color14:      #80b1d3
 
 ! white
-*.color7:       #a39e9b
-*.color15:      #e7e9db
+*.color7:       #b7b8b9
+*.color15:      #fcfdfe
 
-! transparency
-!*.depth: 32
-*.font:	xft:Noto Sans Mono:style=Regular:size=15
-urxvt.scrollBar: false
-*.background: rgba:0000/0000/0000/cccc
-*.transparent:	true
-*.tintColor:	white
-*.shading:	20
