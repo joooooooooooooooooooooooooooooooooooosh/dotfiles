@@ -42,18 +42,20 @@ width = 100%
 height = 30
 ;offset-x = 1%
 ;offset-y = 1%
-radius = 0.0
+radius = 5.5
 fixed-center = true
 enable-ipc = true
+;bottom = true
+separator = \
 
 ;background = ${colors.background}
-background = #69000000
+background = #7f000000
 foreground = ${colors.foreground}
 
 line-size = 3
 line-color = #f00
 
-border-size = 0
+border-size = 4
 border-color = #00000000
 
 padding-left = 2
@@ -70,13 +72,14 @@ font-2 = DejaVu Sans:pixelsize=10;1
 font-3 = DejaVu Sans:style=Book
 
 ;alsa for sound, backlight-acpi for brightness
-modules-left = i3 player
-modules-center = xwindow
-modules-right = filesystem memory cpu newcharging newbattery wlan alsa date
+modules-left = i3 alsa player
+modules-center = polywins 
+modules-right = filesystem memory cpu newcharging newbattery wlan date
 
-tray-position = right
+tray-position = none
 tray-padding = 2
-;tray-transparent = true
+tray-detached = true
+tray-transparent = true
 ;tray-background = #0063ff
 
 ;wm-restack = bspwm
@@ -93,12 +96,21 @@ scroll-down = i3wm-wsprev
 cursor-click = pointer
 cursor-scroll = ns-resize
 
+[module/polywins]
+type = custom/script
+exec = ~/.config/polybar/scripts/polywins.sh 2>/dev/null
+format = <label>
+label = %output%
+label-padding = 0
+interval = .1
+
 [module/player]
 type = custom/script
-exec = ~/polybar-scripts/player-mpris-tail.py -f '{:artist:t20:{artist}:}{:artist: - :}{:t30:{title}:}  %{A1:~/polybar-scripts/player-mpris-tail.py previous:} I< %{A} %{A1:~/polybar-scripts/player-mpris-tail.py play-pause:} {icon-reversed} %{A} %{A1:~/polybar-scripts/player-mpris-tail.py next:} >I %{A}'
+exec = ~/polybar-scripts/player-mpris-tail.py -f ' {:t69:{title}:} %{A1:~/polybar-scripts/player-mpris-tail.py previous:} I< %{A} %{A1:~/polybar-scripts/player-mpris-tail.py play-pause:} {icon-reversed} %{A} %{A1:~/polybar-scripts/player-mpris-tail.py next:} >I %{A}'
 tail = true
 label = %output%
-format-underline = #200efc
+format-underline = #1db954
+format-margin = 1
 ;format-underline = ${xrdb:color5:#222}
 
 [module/newbattery]
@@ -127,7 +139,7 @@ type = internal/xwindow
 ;camel-alt = %title%
 ;label = %title:0:50:...%
 ;label = %title:0:80:...%
-label = %title:0:100:...%
+label = %title:0:80:...%
 
 [module/xkeyboard]
 type = internal/xkeyboard
@@ -150,11 +162,12 @@ type = internal/fs
 interval = 25
 
 mount-0 = /
-
-label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
+format-mounted = <label-mounted>
+;label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
+label-mounted = disk: %percentage_used%%
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
-format-underline = #ff5555
+format-mounted-underline = #ff5555
 
 [module/bspwm]
 type = internal/bspwm
@@ -214,8 +227,8 @@ label-urgent-background = ${module/bspwm.label-urgent-background}
 label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
 ; Separator in between workspaces
-label-separator = |
-
+label-separator = \
+label-separator-padding = 1
 
 [module/xbacklight]
 type = internal/xbacklight
@@ -265,7 +278,7 @@ interface = wlp2s0
 interval = 2
 
 ;format-connected = <ramp-signal> <label-connected>
-format-connected = %{A1:i3-msg exec gnome-control-center wifi:}<label-connected>%{A}
+format-connected = %{A1:i3-msg exec gnome-control-center wifi:}%{A3:i3-msg exec "urxvt -e sudo iftop -i wlp2s0":}<label-connected>%{A}%{A}
 ;format-connected = <label-connected>
 format-connected-underline = #009800 
 ;format-connected-underline = ${xrdb:color9:#222}
@@ -305,25 +318,27 @@ format-disconnected =
 type = internal/date
 interval = 1
 
-date = "%d-%m-%Y "
-time = %H:%M
+time = %d-%m-%Y  %I:%M %p
+time-alt = %d-%m-%Y  %H:%M
  
 format-underline = #0a6cf5
 ;format-underline = ${xrdb:color10:#222}
-format = %{A1: i3-msg exec gnome-calendar:}<label>%{A}
-label = %date% %time%
+format = %{A3: i3-msg exec gnome-calendar:}<label>%{A}
+label = %time%
 
 [module/alsa]
 type = internal/alsa
 
 format-volume-underline = #f42069
 format-volume = <label-volume> <bar-volume>
+format-volume-margin = 1
 label-volume = vol
 label-volume-foreground = ${root.foreground}
 
 ;format-muted-prefix = " "
 format-muted-underline = #f42069
 format-muted-foreground = ${colors.foreground-alt}
+format-muted-margin = 1
 label-muted = volume: mute
 
 bar-volume-width = 10

@@ -1,0 +1,311 @@
+# i3 config file
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+# This defines which key super maps to on your keyboard.  
+# Left Alt key is Mod3, Right Alt is Mod1 and Windows key is Mod4
+set $mod Mod3
+
+bindsym $mod+Ctrl+f exec firefox
+bindsym $mod+Ctrl+Shift+v exec urxvt -e ssh -Y z5218547@login.cse.unsw.edu.au
+#Logitech thumb button
+bindsym Ctrl+Mod1+Tab exec rofi -show drun
+bindsym --release XF86HomePage exec xdotool key Escape
+bindsym --release Mod4+Right exec xdotool key End
+bindsym --release Mod4+Left exec xdotool key Home
+bindsym --release Mod4+Up exec xdotool key Prior
+bindsym --release Mod4+Down exec xdotool key Next
+bindsym --release Shift+F2 exec xdotool key XF86AudioLowerVolume
+bindsym --release Shift+F3 exec xdotool key XF86AudioRaiseVolume
+bindsym --release Shift+F4 exec xdotool key XF86AudioMute
+
+#Dynamic wallpapers
+bindsym $mod+Ctrl+Shift+a exec urxvt -e ~/Documents/scripts/dynamic.sh affinity
+bindsym $mod+Ctrl+Shift+f exec urxvt -e ~/Documents/scripts/dynamic.sh Fire
+bindsym $mod+Ctrl+Shift+l exec urxvt -e ~/Documents/scripts/dynamic.sh lake
+#bindsym $mod+Ctrl+Shift+m exec urxvt -e ~/Documents/scripts/dynamic.sh mountain
+bindsym $mod+Ctrl+Shift+t exec urxvt -e ~/Documents/scripts/dynamic.sh palms
+bindsym $mod+Ctrl+Shift+m exec urxvt -e ~/Documents/scripts/dynamic.sh sky
+bindsym $mod+Ctrl+Shift+r exec urxvt -e ~/Documents/scripts/dynamic.sh -r
+bindsym $mod+Ctrl+Shift+s exec urxvt -e ~/Documents/scripts/dynamic.sh -s
+
+#custom shortcuts
+bindsym $mod+Ctrl+Shift+c exec urxvt -e vim ~/.config/regolith/i3/config
+bindsym $mod+Ctrl+Shift+b exec urxvt -e vim ~/.config/polybar/config
+bindsym $mod+Ctrl+Shift+p exec urxvt -e sudo vim /etc/xdg/compton.conf
+bindsym $mod+Shift+o exec opera
+bindsym $mod+e exec nautilus
+bindsym $mod+Shift+e exec urxvt -e ranger
+bindsym $mod+Ctrl+Shift+Left exec ~/polybar-scripts/player-mpris-tail.py previous
+bindsym $mod+Ctrl+Shift+space exec ~/polybar-scripts/player-mpris-tail.py play-pause
+bindsym $mod+Ctrl+Shift+Right exec ~/polybar-scripts/player-mpris-tail.py next
+bindsym $mod+Ctrl+Shift+n exec wal -i ~/pictures/wallpapers/charcoal.jpg -o /home/joshharc/Downloads/wal-discord/wal-discord
+bindsym $mod+Shift+b exec urxvt -e ranger ~/pictures/wallpapers
+bindsym Mod4+Tab exec rofi -show window
+bindsym $mod+b exec polybar-msg cmd restart
+bindsym $mod+Mod4+c exec ~/Documents/scripts/bluescript.sh 1C:52:16:5F:E1:75
+bindsym $mod+Mod4+s exec ~/Documents/scripts/bluescript.sh 00:1B:66:C5:29:8F
+bindsym Ctrl+Shift+b exec wal -q -i ~/pictures/wallpapers/ -o /home/joshharc/Downloads/wal-discord/wal-discord
+bindsym $mod+Shift+quotedbl exec sudo ~/Documents/scripts/brightchange.sh max
+bindsym $mod+Shift+question exec sudo ~/Documents/scripts/brightchange.sh high
+bindsym $mod+Shift+colon exec sudo ~/Documents/scripts/brightchange.sh mid
+bindsym $mod+Shift+greater exec sudo ~/Documents/scripts/brightchange.sh low
+bindsym $mod+Shift+less exec sudo ~/Documents/scripts/brightchange.sh min
+bindsym $mod+Shift+braceleft exec ~/Documents/scripts/movewindow.sh prev
+bindsym $mod+Shift+braceright exec ~/Documents/scripts/movewindow.sh next
+bindsym $mod+Shift+u exec nautilus ~/Documents/UNSW
+bindsym $mod+Shift+m exec nautilus ~/Documents/MuseScore3/Scores
+bindsym $mod+Shift+w exec nautilus /media/joshharc/Windows-SSD/Users/joshh/Documents
+
+# This is the Solarized color palette.
+set $base03    #002b36
+set $base02    #073642
+set $base01    #586e75
+set $base00    #657b83
+set $base0     #839496
+set $base1     #93a1a1
+set $base2     #eee8d5
+set $base3     #fdf6e3
+set $yellow    #b58900
+set $orange    #cb4b10
+set $red       #dc322f
+set $magenta   #d33682
+set $violet    #6c71c4
+set $blue      #268bd2
+set $cyan      #2aa198
+set $green     #859900
+set $transparent #00000000
+set $lucent    #00000088
+
+# Set colors from Xresources
+# Change 'color7' and 'color2' to whatever colors you want i3 to use 
+# from the generated scheme.
+# NOTE: The '#f0f0f0' in the lines below is the color i3 will use if
+# it fails to get colors from Xresources.
+set_from_resource $fg i3wm.color7 #f0f0f0
+set_from_resource $bg i3wm.color2 #f0f0f0
+
+# class                 border  backgr. text indicator child_border
+client.focused          $bg     $bg     $fg  $bg       $bg
+client.focused_inactive $bg     $bg     $fg  $bg       $bg
+client.unfocused        $bg     $bg     $fg  $bg       $bg
+client.urgent           $bg     $bg     $fg  $bg       $bg
+client.placeholder      $bg     $bg     $fg  $bg       $bg
+
+client.background       $bg
+
+# This is the labels which describe each i3 workspace.
+set $ws1   "1:<span font_desc='Source Code Pro Medium 13'> 1 </span><span foreground='#268bd2'></span> "
+set $ws2   "2:<span font_desc='Source Code Pro Medium 13'> 2 </span><span foreground='#2aa198'></span> "
+set $ws3   "3:<span font_desc='Source Code Pro Medium 13'> 3 </span><span foreground='#859900'></span> "
+set $ws4   "4:<span font_desc='Source Code Pro Medium 13'> 4 </span><span foreground='#b58900'></span> "
+set $ws5   "5:<span font_desc='Source Code Pro Medium 13'> 5 </span><span foreground='#cb4b10'></span> "
+set $ws6   "6:<span font_desc='Source Code Pro Medium 13'> 6 </span><span foreground='#dc322f'></span> "
+set $ws7   "7:<span font_desc='Source Code Pro Medium 13'> 7 </span><span foreground='#d33682'></span> "
+set $ws8   "8:<span font_desc='Source Code Pro Medium 13'> 8 </span><span foreground='#6c71c4'></span> "
+set $ws9   "9:<span font_desc='Source Code Pro Medium 13'> 9 </span><span foreground='#93a1a1'></span>  "
+set $ws10  "10:<span font_desc='Source Code Pro Medium 13'>10 </span><span foreground='#268bd2'></span>  "
+set $ws11  "11:<span font_desc='Source Code Pro Medium 13'>11 </span><span foreground='#2aa198'></span>  "
+set $ws12  "12:<span font_desc='Source Code Pro Medium 13'>12 </span><span foreground='#859900'></span>  "
+set $ws13  "13:<span font_desc='Source Code Pro Medium 13'>13 </span><span foreground='#b58900'></span>  "
+set $ws14  "14:<span font_desc='Source Code Pro Medium 13'>14 </span><span foreground='#cb4b10'></span>  "
+set $ws15  "15:<span font_desc='Source Code Pro Medium 13'>15 </span><span foreground='#dc322f'></span>  "
+set $ws16  "16:<span font_desc='Source Code Pro Medium 13'>16 </span><span foreground='#d33682'></span>  "
+set $ws17  "17:<span font_desc='Source Code Pro Medium 13'>17 </span><span foreground='#6c71c4'></span>  "
+set $ws18  "18:<span font_desc='Source Code Pro Medium 13'>18 </span><span foreground='#93a1a1'></span>  "
+set $ws19  "19:<span font_desc='Source Code Pro Medium 13'>19 </span><span foreground='#268bd2'></span>  "
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+hide_edge_borders smart
+
+# start a terminal
+bindsym $mod+Return exec /usr/bin/urxvt
+
+# start a web browser
+bindsym $mod+Shift+Return exec firefox
+
+# kill focused window
+bindsym $mod+Shift+q kill
+
+# rofi app and window launchers
+bindsym $mod+space exec rofi -show drun
+bindsym $mod+Shift+space exec rofi -show run
+bindsym $mod+Ctrl+space exec rofi -show window
+
+# change focus
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# move windows in workspaces
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# toggle split orientation
+bindsym $mod+BackSpace split toggle
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen toggle
+
+# change gaps interactively
+bindsym $mod+minus gaps inner current minus 6
+bindsym $mod+plus gaps inner current plus 6
+
+# show/hide keybindings
+#bindsym $mod+Shift+question exec /usr/bin/conky-toggle.sh
+
+# toggle tiling / floating
+bindsym $mod+Shift+f floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+Shift+t focus mode_toggle
+bindsym $mod+Shift+Tab focus mode_toggle
+
+# switch to workspace
+bindsym $mod+Escape workspace 0
+bindsym $mod+grave workspace 0
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+0 workspace 10
+bindsym $mod+Ctrl+1 workspace 11
+bindsym $mod+Ctrl+2 workspace 12
+bindsym $mod+Ctrl+3 workspace 13
+bindsym $mod+Ctrl+4 workspace 14
+bindsym $mod+Ctrl+5 workspace 15
+bindsym $mod+Ctrl+6 workspace 16
+bindsym $mod+Ctrl+7 workspace 17
+bindsym $mod+Ctrl+8 workspace 18
+bindsym $mod+Ctrl+9 workspace 19
+bindsym $mod+Ctrl+0 workspace 20
+
+# cycle between workspace
+bindsym $mod+braceright workspace next
+bindsym $mod+braceleft workspace prev
+bindsym $mod+Tab workspace back_and_forth
+
+# move focused container to workspace
+bindsym $mod+Shift+Escape move container to workspace 0
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+Ctrl+1 move container to workspace 11
+bindsym $mod+Shift+Ctrl+2 move container to workspace 12
+bindsym $mod+Shift+Ctrl+3 move container to workspace 13
+bindsym $mod+Shift+Ctrl+4 move container to workspace 14
+bindsym $mod+Shift+Ctrl+5 move container to workspace 15
+bindsym $mod+Shift+Ctrl+6 move container to workspace 16
+bindsym $mod+Shift+Ctrl+7 move container to workspace 17
+bindsym $mod+Shift+Ctrl+8 move container to workspace 18
+bindsym $mod+Shift+Ctrl+9 move container to workspace 19
+bindsym $mod+Shift+Ctrl+0 move container to workspace 20
+
+bindsym $mod+Shift+grave move container to workspace 0
+
+# reload the configuration file
+bindsym $mod+Shift+c reload
+
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r exec killall compton & i3-msg restart
+
+# exit i3
+bindsym $mod+Ctrl+Shift+e exit
+
+# lock the screen
+bindsym Mod4+l exec gnome-screensaver-command --lock
+
+# put the system to sleep
+bindsym $mod+Shift+s exec systemctl suspend
+
+# shortcuts for common system configuration tasks
+bindsym $mod+s exec gnome-control-center
+#bindsym $mod+w exec gnome-control-center wifi
+#bindsym $mod+b exec gnome-control-center bluetooth
+#bindsym $mod+d exec gnome-control-center display
+#bindsym $mod+n exec gnome-control-center network
+#bindsym $mod+p exec gnome-control-center power
+#bindsym $mod+s exec gnome-control-center sound
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # same bindings, but for the arrow keys
+        bindsym Left resize shrink width 6 px or 6 ppt
+        bindsym Down resize grow height 6 px or 6 ppt
+        bindsym Up resize shrink height 6 px or 6 ppt
+        bindsym Right resize grow width 6 px or 6 ppt
+
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+r mode "default"
+}
+bindsym $mod+r mode "resize"
+
+# Disable titlebar
+new_window pixel 1
+new_float pixel 1
+
+# Gaps (i3-gaps)
+gaps inner 5
+gaps outer 0
+
+# Only enable gaps on a workspace when there is at least one container
+#smart_gaps on
+
+# Window Border color
+# class                 border  backgr. text    indicator child_border
+client.focused          #002b36 #586e75 #fdf6e3 #268bd2
+client.focused_inactive #002b36 #073642 #839496 #073642
+client.unfocused        #002b36 #073642 #839496 #073642
+client.urgent           #002b36 #dc322f #fdf6e3 #002b36
+
+# Enable popup during fullscreen
+popup_during_fullscreen smart
+
+# window focus follows your mouse movements as the mouse crosses window borders
+focus_follows_mouse no
+
+# Run programs when i3 starts
+# wal sets random image from Wallpapers folder and sets colour scheme accordingly
+exec_always --no-startup-id wal -i ~/pictures/wallpapers/ -o /home/joshharc/Downloads/wal-discord/wal-discord
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+
+# Composite manager
+exec_always --no-startup-id compton --config /etc/xdg/compton.conf
+
+#Natural scrolling
+exec --no-startup-id ~/Documents/scripts/naturalscroll.sh
+
+# Launch the shortcut Conky window on first login
+#exec --no-startup-id /usr/bin/regolith-ftue.sh
+
+# Hide the mouse pointer if unused for a duration
+exec --no-startup-id /usr/bin/unclutter -b
