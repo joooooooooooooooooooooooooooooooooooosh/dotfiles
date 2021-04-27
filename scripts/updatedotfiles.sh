@@ -1,6 +1,19 @@
 #!/bin/bash
 mkdir -p ~/dotfiles/scripts
-cp ~/Documents/scripts/* ~/dotfiles/scripts/
+cp -u ~/Documents/scripts/* ~/dotfiles/scripts/
+cp -u ~/polybar-scripts/* ~/dotfiles/polybar-scripts/
+cp -u ~/.zshrc ~/dotfiles/
+cp -u ~/.bashrc ~/dotfiles/
+cp -u ~/.vimrc ~/dotfiles/
+cp -u ~/.Xresources ~/dotfiles/
+cp -u ~/.gitconfig ~/dotfiles/
+cp -u ~/.gdbinit ~/dotfiles/
+cp -u ~/.config/fusuma/config.yml ~/dotfiles/fusuma/
+cp -uR ~/.config/polybar/* ~/dotfiles/polybar/
+cp -u ~/.config/i3/config ~/dotfiles/i3/
+cp -u ~/.config/rofi/* ~/dotfiles/rofi/
+cp -uR ~/.config/spicetify/* ~/dotfiles/spicetify
+cp -u ~/.config/termite/* ~/dotfiles/termite/
 cd ~/dotfiles
 git add -A
 git commit -m "new dotfiles"
