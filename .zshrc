@@ -1,5 +1,13 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+(cat ~/.cache/wal/sequences &)
+export PATH=$HOME/bin:/usr/local/bin:$PATH:.:/root/.gem/ruby/2.7.0/bin
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -8,20 +16,23 @@ export ZSH=$HOME/.oh-my-zsh
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="agnoster"
+#ZSH_THEME="agnoster"
+#ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME="bira"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in ~/.oh-my-zsh/themes/
 # If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+#ZSH_THEME="random"
+#ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
 # DISABLE_AUTO_UPDATE="true"
@@ -42,7 +53,7 @@ ZSH_THEME="agnoster"
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # COMPLETION_WAITING_DOTS="true"
@@ -50,7 +61,7 @@ ZSH_THEME="agnoster"
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
 # much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
@@ -68,7 +79,7 @@ ZSH_THEME="agnoster"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git zsh-autosuggestions autoupdate colored-man-pages autoenv zsh-z)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -99,5 +110,73 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias la='ls -A'
 alias cb='xclip -selection clipboard'
+alias colorls='ls --color'
+alias pls='sudo $(fc -ln -1)'
+alias cpd='echo $(fc -ln -1) | cb'
+alias timer=termdown
+alias yeah=yes
+alias v=vr
+alias c=lr
+alias cr=lr
+
+lr() {
+        file=`la | rofi -dmenu -i -matching fuzzy -p "cd"`
+        while [ $file ]; do
+                cd $file 2>/dev/null
+                if [ $? -ne 0 ]; then
+                        vim $file
+                        break
+                fi
+                file=`la | rofi -dmenu -i -matching fuzzy -p "cd"`
+        done
+}
+vr() {
+        file=`la | rofi -dmenu -i -matching fuzzy -p "vim"`
+        vim $file
+}
+
+mkcd() {
+        mkdir $1
+        cd $1
+}
+
+manos() {
+        links "https://cgi.cse.unsw.edu.au/~cs3231/18s1/os161/man/$1.html"
+}
+bible() {
+        book="genesis"
+        chapter=1
+        if [ $# -eq 2 ]; then
+                book=$1
+                chapter=$2
+        fi
+        curl -s https://www.biblestudytools.com/$book/$chapter.html | grep "verse-number" -A2 | grep -v span | sed -e "s/--//; s/<.*>//g; /^$/d; s/^\s*//"
+}
+heresy() {
+        book="genesis"
+        chapter=1
+        if [ $# -eq 2 ]; then
+                book=$1
+                chapter=$2
+        fi
+        curl -s https://www.biblestudytools.com/msg/$book/$chapter.html | grep "verse-number" -A2 | grep -v span | sed -e "s/--//; /^$/d; s/^\s*//"
+}
+uni() {
+        if [ $# -eq 1 ]; then
+                cd "$HOME/Documents/UNSW/$1"
+        else
+                cd "$HOME/Documents/UNSW"
+        fi
+}
 
 unsetopt share_history
+source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+export EDITOR="vim"
+PATH="/home/joshh/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="/home/joshh/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/home/joshh/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/home/joshh/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/home/joshh/perl5"; export PERL_MM_OPT;
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
