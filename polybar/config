@@ -117,7 +117,7 @@ format-underline = #3B5998
 [module/aur]
 type = custom/script
 exec = ~/polybar-scripts/aur-updates.sh
-format = %{A1:i3-msg exec "urxvt -e vim $HOME/polybar-scripts/.updatelist":}%{A3:i3-msg exec "termite --hold -e 'zsh -ic yay -Syu'":}<label>%{A}%{A}
+format = %{A1:i3-msg exec "kill $(wmctrl -pl | grep '\.updatelist (~/polybar-scripts) - VIM' | cut -d' ' -f4) || urxvt -e vim $HOME/polybar-scripts/.updatelist":}%{A3:i3-msg exec "termite --hold -e 'zsh -ic yay -Syu'":}<label>%{A}%{A}
 interval = 600
 
 [module/microphone]
@@ -247,6 +247,7 @@ label-focused = %index%
 label-focused-background = ${module/bspwm.label-focused-background}
 label-focused-underline = ${module/bspwm.label-focused-underline}
 label-focused-padding = ${module/bspwm.label-focused-padding}
+label-focused-foreground = ${xrdb:color0}
 
 ; unfocused = Inactive workspace on any monitor
 label-unfocused = %index%

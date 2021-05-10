@@ -131,6 +131,10 @@ lr() {
         done
 }
 vr() {
+        if [ $1 ]; then
+                vim $1
+                return
+        fi
         file=`la | rofi -dmenu -i -matching fuzzy -p "vim"`
         vim $file
 }

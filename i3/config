@@ -25,28 +25,28 @@ for_window [class="(?i)*nextcloud*"] floating disable
 for_window [class="plasmashell" window_type="notification"] floating enable, border none, move right 700px, move down 450px
 no_focus [class="plasmashell" window_type="notification"] 
 
+for_window [class="code-oss"] fullscreen disable
+
 #Logitech thumb button
 bindsym Ctrl+Mod1+Tab exec rofi -show drun
 bindsym $mod+Ctrl+f exec $BROWSER
 bindsym $mod+Ctrl+Shift+v exec $term -e "zsh -ic 'TERM=linux ssh -t z5218547@vscode2.cse.unsw.edu.au 'bash -l''"
+
 bindsym --release XF86HomePage exec xdotool key Escape
 bindsym --release Mod4+Right exec xdotool key End
 bindsym --release Mod4+Left exec xdotool key Home
 bindsym --release Mod4+Up exec xdotool key Prior
 bindsym --release Mod4+Down exec xdotool key Next
-#bindsym --release Shift+F2 exec xdotool key XF86AudioLowerVolume
-#bindsym --release Shift+F3 exec xdotool key XF86AudioRaiseVolume
-#bindsym --release Shift+F4 exec xdotool key XF86AudioMute
-bindsym --release $mod+Ctrl+Shift+less exec xdotool key XF86MonBrightnessDown
-bindsym --release $mod+Ctrl+Shift+greater exec xdotool key XF86MonBrightnessUp
-#bindsym --release $mod+Left exec xdotool click 8 
-#bindsym --release $mod+Right exec xdotool click 9 
 bindsym --release Mod4+h exec xdotool key Left 
 bindsym --release Mod4+j exec xdotool key Down
 bindsym --release Mod4+k exec xdotool key Up
 bindsym --release Mod4+l exec xdotool key Right
 bindsym --release Ctrl+k exec xdotool key Prior
 bindsym --release Ctrl+j exec xdotool key Next
+
+#bindsym --release $mod+Ctrl+Shift+less exec xdotool key XF86MonBrightnessDown
+#bindsym --release $mod+Ctrl+Shift+greater exec xdotool key XF86MonBrightnessUp
+
 bindsym XF86AudioRaiseVolume exec Documents/scripts/politebeep.sh up
 bindsym XF86AudioLowerVolume exec Documents/scripts/politebeep.sh down
 bindsym XF86AudioMute exec pulseaudio-ctl mute & polybar-msg hook microphone 1
@@ -62,7 +62,6 @@ bindsym F4 exec pulseaudio-ctl mute & polybar-msg hook microphone 1
 bindsym F6 exec ~/polybar-scripts/player-mpris-tail.py previous
 bindsym F7 exec ~/polybar-scripts/player-mpris-tail.py play-pause
 bindsym F8 exec ~/polybar-scripts/player-mpris-tail.py next
-for_window [class="code-oss"] fullscreen disable
 
 #Multi monitor
 bindsym $mod+semicolon focus output left
@@ -74,22 +73,25 @@ bindsym $mod+Ctrl+apostrophe move workspace to output right
 bindsym $mod+Mod4+semicolon exec Documents/scripts/movetolaptop.sh left
 bindsym $mod+Mod4+apostrophe exec Documents/scripts/movetolaptop.sh right
 bindsym $mod+Mod4+BackSpace exec Documents/scripts/swapwindow.sh
+bindsym $mod+m exec ~/Documents/scripts/moveworkspace.sh
+bindsym $mod+Shift+braceleft exec ~/Documents/scripts/movewindow.sh prev
+bindsym $mod+Shift+braceright exec ~/Documents/scripts/movewindow.sh next
 
 #Dynamic wallpapers
 bindsym $mod+Ctrl+Shift+a exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh affinity'"
 bindsym $mod+Ctrl+Shift+f exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh Fire'"
-bindsym $mod+Ctrl+Shift+d exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh lake'"
-#bindsym $mod+Ctrl+Shift+m exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh mountain'"
-bindsym $mod+Ctrl+Shift+t exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh palms'"
-#bindsym $mod+Ctrl+Shift+v exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh sky'"
 bindsym $mod+Ctrl+Shift+r exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh -r'"
 bindsym $mod+Ctrl+Shift+s exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh -s'"
+bindsym $mod+Ctrl+Shift+t exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh palms'"
+#bindsym $mod+Ctrl+Shift+d exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh lake'"
+#bindsym $mod+Ctrl+Shift+v exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh sky'"
+#bindsym $mod+Ctrl+Shift+m exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh mountain'"
 
 #custom shortcuts
 bindsym $mod+Ctrl+Shift+c exec $term -e "zsh -ic 'vim ~/.config/i3/config'"
 bindsym $mod+Ctrl+Shift+b exec $term -e "zsh -ic 'vim ~/.config/polybar/config'"
 bindsym $mod+Ctrl+Shift+p exec $term -e "zsh -ic 'sudo vim /etc/xdg/picom.conf'"
-bindsym $mod+Shift+e exec $term -e "zsh -ic ranger"
+
 bindsym $mod+Ctrl+Shift+h exec ~/polybar-scripts/player-mpris-tail.py previous
 bindsym $mod+Ctrl+Shift+j exec ~/polybar-scripts/player-mpris-tail.py play-pause
 bindsym $mod+Ctrl+Shift+k exec ~/polybar-scripts/player-mpris-tail.py play-pause
@@ -97,16 +99,26 @@ bindsym $mod+Ctrl+Shift+l exec ~/polybar-scripts/player-mpris-tail.py next
 bindsym $mod+Ctrl+Shift+Left exec ~/polybar-scripts/player-mpris-tail.py previous
 bindsym $mod+Ctrl+Shift+space exec ~/polybar-scripts/player-mpris-tail.py play-pause
 bindsym $mod+Ctrl+Shift+Right exec ~/polybar-scripts/player-mpris-tail.py next
+
+bindsym $mod+Ctrl+b exec --no-startup-id "~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers/"
 bindsym $mod+Ctrl+Shift+n exec ~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers/charcoal.jpg
 bindsym $mod+Ctrl+Shift+g exec ~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers/grey.png
+bindsym $mod+Ctrl+v exec cse /home/joshh/.vscode/extensions/dlasagno.wal-theme-1.0.4/themes/wal.json .vscode-server/extensions/dlasagno.wal-theme-1.0.4/themes/wal.json 
+
+bindsym $mod+e exec dolphin
+bindsym $mod+Shift+u exec dolphin ~/Documents/UNSW
+bindsym $mod+Shift+m exec dolphin ~/Documents/MuseScore3/Scores
+bindsym $mod+Shift+w exec dolphin /run/media/joshh/Windows-SSD/Users/joshh/Documents
+
+bindsym $mod+Shift+e exec $term -e "zsh -ic ranger"
 bindsym $mod+Shift+b exec $term -e "zsh -ic 'ranger ~/Pictures/wallpapers'"
+
 bindsym Mod4+Tab exec rofi -show window
 bindsym $mod+b exec ~/.config/polybar/launch.sh
 bindsym $mod+Mod4+c exec ~/Documents/scripts/bluescript.sh 1C:52:16:5F:E1:75
-#bindsym $mod+Mod4+s exec ~/Documents/scripts/bluescript.sh 00:1B:66:C5:29:8F
 bindsym $mod+Mod4+s exec ~/Documents/scripts/bluescript.sh
-bindsym $mod+Ctrl+b exec --no-startup-id "~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers/ >/dev/null &"
-bindsym $mod+Ctrl+v exec cse /home/joshh/.vscode/extensions/dlasagno.wal-theme-1.0.4/themes/wal.json .vscode-server/extensions/dlasagno.wal-theme-1.0.4/themes/wal.json 
+#bindsym $mod+Mod4+s exec ~/Documents/scripts/bluescript.sh 00:1B:66:C5:29:8F
+
 bindsym $mod+Ctrl+less exec sudo ~/Documents/scripts/brightchange.sh off !hdmi
 bindsym $mod+Ctrl+Shift+plus exec sudo ~/Documents/scripts/brightchange.sh up
 bindsym $mod+Ctrl+Shift+minus exec sudo ~/Documents/scripts/brightchange.sh down
@@ -116,13 +128,6 @@ bindsym $mod+Ctrl+Shift+colon exec sudo ~/Documents/scripts/brightchange.sh mid
 bindsym $mod+Ctrl+Shift+greater exec sudo ~/Documents/scripts/brightchange.sh low
 bindsym $mod+Ctrl+Shift+less exec sudo ~/Documents/scripts/brightchange.sh min
 bindsym $mod+Ctrl+Shift+m exec sudo ~/Documents/scripts/brightchange.sh
-bindsym $mod+Shift+braceleft exec ~/Documents/scripts/movewindow.sh prev
-bindsym $mod+Shift+braceright exec ~/Documents/scripts/movewindow.sh next
-bindsym $mod+m exec ~/Documents/scripts/moveworkspace.sh
-bindsym $mod+e exec dolphin
-bindsym $mod+Shift+u exec dolphin ~/Documents/UNSW
-bindsym $mod+Shift+m exec dolphin ~/Documents/MuseScore3/Scores
-bindsym $mod+Shift+w exec dolphin /run/media/joshh/Windows-SSD/Users/joshh/Documents
 
 # This is the Solarized color palette.
 set $base03    #002b36
@@ -185,6 +190,7 @@ bindsym $mod+Ctrl+space exec rofi -show window
 #bindsym $mod+Up focus up
 #bindsym $mod+Right focus right
 
+#bindsym $mod+semicolon focus left
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
@@ -196,6 +202,7 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
+#bindsym $mod+Shift+semicolon move left
 bindsym $mod+Shift+h move left
 bindsym $mod+Shift+j move down
 bindsym $mod+Shift+k move up
@@ -216,9 +223,6 @@ bindsym $mod+f fullscreen toggle
 # change gaps interactively
 bindsym $mod+minus gaps inner current minus 5
 bindsym $mod+plus gaps inner current plus 5
-
-# show/hide keybindings
-#bindsym $mod+Shift+question exec /usr/bin/conky-toggle.sh
 
 # toggle tiling / floating
 bindsym $mod+Shift+f floating toggle
@@ -276,8 +280,6 @@ bindsym $mod+Ctrl+9 workspace 19
 bindsym $mod+Ctrl+0 workspace 20
 
 # cycle between workspace
-#bindsym $mod+period workspace next
-#bindsym $mod+comma workspace prev
 #bindsym $mod+braceright workspace next
 #bindsym $mod+braceleft workspace prev
 bindsym $mod+braceright exec Documents/scripts/nextonmonitor.sh next
@@ -286,6 +288,7 @@ bindsym $mod+Tab workspace back_and_forth
 
 # move focused container to workspace
 bindsym $mod+Shift+Escape move container to workspace 0
+bindsym $mod+Shift+grave move container to workspace 0
 bindsym $mod+Shift+1 move container to workspace 1
 bindsym $mod+Shift+2 move container to workspace 2
 bindsym $mod+Shift+3 move container to workspace 3
@@ -307,8 +310,6 @@ bindsym $mod+Shift+Ctrl+8 move container to workspace 18
 bindsym $mod+Shift+Ctrl+9 move container to workspace 19
 bindsym $mod+Shift+Ctrl+0 move container to workspace 20
 
-bindsym $mod+Shift+grave move container to workspace 0
-
 # reload the configuration file
 bindsym $mod+Shift+c reload
 
@@ -319,13 +320,33 @@ bindsym $mod+Shift+r exec killall picom & i3-msg restart
 bindsym $mod+Ctrl+Shift+e exit
 
 # lock the screen
-#bindsym Mod4+Shift+l exec $term -e "zsh -ic 'loginctl lock-session &'"
 bindsym Mod4+Shift+p exec qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout -1 -1 -1
 
 bindsym $mod+Shift+s sticky toggle
 
 # shortcuts for common system configuration tasks
 bindsym $mod+s exec systemsettings5
+
+mode "discord" {
+        bindsym --release k exec xdotool key alt+Up  
+        bindsym --release j exec xdotool key alt+Down  
+        bindsym --release Mod1+k exec xdotool key alt+Up  
+        bindsym --release Mod1+j exec xdotool key alt+Down  
+        bindsym --release Ctrl+k exec xdotool key ctrl+alt+Up  
+        bindsym --release Ctrl+j exec xdotool key ctrl+alt+Down  
+        bindsym --release Mod1+Ctrl+k exec xdotool key ctrl+alt+Up  
+        bindsym --release Mod1+Ctrl+j exec xdotool key ctrl+alt+Down  
+        bindsym $mod+Ctrl+d mode default
+        bindsym Escape mode default
+        bindsym t mode default
+}
+bindsym $mod+Ctrl+d mode discord
+
+mode "disabled" {
+        bindsym $mod+Shift+Escape mode default
+        bindsym $mod+Ctrl+Shift+d mode default
+}
+bindsym $mod+Ctrl+Shift+d mode disabled
 
 mode "typing" {
         bindsym Escape mode one-handed
@@ -334,23 +355,33 @@ mode "typing" {
 
 mode "one-handed" {
         bindsym t mode typing
+        bindsym Shift+Escape exec xdotool key Escape
+        bindsym Shift+q kill
+
+        bindsym F1 exec pulseaudio-ctl mute-input && polybar-msg hook microphone 1
+        bindsym F2 exec Documents/scripts/politebeep.sh down
+        bindsym F3 exec Documents/scripts/politebeep.sh up
+        bindsym F4 exec pulseaudio-ctl mute & polybar-msg hook microphone 1
+
         bindsym F5 exec ~/polybar-scripts/player-mpris-tail.py play-pause
         bindsym F6 exec ~/polybar-scripts/player-mpris-tail.py previous
         bindsym F7 exec ~/polybar-scripts/player-mpris-tail.py play-pause
         bindsym F8 exec ~/polybar-scripts/player-mpris-tail.py next
         bindsym space exec ~/polybar-scripts/player-mpris-tail.py play-pause
 
-        bindsym Left focus left
-        bindsym Right focus right
-        bindsym Up focus up
-        bindsym Down focus down
-
+        bindsym colon focus left
         bindsym h focus left
         bindsym j focus down
         bindsym k focus up
         bindsym l focus right
 
-        bindsym o exec i3-msg workspace `rofi -dmenu -p workspace`
+        bindsym f fullscreen toggle
+
+        bindsym braceright exec Documents/scripts/nextonmonitor.sh next
+        bindsym braceleft exec Documents/scripts/nextonmonitor.sh prev
+
+        bindsym Tab workspace back_and_forth
+
         bindsym grave workspace 0
         bindsym 1 workspace 1
         bindsym 2 workspace 2

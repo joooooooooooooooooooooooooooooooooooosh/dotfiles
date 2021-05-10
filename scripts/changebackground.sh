@@ -8,6 +8,7 @@ xdotool windowactivate --sync $(wmctrl -lx | grep spotify\.Spotify | sed 's/\s.*
 for win in $outputs; do
 	i3-msg workspace $win >/dev/null
 done
+
 #xdotool windowactivate --sync $test
 pywalfox update
 # cse /home/joshh/.vscode/extensions/dlasagno.wal-theme-1.0.4/themes/wal.json .vscode-server/extensions/dlasagno.wal-theme-1.0.4/themes/wal.json
