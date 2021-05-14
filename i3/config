@@ -3,11 +3,11 @@
 # This defines which key super maps to on your keyboard.  
 # Alt key is Mod1, and Windows key is Mod4
 set $mod Mod1
-set $term termite
+set $term alacritty
 
 exec --no-startup-id ~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers
 exec --no-startup-id ~/.config/polybar/launch.sh
-exec $term -e "zsh -ic 'sudo fusuma -c ~/.config/fusuma/config.yml -d'"
+exec $term -e zsh -ic 'sudo fusuma -c ~/.config/fusuma/config.yml -d'
 exec xcape -e 'Caps_Lock=Escape'
 
 exec --no-startup-id wmctrl -c Plasma
@@ -30,7 +30,8 @@ for_window [class="code-oss"] fullscreen disable
 #Logitech thumb button
 bindsym Ctrl+Mod1+Tab exec rofi -show drun
 bindsym $mod+Ctrl+f exec $BROWSER
-bindsym $mod+Ctrl+Shift+v exec $term -e "zsh -ic 'TERM=linux ssh -t z5218547@vscode2.cse.unsw.edu.au 'bash -l''"
+#bindsym $mod+Ctrl+Shift+v exec $term -e "zsh -ic 'TERM=linux ssh -t z5218547@vscode2.cse.unsw.edu.au 'bash -l''"
+bindsym $mod+Ctrl+Shift+v exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@login.cse.unsw.edu.au 'bash -l''
 
 bindsym --release XF86HomePage exec xdotool key Escape
 bindsym --release Mod4+Right exec xdotool key End
@@ -78,19 +79,19 @@ bindsym $mod+Shift+braceleft exec ~/Documents/scripts/movewindow.sh prev
 bindsym $mod+Shift+braceright exec ~/Documents/scripts/movewindow.sh next
 
 #Dynamic wallpapers
-bindsym $mod+Ctrl+Shift+a exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh affinity'"
-bindsym $mod+Ctrl+Shift+f exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh Fire'"
-bindsym $mod+Ctrl+Shift+r exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh -r'"
-bindsym $mod+Ctrl+Shift+s exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh -s'"
-bindsym $mod+Ctrl+Shift+t exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh palms'"
-#bindsym $mod+Ctrl+Shift+d exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh lake'"
-#bindsym $mod+Ctrl+Shift+v exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh sky'"
-#bindsym $mod+Ctrl+Shift+m exec $term -e "zsh -ic '~/Documents/scripts/dynamic.sh mountain'"
+#bindsym $mod+Ctrl+Shift+a exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh affinity'
+#bindsym $mod+Ctrl+Shift+f exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh Fire'
+#bindsym $mod+Ctrl+Shift+r exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh -r'
+#bindsym $mod+Ctrl+Shift+s exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh -s'
+#bindsym $mod+Ctrl+Shift+t exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh palms'
+#bindsym $mod+Ctrl+Shift+d exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh lake'
+#bindsym $mod+Ctrl+Shift+v exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh sky'
+#bindsym $mod+Ctrl+Shift+m exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh mountain'
 
 #custom shortcuts
-bindsym $mod+Ctrl+Shift+c exec $term -e "zsh -ic 'vim ~/.config/i3/config'"
-bindsym $mod+Ctrl+Shift+b exec $term -e "zsh -ic 'vim ~/.config/polybar/config'"
-bindsym $mod+Ctrl+Shift+p exec $term -e "zsh -ic 'sudo vim /etc/xdg/picom.conf'"
+bindsym $mod+Ctrl+Shift+c exec $term -e zsh -ic 'vim ~/.config/i3/config'
+bindsym $mod+Ctrl+Shift+b exec $term -e zsh -ic 'vim ~/.config/polybar/config'
+bindsym $mod+Ctrl+Shift+p exec $term -e zsh -ic 'sudo vim /etc/xdg/picom.conf'
 
 bindsym $mod+Ctrl+Shift+h exec ~/polybar-scripts/player-mpris-tail.py previous
 bindsym $mod+Ctrl+Shift+j exec ~/polybar-scripts/player-mpris-tail.py play-pause
@@ -110,8 +111,8 @@ bindsym $mod+Shift+u exec dolphin ~/Documents/UNSW
 bindsym $mod+Shift+m exec dolphin ~/Documents/MuseScore3/Scores
 bindsym $mod+Shift+w exec dolphin /run/media/joshh/Windows-SSD/Users/joshh/Documents
 
-bindsym $mod+Shift+e exec $term -e "zsh -ic ranger"
-bindsym $mod+Shift+b exec $term -e "zsh -ic 'ranger ~/Pictures/wallpapers'"
+bindsym $mod+Shift+e exec $term -e zsh -ic ranger
+bindsym $mod+Shift+b exec $term -e zsh -ic 'ranger ~/Pictures/wallpapers'
 
 bindsym Mod4+Tab exec rofi -show window
 bindsym $mod+b exec ~/.config/polybar/launch.sh
@@ -173,7 +174,7 @@ hide_edge_borders smart
 
 # start a terminal
 bindsym $mod+Return exec /usr/bin/$term
-bindsym $mod+Shift+Return exec /usr/bin/kitty
+bindsym $mod+Shift+Return exec /usr/bin/termite
 bindsym $mod+Ctrl+Shift+Return exec /usr/bin/urxvt
 
 # kill focused window
@@ -340,7 +341,7 @@ mode "discord" {
         bindsym Escape mode default
         bindsym t mode default
 }
-bindsym $mod+Ctrl+d mode discord
+bindsym $mod+Ctrl+d exec wmctrl -a discord && i3-msg mode discord
 
 mode "disabled" {
         bindsym $mod+Shift+Escape mode default

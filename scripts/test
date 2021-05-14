@@ -1,0 +1,291 @@
+let SessionLoad = 1
+if &cp | set nocp | endif
+let s:so_save = &g:so | let s:siso_save = &g:siso | setg so=0 siso=0 | setl so=-1 siso=-1
+let v:this_session=expand("<sfile>:p")
+silent only
+silent tabonly
+cd ~/Documents/scripts
+if expand('%') == '' && !&modified && line('$') <= 1 && getline(1) == ''
+  let s:wipebuf = bufnr('%')
+endif
+set shortmess=aoO
+argglobal
+%argdel
+$argadd bluescript.sh
+$argadd brightchange.sh
+$argadd changebackground.sh
+$argadd dynamic.sh
+$argadd i3subscribe
+$argadd kdei3after.sh
+$argadd kdei3.sh
+$argadd movetolaptop.sh
+$argadd movewindow.sh
+$argadd moveworkspace.sh
+$argadd naturalscroll.sh
+$argadd nextonmonitor.sh
+$argadd politebeep.sh
+$argadd swapwindow.sh
+$argadd timetest.sh
+$argadd updatedotfiles.sh
+set stal=2
+tabnew
+tabnew
+tabnew
+tabnew
+tabnew
+tabrewind
+edit bluescript.sh
+argglobal
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 13 - ((12 * winheight(0) + 21) / 42)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 13
+normal! 04|
+tabnext
+edit changebackground.sh
+argglobal
+3argu
+balt bluescript.sh
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 7 - ((5 * winheight(0) + 21) / 42)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 7
+normal! 026|
+tabnext
+edit ~/polybar-scripts/aur-updates.sh
+argglobal
+4argu
+if bufexists("~/polybar-scripts/aur-updates.sh") | buffer ~/polybar-scripts/aur-updates.sh | else | edit ~/polybar-scripts/aur-updates.sh | endif
+balt dynamic.sh
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 28 - ((27 * winheight(0) + 21) / 42)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 28
+normal! 018|
+tabnext
+edit movetolaptop.sh
+argglobal
+8argu
+balt bluescript.sh
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 7 - ((6 * winheight(0) + 21) / 42)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 7
+normal! 09|
+tabnext
+edit ~/.vimrc
+let s:save_splitbelow = &splitbelow
+let s:save_splitright = &splitright
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+wincmd _ | wincmd |
+split
+1wincmd k
+wincmd w
+let &splitbelow = s:save_splitbelow
+let &splitright = s:save_splitright
+wincmd t
+let s:save_winminheight = &winminheight
+let s:save_winminwidth = &winminwidth
+set winminheight=0
+set winheight=1
+set winminwidth=0
+set winwidth=1
+exe 'vert 1resize ' . ((&columns * 95 + 95) / 191)
+exe '2resize ' . ((&lines * 13 + 22) / 45)
+exe 'vert 2resize ' . ((&columns * 95 + 95) / 191)
+exe '3resize ' . ((&lines * 28 + 22) / 45)
+exe 'vert 3resize ' . ((&columns * 95 + 95) / 191)
+argglobal
+10argu
+if bufexists("~/.vimrc") | buffer ~/.vimrc | else | edit ~/.vimrc | endif
+balt i3subscribe
+setlocal fdm=expr
+setlocal fde=lsp#ui#vim#folding#foldexpr()
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+let s:l = 127 - ((36 * winheight(0) + 21) / 42)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 127
+normal! 0
+wincmd w
+argglobal
+10argu
+if bufexists("i3subscribe") | buffer i3subscribe | else | edit i3subscribe | endif
+balt ~/.vimrc
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal fen
+silent! normal! zE
+5,9fold
+11,12fold
+15,28fold
+14,28fold
+14,28fold
+30,47fold
+let &fdl = &fdl
+5
+normal! zo
+11
+normal! zo
+14
+normal! zo
+14
+normal! zo
+15
+normal! zo
+30
+normal! zo
+let s:l = 14 - ((7 * winheight(0) + 6) / 13)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 14
+normal! 012|
+wincmd w
+argglobal
+10argu
+if bufexists("/usr/share/vim/vim82/doc/autocmd.txt") | buffer /usr/share/vim/vim82/doc/autocmd.txt | else | edit /usr/share/vim/vim82/doc/autocmd.txt | endif
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal nofen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 1448 - ((5 * winheight(0) + 14) / 28)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 1448
+normal! 064|
+wincmd w
+exe 'vert 1resize ' . ((&columns * 95 + 95) / 191)
+exe '2resize ' . ((&lines * 13 + 22) / 45)
+exe 'vert 2resize ' . ((&columns * 95 + 95) / 191)
+exe '3resize ' . ((&lines * 28 + 22) / 45)
+exe 'vert 3resize ' . ((&columns * 95 + 95) / 191)
+tabnext
+edit /usr/share/vim/vim82/doc/usr_41.txt
+argglobal
+1argu
+if bufexists("/usr/share/vim/vim82/doc/usr_41.txt") | buffer /usr/share/vim/vim82/doc/usr_41.txt | else | edit /usr/share/vim/vim82/doc/usr_41.txt | endif
+balt a
+setlocal fdm=manual
+setlocal fde=0
+setlocal fmr={{{,}}}
+setlocal fdi=#
+setlocal fdl=0
+setlocal fml=1
+setlocal fdn=20
+setlocal nofen
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 1957 - ((5 * winheight(0) + 21) / 42)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 1957
+normal! 057|
+tabnext 6
+set stal=1
+badd +1 bluescript.sh
+badd +7 brightchange.sh
+badd +13 changebackground.sh
+badd +41 dynamic.sh
+badd +5 i3subscribe
+badd +1 kdei3after.sh
+badd +1 kdei3.sh
+badd +1 movetolaptop.sh
+badd +11 movewindow.sh
+badd +13 moveworkspace.sh
+badd +3 naturalscroll.sh
+badd +1 nextonmonitor.sh
+badd +1 politebeep.sh
+badd +2 swapwindow.sh
+badd +13 timetest.sh
+badd +1 updatedotfiles.sh
+badd +55 a
+badd +0 /usr/share/vim/vim82/doc/usr_41.txt
+badd +1 term
+badd +1 ~/polybar-scripts/aur-updates.sh
+badd +0 ~/Documents/UNSW/6841/bof/bonus.c
+badd +1 ~/Documents/UNSW/spiral.c
+badd +3 ~/Documents/UNSW/2521/hash.c
+badd +0 aaa
+badd +17 ~/.vimrc
+badd +0 vimrc
+if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
+  silent exe 'bwipe ' . s:wipebuf
+endif
+unlet! s:wipebuf
+set winheight=1 winwidth=20 shortmess=filnxtToOS
+let s:sx = expand("<sfile>:p:r")."x.vim"
+if filereadable(s:sx)
+  exe "source " . fnameescape(s:sx)
+endif
+let &g:so = s:so_save | let &g:siso = s:siso_save
+doautoall SessionLoadPost
+unlet SessionLoad
+" vim: set ft=vim :
