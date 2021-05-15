@@ -63,6 +63,7 @@ nnoremap <Leader>o :Files<CR>
 nnoremap <Leader>l :Lines<CR>
 nnoremap <Leader>p :call AutoPairsToggle()<CR>
 nnoremap <Leader>s :source ~/.vimrc<CR>
+nnoremap <Leader>d :Dispatch 
 
 set splitbelow
 set splitright
@@ -70,6 +71,13 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+tnoremap <C-J> <C-W><C-J>
+tnoremap <C-K> <C-W><C-K>
+tnoremap <C-Q> <C-W><C-C>
+tnoremap <C-W><C-Q> <C-W><C-C>
+tnoremap <ESC>[5;5~ <C-W>:tabnext<CR>
+tnoremap <ESC>[6;5~ <C-W>:tabprev<CR>
 
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)

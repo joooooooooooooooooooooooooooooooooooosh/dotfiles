@@ -118,7 +118,7 @@ format-underline = #3B5998
 type = custom/script
 ;exec = ~/polybar-scripts/aur-updates.sh
 exec = cat ~/polybar-scripts/.polybar-aur
-format = %{A1:i3-msg exec "kill $(wmctrl -pl | grep '\.updatelist (~/polybar-scripts) - VIM' | cut -d' ' -f4) || urxvt -e vim $HOME/polybar-scripts/.updatelist":}%{A3:i3-msg exec "termite --hold -e 'zsh -ic yay -Syu'":}<label>%{A}%{A}
+format = %{A1:i3-msg exec "kill $(wmctrl -pl | grep '\.updatelist (~/polybar-scripts) - VIM' | cut -d' ' -f4) || urxvt -e vim $HOME/polybar-scripts/.updatelist":}%{A3:i3-msg exec "alacritty --hold -e zsh -ic 'yay -Syu --answerclean None --answerdiff None --answeredit None --answerupgrade None; echo Installation finished'":}<label>%{A}%{A}
 interval = 10
 
 [module/microphone]
