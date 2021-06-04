@@ -1,22 +1,22 @@
 swipe:
   3: 
     left: 
-      command: 'i3-msg workspace next'
+      command: 'sh /home/joshh/Documents/scripts/nextonmonitor.sh next'
     right: 
-      command: 'i3-msg workspace prev'
+      command: 'sh /home/joshh/Documents/scripts/nextonmonitor.sh prev'
     up: 
       command: 'rofi -show drun'
     down: 
-      command: 'xdotool key Escape'
+      command: 'killall rofi || xdotool key Escape'
   4:
     left: 
       command: 'xdotool key alt+Left'
     right: 
       command: 'xdotool key alt+Right'
     up: 
-      command: 'gnome-screensaver-command --lock'
+      command: 'loginctl lock-session'
     down: 
-      command: 'i3-msg workspace 20'
+      command: 'i3-msg workspace 21'
 pinch:
   in:
     command: 'xdotool key ctrl+plus'
@@ -24,9 +24,9 @@ pinch:
      command: 'xdotool key ctrl+minus'
 
 threshold:
-  swipe: 0.4
-  pinch: 0.1
+  swipe: 0.2
+  pinch: 0.4
 
 interval:
-  swipe: 0.8
-  pinch: 0.1
+  swipe: 0.5
+  pinch: 0.4

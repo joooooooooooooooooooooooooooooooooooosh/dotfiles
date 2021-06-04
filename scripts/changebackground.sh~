@@ -11,5 +11,5 @@ sed -i 's/@selected-.*fore/@back/' ~/.cache/wal/colors-rofi-dark.rasi
 #done
 
 #xdotool windowactivate --sync $test
-#pywalfox update
+pywalfox update
 # cse /home/joshh/.vscode/extensions/dlasagno.wal-theme-1.0.4/themes/wal.json .vscode-server/extensions/dlasagno.wal-theme-1.0.4/themes/wal.json

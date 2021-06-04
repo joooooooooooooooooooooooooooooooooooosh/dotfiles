@@ -8,6 +8,7 @@ elif [ "$1" = "prev" ]; then
     move=`i3-msg -t get_workspaces | jq '.[], .[] | .name, .output' | grep \"$currwin\" -B2 -m2 | tail -3 | head -1 | cut -d\" -f2`
 else
     echo "Usage: $0 [prev|next]"
+    rm /tmp/nextonmonitor.lock
     exit 1
 fi
 i3-msg workspace $move

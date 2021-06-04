@@ -11,4 +11,3 @@ for win in `i3-msg -t get_workspaces | sed 's/,/\n/g' | grep name | cut -d\" -f4
     fi
 done
 i3-msg workspace $currwin
-~/.config/polybar/launch.sh

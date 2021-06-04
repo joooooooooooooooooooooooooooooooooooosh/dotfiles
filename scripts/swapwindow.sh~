@@ -13,4 +13,3 @@ i3-msg workspace $j
 i3-msg move workspace to output $ispace
 i3-msg workspace $j
 i3-msg workspace $i
-~/.config/polybar/launch.sh

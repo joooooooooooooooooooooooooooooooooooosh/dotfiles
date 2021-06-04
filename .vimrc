@@ -1,4 +1,5 @@
 set nocompatible
+set noequalalways
 syntax on
 filetype indent plugin on
 set omnifunc=syntaxcomplete#Complete
@@ -32,7 +33,7 @@ nnoremap <S-Tab> <<_
 inoremap <S-Tab> <C-D>
 vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
-nmap <Leader>t :term<CR><C-W>J<C-W>:res 10<CR><C-W>:sleep 2m<CR>clear<CR>
+nmap <Leader>t :term<CR><C-W>J<C-W>:res 10<CR><C-W>:setl wfh<CR><C-W>:sleep 2m<CR>clear<CR>
 nmap <silent><Leader>g :call setbufvar(winbufnr(popup_atcursor(split(system("git log -n 1 -L " . line(".") . ",+1:" . expand("%:p")), "\n"), { "padding": [1,1,1,1], "pos": "botleft", "wrap": 0 })), "&filetype", "git")<CR>
 nnoremap <C-_> :set hlsearch!<CR>
 imap <C-L> <Right>
@@ -105,6 +106,8 @@ function! s:on_lsp_buffer_enabled() abort
     setlocal signcolumn=yes
     if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
     nmap <buffer> gd <plug>(lsp-definition)
+    nmap <buffer> ge <plug>(lsp-next-error)
+    nmap <buffer> gE <plug>(lsp-previous-error)
     nmap <buffer> gs <plug>(lsp-document-symbol-search)
     nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
     nmap <buffer> gr <plug>(lsp-references)
@@ -130,10 +133,10 @@ augroup lsp_install
 augroup END
 
 let g:lsp_log_verbose = 1
-let g:lsp_log_file = expand('~/vim-lsp.log')
+let g:lsp_log_file = expand('~/.vim-lsp.log')
 
 " for asyncomplete.vim log
-let g:asyncomplete_log_file = expand('~/asyncomplete.log')
+let g:asyncomplete_log_file = expand('~/.asyncomplete.log')
 
 set foldmethod=expr
   \ foldexpr=lsp#ui#vim#folding#foldexpr()
@@ -142,7 +145,8 @@ set foldmethod=expr
 colorscheme wal
 "let g:ack_use_dispatch = 1
 let g:lsp_auto_enable = 1
-let g:asyncomplete_auto_popup = 1
+
+"let g:asyncomplete_auto_popup = 0
 "let g:asyncomplete_auto_completeopt = 0
 "set completeopt=menuone,noinsert,noselect,preview
 
@@ -187,7 +191,7 @@ if v:progname =~? "evim"
 endif
 
 " Get the defaults that most users want.
-source $VIMRUNTIME/defaults.vim
+"source $VIMRUNTIME/defaults.vim
 
 if has("vms")
   set nobackup		" do not keep a backup file, use versions instead

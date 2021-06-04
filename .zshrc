@@ -92,9 +92,9 @@ source $ZSH/oh-my-zsh.sh
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
+#   export EDITOR='nvim'
 # else
-#   export EDITOR='mvim'
+#   export EDITOR='mnvim'
 # fi
 
 # Compilation flags
@@ -124,7 +124,7 @@ lr() {
         while [ $file ]; do
                 cd $file 2>/dev/null
                 if [ $? -ne 0 ]; then
-                        vim $file
+                        nvim $file
                         break
                 fi
                 file=`la | rofi -dmenu -i -matching fuzzy -p "cd"`
@@ -132,11 +132,11 @@ lr() {
 }
 vr() {
         if [ $1 ]; then
-                vim $1
+                nvim $1
                 return
         fi
-        file=`la | rofi -dmenu -i -matching fuzzy -p "vim"`
-        vim $file
+        file=`la | rofi -dmenu -i -matching fuzzy -p "nvim"`
+        nvim $file
 }
 
 mkcd() {
@@ -175,7 +175,7 @@ uni() {
 
 unsetopt share_history
 source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-export EDITOR="vim"
+export EDITOR="nvim"
 PATH="/home/joshh/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="/home/joshh/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="/home/joshh/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
