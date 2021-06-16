@@ -8,6 +8,7 @@ fi
 # If you come from bash you might have to change your $PATH.
 (cat ~/.cache/wal/sequences &)
 export PATH=$HOME/bin:/usr/local/bin:$PATH:.:/root/.gem/ruby/2.7.0/bin
+export PYTHONPATH="/usr/lib/python3.9/site-packages":$PYTHONPATH
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -118,6 +119,12 @@ alias yeah=yes
 alias v=vr
 alias c=lr
 alias cr=lr
+alias n=nvim
+alias binja=binaryninja-demo
+
+sec() {
+  checksec --file=$1
+}
 
 lr() {
         file=`la | rofi -dmenu -i -matching fuzzy -p "cd"`

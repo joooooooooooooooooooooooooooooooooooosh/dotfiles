@@ -10,9 +10,9 @@ swipe:
       command: 'killall rofi || xdotool key Escape'
   4:
     left: 
-      command: 'xdotool key alt+Left'
+      command: 'i3-msg workspace back_and_forth'
     right: 
-      command: 'xdotool key alt+Right'
+      command: 'i3-msg workspace back_and_forth'
     up: 
       command: 'loginctl lock-session'
     down: 
