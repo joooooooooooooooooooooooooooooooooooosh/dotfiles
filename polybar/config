@@ -73,7 +73,7 @@ font-3 = siji:size=11:style=Regular;3
 
 modules-left = i3 headphones pulseaudio player
 modules-center = polywins 
-modules-right = aur brightness micvolume filesystem memory cpu newcharging newbattery wlan date power
+modules-right = aslr aur brightness micvolume filesystem memory cpu newcharging newbattery wlan date power
 
 tray-position = none
 tray-padding = 2
@@ -90,6 +90,11 @@ tray-transparent = true
 
 ;cursor-click = pointer
 ;cursor-scroll = ns-resize
+
+[module/aslr]
+type = custom/script
+exec = cat /proc/sys/kernel/randomize_va_space | sed 's/0/ASLR off/; s/2//'
+interval = 10
 
 [module/brightness]
 type = custom/ipc
@@ -118,7 +123,7 @@ format-underline = #3B5998
 type = custom/script
 ;exec = ~/polybar-scripts/aur-updates.sh
 exec = cat ~/polybar-scripts/.polybar-aur
-format = %{A1:i3-msg exec "kill $(wmctrl -pl | grep '\.updatelist (~/polybar-scripts) - VIM' | cut -d' ' -f4) || urxvt -e vim $HOME/polybar-scripts/.updatelist":}%{A3:i3-msg exec "alacritty --hold -e zsh -ic 'yay -Syu --answerclean None --answerdiff None --answeredit None --answerupgrade None && echo Installation finished'":}<label>%{A}%{A}
+format = %{A1:i3-msg exec "kill $(wmctrl -pl | grep 'updatelist_polybar_aur' | cut -d' ' -f4) || alacritty -t "updatelist_polybar_aur" -e zsh -ic 'nvim $HOME/polybar-scripts/.updatelist'":}%{A3:i3-msg exec "alacritty --hold -e zsh -ic 'yay -Syu --answerclean None --answerdiff None --answeredit None --answerupgrade None && echo Installation finished'":}<label>%{A}%{A}
 interval = 10
 
 [module/microphone]

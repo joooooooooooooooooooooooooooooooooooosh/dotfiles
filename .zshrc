@@ -109,7 +109,10 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias ls='ls --group-directories-first --color=auto'
 alias la='ls -A'
+alias sl=ls
+alias ks=ls
 alias cb='xclip -selection clipboard'
 alias colorls='ls --color'
 alias pls='sudo $(fc -ln -1)'

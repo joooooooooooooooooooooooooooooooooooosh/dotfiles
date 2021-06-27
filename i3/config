@@ -91,6 +91,8 @@ bindsym $mod+Shift+braceright exec ~/Documents/scripts/movewindow.sh next
 #custom shortcuts
 bindsym $mod+Ctrl+Shift+c exec $term -e zsh -ic 'nvim ~/.config/i3/config'
 bindsym $mod+Ctrl+Shift+b exec $term -e zsh -ic 'nvim ~/.config/polybar/config'
+bindsym $mod+Ctrl+Shift+n exec $term -e zsh -ic 'nvim ~/.nvimrc'
+bindsym $mod+Ctrl+Shift+z exec $term -e zsh -ic 'nvim ~/.zshrc'
 bindsym $mod+Ctrl+Shift+p exec $term -e zsh -ic 'sudo nvim /etc/xdg/picom.conf'
 
 bindsym $mod+Ctrl+Shift+h exec ~/polybar-scripts/player-mpris-tail.py previous
@@ -102,7 +104,7 @@ bindsym $mod+Ctrl+Shift+space exec ~/polybar-scripts/player-mpris-tail.py play-p
 bindsym $mod+Ctrl+Shift+Right exec ~/polybar-scripts/player-mpris-tail.py next
 
 bindsym $mod+Ctrl+b exec --no-startup-id "~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers/"
-bindsym $mod+Ctrl+Shift+n exec ~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers/charcoal.jpg
+# bindsym $mod+Ctrl+Shift+n exec ~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers/charcoal.jpg
 bindsym $mod+Ctrl+Shift+g exec ~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers/grey.png
 bindsym $mod+Ctrl+v exec cse /home/joshh/.vscode/extensions/dlasagno.wal-theme-1.0.4/themes/wal.json .vscode-server/extensions/dlasagno.wal-theme-1.0.4/themes/wal.json 
 
@@ -222,8 +224,8 @@ bindsym $mod+period split horizontal
 bindsym $mod+f fullscreen toggle
 
 # change gaps interactively
-bindsym $mod+minus gaps inner current minus 5
-bindsym $mod+plus gaps inner current plus 5
+bindsym $mod+minus gaps inner current minus 2
+bindsym $mod+plus gaps inner current plus 2
 
 # toggle tiling / floating
 bindsym $mod+Shift+f floating toggle
@@ -460,7 +462,7 @@ new_float pixel 0
 #border_radius 5
 
 # Gaps (i3-gaps)
-gaps inner 5
+gaps inner 8
 gaps outer 0
 
 # Only enable gaps on a workspace when there is at least one container
