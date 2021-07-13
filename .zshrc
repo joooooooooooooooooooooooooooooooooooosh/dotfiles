@@ -1,4 +1,3 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -123,6 +122,7 @@ alias v=vr
 alias c=lr
 alias cr=lr
 alias n=nvim
+alias ns='nvim -S Session.vim'
 alias binja=binaryninja-demo
 
 sec() {
@@ -140,6 +140,7 @@ lr() {
                 file=`la | rofi -dmenu -i -matching fuzzy -p "cd"`
         done
 }
+
 vr() {
         if [ $1 ]; then
                 nvim $1
@@ -157,6 +158,7 @@ mkcd() {
 manos() {
         links "https://cgi.cse.unsw.edu.au/~cs3231/18s1/os161/man/$1.html"
 }
+
 bible() {
         book="genesis"
         chapter=1
@@ -164,17 +166,17 @@ bible() {
                 book=$1
                 chapter=$2
         fi
-        curl -s https://www.biblestudytools.com/$book/$chapter.html | grep "verse-number" -A2 | grep -v span | sed -e "s/--//; s/<.*>//g; /^$/d; s/^\s*//"
+
+        curl -s https://www.biblestudytools.com/$book/$chapter.html |
+          grep "verse-number" -A2 |
+          sed -E '/class=\"verse-[0-9]/d; s/.*strong>([0-9][0-9]*).*/\1/; /--/d; s/^\s*//; s/^([[:digit:]]+)$/[1m\1[0m/; s///g' |
+          perl -pe 's/<.*>//g' |
+          tr '\n' ' ' |
+          fold -sw 60
+
+#           perl -pe 's/<.*?>//g' |
 }
-heresy() {
-        book="genesis"
-        chapter=1
-        if [ $# -eq 2 ]; then
-                book=$1
-                chapter=$2
-        fi
-        curl -s https://www.biblestudytools.com/msg/$book/$chapter.html | grep "verse-number" -A2 | grep -v span | sed -e "s/--//; /^$/d; s/^\s*//"
-}
+
 uni() {
         if [ $# -eq 1 ]; then
                 cd "$HOME/Documents/UNSW/$1"
@@ -194,3 +196,7 @@ PERL_MM_OPT="INSTALL_BASE=/home/joshh/perl5"; export PERL_MM_OPT;
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+export MCFLY_FUZZY=true
+export MCFLY_RESULTS=20
+eval "$(mcfly init zsh)"

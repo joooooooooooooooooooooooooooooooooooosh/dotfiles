@@ -1,0 +1,14 @@
+#!/bin/bash
+array=( $@ )
+len=${#array[@]}
+_domain=${array[$len-1]}
+_args=${array[@]:0:$len-1}
+
+if test $# -eq 1; then
+	scp "$1" "z5218547@login.cse.unsw.edu.au:~/$1"
+else	
+	for file in $_args; do
+		scp "$file" "z5218547@login.cse.unsw.edu.au:~/${@: -1}"
+	done
+	#scp "$1" "z5218547@login.cse.unsw.edu.au:~/$2"
+fi

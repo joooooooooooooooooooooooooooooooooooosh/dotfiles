@@ -9,7 +9,7 @@ exec --no-startup-id ~/Documents/scripts/changebackground.sh ~/Pictures/wallpape
 exec --no-startup-id ~/.config/polybar/launch.sh
 exec $term -e zsh -ic 'sudo fusuma -c ~/.config/fusuma/config.yml -d'
 exec xcape -e 'Caps_Lock=Escape'
-
+# exec blugon
 exec --no-startup-id wmctrl -c Plasma
 exec killall plasmashell
 for_window [title="Desktop — Plasma"] kill; floating enable; border none
@@ -52,10 +52,11 @@ bindsym XF86AudioRaiseVolume exec Documents/scripts/politebeep.sh up
 bindsym XF86AudioLowerVolume exec Documents/scripts/politebeep.sh down
 bindsym XF86AudioMute exec pulseaudio-ctl mute & polybar-msg hook microphone 1
 bindsym XF86AudioMicMute exec pulseaudio-ctl mute-input && polybar-msg hook microphone 1
-bindsym XF86Tools exec pulseaudio-ctl mute-input && polybar-msg hook microphone 1
-bindsym XF86AudioPrev exec ~/polybar-scripts/player-mpris-tail.py previous                 
-bindsym XF86AudioPlay exec ~/polybar-scripts/player-mpris-tail.py play-pause               
-bindsym XF86AudioNext exec ~/polybar-scripts/player-mpris-tail.py next
+# bindsym XF86Tools exec pulseaudio-ctl mute-input && polybar-msg hook microphone 1
+# bindsym XF86AudioPrev exec ~/polybar-scripts/player-mpris-tail.py previous
+# bindsym XF86AudioPlay exec ~/polybar-scripts/player-mpris-tail.py play-pause
+# bindsym XF86AudioNext exec ~/polybar-scripts/player-mpris-tail.py next
+
 bindsym F1 exec pulseaudio-ctl mute-input && polybar-msg hook microphone 1
 bindsym F2 exec Documents/scripts/politebeep.sh down
 bindsym F3 exec Documents/scripts/politebeep.sh up
@@ -112,6 +113,8 @@ bindsym $mod+e exec dolphin
 bindsym $mod+Shift+u exec dolphin ~/Documents/UNSW
 bindsym $mod+Shift+m exec dolphin ~/Documents/MuseScore3/Scores
 bindsym $mod+Shift+w exec dolphin /run/media/joshh/Windows-SSD/Users/joshh/Documents
+bindsym Mod4+s exec spectacle
+bindsym Mod4+Shift+s exec spectacle
 
 bindsym $mod+Shift+e exec $term -e zsh -ic ranger
 bindsym $mod+Shift+b exec $term -e zsh -ic 'ranger ~/Pictures/wallpapers'
@@ -120,6 +123,7 @@ bindsym Mod4+Tab exec rofi -show window
 bindsym $mod+b exec ~/.config/polybar/launch.sh
 bindsym $mod+Mod4+c exec ~/Documents/scripts/bluescript.sh 1C:52:16:5F:E1:75
 bindsym $mod+Mod4+s exec ~/Documents/scripts/bluescript.sh
+bindsym $mod+Ctrl+p exec ~/Documents/scripts/bluescript.sh
 #bindsym $mod+Mod4+s exec ~/Documents/scripts/bluescript.sh 00:1B:66:C5:29:8F
 
 bindsym $mod+Ctrl+less exec sudo ~/Documents/scripts/brightchange.sh off !hdmi
@@ -173,6 +177,7 @@ client.background       $bg
 floating_modifier $mod
 
 hide_edge_borders smart
+# smart_borders on
 
 # start a terminal
 bindsym $mod+Return exec /usr/bin/$term
@@ -439,15 +444,15 @@ bindsym $mod+Ctrl+Shift+o mode "one-handed"
 # resize window (you can also use the mouse for that)
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
-        bindsym h resize shrink width 6 px or 6 ppt
-        bindsym j resize grow height 6 px or 6 ppt
-        bindsym k resize shrink height 6 px or 6 ppt
-        bindsym l resize grow width 6 px or 6 ppt
+        bindsym h resize grow width 5 px or 5 ppt
+        bindsym j resize shrink height 5 px or 5 ppt
+        bindsym k resize grow height 5 px or 5 ppt
+        bindsym l resize shrink width 5 px or 5 ppt
         # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 6 px or 6 ppt
-        bindsym Down resize grow height 6 px or 6 ppt
-        bindsym Up resize shrink height 6 px or 6 ppt
-        bindsym Right resize grow width 6 px or 6 ppt
+        bindsym Left resize grow width 5 px or 5 ppt
+        bindsym Down resize shrink height 5 px or 5 ppt
+        bindsym Up resize grow height 5 px or 5 ppt
+        bindsym Right resize shrink width 5 px or 5 ppt
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -459,10 +464,10 @@ bindsym $mod+r mode "resize"
 # Disable titlebar
 new_window pixel 0
 new_float pixel 0
-#border_radius 5
+# border_radius 5
 
 # Gaps (i3-gaps)
-gaps inner 8
+gaps inner 6
 gaps outer 0
 
 # Only enable gaps on a workspace when there is at least one container
