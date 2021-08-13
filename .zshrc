@@ -1,12 +1,13 @@
+DISABLE_MAGIC_FUNCTIONS=true
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  # source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
 
 # If you come from bash you might have to change your $PATH.
 (cat ~/.cache/wal/sequences &)
-export PATH=$HOME/bin:/usr/local/bin:$PATH:.:/root/.gem/ruby/2.7.0/bin
+export PATH=$HOME/bin:/usr/local/bin:$PATH:.:/root/.gem/ruby/2.7.0/bin:/home/joshh/.local/share/gem/ruby/3.0.0/bin
 export PYTHONPATH="/usr/lib/python3.9/site-packages":$PYTHONPATH
 
 # Path to your oh-my-zsh installation.
@@ -79,7 +80,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions autoupdate colored-man-pages autoenv zsh-z)
+plugins=(git zsh-autosuggestions autoupdate colored-man-pages autoenv)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -113,9 +114,8 @@ alias la='ls -A'
 alias sl=ls
 alias ks=ls
 alias cb='xclip -selection clipboard'
-alias colorls='ls --color'
 alias pls='sudo $(fc -ln -1)'
-alias cpd='echo $(fc -ln -1) | cb'
+alias cpd='echo $(fc -ln -1) | perl -pe "chomp if eof" | cb'
 alias timer=termdown
 alias yeah=yes
 alias v=vr
@@ -124,6 +124,7 @@ alias cr=lr
 alias n=nvim
 alias ns='nvim -S Session.vim'
 alias binja=binaryninja-demo
+alias lsz='du -sh * | sort -h'
 
 sec() {
   checksec --file=$1
@@ -162,19 +163,26 @@ manos() {
 bible() {
         book="genesis"
         chapter=1
-        if [ $# -eq 2 ]; then
+        if [ $# -ge 2 ]; then
                 book=$1
                 chapter=$2
+                last=$chapter
         fi
 
-        curl -s https://www.biblestudytools.com/$book/$chapter.html |
-          grep "verse-number" -A2 |
-          sed -E '/class=\"verse-[0-9]/d; s/.*strong>([0-9][0-9]*).*/\1/; /--/d; s/^\s*//; s/^([[:digit:]]+)$/[1m\1[0m/; s///g' |
-          perl -pe 's/<.*>//g' |
-          tr '\n' ' ' |
-          fold -sw 60
+        if [ $# -ge 3 ]; then
+                last=$3
+        fi
 
-#           perl -pe 's/<.*?>//g' |
+        for i in {$chapter..$last}; do
+                curl -s https://www.biblestudytools.com/$book/$i.html |
+                  grep "verse-number" -A2 |
+                  sed -E '/class=\"verse-[0-9]/d; s/.*strong>([0-9][0-9]*).*/\1/; /--/d; s/^\s*//; s/^([[:digit:]]+)$/[1m\1[0m/; s///g' |
+                  perl -pe 's/<.*?>(.<.*?>)?//g' |
+                  tr '\n' ' ' |
+                  fold -sw 60 |
+                  sed '$s/ $/\n/' | 
+                  less
+        done
 }
 
 uni() {
@@ -188,15 +196,16 @@ uni() {
 unsetopt share_history
 source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export EDITOR="nvim"
-PATH="/home/joshh/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PATH="/home/joshh/.cargo/bin:/home/joshh/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="/home/joshh/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="/home/joshh/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/joshh/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/joshh/perl5"; export PERL_MM_OPT;
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 export MCFLY_FUZZY=true
 export MCFLY_RESULTS=20
 eval "$(mcfly init zsh)"
+eval "$(zoxide init zsh)"

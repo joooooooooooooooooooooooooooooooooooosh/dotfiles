@@ -27,7 +27,6 @@
 ;secondary = #e60053
 ;alert = #bd2c40
 
-
 [colors]
 background = ${xrdb:color0:#222}
 background-alt = ${xrdb:color4:#222}
@@ -44,7 +43,7 @@ width = 100%
 height = 30
 ;offset-x = 1%
 ;offset-y = 1%
-;radius = 5
+# radius = 10
 fixed-center = true
 enable-ipc = true
 ;bottom = true
@@ -73,7 +72,8 @@ font-3 = siji:size=11:style=Regular;3
 
 modules-left = i3 headphones pulseaudio player
 modules-center = polywins 
-modules-right = aslr aur brightness micvolume filesystem memory cpu newcharging newbattery wlan date power
+# modules-center = xwindow
+modules-right = aslr aur brightness micvolume filesystem ram cpu newcharging newbattery wlan date power
 
 tray-position = none
 tray-padding = 2
@@ -91,9 +91,19 @@ tray-transparent = true
 ;cursor-click = pointer
 ;cursor-scroll = ns-resize
 
+[module/ram]
+type = custom/script
+exec = cat /proc/meminfo | head -n 3 | tail -n 1 | awk '{print $2}' | xargs -I{} python2 -c "print int(100 - {} * 100 / 7878752)"
+# exec = cat /proc/meminfo | head -n 3 | tail -n 1 | awk '{print $2}' | xargs -I{} python2 -c "print str(int(100 - {} * 100 / 7878752)) + '%'" | sed -E 's/(.*)/[1m\1[0m/'
+interval = 2
+format = %{A1:i3-msg exec "alacritty -e zsh -ic htop -ts PERCENT_MEM":}  <label>%%{A}
+# format-foreground = ${colors.foreground-alt}
+# label =   <label>%
+
 [module/aslr]
 type = custom/script
 exec = cat /proc/sys/kernel/randomize_va_space | sed 's/0/ASLR off/; s/2//'
+format-foreground = ${colors.foreground-alt}
 interval = 10
 
 [module/brightness]
@@ -115,7 +125,7 @@ click-right = systemsettings5
 type = custom/ipc
 hook-0 = ~/polybar-scripts/bluescript.sh
 initial = 1
-click-left = ~/Documents/scripts/bluescript.sh 00:1B:66:C5:29:8F
+click-left = ~/Documents/scripts/bluescript.sh
 click-right = ~/polybar-scripts/disconnect.sh
 format-underline = #3B5998
 
@@ -136,7 +146,8 @@ format-underline = #893279
 
 [module/micvolume]
 type = custom/script
-exec = pacmd list-sources | grep alsa_card.pci-0000_00_1f.3 -A 40 | grep "volume: front" | cut -d/ -f2 | sed "s/\s/$(pulseaudio-ctl full-status | cut -d' ' -f3 | sed 's/no//; s/yes//') /; s/\s*$//"
+exec = pacmd list-sources | grep alsa_input.pci-0000_00_1f.3 -A 40 | grep "volume: front" | cut -d/ -f2 | sed "s/\s/$(pulseaudio-ctl full-status | cut -d' ' -f3 | sed 's/no//; s/yes//') /; s/\s*$//"
+; exec = pacmd list-sources | grep alsa_card.pci-0000_00_1f.3 -A 40 | grep "volume: front" | cut -d/ -f2 | sed "s/\s/$(pulseaudio-ctl full-status | cut -d' ' -f3 | sed 's/no//; s/yes//') /; s/\s*$//"
 format = %{A1:pulseaudio-ctl mute-input:}%{A3:systemsettings5 kcm_pulseaudio:}<label>%{A}%{A}
 interval = 0.5
 
@@ -181,7 +192,7 @@ type = internal/xwindow
 ;camel-alt = %title%
 ;label = %title:0:50:...%
 ;label = %title:0:80:...%
-label = %title:0:80:...%
+label = %title:0:50:...%
 
 [module/xkeyboard]
 type = internal/xkeyboard
@@ -204,7 +215,7 @@ type = internal/fs
 interval = 60
 
 mount-0 = /
-format-mounted =%{A1:i3-msg exec "urxvt -e ranger":}<label-mounted>%{A}
+format-mounted =%{A1:i3-msg exec "alacritty -e zsh -ic ranger":}<label-mounted>%{A}
 ;label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
 label-mounted =   %percentage_used%%
 label-unmounted = %mountpoint% not mounted
@@ -303,7 +314,7 @@ interval = 2
 ;format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #f90000
 ;format-underline = ${xrdb:color7:#222}\
-format = %{A1:i3-msg exec "urxvt -e htop -ts PERCENT_CPU":}<label>%{A}
+format = %{A1:i3-msg exec "alacritty -e zsh -ic htop -ts PERCENT_CPU":}<label>%{A}
 label =  %percentage:2%%
 
 [module/memory]
@@ -313,7 +324,7 @@ interval = 2
 ;format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
 ;format-underline = ${xrdb:color8:#222}
-format = %{A1:i3-msg exec "urxvt -e htop -ts PERCENT_MEM":}<label>%{A}
+format = %{A1:i3-msg exec "alacritty -e zsh -ic htop -ts PERCENT_MEM":}<label>%{A}
 label =   %percentage_used%%
 
 [module/wlan]
@@ -322,7 +333,7 @@ interface = wlp2s0
 interval = 2
 
 ;format-connected = <ramp-signal> <label-connected>
-format-connected = %{A1:i3-msg exec systemsettings5 kcm_networkmanagement:}%{A3:i3-msg exec "urxvt -e sudo iftop -i wlp2s0":}<label-connected>%{A}%{A}
+format-connected = %{A1:i3-msg exec systemsettings5 kcm_networkmanagement:}%{A3:i3-msg exec "alacritty -e zsh -ic 'sudo iftop -i wlp2s0'":}<label-connected>%{A}%{A}
 ;format-connected = <label-connected>
 format-connected-underline = #009800 
 ;format-connected-underline = ${xrdb:color9:#222}

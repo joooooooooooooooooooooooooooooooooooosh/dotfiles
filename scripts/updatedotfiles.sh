@@ -15,7 +15,9 @@ cp -u ~/.config/rofi/* ~/dotfiles/rofi/
 cp -u ~/.config/spicetify/config.ini ~/dotfiles/spicetify/
 cp -u ~/.config/termite/* ~/dotfiles/termite/
 cp -u ~/.config/alacritty/alacritty.yml ~/dotfiles/
-cd ~/dotfiles
-git add -A
-git commit -m "new dotfiles"
-git push
+if ! [ $# -ge 1 -a "$1" == "-n" ]; then
+    cd ~/dotfiles
+    git add -A
+    git commit -m "new dotfiles"
+    git push
+fi

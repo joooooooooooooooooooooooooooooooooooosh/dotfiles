@@ -9,7 +9,8 @@ exec --no-startup-id ~/Documents/scripts/changebackground.sh ~/Pictures/wallpape
 exec --no-startup-id ~/.config/polybar/launch.sh
 exec $term -e zsh -ic 'sudo fusuma -c ~/.config/fusuma/config.yml -d'
 exec xcape -e 'Caps_Lock=Escape'
-# exec blugon
+
+# TODO: clean up hacky kde stuff
 exec --no-startup-id wmctrl -c Plasma
 exec killall plasmashell
 for_window [title="Desktop — Plasma"] kill; floating enable; border none
@@ -26,11 +27,13 @@ for_window [class="plasmashell" window_type="notification"] floating enable, bor
 no_focus [class="plasmashell" window_type="notification"] 
 
 for_window [class="code-oss"] fullscreen disable
+for_window [title="float_me_plz"] floating enable
+for_window [title="updatelist_polybar_aur"] floating enable
 
 #Logitech thumb button
 bindsym Ctrl+Mod1+Tab exec rofi -show drun
 bindsym $mod+Ctrl+f exec $BROWSER
-#bindsym $mod+Ctrl+Shift+v exec $term -e "zsh -ic 'TERM=linux ssh -t z5218547@vscode2.cse.unsw.edu.au 'bash -l''"
+bindsym $mod+Ctrl+g exec $BROWSER calendar.google.com && wmctrl -a firefox
 bindsym $mod+Ctrl+Shift+v exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@login.cse.unsw.edu.au 'bash -l''
 
 bindsym --release XF86HomePage exec xdotool key Escape
@@ -105,7 +108,6 @@ bindsym $mod+Ctrl+Shift+space exec ~/polybar-scripts/player-mpris-tail.py play-p
 bindsym $mod+Ctrl+Shift+Right exec ~/polybar-scripts/player-mpris-tail.py next
 
 bindsym $mod+Ctrl+b exec --no-startup-id "~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers/"
-# bindsym $mod+Ctrl+Shift+n exec ~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers/charcoal.jpg
 bindsym $mod+Ctrl+Shift+g exec ~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers/grey.png
 bindsym $mod+Ctrl+v exec cse /home/joshh/.vscode/extensions/dlasagno.wal-theme-1.0.4/themes/wal.json .vscode-server/extensions/dlasagno.wal-theme-1.0.4/themes/wal.json 
 
@@ -117,7 +119,7 @@ bindsym Mod4+s exec spectacle
 bindsym Mod4+Shift+s exec spectacle
 
 bindsym $mod+Shift+e exec $term -e zsh -ic ranger
-bindsym $mod+Shift+b exec $term -e zsh -ic 'ranger ~/Pictures/wallpapers'
+bindsym $mod+Shift+b exec $term -t "float_me_plz" -e zsh -ic 'ranger ~/Pictures/wallpapers'
 
 bindsym Mod4+Tab exec rofi -show window
 bindsym $mod+b exec ~/.config/polybar/launch.sh
@@ -126,35 +128,17 @@ bindsym $mod+Mod4+s exec ~/Documents/scripts/bluescript.sh
 bindsym $mod+Ctrl+p exec ~/Documents/scripts/bluescript.sh
 #bindsym $mod+Mod4+s exec ~/Documents/scripts/bluescript.sh 00:1B:66:C5:29:8F
 
-bindsym $mod+Ctrl+less exec sudo ~/Documents/scripts/brightchange.sh off !hdmi
-bindsym $mod+Ctrl+Shift+plus exec sudo ~/Documents/scripts/brightchange.sh up
-bindsym $mod+Ctrl+Shift+minus exec sudo ~/Documents/scripts/brightchange.sh down
-bindsym $mod+Ctrl+Shift+quotedbl exec sudo ~/Documents/scripts/brightchange.sh max
-bindsym $mod+Ctrl+Shift+question exec sudo ~/Documents/scripts/brightchange.sh high
-bindsym $mod+Ctrl+Shift+colon exec sudo ~/Documents/scripts/brightchange.sh mid
-bindsym $mod+Ctrl+Shift+greater exec sudo ~/Documents/scripts/brightchange.sh low
-bindsym $mod+Ctrl+Shift+less exec sudo ~/Documents/scripts/brightchange.sh min
-bindsym $mod+Ctrl+Shift+m exec sudo ~/Documents/scripts/brightchange.sh
-
-# This is the Solarized color palette.
-set $base03    #002b36
-set $base02    #073642
-set $base01    #586e75
-set $base00    #657b83
-set $base0     #839496
-set $base1     #93a1a1
-set $base2     #eee8d5
-set $base3     #fdf6e3
-set $yellow    #b58900
-set $orange    #cb4b10
-set $red       #dc322f
-set $magenta   #d33682
-set $violet    #6c71c4
-set $blue      #268bd2
-set $cyan      #2aa198
-set $green     #859900
-set $transparent #00000000
-set $lucent    #00000088
+# gamma go brr
+bindsym $mod+Ctrl+Shift+t exec          xrandr --output HDMI1 --brightness 2
+bindsym $mod+Ctrl+less exec             sudo ~/Documents/scripts/brightchange.sh off !hdmi
+bindsym $mod+Ctrl+Shift+plus exec       sudo ~/Documents/scripts/brightchange.sh up
+bindsym $mod+Ctrl+Shift+minus exec      sudo ~/Documents/scripts/brightchange.sh down
+bindsym $mod+Ctrl+Shift+quotedbl exec   sudo ~/Documents/scripts/brightchange.sh max
+bindsym $mod+Ctrl+Shift+question exec   sudo ~/Documents/scripts/brightchange.sh high
+bindsym $mod+Ctrl+Shift+colon exec      sudo ~/Documents/scripts/brightchange.sh mid
+bindsym $mod+Ctrl+Shift+greater exec    sudo ~/Documents/scripts/brightchange.sh low
+bindsym $mod+Ctrl+Shift+less exec       sudo ~/Documents/scripts/brightchange.sh min
+bindsym $mod+Ctrl+Shift+m exec          sudo ~/Documents/scripts/brightchange.sh
 
 # Set colors from Xresources
 # Change 'color7' and 'color2' to whatever colors you want i3 to use 
@@ -220,10 +204,6 @@ bindsym $mod+Shift+l move right
 bindsym $mod+BackSpace split toggle
 bindsym $mod+comma split vertical
 bindsym $mod+period split horizontal
-#bindsym $mod+Ctrl+h split horizontal
-#bindsym $mod+Ctrl+j split vertical
-#bindsym $mod+Ctrl+k split vertical
-#bindsym $mod+Ctrl+l split horizontal
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
@@ -337,7 +317,7 @@ bindsym $mod+Shift+p move scratchpad
 bindsym $mod+p scratchpad show
 
 # shortcuts for common system configuration tasks
-bindsym $mod+s exec systemsettings5
+bindsym $mod+s exec systemsettings5 kcm_pulseaudio
 
 mode "discord" {
         bindsym --release k exec xdotool key alt+Up  
@@ -467,7 +447,7 @@ new_float pixel 0
 # border_radius 5
 
 # Gaps (i3-gaps)
-gaps inner 6
+gaps inner 4
 gaps outer 0
 
 # Only enable gaps on a workspace when there is at least one container
