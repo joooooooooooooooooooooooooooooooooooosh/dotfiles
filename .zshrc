@@ -125,6 +125,7 @@ alias n=nvim
 alias ns='nvim -S Session.vim'
 alias binja=binaryninja-demo
 alias lsz='du -sh * | sort -h'
+alias updot='~/Documents/scripts/updatedotfiles.sh'
 
 sec() {
   checksec --file=$1

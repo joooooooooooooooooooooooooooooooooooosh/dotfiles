@@ -421,18 +421,24 @@ mode "one-handed" {
 }
 bindsym $mod+Ctrl+Shift+o mode "one-handed"
 
-# resize window (you can also use the mouse for that)
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
         bindsym h resize grow width 5 px or 5 ppt
         bindsym j resize shrink height 5 px or 5 ppt
         bindsym k resize grow height 5 px or 5 ppt
         bindsym l resize shrink width 5 px or 5 ppt
-        # same bindings, but for the arrow keys
+        bindsym Shift+h resize grow width 1 px or 1 ppt
+        bindsym Shift+j resize shrink height 1 px or 1 ppt
+        bindsym Shift+k resize grow height 1 px or 1 ppt
+        bindsym Shift+l resize shrink width 1 px or 1 ppt
+
         bindsym Left resize grow width 5 px or 5 ppt
         bindsym Down resize shrink height 5 px or 5 ppt
         bindsym Up resize grow height 5 px or 5 ppt
         bindsym Right resize shrink width 5 px or 5 ppt
+        bindsym Shift+Left resize grow width 1 px or 1 ppt
+        bindsym Shift+Down resize shrink height 1 px or 1 ppt
+        bindsym Shift+Up resize grow height 1 px or 1 ppt
+        bindsym Shift+Right resize shrink width 1 px or 1 ppt
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
