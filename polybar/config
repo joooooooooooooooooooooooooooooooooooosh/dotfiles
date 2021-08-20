@@ -16,16 +16,16 @@
 ;
 ;==========================================================
 
-;[colors]
-;background = ${xrdb:color0:#222}
-;background = #222
-;background-alt = #444
-;foreground = ${xrdb:color7:#222}
-;foreground = #dfdfdf
-;foreground-alt = #555
-;primary = #ffb52a
-;secondary = #e60053
-;alert = #bd2c40
+# [colors]
+# background = ${xrdb:color0:#222}
+# background = #222
+# background-alt = #444
+# foreground = ${xrdb:color7:#222}
+# foreground = #dfdfdf
+# foreground-alt = #555
+# primary = #ffb52a
+# secondary = #e60053
+# alert = #bd2c40
 
 [colors]
 background = ${xrdb:color0:#222}
@@ -38,19 +38,19 @@ alert = ${xrdb:color3:#222}
 
 [bar/example]
 monitor = ${env:MONITOR:HDMI1}
-;monitor = ${env:MONITOR:DP1}
+# monitor = ${env:MONITOR:DP1}
 width = 100%
 height = 30
-;offset-x = 1%
-;offset-y = 1%
+# offset-x = 1%
+# offset-y = 1%
 # radius = 10
 fixed-center = true
 enable-ipc = true
-;bottom = true
+# bottom = true
 separator = " "
 
 background = ${colors.background}
-;background = #87000000
+# background = #87000000
 foreground = ${colors.foreground}
 
 line-size = 0
@@ -66,9 +66,11 @@ module-margin-left = 1
 module-margin-right = 1
 
 font-0 = moreicons:style=Regular:size=13;3
-font-1 = policons:style=Regular:size=13;3.5
-font-2 = OTF:Inconsolata Nerd Font Mono:size=11:style=Medium;3.5
-font-3 = siji:size=11:style=Regular;3
+font-1 = policons:style=Regular:size=13;3
+font-2 = Nimbus Sans:style=Regular:size=11;3.5
+# font-2 = Source Code Pro for Powerline:size=11;3.5
+# font-2 = OTF:Inconsolata Nerd Font Mono:size=11:style=Medium;3.5
+# font-2 = siji:size=11:style=Regular;3
 
 modules-left = i3 headphones pulseaudio player
 modules-center = polywins 
@@ -79,17 +81,17 @@ tray-position = none
 tray-padding = 2
 tray-detached = true
 tray-transparent = true
-;tray-background = #0063ff
+# tray-background = #0063ff
 
-;wm-restack = i3
+# wm-restack = i3
 
-;override-redirect = true
+# override-redirect = true
 
-;scroll-up = i3wm-wsnext
-;scroll-down = i3wm-wsprev
+# scroll-up = i3wm-wsnext
+# scroll-down = i3wm-wsprev
 
-;cursor-click = pointer
-;cursor-scroll = ns-resize
+# cursor-click = pointer
+# cursor-scroll = ns-resize
 
 [module/ram]
 type = custom/script
@@ -131,7 +133,7 @@ format-underline = #3B5998
 
 [module/aur]
 type = custom/script
-;exec = ~/polybar-scripts/aur-updates.sh
+# exec = ~/polybar-scripts/aur-updates.sh
 exec = cat ~/polybar-scripts/.polybar-aur
 format = %{A1:i3-msg exec "kill $(wmctrl -pl | grep 'updatelist_polybar_aur' | cut -d' ' -f4) || alacritty -t "updatelist_polybar_aur" -e zsh -ic 'nvim $HOME/polybar-scripts/.updatelist'":}%{A3:i3-msg exec "alacritty --hold -e zsh -ic 'yay -Syu --answerclean None --answerdiff None --answeredit None --answerupgrade None && echo Installation finished'":}<label>%{A}%{A}
 interval = 10
@@ -141,13 +143,13 @@ type = custom/ipc
 hook-0 = pulseaudio-ctl full-status | cut -d' ' -f3 | sed 's/no//; s/yes//'
 initial = 1
 click-left = pulseaudio-ctl mute-input && polybar-msg hook microphone 1
-;format-prefix = "mic: "
+# format-prefix = "mic: "
 format-underline = #893279
 
 [module/micvolume]
 type = custom/script
 exec = pacmd list-sources | grep alsa_input.pci-0000_00_1f.3 -A 40 | grep "volume: front" | cut -d/ -f2 | sed "s/\s/$(pulseaudio-ctl full-status | cut -d' ' -f3 | sed 's/no//; s/yes//') /; s/\s*$//"
-; exec = pacmd list-sources | grep alsa_card.pci-0000_00_1f.3 -A 40 | grep "volume: front" | cut -d/ -f2 | sed "s/\s/$(pulseaudio-ctl full-status | cut -d' ' -f3 | sed 's/no//; s/yes//') /; s/\s*$//"
+#  exec = pacmd list-sources | grep alsa_card.pci-0000_00_1f.3 -A 40 | grep "volume: front" | cut -d/ -f2 | sed "s/\s/$(pulseaudio-ctl full-status | cut -d' ' -f3 | sed 's/no//; s/yes//') /; s/\s*$//"
 format = %{A1:pulseaudio-ctl mute-input:}%{A3:systemsettings5 kcm_pulseaudio:}<label>%{A}%{A}
 interval = 0.5
 
@@ -166,7 +168,7 @@ tail = true
 label = %output%
 format-underline = #1db954
 format-margin = 1
-;format-underline = ${xrdb:color5:#222}
+# format-underline = ${xrdb:color5:#222}
 
 [module/newbattery]
 type = custom/script
@@ -175,7 +177,7 @@ exec-if = acpi -a | grep off
 interval = 30
 label = %output%
 format-underline = #ffb52a
-;format-underline = ${xrdb:color6:#222}
+# format-underline = ${xrdb:color6:#222}
 
 [module/newcharging]
 type = custom/script
@@ -184,14 +186,14 @@ exec-if = acpi -a | grep on
 interval = 30
 label =  %output%
 format-underline = #ffb52a
-;format-underline = ${xrdb:color6:#222}
+# format-underline = ${xrdb:color6:#222}
 
 [module/xwindow]
 type = internal/xwindow
-;camel = %title:0:50:...%
-;camel-alt = %title%
-;label = %title:0:50:...%
-;label = %title:0:80:...%
+# camel = %title:0:50:...%
+# camel-alt = %title%
+# label = %title:0:50:...%
+# label = %title:0:80:...%
 label = %title:0:50:...%
 
 [module/xkeyboard]
@@ -216,7 +218,7 @@ interval = 60
 
 mount-0 = /
 format-mounted =%{A1:i3-msg exec "alacritty -e zsh -ic ranger":}<label-mounted>%{A}
-;label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
+# label-mounted = %{F#0a81f5}%mountpoint%%{F-}: %percentage_used%%
 label-mounted =   %percentage_used%%
 label-unmounted = %mountpoint% not mounted
 label-unmounted-foreground = ${colors.foreground-alt}
@@ -241,8 +243,8 @@ label-empty = %index%
 label-empty-foreground = ${colors.foreground-alt}
 label-empty-padding = 2
 
-; Separator in between workspaces
-; label-separator = |
+#  Separator in between workspaces
+#  label-separator = |
 
 [module/i3]
 type = internal/i3
@@ -250,40 +252,40 @@ format = <label-state> <label-mode>
 index-sort = true
 wrapping-scroll = false
 
-; Only show workspaces on the same output as the bar
+#  Only show workspaces on the same output as the bar
 pin-workspaces = true
 
 label-mode-padding = 2
-;label-mode-foreground = #000
+# label-mode-foreground = #000
 label-mode-foreground = ${xrdb:color0}
 label-mode-background = ${xrdb:color11}
 
-; focused = Active workspace on focused monitor
+#  focused = Active workspace on focused monitor
 label-focused = %index%
 label-focused-background = ${module/bspwm.label-focused-background}
 label-focused-underline = ${module/bspwm.label-focused-underline}
 label-focused-padding = ${module/bspwm.label-focused-padding}
 label-focused-foreground = ${xrdb:color0}
 
-; unfocused = Inactive workspace on any monitor
+#  unfocused = Inactive workspace on any monitor
 label-unfocused = %index%
 label-unfocused-padding = ${module/bspwm.label-occupied-padding}
 
-; visible = Active workspace on unfocused monitor
+#  visible = Active workspace on unfocused monitor
 label-visible = %index%
 label-visible-background = ${xrdb:color11}
-;label-visible-background = ${self.label-focused-background}
+# label-visible-background = ${self.label-focused-background}
 label-visible-underline = ${self.label-focused-underline}
 label-visible-padding = ${self.label-focused-padding}
 
-; urgent = Workspace with urgency hint set
+#  urgent = Workspace with urgency hint set
 label-urgent = %index%
 label-urgent-background = ${module/bspwm.label-urgent-background}
 label-urgent-padding = ${module/bspwm.label-urgent-padding}
 
-; Separator in between workspaces
-;label-separator = |
-label-separator-padding = 1
+#  Separator in between workspaces
+# label-separator = |
+# label-separator-padding = 1
 
 [module/xbacklight]
 type = internal/xbacklight
@@ -310,20 +312,20 @@ card = intel_backlight
 [module/cpu]
 type = internal/cpu
 interval = 2
-;format-prefix = 
-;format-prefix-foreground = ${colors.foreground-alt}
+# format-prefix = 
+# format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #f90000
-;format-underline = ${xrdb:color7:#222}\
+# format-underline = ${xrdb:color7:#222}\
 format = %{A1:i3-msg exec "alacritty -e zsh -ic htop -ts PERCENT_CPU":}<label>%{A}
 label =  %percentage:2%%
 
 [module/memory]
 type = internal/memory
 interval = 2
-;format-prefix = " "
-;format-prefix-foreground = ${colors.foreground-alt}
+# format-prefix = " "
+# format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
-;format-underline = ${xrdb:color8:#222}
+# format-underline = ${xrdb:color8:#222}
 format = %{A1:i3-msg exec "alacritty -e zsh -ic htop -ts PERCENT_MEM":}<label>%{A}
 label =   %percentage_used%%
 
@@ -332,17 +334,17 @@ type = internal/network
 interface = wlp2s0 
 interval = 2
 
-;format-connected = <ramp-signal> <label-connected>
+# format-connected = <ramp-signal> <label-connected>
 format-connected = %{A1:i3-msg exec systemsettings5 kcm_networkmanagement:}%{A3:i3-msg exec "alacritty -e zsh -ic 'sudo iftop -i wlp2s0'":}<label-connected>%{A}%{A}
-;format-connected = <label-connected>
+# format-connected = <label-connected>
 format-connected-underline = #009800 
-;format-connected-underline = ${xrdb:color9:#222}
-;label-connected = wifi: %essid% %downspeed% %upspeed%
+# format-connected-underline = ${xrdb:color9:#222}
+# label-connected = wifi: %essid% %downspeed% %upspeed%
 label-connected = ↓ %downspeed% ↑ %upspeed%
 
-;format-disconnected =
+# format-disconnected =
 format-disconnected = %{A1:i3-msg exec systemsettings5 kcm_networkmanagement:}<label-disconnected>%{A}
-;format-disconnected-underline = ${self.format-connected-underline}
+# format-disconnected-underline = ${self.format-connected-underline}
 label-disconnected = %ifname% offline
 label-disconnected-foreground = ${colors.foreground-alt}
 
@@ -359,15 +361,15 @@ interface =
 interval = 3.0
 
 format-connected-underline = #55aa55
-;format-connected-prefix = " "
-;format-connected-prefix-foreground = ${colors.foreground-alt}
+# format-connected-prefix = " "
+# format-connected-prefix-foreground = ${colors.foreground-alt}
 label-connected = %local_ip%
 
 format-disconnected =
-;format-disconnected = <label-disconnected>
-;format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${colors.foreground-alt}
+# format-disconnected = <label-disconnected>
+# format-disconnected-underline = ${self.format-connected-underline}
+# label-disconnected = %ifname% disconnected
+# label-disconnected-foreground = ${colors.foreground-alt}
 
 [module/date]
 type = internal/date
@@ -377,43 +379,43 @@ time = %d/%m  %I:%M %p
 #time-alt = %d/%m  %H:%M
  
 format-underline = #0a6cf5
-;format-underline = ${xrdb:color10:#222}
+# format-underline = ${xrdb:color10:#222}
 format = %{A1: i3-msg exec $BROWSER calendar.google.com; sleep 0.5; i3-msg workspace `i3-msg -t get_workspaces | jq '.[] | select(.urgent==true).name' | head -1`:}<label>%{A}
 label = %time%
 
-;[module/alsa]
-;type = internal/alsa
+# [module/alsa]
+# type = internal/alsa
 
 [module/pulseaudio]
 type = internal/pulseaudio
 
-; Sink to be used, if it exists (find using `pacmd list-sinks`, name field)
-; If not, uses default sink
-;sink = alsa_output.pci-0000_12_00.3.analog-stereo
+#  Sink to be used, if it exists (find using `pacmd list-sinks`, name field)
+#  If not, uses default sink
+# sink = alsa_output.pci-0000_12_00.3.analog-stereo
 
 format-volume-underline = #f42069
 format-volume = <ramp-volume> <bar-volume>
 format-volume-margin = 1
-;label-volume = vol
-;label-volume-foreground = ${root.foreground}
+# label-volume = vol
+# label-volume-foreground = ${root.foreground}
 ramp-volume-0 = 
 ramp-volume-1 = 
 ramp-volume-2 = 
 
-;format-muted-prefix = " "
+# format-muted-prefix = " "
 format-muted-underline = #f42069
 format-muted-foreground = ${colors.foreground-alt}
 format-muted-margin = 1
 label-muted =   volume mute
 
 bar-volume-width = 7
-;bar-volume-foreground-0 = #55aa55
-;bar-volume-foreground-1 = #55aa55
-;bar-volume-foreground-2 = #55aa55
-;bar-volume-foreground-3 = #55aa55
-;bar-volume-foreground-4 = #55aa55
-;bar-volume-foreground-5 = #f5a70a
-;bar-volume-foreground-6 = #ff5555
+# bar-volume-foreground-0 = #55aa55
+# bar-volume-foreground-1 = #55aa55
+# bar-volume-foreground-2 = #55aa55
+# bar-volume-foreground-3 = #55aa55
+# bar-volume-foreground-4 = #55aa55
+# bar-volume-foreground-5 = #f5a70a
+# bar-volume-foreground-6 = #ff5555
 bar-volume-gradient = false
 bar-volume-indicator = |
 bar-volume-indicator-font = 2
@@ -429,16 +431,16 @@ battery = BAT2
 adapter = ACAD
 full-at = 98
 
-;format-charging = <animation-charging> <label-charging>
+# format-charging = <animation-charging> <label-charging>
 format-charging = <label-charging>
 format-charging-underline = #ffb52a
-;format-charging-underline = ${xrdb:color11:#222}
+# format-charging-underline = ${xrdb:color11:#222}
 
 format-discharging = <animation-discharging> <label-discharging>
 format-discharging-underline = ${self.format-charging-underline}
 
-;format-full-prefix = " "
-;format-full-prefix-foreground = ${colors.foreground-alt}
+# format-full-prefix = " "
+# format-full-prefix-foreground = ${colors.foreground-alt}
 format-full-underline = ${self.format-charging-underline}
 
 ramp-capacity-0 = 
@@ -463,10 +465,10 @@ type = internal/temperature
 thermal-zone = 0
 warn-temperature = 60
 
-;format = <ramp> <label>
+# format = <ramp> <label>
 format = <label>
 format-underline = #f50a4d
-;format-underline = ${xrdb:color12:#222}
+# format-underline = ${xrdb:color12:#222}
 
 format-warn = <ramp> <label-warn>
 format-warn-underline = ${self.format-underline}
@@ -483,7 +485,7 @@ ramp-foreground = ${colors.foreground-alt}
 [module/powermenu]
 type = custom/menu
 
-;expand-right = true
+# expand-right = true
 
 format-spacing = 1
 
@@ -511,14 +513,14 @@ menu-2-1-exec = menu-open-0
 
 [settings]
 screenchange-reload = true
-compositing-background = compton
-;compositing-background = xor
-;compositing-background = screen
-;compositing-foreground = source
-;compositing-border = over
+compositing-background = picom
+# compositing-background = xor
+# compositing-background = screen
+# compositing-foreground = source
+# compositing-border = over
 
 [global/wm]
 margin-top = 5
 margin-bottom = 5
 
-; vim:ft=dosini
+#  vim:ft=dosini

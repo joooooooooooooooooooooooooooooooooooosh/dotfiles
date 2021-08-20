@@ -12,7 +12,7 @@ exec xcape -e 'Caps_Lock=Escape'
 
 # TODO: clean up hacky kde stuff
 exec --no-startup-id wmctrl -c Plasma
-exec killall plasmashell
+exec sleep 2; killall plasmashell
 for_window [title="Desktop — Plasma"] kill; floating enable; border none
 for_window [class="plasmashell"] kill; floating enable;
 for_window [class="Plasma"] floating enable; border none
@@ -118,8 +118,8 @@ bindsym $mod+Shift+w exec dolphin /run/media/joshh/Windows-SSD/Users/joshh/Docum
 bindsym Mod4+s exec spectacle
 bindsym Mod4+Shift+s exec spectacle
 
-bindsym $mod+Shift+e exec $term -e zsh -ic ranger
-bindsym $mod+Shift+b exec $term -t "float_me_plz" -e zsh -ic 'ranger ~/Pictures/wallpapers'
+bindsym $mod+Shift+e exec $term -e zsh -ic 'TERM=xterm ranger'
+bindsym $mod+Shift+b exec $term -t "float_me_plz" -e zsh -ic 'TERM=xterm ranger ~/Pictures/wallpapers'
 
 bindsym Mod4+Tab exec rofi -show window
 bindsym $mod+b exec ~/.config/polybar/launch.sh
@@ -129,7 +129,7 @@ bindsym $mod+Ctrl+p exec ~/Documents/scripts/bluescript.sh
 #bindsym $mod+Mod4+s exec ~/Documents/scripts/bluescript.sh 00:1B:66:C5:29:8F
 
 # gamma go brr
-bindsym $mod+Ctrl+Shift+t exec          xrandr --output HDMI1 --brightness 2
+bindsym $mod+Ctrl+Shift+t exec          xrandr --output HDMI1 --brightness 1.5
 bindsym $mod+Ctrl+less exec             sudo ~/Documents/scripts/brightchange.sh off !hdmi
 bindsym $mod+Ctrl+Shift+plus exec       sudo ~/Documents/scripts/brightchange.sh up
 bindsym $mod+Ctrl+Shift+minus exec      sudo ~/Documents/scripts/brightchange.sh down
@@ -160,7 +160,7 @@ client.background       $bg
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
 
-hide_edge_borders smart
+# hide_edge_borders smart
 # smart_borders on
 
 # start a terminal
@@ -328,11 +328,17 @@ mode "discord" {
         bindsym --release Ctrl+j exec xdotool key ctrl+alt+Down  
         bindsym --release Mod1+Ctrl+k exec xdotool key ctrl+alt+Up  
         bindsym --release Mod1+Ctrl+j exec xdotool key ctrl+alt+Down  
+
+        bindsym $mod+semicolon mode default; focus output left
+        bindsym $mod+h mode default; focus left
+        bindsym $mod+l mode default; focus right
+        bindsym --release Escape mode default; exec xdotool key Escape
         bindsym $mod+Ctrl+d mode default
-        bindsym Escape mode default
         bindsym t mode default
 }
-bindsym $mod+Ctrl+d exec wmctrl -a discord && i3-msg mode discord
+# bindsym $mod+Ctrl+d exec wmctrl -a discord && i3-msg mode discord
+bindsym $mod+Ctrl+d [con_mark="discord"] focus; exec i3-msg mode discord
+for_window [class="discord"] mark "discord"
 
 mode "disabled" {
         bindsym $mod+Shift+Escape mode default

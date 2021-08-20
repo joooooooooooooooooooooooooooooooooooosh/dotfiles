@@ -1,6 +1,24 @@
+## Rofi Theming
+rofi.color-enabled: true
+rofi.theme: /home/joshh/.cache/wal/colors-rofi-dark.rasi
+!rofi.color-window: #273238, #273238, #1e2529
+!rofi.color-normal: #273238, #c1c1c1, #273238, #394249, #ffffff
+!rofi.color-active: #273238, #80cbc4, #273238, #394249, #80cbc4
+!rofi.color-urgent: #273238, #ff1844, #273238, #394249, #ff1844
+!rofi.color-window: argb:c82d303b, #7c8389, #1d1f21
+rofi.width: 37
+rofi.lines: 5
+rofi.columns: 2
+rofi.font: Noto Sans 14
+rofi.bw: 0
+rofi.eh: 1
+!rofi.separator-style: solid
+rofi.hide-scrollbar: true
+
+
 urxvt*perl-lib: /usr/lib/urxvt/perl/
 URxvt.perl-ext: default,matcher
-URxvt.url-launcher: /usr/bin/xdg-open
+URxvt.url-launcher: /usr/bin/firefox
 !urxvt*url-launcher:	/snap/bin/opera
 urxvt*matcher.pattern.1:   \\bwww\\.[\\w-]+\\.[\\w./?&@#-]*[\\w/-]
 URxvt.matcher.button: 1
@@ -11,8 +29,8 @@ urxvt*scrollBar:	false
 !urxvt*transparent:	true
 urxvt*intensityStyles:	true
 urxvt*cursorBlink:	true
-urxvt*font:	xft:Source Code Pro:style=Regular
-!urxvt*font:	xft:bitstream vera sans mono:size=12
+urxvt*font:	xft:Source Code Pro for Powerline:style=Regular:size=13:antialias=true, xft:Inconsolata Nerd Font Mono:style=Regular:size=12, policons:style=Regular
+!urxvt*font:	xft:Inconsolata Nerd Font Mono:style=Regular:size=12
 
 !! Common Keybinds for Navigations
 URxvt.keysym.Shift-Control-V:     eval:paste_clipboard
