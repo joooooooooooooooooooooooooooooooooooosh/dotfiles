@@ -25,6 +25,10 @@ ZSH_THEME="bira"
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
+# Don't exit if <C-D> is pressed. Prevents exiting the shell by accident (e.g.
+# pressing <C-D> twice).
+setopt ignoreeof
+
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
 HYPHEN_INSENSITIVE="true"

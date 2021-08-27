@@ -1,5 +1,5 @@
 #!/bin/bash
-DOT_DIR="$PWD/.dotfiles/"
+DOT_DIR="$HOME/.dotfiles/"
 
 cp -ur ~/.config/polybar/* $DOT_DIR"polybar/"
 cp -u ~/Documents/scripts/* $DOT_DIR"scripts/"
@@ -20,7 +20,7 @@ cp -u ~/.config/ranger/* $DOT_DIR"ranger/"
 
 cur_theme=`cat $DOT_DIR".zshrc" | grep ^ZSH_THEME | sed 's/.*"\(.*\)".*/\1/'`
 
-[ "$cur_theme" != "random" ] && cp "$PWD/.oh-my-zsh/themes/$cur_theme.zsh-theme" $DOT_DIR"current.zsh-theme"
+[ "$cur_theme" != "random" ] && cp "$HOME/.oh-my-zsh/themes/$cur_theme.zsh-theme" $DOT_DIR"current.zsh-theme"
 
 if ! [ $# -ge 1 -a "$1" == "-n" ]; then
     cd $DOT_DIR
