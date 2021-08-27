@@ -9,3 +9,5 @@
 	ph = push
 	d = diff
 	ch = checkout
+[init]
+	defaultBranch = main

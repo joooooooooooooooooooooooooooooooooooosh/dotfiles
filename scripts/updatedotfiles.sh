@@ -1,22 +1,29 @@
 #!/bin/bash
-cp -ur ~/.config/polybar/* ~/.dotfiles/polybar/
-cp -u ~/Documents/scripts/* ~/.dotfiles/scripts/
-cp -u ~/polybar-scripts/* ~/.dotfiles/polybar-scripts/
-cp -u ~/.zshrc ~/.dotfiles/
-cp -u ~/.bashrc ~/.dotfiles/
-cp -u ~/.vimrc ~/.dotfiles/
-cp -u ~/.Xresources ~/.dotfiles/
-cp -u ~/.gitconfig ~/.dotfiles/
-cp -u ~/.gdbinit ~/.dotfiles/
-cp -u /etc/xdg/picom.conf ~/.dotfiles/
-cp -u ~/.config/fusuma/config.yml ~/.dotfiles/fusuma/
-cp -u ~/.config/i3/config ~/.dotfiles/i3/
-cp -u ~/.config/spicetify/config.ini ~/.dotfiles/spicetify/
-cp -u ~/.config/termite/* ~/.dotfiles/termite/
-cp -u ~/.config/alacritty/alacritty.yml ~/.dotfiles/
-cp -u ~/.config/ranger/* ~/.dotfiles/ranger/
+DOT_DIR="$PWD/.dotfiles/"
+
+cp -ur ~/.config/polybar/* $DOT_DIR"polybar/"
+cp -u ~/Documents/scripts/* $DOT_DIR"scripts/"
+cp -u ~/polybar-scripts/* $DOT_DIR"polybar-scripts/"
+cp -u ~/.zshrc $DOT_DIR
+cp -u ~/.bashrc $DOT_DIR
+cp -u ~/.vimrc $DOT_DIR
+cp -u ~/.Xresources $DOT_DIR
+cp -u ~/.gitconfig $DOT_DIR
+cp -u ~/.gdbinit $DOT_DIR
+cp -u /etc/xdg/picom.conf $DOT_DIR
+cp -u ~/.config/fusuma/config.yml $DOT_DIR"fusuma/"
+cp -u ~/.config/i3/config $DOT_DIR"i3/"
+cp -u ~/.config/spicetify/config.ini $DOT_DIR"spicetify/"
+cp -u ~/.config/termite/* $DOT_DIR"termite/"
+cp -u ~/.config/alacritty/alacritty.yml $DOT_DIR
+cp -u ~/.config/ranger/* $DOT_DIR"ranger/"
+
+cur_theme=`cat $DOT_DIR".zshrc" | grep ^ZSH_THEME | sed 's/.*"\(.*\)".*/\1/'`
+
+[ "$cur_theme" != "random" ] && cp "$PWD/.oh-my-zsh/themes/$cur_theme.zsh-theme" $DOT_DIR"current.zsh-theme"
+
 if ! [ $# -ge 1 -a "$1" == "-n" ]; then
-    cd ~/.dotfiles
+    cd $DOT_DIR
     if [ "$1" == "-d" ]; then
         git diff
     else

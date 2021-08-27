@@ -74,7 +74,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions autoupdate colored-man-pages autoenv)
+plugins=(git zsh-autosuggestions autoupdate colored-man-pages autoenv) 
 
 source $ZSH/oh-my-zsh.sh
 
@@ -118,6 +118,7 @@ alias binja=binaryninja-demo
 alias lsz='du -sh * | sort -h'
 alias laz='{du -sh .*; du -sh *} 2>/dev/null | sort -h'
 alias updot='~/Documents/scripts/updatedotfiles.sh'
+alias ranger='TERM=xterm ranger'
 alias q='exit'
 
 sec() {

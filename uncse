@@ -1,4 +1,3 @@
 #!/bin/bash
-for arg in $@; do
-	scp "z5218547@login.cse.unsw.edu.au:~/$arg" "`pwd`/"
-done
+printf "%s\n" "$@" |
+	parallel scp "z5218547@login.cse.unsw.edu.au:~/{}" "`pwd`/"
