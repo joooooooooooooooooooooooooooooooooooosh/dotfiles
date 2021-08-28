@@ -9,7 +9,7 @@ else
     local user_symbol='$'
 fi
 
-local current_dir='%{$terminfo[bold]$fg[blue]%}%~ %{$reset_color%}'
+local current_dir='%{$terminfo[bold]$fg[blue]%}%-0<..<%~ %{$reset_color%}'
 local git_branch='$(git_prompt_info)'
 local rvm_ruby='$(ruby_prompt_info)'
 local venv_prompt='$(virtualenv_prompt_info)'
@@ -62,7 +62,7 @@ prompt_precmd() {
     unset prompt_elapsed_time
   fi
 
-  print -P "╭─${user_host}%{$terminfo[bold]$fg[blue]%}%-0<..<%~ %{$reset_color%}${rvm_ruby}${git_branch}${venv_prompt}"
+  print -P "╭─${user_host}${current_dir}${rvm_ruby}${git_branch}${venv_prompt}"
   PROMPT="╰─%B${user_symbol}%b "
 }
 

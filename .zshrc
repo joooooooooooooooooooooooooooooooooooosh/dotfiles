@@ -78,7 +78,9 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions autoupdate colored-man-pages autoenv) 
+# safe-paste might not be needed
+export FZF_BASE=/usr/bin/fzf
+plugins=(git zsh-autosuggestions autoupdate colored-man-pages autoenv fzf safe-paste)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -98,6 +100,10 @@ source $ZSH/oh-my-zsh.sh
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
+
+# make C-l actually clear to reset the prompt
+# also cause i need the pre-prompt exec stuff now
+bindkey -s "" "clear"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh

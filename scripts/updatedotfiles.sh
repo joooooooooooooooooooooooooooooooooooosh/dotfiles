@@ -7,6 +7,8 @@ cp -u ~/polybar-scripts/* $DOT_DIR"polybar-scripts/"
 cp -u ~/.zshrc $DOT_DIR
 cp -u ~/.bashrc $DOT_DIR
 cp -u ~/.vimrc $DOT_DIR
+cp -u ~/.nvimrc $DOT_DIR
+cp -u ~/.vim/plugged/wal.vim/colors/wal.vim $DOT_DIR
 cp -u ~/.Xresources $DOT_DIR
 cp -u ~/.gitconfig $DOT_DIR
 cp -u ~/.gdbinit $DOT_DIR
