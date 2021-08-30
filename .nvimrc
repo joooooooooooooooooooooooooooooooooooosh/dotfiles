@@ -17,12 +17,14 @@ set t_Co=256
 set belloff=all
 set backspace=indent,eol,start
 set timeoutlen=750
+set updatetime=500
 set hidden
 set autoindent
 set autoread
 set ruler
 set number
 set relativenumber
+set signcolumn=number
 set ignorecase smartcase
 set expandtab
 set foldmethod=manual
@@ -79,6 +81,26 @@ imap <F12> <Delete>
 " nmap <Leader>c :set list!<CR>
 " nmap <Leader>x :Dispatch latexmk -pvc -pdf %<CR>
 
+" consistent N/n search directions
+nnoremap <expr> n  'Nn'[v:searchforward]
+xnoremap <expr> n  'Nn'[v:searchforward]
+onoremap <expr> n  'Nn'[v:searchforward]
+
+nnoremap <expr> N  'nN'[v:searchforward]
+xnoremap <expr> N  'nN'[v:searchforward]
+onoremap <expr> N  'nN'[v:searchforward]
+
+" C-n and C-p match start of command when searching history
+cnoremap <expr> <c-n> wildmenumode() ? "\<c-n>" : "\<down>"
+cnoremap <expr> <c-p> wildmenumode() ? "\<c-p>" : "\<up>"
+
+" enter blank lines
+nnoremap [<space>  :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
+nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
+
+" edit macros
+nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
+
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
@@ -89,15 +111,15 @@ cnoreabbrev <expr> tl getcmdtype() == ":" && getcmdline() == 'tl' ? 'tabn' : 'tl
 cnoreabbrev <expr> te getcmdtype() == ":" && getcmdline() == 'te' ? 'tabedit' : 'te'
 cnoreabbrev <expr> tc getcmdtype() == ":" && getcmdline() == 'tc' ? 'tabclose' : 'tc'
 
-cnoreabbrev <expr> Ack getcmdtype() == ":" && getcmdline() == 'Ack' ? 'Ack!' : 'Ack'
-cnoreabbrev <expr> F getcmdtype() == ":" && getcmdline() == 'F' ? 'Files' : 'F'
+" cnoreabbrev <expr> Ack getcmdtype() == ":" && getcmdline() == 'Ack' ? 'Ack!' : 'Ack'
+" cnoreabbrev <expr> F getcmdtype() == ":" && getcmdline() == 'F' ? 'Files' : 'F'
 
 " nnoremap <Leader>a :Ack!<Space>
+" nnoremap <Leader>f :AckFile!<Space>
 nnoremap <Leader>a :call AutoPairsToggle()<CR>
 nnoremap <Leader>t :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
 nnoremap <Leader>T :sp<CR><C-W>J:res 10<CR>:terminal<CR><Esc><C-W>o
 nnoremap <Leader>/ :set hlsearch!<CR>
-nnoremap <Leader>f :AckFile!<Space>
 nnoremap <Leader>o :FZFExplore<CR>
 nnoremap <Leader>l :LspStopServer<CR>
 nnoremap <Leader>n :source ~/.nvimrc<CR>
@@ -139,7 +161,9 @@ imap <c-x><c-k> <plug>(fzf-complete-word)
 imap <c-x><c-f> <plug>(fzf-complete-path)
 imap <c-x><c-l> <plug>(fzf-complete-line)
 
-nmap <Leader>c :let b:comment_leader = '
+nmap <Leader>c :setlocal commentstring=
+nmap <silent><C-_> gcc
+imap <silent><C-_> <Esc>gccA
 
 augroup remember_folds
     autocmd!
@@ -147,48 +171,25 @@ augroup remember_folds
     autocmd BufWinEnter ?* silent! loadview | filetype detect
 augroup END
 
-augroup commenting_blocks_of_code
-  if !exists("comment_leader_loaded")
-      let comment_leader_loaded = 1
-      " default is # for unknown filetypes
-      let b:comment_leader = '# '
-      " autocmd!
-      autocmd FileType c,cpp,java,scala,rust  let b:comment_leader = '// '
-      autocmd FileType sh,ruby,python         let b:comment_leader = '# '
-      autocmd FileType conf,fstab             let b:comment_leader = '# '
-      autocmd FileType tex                    let b:comment_leader = '% '
-      autocmd FileType mail                   let b:comment_leader = '> '
-      autocmd FileType vim                    let b:comment_leader = '" '
-  endif
-augroup END
-
-inoremap <silent> <C-_> <Esc>:<C-B>silent <C-E>s/^\(\s*\)/\1<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>A
-inoremap <silent> <C-\> <Esc>:<C-B>silent <C-E>s/^\(\s*\)<C-R>=escape(b:comment_leader,'\/')<CR>/\1/e<CR>:nohlsearch<CR>A
-noremap <silent> <C-_> :<C-B>silent <C-E>s/^\(\s*\)/\1<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
-noremap <silent> <C-\> :<C-B>silent <C-E>s/^\(\s*\)<C-R>=escape(b:comment_leader,'\/')<CR>/\1/e<CR>:nohlsearch<CR>
-" inoremap <silent> <C-\> <Esc>:<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>A
-
 call plug#begin('~/.vim/plugged')
 Plug 'dylanaraps/wal.vim'
 Plug 'frazrepo/vim-rainbow'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-" Plug 'sheerun/vim-polyglot'
 
 Plug 'tpope/vim-dispatch'
-Plug 'mileszs/ack.vim'
+Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-commentary'
+
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'folke/which-key.nvim'
 
-" Plug 'prabirshrestha/asyncomplete.vim'
-" Plug 'prabirshrestha/asyncomplete-lsp.vim'
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'mattn/vim-lsp-settings'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'troydm/zoomwintab.vim'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'folke/zen-mode.nvim'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 call plug#end()
@@ -230,18 +231,24 @@ EOF
 
 nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
 inoremap <silent><expr> <C-x><C-o> coc#refresh()
+nnoremap <expr><C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
+nnoremap <expr><C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
+inoremap <expr><C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
+inoremap <expr><C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
 
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
+nmap <leader>rn <Plug>(coc-rename)
+xmap <leader>=  <Plug>(coc-format-selected)
+nmap <leader>=  <Plug>(coc-format-selected)
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gs <Plug>(coc-range-select)
 xmap <silent> gs <Plug>(coc-range-select)
-nmap <leader>rn <Plug>(coc-rename)
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -257,6 +264,7 @@ endfunction
 
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
+" autocmd CursorHold * if ! coc#util#has_float() | call CocActionAsync('doHover') | endif 
 
 colorscheme wal
 "let g:ack_use_dispatch = 1
@@ -321,24 +329,6 @@ if v:progname =~? "evim"
   finish
 endif
 
-" Get the defaults that most users want.
-"source $VIMRUNTIME/defaults.vim
-
-" if has("vms")
-"   set nobackup		" do not keep a backup file, use versions instead
-" else
-"   set backup		" keep a backup file (restore to previous version)
-"   "if has('persistent_undo')
-"   "  set undofile	" keep an undo file (undo changes after closing)
-"   "endif
-" endif
-
-" if &t_Co > 2 || has("gui_running")
-  " Switch on highlighting the last used search pattern.
-"   set hlsearch
-" endif
-
-" Put these in an autocmd group, so that we can delete them easily.
 augroup vimrcEx
   au!
 

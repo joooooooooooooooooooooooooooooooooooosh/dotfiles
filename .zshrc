@@ -137,14 +137,18 @@ sec() {
 
 lr() {
         file=`la | rofi -dmenu -i -matching fuzzy -p "cd"`
+        chpath=`pwd`
         while [ $file ]; do
-                cd $file 2>/dev/null
-                if [ $? -ne 0 ]; then
+                if [ -f $chpath"/$file" ]; then
+                        cd $chpath
                         nvim $file
-                        break
+                        return
                 fi
-                file=`la | rofi -dmenu -i -matching fuzzy -p "cd"`
+
+                chpath=$chpath"/$file"
+                file=`la $chpath | rofi -dmenu -i -matching fuzzy -p "cd"`
         done
+        cd $chpath
 }
 
 vr() {

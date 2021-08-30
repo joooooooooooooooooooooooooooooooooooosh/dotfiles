@@ -8,7 +8,7 @@ set $term alacritty
 exec --no-startup-id ~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers
 exec --no-startup-id ~/.config/polybar/launch.sh
 exec $term -e zsh -ic 'sudo fusuma -c ~/.config/fusuma/config.yml -d'
-exec xcape -e 'Caps_Lock=Escape'
+exec xcape -e 'Control_L=Escape'
 
 # TODO: clean up hacky kde stuff
 exec --no-startup-id wmctrl -c Plasma
