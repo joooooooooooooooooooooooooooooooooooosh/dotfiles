@@ -1,15 +1,9 @@
 #!/bin/bash
-#test=`xdotool getwindowfocus`
-wal -q -i $1 
+wal -q -i $1
 wal-discord
 spicetify update >/dev/null
 sed -i 's/@selected-.*fore/@back/' ~/.cache/wal/colors-rofi-dark.rasi
-# outputs=`i3-msg -t get_outputs | jq '.[] | select(.active==true) | .current_workspace'`
-# xdotool windowactivate --sync $(wmctrl -lx | grep spotify\.Spotify | sed 's/\s.*//') key control+shift+r
-# for win in $outputs; do
-# 	i3-msg workspace $win >/dev/null
-# done
 
-# xdotool windowactivate --sync $test
+off_white=`grep color7 ~/.cache/wal/colors.json | cut -d\" -f4`
+sed -i '/color15/s/: ".*"/: "'$off_white'"/' ~/.cache/wal/colors.json
 pywalfox update
-# cse /home/joshh/.vscode/extensions/dlasagno.wal-theme-1.0.4/themes/wal.json .vscode-server/extensions/dlasagno.wal-theme-1.0.4/themes/wal.json

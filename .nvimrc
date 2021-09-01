@@ -147,12 +147,12 @@ tnoremap <C-H> <C-\><C-n><C-W><C-H>
 tnoremap <C-J> <C-\><C-n><C-W><C-J>
 tnoremap <C-K> <C-\><C-n><C-W><C-K>
 " tnoremap <C-L> <C-\><C-n><C-W><C-L>
-"tnoremap <C-J> <C-\><C-n><C-W>:tabnext<CR>
-"tnoremap <C-K> <C-\><C-n><C-W>:tabprev<CR>
+" tnoremap <C-J> <C-\><C-n><C-W>:tabnext<CR>
+" tnoremap <C-K> <C-\><C-n><C-W>:tabprev<CR>
 tnoremap <silent> <C-Q> <C-\><C-n>:silent ZoomWinTabOut<CR><C-W><C-Q>
 tnoremap <silent> <C-W><C-Q> <C-\><C-n>:silent ZoomWinTabOut<CR><C-W><C-Q>
-"tnoremap <ESC>[5;5~ <C-W>:tabnext<CR>
-"tnoremap <ESC>[6;5~ <C-W>:tabprev<CR>
+" tnoremap <ESC>[5;5~ <C-W>:tabnext<CR>
+" tnoremap <ESC>[6;5~ <C-W>:tabprev<CR>
 
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
@@ -163,7 +163,9 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 
 nmap <Leader>c :setlocal commentstring=
 nmap <silent><C-_> gcc
-imap <silent><C-_> <Esc>gccA
+vmap <silent><C-_> gcc
+" TODO: only works for commenting not uncommenting
+imap <silent><C-_> <Esc>gccg`^la
 
 augroup remember_folds
     autocmd!
@@ -178,7 +180,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-obsession'
-Plug 'tpope/vim-commentary'
+ Plug 'tpope/vim-commentary'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
