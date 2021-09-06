@@ -1,4 +1,6 @@
 #!/bin/bash
+exit
+
 wal -q -i $1
 wal-discord
 spicetify update >/dev/null
