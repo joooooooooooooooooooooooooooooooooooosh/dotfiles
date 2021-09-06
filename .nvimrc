@@ -28,9 +28,6 @@ set signcolumn=number
 set ignorecase smartcase
 set expandtab
 set foldmethod=manual
-" set spell
-"set clipboard=unnamed
-" set statusline="%f%m%r%h%w [%Y] [0x%02.2B]%< %F%=%4v,%4l %3p%% of %L"
 set clipboard=unnamedplus
 set laststatus=2
 set incsearch nohlsearch
@@ -50,9 +47,6 @@ let g:python3_host_prog = '/usr/bin/python'
 
 noremap ; :
 "noremap : ;
-"nnoremap <Tab> """>>_
-"noremap <ESC>[5;5~ :tabnext<CR>
-"noremap <ESC>[6;5~ :tabprev<CR>
 nnoremap <Leader>; ;
 
 nmap <Leader>p <Leader>aggi#!/usr/bin/python3<CR>import pwn<CR>p = pwn.process("<Esc>:r !echo %<CR>kJx$xxxa")<Esc>yypf.lcwgdb.debug<Esc>0i# <Esc>o# pwn.context.log_level = 'debug'<CR>p.interactive()<Esc>:w<CR><Leader>dchmod +x %<CR><Leader>a
@@ -62,7 +56,7 @@ vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
 nmap <C-n> :NERDTreeToggle<CR>
 nmap <C-e> $
-" nmap <silent><Leader>g :call setbufvar(winbufnr(popup_atcursor(split(system("git log -n 1 -L " . line(".") . ",+1:" . expand("%:p")), "\n"), { "padding": [1,1,1,1], "pos": "botleft", "wrap": 0 })), "&filetype", "git")<CR>
+imap <C-e> <Esc>A
 
 nnoremap / :set hlsearch<CR>/
 imap <C-L> <Right>
@@ -70,8 +64,6 @@ imap <C-S> <Esc>:w<CR>
 vmap <C-S> :w<CR>
 nmap <C-S> :w<CR>
 nnoremap <BS> X
-" nmap <F3> i<C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR><Esc>
-" imap <F3> <C-R>=strftime("%Y-%m-%d %a %I:%M %p")<CR>
 nmap <F11> <BS>
 nmap <F12> <Delete>
 imap <F11> <BS>
@@ -111,16 +103,13 @@ cnoreabbrev <expr> tl getcmdtype() == ":" && getcmdline() == 'tl' ? 'tabn' : 'tl
 cnoreabbrev <expr> te getcmdtype() == ":" && getcmdline() == 'te' ? 'tabedit' : 'te'
 cnoreabbrev <expr> tc getcmdtype() == ":" && getcmdline() == 'tc' ? 'tabclose' : 'tc'
 
-" cnoreabbrev <expr> Ack getcmdtype() == ":" && getcmdline() == 'Ack' ? 'Ack!' : 'Ack'
-" cnoreabbrev <expr> F getcmdtype() == ":" && getcmdline() == 'F' ? 'Files' : 'F'
-
-" nnoremap <Leader>a :Ack!<Space>
-" nnoremap <Leader>f :AckFile!<Space>
-nnoremap <Leader>a :call AutoPairsToggle()<CR>
 nnoremap <Leader>t :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
-nnoremap <Leader>T :sp<CR><C-W>J:res 10<CR>:terminal<CR><Esc><C-W>o
+nmap <Leader>T :sp<CR><C-W>J<C-W>o:terminal<CR>
 nnoremap <Leader>/ :set hlsearch!<CR>
-nnoremap <Leader>o :FZFExplore<CR>
+nnoremap <Leader>0 ^
+nnoremap <Leader>a ^
+" nnoremap <Leader>o :FZFExplore<CR>
+nnoremap <Leader>o :Files<CR>
 nnoremap <Leader>l :LspStopServer<CR>
 nnoremap <Leader>n :source ~/.nvimrc<CR>
 nnoremap <Leader>d :Dispatch 
@@ -146,13 +135,8 @@ tnoremap <Esc> <C-\><C-n>
 tnoremap <C-H> <C-\><C-n><C-W><C-H>
 tnoremap <C-J> <C-\><C-n><C-W><C-J>
 tnoremap <C-K> <C-\><C-n><C-W><C-K>
-" tnoremap <C-L> <C-\><C-n><C-W><C-L>
-" tnoremap <C-J> <C-\><C-n><C-W>:tabnext<CR>
-" tnoremap <C-K> <C-\><C-n><C-W>:tabprev<CR>
 tnoremap <silent> <C-Q> <C-\><C-n>:silent ZoomWinTabOut<CR><C-W><C-Q>
 tnoremap <silent> <C-W><C-Q> <C-\><C-n>:silent ZoomWinTabOut<CR><C-W><C-Q>
-" tnoremap <ESC>[5;5~ <C-W>:tabnext<CR>
-" tnoremap <ESC>[6;5~ <C-W>:tabprev<CR>
 
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
@@ -163,9 +147,8 @@ imap <c-x><c-l> <plug>(fzf-complete-line)
 
 nmap <Leader>c :setlocal commentstring=
 nmap <silent><C-_> gcc
-vmap <silent><C-_> gcc
-" TODO: only works for commenting not uncommenting
-imap <silent><C-_> <Esc>gccg`^la
+vmap <silent><C-_> gc
+imap <silent><C-_> <Esc>gccA
 
 augroup remember_folds
     autocmd!
@@ -187,6 +170,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'folke/which-key.nvim'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'windwp/nvim-autopairs'
 
 Plug 'troydm/zoomwintab.vim'
 Plug 'folke/zen-mode.nvim'
@@ -205,30 +189,70 @@ lua << EOF
       width = 90,
     },
   }
-EOF
 
-lua << EOF
   require("which-key").setup {
     -- your configuration comes here
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
   }
-EOF
 
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
-  },
-  indent = {
-    enable = true,
-  },
-}
+  require'nvim-treesitter.configs'.setup {
+    highlight = {
+      enable = true,
+      -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+      -- Set to `true` if you depend on 'syntax' being enabled (like for indentation).
+      -- This may slow down your editor, and you may see some duplicate highlights.
+      -- Instead of true it can also be a list of languages
+      additional_vim_regex_highlighting = false,
+    },
+    indent = {
+      enable = true,
+    },
+  }
+
+  require("nvim-autopairs").setup {
+    fast_wrap = {
+      map = '<C-a>',
+      end_key = ';',
+      chars = { '{', '[', '(', '"', "'", "<" },
+      pattern = string.gsub([[ [%s%;%'%"%>%]%)%}%,] ]], '%s+', ''),
+    },
+  }
+
+    local remap = vim.api.nvim_set_keymap
+    local Rule = require('nvim-autopairs.rule')
+    local cond = require('nvim-autopairs.conds')
+    local npairs = require('nvim-autopairs')
+
+    -- npairs.remove_rule("'")
+    npairs.add_rules(
+        {
+            Rule("<", ">", "rust")
+            :with_pair(cond.not_after_regex_check("[%w%<%[%{%\"%'%.]"))
+            :with_move(function(opts)
+                return opts.prev_char:match('%>') ~= nil
+            end)
+        },
+        {
+            -- TODO: this is broken
+            Rule("'", "'", "rust")
+            :with_pair(cond.not_before_text_check('&'))
+        }
+    )
+
+    -- skip it, if you use another global object
+    _G.MUtils= {}
+
+    MUtils.completion_confirm=function()
+      if vim.fn.pumvisible() ~= 0  then
+          return npairs.esc("<cr>")
+      else
+        return npairs.autopairs_cr()
+      end
+    end
+
+
+    remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
 EOF
 
 nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
@@ -269,7 +293,6 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " autocmd CursorHold * if ! coc#util#has_float() | call CocActionAsync('doHover') | endif 
 
 colorscheme wal
-"let g:ack_use_dispatch = 1
 
 highlight CocErrorSign ctermfg=4
 highlight CocErrorVirtualText ctermfg=4
@@ -277,19 +300,19 @@ highlight CocWarningSign ctermfg=6
 highlight CocWarningVirtualText ctermfg=6
 
 " Search pattern across repository files
-function! FzfExplore(...)
-    let inpath = substitute(a:1, "'", '', 'g')
-    if inpath == "" || matchend(inpath, '/') == strlen(inpath)
-        execute "cd" getcwd() . '/' . inpath
-        let cwpath = getcwd() . '/'
-        call fzf#run(fzf#wrap(fzf#vim#with_preview({'source': 'ls -1ap', 'dir': cwpath, 'sink': 'FZFExplore', 'options': ['--prompt', cwpath]})))
-    else
-        let file = getcwd() . '/' . inpath
-        execute "e" file
-    endif
-endfunction
+" function! FzfExplore(...)
+"     let inpath = substitute(a:1, "'", '', 'g')
+"     if inpath == "" || matchend(inpath, '/') == strlen(inpath)
+"         execute "cd" getcwd() . '/' . inpath
+"         let cwpath = getcwd() . '/'
+"         call fzf#run(fzf#wrap(fzf#vim#with_preview({'source': 'ls -1ap', 'dir': cwpath, 'sink': 'FZFExplore', 'options': ['--prompt', cwpath]})))
+"     else
+"         let file = getcwd() . '/' . inpath
+"         execute "e" file
+"     endif
+" endfunction
 
-command! -nargs=* FZFExplore call FzfExplore(shellescape(<q-args>))
+" command! -nargs=* FZFExplore call FzfExplore(shellescape(<q-args>))
 
 let g:rainbow_active = 1
 let g:rainbow_load_separately = [
@@ -299,7 +322,6 @@ let g:rainbow_load_separately = [
     \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
     \ ]
 
-"let g:rainbow_guifgs = ['RoyalBlue3', 'DarkOrange3', 'DarkOrchid3', 'FireBrick']
 let g:rainbow_ctermfgs = ['5', '4', '2', '11', 'white']
 
 autocmd VimEnter * call SetupLightlineColors()

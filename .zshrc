@@ -16,10 +16,10 @@ export ZSH=$HOME/.oh-my-zsh
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-#ZSH_THEME="agnoster"
-#ZSH_THEME="powerlevel10k/powerlevel10k"
-#ZSH_THEME="random"
-#ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+# ZSH_THEME="agnoster"
+# ZSH_THEME="refined"
+# ZSH_THEME="random"
+# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 ZSH_THEME="bira"
 
 # Uncomment the following line to use case-sensitive completion.
@@ -78,9 +78,8 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-# safe-paste might not be needed
 export FZF_BASE=/usr/bin/fzf
-plugins=(git zsh-autosuggestions autoupdate colored-man-pages autoenv fzf safe-paste)
+plugins=(git zsh-autosuggestions autoupdate colored-man-pages autoenv fzf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -103,7 +102,7 @@ source $ZSH/oh-my-zsh.sh
 
 # make C-l actually clear to reset the prompt
 # also cause i need the pre-prompt exec stuff now
-bindkey -s "" "clear"
+bindkey -s "" "clear"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -123,13 +122,20 @@ alias v=vr
 alias c=lr
 alias cr=lr
 alias n=nvim
-alias ns='nvim -S Session.vim'
 alias binja=binaryninja-demo
 alias lsz='du -sh * | sort -h'
 alias laz='{du -sh .*; du -sh *} 2>/dev/null | sort -h'
 alias updot='~/Documents/scripts/updatedotfiles.sh'
 alias ranger='TERM=xterm ranger'
 alias q='exit'
+
+ns() {
+    if [ -z $1 ]; then
+        nvim -S Session.vim
+    else
+        nvim -S "./"$1"*/Session.vim"
+    fi
+}
 
 sec() {
   checksec --file=$1
@@ -172,6 +178,7 @@ manos() {
 bible() {
         book="genesis"
         chapter=1
+        last=1
         if [ $# -ge 2 ]; then
                 book=$1
                 chapter=$2

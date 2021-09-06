@@ -148,10 +148,9 @@ format-underline = #893279
 
 [module/micvolume]
 type = custom/script
-exec = pacmd list-sources | grep alsa_input.pci-0000_00_1f.3 -A 40 | grep "volume: front" | cut -d/ -f2 | sed "s/\s/$(pulseaudio-ctl full-status | cut -d' ' -f3 | sed 's/no//; s/yes//') /; s/\s*$//"
-#  exec = pacmd list-sources | grep alsa_card.pci-0000_00_1f.3 -A 40 | grep "volume: front" | cut -d/ -f2 | sed "s/\s/$(pulseaudio-ctl full-status | cut -d' ' -f3 | sed 's/no//; s/yes//') /; s/\s*$//"
+exec = input=`pacmd stat | grep source | cut -d' ' -f4`; pacmd list-sources | grep $input -A 10 | grep volume -m1 | cut -d/ -f2 | sed "s/\s/$(pulseaudio-ctl full-status | cut -d' ' -f3 | sed 's/no//; s/yes//') /; s/\s*$//"
 format = %{A1:pulseaudio-ctl mute-input:}%{A3:systemsettings5 kcm_pulseaudio:}<label>%{A}%{A}
-interval = 0.5
+interval = 2
 
 [module/polywins]
 type = custom/script
