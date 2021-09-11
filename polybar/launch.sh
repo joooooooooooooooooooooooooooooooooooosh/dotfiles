@@ -7,7 +7,7 @@ wait
 #polybar example & disown
 if type "xrandr"; then
   if [ `xrandr --query | grep " connected.*+0+0" | wc -l` -gt 1 ]; then
-    MONITOR=eDP1 polybar example &
+    MONITOR=eDP-1 polybar example &
     exit
   fi
   for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
