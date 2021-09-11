@@ -30,6 +30,6 @@ fi
 # fi
 echo $BRIGHT | sudo tee /sys/class/backlight/intel_backlight/brightness
 if [ $2 -a $2 != "!hdmi" ]; then
-	xrandr --output HDMI1 --brightness `bc -l <<< "scale=3; $BRIGHT / 4285"`
+	xrandr --output HDMI-1 --brightness `bc -l <<< "scale=3; $BRIGHT / 4285"`
 fi
 polybar-msg hook brightness 1

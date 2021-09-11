@@ -77,7 +77,7 @@ bindsym $mod+Ctrl+semicolon move workspace to output left, exec .config/polybar/
 bindsym $mod+Ctrl+apostrophe move workspace to output right, exec .config/polybar/launch.sh
 bindsym $mod+Mod4+semicolon exec Documents/scripts/movetolaptop.sh left
 bindsym $mod+Mod4+apostrophe exec Documents/scripts/movetolaptop.sh right
-bindsym $mod+Mod4+BackSpace exec Documents/scripts/swapwindow.sh
+bindsym $mod+Mod4+BackSpace exec Documents/scripts/swap_displays.sh
 bindsym $mod+m exec ~/Documents/scripts/moveworkspace.sh
 bindsym $mod+Shift+braceleft exec ~/Documents/scripts/movewindow.sh prev
 bindsym $mod+Shift+braceright exec ~/Documents/scripts/movewindow.sh next
@@ -129,7 +129,7 @@ bindsym $mod+Ctrl+p exec ~/Documents/scripts/bluescript.sh
 #bindsym $mod+Mod4+s exec ~/Documents/scripts/bluescript.sh 00:1B:66:C5:29:8F
 
 # gamma go brr
-bindsym $mod+Ctrl+Shift+t exec          xrandr --output HDMI1 --brightness 1.5
+bindsym $mod+Ctrl+Shift+t exec          xrandr --output HDMI-1 --brightness 1.5
 bindsym $mod+Ctrl+less exec             sudo ~/Documents/scripts/brightchange.sh off !hdmi
 bindsym $mod+Ctrl+Shift+plus exec       sudo ~/Documents/scripts/brightchange.sh up
 bindsym $mod+Ctrl+Shift+minus exec      sudo ~/Documents/scripts/brightchange.sh down
@@ -220,16 +220,16 @@ bindsym $mod+Shift+t focus mode_toggle
 bindsym $mod+Shift+Tab focus mode_toggle
 
 # workspace outputs
-workspace 0 output HDMI1 eDP1
-workspace 1 output HDMI1 eDP1
-workspace 2 output HDMI1 eDP1
-workspace 3 output HDMI1 eDP1
-workspace 4 output HDMI1 eDP1
-workspace 5 output HDMI1 eDP1
-workspace 6 output HDMI1 eDP1
-workspace 7 output HDMI1 eDP1
-workspace 8 output HDMI1 eDP1
-workspace 9 output HDMI1 eDP1
+workspace 0 output HDMI-1 eDP1
+workspace 1 output HDMI-1 eDP1
+workspace 2 output HDMI-1 eDP1
+workspace 3 output HDMI-1 eDP1
+workspace 4 output HDMI-1 eDP1
+workspace 5 output HDMI-1 eDP1
+workspace 6 output HDMI-1 eDP1
+workspace 7 output HDMI-1 eDP1
+workspace 8 output HDMI-1 eDP1
+workspace 9 output HDMI-1 eDP1
 workspace 10 output eDP1
 workspace 11 output eDP1
 workspace 12 output eDP1

@@ -114,6 +114,7 @@ alias ls='ls --group-directories-first --color=auto'
 alias la='ls -A'
 alias sl=ls
 alias ks=ls
+alias rm='rm -I'
 alias cb='xclip -selection clipboard'
 alias pls='sudo $(fc -ln -1)'
 alias cpd='echo $(fc -ln -1) | perl -pe "chomp if eof" | cb'
@@ -130,6 +131,12 @@ alias lsz='du -sh * | sort -h'
 alias laz='{du -sh .*; du -sh *} 2>/dev/null | sort -h'
 alias updot=' ~/Documents/scripts/updatedotfiles.sh'
 alias ranger='TERM=rxvt-unicode-256color ranger'
+
+fzc() {
+    file=`fzf`
+    cd `echo $file | sed 's/\/[^\/]*$//'` 2>/dev/null
+    nvim `echo $file | sed 's/.*\///'`
+}
 
 ns() {
     if [ -z $1 ]; then
