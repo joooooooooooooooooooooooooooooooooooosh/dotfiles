@@ -28,6 +28,7 @@ ZSH_THEME="bira"
 # Don't exit if <C-D> is pressed. Prevents exiting the shell by accident (e.g.
 # pressing <C-D> twice).
 setopt ignoreeof
+setopt HIST_IGNORE_SPACE
 
 # Uncomment the following line to use hyphen-insensitive completion.
 # Case-sensitive completion must be off. _ and - will be interchangeable.
@@ -102,7 +103,7 @@ source $ZSH/oh-my-zsh.sh
 
 # make C-l actually clear to reset the prompt
 # also cause i need the pre-prompt exec stuff now
-bindkey -s "" "clear"
+bindkey -s "" " clear"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
@@ -118,16 +119,17 @@ alias pls='sudo $(fc -ln -1)'
 alias cpd='echo $(fc -ln -1) | perl -pe "chomp if eof" | cb'
 alias timer=termdown
 alias yeah=yes
+alias q=" exit"
 alias v=vr
 alias c=lr
 alias cr=lr
 alias n=nvim
+alias fzn='fzf | xargs nvim'
 alias binja=binaryninja-demo
 alias lsz='du -sh * | sort -h'
 alias laz='{du -sh .*; du -sh *} 2>/dev/null | sort -h'
-alias updot='~/Documents/scripts/updatedotfiles.sh'
-alias ranger='TERM=xterm ranger'
-alias q='exit'
+alias updot=' ~/Documents/scripts/updatedotfiles.sh'
+alias ranger='TERM=rxvt-unicode-256color ranger'
 
 ns() {
     if [ -z $1 ]; then

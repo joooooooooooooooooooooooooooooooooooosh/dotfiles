@@ -16,7 +16,6 @@ cp -u /etc/xdg/picom.conf $DOT_DIR
 cp -u ~/.config/fusuma/config.yml $DOT_DIR"fusuma/"
 cp -u ~/.config/i3/config $DOT_DIR"i3/"
 cp -u ~/.config/spicetify/config.ini $DOT_DIR"spicetify/"
-cp -u ~/.config/termite/* $DOT_DIR"termite/"
 cp -u ~/.config/alacritty/alacritty.yml $DOT_DIR
 cp -u ~/.config/ranger/* $DOT_DIR"ranger/"
 cp -u ~/.config/rofi/*  $DOT_DIR"rofi/"

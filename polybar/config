@@ -81,30 +81,17 @@ tray-position = none
 tray-padding = 2
 tray-detached = true
 tray-transparent = true
-# tray-background = #0063ff
-
-# wm-restack = i3
-
-# override-redirect = true
-
-# scroll-up = i3wm-wsnext
-# scroll-down = i3wm-wsprev
-
-# cursor-click = pointer
-# cursor-scroll = ns-resize
 
 [module/ram]
 type = custom/script
 exec = cat /proc/meminfo | head -n 3 | tail -n 1 | awk '{print $2}' | xargs -I{} python2 -c "print int(100 - {} * 100 / 7878752)"
-# exec = cat /proc/meminfo | head -n 3 | tail -n 1 | awk '{print $2}' | xargs -I{} python2 -c "print str(int(100 - {} * 100 / 7878752)) + '%'" | sed -E 's/(.*)/[1m\1[0m/'
 interval = 2
 format = %{A1:i3-msg exec "alacritty -e zsh -ic htop -ts PERCENT_MEM":}  <label>%%{A}
-# format-foreground = ${colors.foreground-alt}
-# label =   <label>%
 
 [module/aslr]
 type = custom/script
-exec = cat /proc/sys/kernel/randomize_va_space | sed 's/0/ASLR off/; s/2//'
+exec = echo ASLR off
+exec-if = grep 0 /proc/sys/kernel/randomize_va_space 
 format-foreground = ${colors.foreground-alt}
 interval = 10
 
@@ -133,7 +120,6 @@ format-underline = #3B5998
 
 [module/aur]
 type = custom/script
-# exec = ~/polybar-scripts/aur-updates.sh
 exec = cat ~/polybar-scripts/.polybar-aur
 format = %{A1:i3-msg exec "kill $(wmctrl -pl | grep 'updatelist_polybar_aur' | cut -d' ' -f4) || alacritty -t "updatelist_polybar_aur" -e zsh -ic 'nvim $HOME/polybar-scripts/.updatelist'":}%{A3:i3-msg exec "alacritty --hold -e zsh -ic 'yay -Syu --answerclean None --answerdiff None --answeredit None --answerupgrade None && echo Installation finished'":}<label>%{A}%{A}
 interval = 10
