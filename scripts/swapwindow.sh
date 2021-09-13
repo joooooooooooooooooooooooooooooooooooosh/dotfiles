@@ -1,5 +1,4 @@
 #!/bin/bash
-# deprecated by swap_displays.sh
 output=`i3-msg -t get_outputs | jq '.[] | select(.active==true) | .current_workspace, .name'`
 if [ `i3-msg -t get_outputs | sed 's/"},/\n/g' | wc -l` -ne 2 ]; then
     exit

@@ -73,11 +73,11 @@ bindsym $mod+semicolon focus output left
 bindsym $mod+apostrophe focus output right
 bindsym $mod+Shift+semicolon move container to output left
 bindsym $mod+Shift+apostrophe move container to output right
-bindsym $mod+Ctrl+semicolon move workspace to output left, exec .config/polybar/launch.sh
-bindsym $mod+Ctrl+apostrophe move workspace to output right, exec .config/polybar/launch.sh
+bindsym $mod+Ctrl+semicolon move workspace to output left
+bindsym $mod+Ctrl+apostrophe move workspace to output right
 bindsym $mod+Mod4+semicolon exec Documents/scripts/movetolaptop.sh left
 bindsym $mod+Mod4+apostrophe exec Documents/scripts/movetolaptop.sh right
-bindsym $mod+Mod4+BackSpace exec Documents/scripts/swap_displays.sh
+bindsym $mod+Mod4+BackSpace exec Documents/scripts/swapwindow.sh
 bindsym $mod+m exec ~/Documents/scripts/moveworkspace.sh
 bindsym $mod+Shift+braceleft exec ~/Documents/scripts/movewindow.sh prev
 bindsym $mod+Shift+braceright exec ~/Documents/scripts/movewindow.sh next

@@ -9,4 +9,3 @@ else
 fi
 i3-msg move container to workspace $move
 i3-msg workspace $move
-~/.config/polybar/launch.sh

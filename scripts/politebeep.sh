@@ -12,7 +12,6 @@ fi
 pulseaudio-ctl $1
 
 # ignoring musescore since it always lists sink as on
-# if !(pacmd list-sink-inputs | grep "state: RUNNING" >/dev/null); then
 if !(pacmd list-sink-inputs | 
      egrep "state: RUNNING|application.name =" |
      sed -E '{N; s/state:.*\n.*MuseScore.*// ;P;D}' |
