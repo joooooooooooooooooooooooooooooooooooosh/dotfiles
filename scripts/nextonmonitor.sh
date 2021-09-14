@@ -13,6 +13,7 @@ else
     rm /tmp/nextonmonitor.lock
     exit 1
 fi
+
 echo $move
 i3-msg workspace $move
 rm /tmp/nextonmonitor.lock

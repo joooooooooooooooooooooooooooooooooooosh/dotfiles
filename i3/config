@@ -269,8 +269,6 @@ bindsym $mod+Ctrl+9 workspace 19
 bindsym $mod+Ctrl+0 workspace 20
 
 # cycle between workspace
-#bindsym $mod+braceright workspace next
-#bindsym $mod+braceleft workspace prev
 bindsym $mod+braceright exec Documents/scripts/nextonmonitor.sh next
 bindsym $mod+braceleft exec Documents/scripts/nextonmonitor.sh prev
 bindsym $mod+Tab workspace back_and_forth
