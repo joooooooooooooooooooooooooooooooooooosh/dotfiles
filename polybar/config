@@ -59,8 +59,8 @@ font-2 = Nimbus Sans:style=Regular:size=11;3.5
 # font-2 = OTF:Inconsolata Nerd Font Mono:size=11:style=Medium;3.5
 # font-2 = siji:size=11:style=Regular;3
 
-modules-left = i3 headphones pulseaudio player
-modules-center = polywins 
+modules-left = i3 headphones pulseaudio player split
+modules-center = polywins
 # modules-center = xwindow
 modules-right = aslr aur brightness micvolume filesystem ram cpu newcharging newbattery wlan date power
 
@@ -68,6 +68,11 @@ tray-position = none
 tray-padding = 2
 tray-detached = true
 tray-transparent = true
+
+[module/split]
+type = custom/script
+exec = python -u ~/Documents/code/i3-alternating-layout/alternating_layouts.py
+tail = true
 
 [module/ram]
 type = custom/script

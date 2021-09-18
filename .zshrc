@@ -119,6 +119,7 @@ alias cb='xclip -selection clipboard'
 alias pls='sudo $(fc -ln -1)'
 alias cpd='echo $(fc -ln -1) | perl -pe "chomp if eof" | cb'
 alias timer=termdown
+alias screenkey='screenkey --scr 1 --opacity 0.1 -s small'
 alias yeah=yes
 alias q=" exit"
 alias v=vr
@@ -202,7 +203,7 @@ bible() {
                 curl -s https://www.biblestudytools.com/$book/$i.html |
                   grep "verse-number" -A2 |
                   sed -E '/class=\"verse-[0-9]/d; s/.*strong>([0-9][0-9]*).*/\1/; /--/d; s/^\s*//; s/^([[:digit:]]+)$/[1m\1[0m/; s///g' |
-                  perl -pe 's/<.*?>(.<.*?>)?//g' |
+                  perl -pe 's/ *?<sup.*?\/sup> *?/ /g; s/ *?<.*?>(.<.*?>)? *?/ /g' |
                   tr '\n' ' ' |
                   fold -sw 60 |
                   sed '$s/ $/\n/' |

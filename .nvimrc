@@ -108,6 +108,7 @@ nmap <Leader>T :sp<CR><C-W>J<C-W>o:terminal<CR>
 nnoremap <Leader>/ :set hlsearch!<CR>
 nnoremap <Leader>0 ^
 nnoremap <Leader>a ^
+nnoremap <silent> <Leader>A :CocAction<CR>
 " nnoremap <Leader>o :FZFExplore<CR>
 nnoremap <Leader>o :Files<CR>
 nnoremap <Leader>l :LspStopServer<CR>

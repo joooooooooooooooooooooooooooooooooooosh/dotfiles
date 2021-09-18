@@ -28,6 +28,7 @@ no_focus [class="plasmashell" window_type="notification"]
 
 for_window [class="code-oss"] fullscreen disable
 for_window [title="float_me_plz"] floating enable
+for_window [title="zoom"] floating enable
 for_window [title="updatelist_polybar_aur"] floating enable
 
 #Logitech thumb button
@@ -202,11 +203,12 @@ bindsym $mod+Shift+l move right
 
 # toggle split orientation
 bindsym $mod+BackSpace split toggle
-bindsym $mod+comma split vertical
-bindsym $mod+period split horizontal
+bindsym $mod+comma layout splitv
+bindsym $mod+period layout splith
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
+bindsym $mod+Ctrl+Shift+f fullscreen toggle global
 
 # change gaps interactively
 bindsym $mod+minus gaps inner current minus 2
@@ -305,10 +307,12 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r exec killall picom & i3-msg restart
 
 # exit i3
-bindsym $mod+Ctrl+Shift+e exit
+# bindsym $mod+Ctrl+Shift+e exit
 
 # lock the screen
 bindsym Mod4+Shift+p exec qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout -1 -1 -1
+
+bindsym $mod+Ctrl+t layout tabbed
 
 bindsym $mod+Shift+s sticky toggle
 bindsym $mod+Shift+p move scratchpad
