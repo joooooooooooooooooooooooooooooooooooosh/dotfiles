@@ -118,9 +118,9 @@ interval = 10
 
 [module/micvolume]
 type = custom/script
-exec = input=`pacmd stat | grep source | cut -d' ' -f4`; pacmd list-sources | grep $input -A 10 | grep volume -m1 | cut -d/ -f2 | sed "s/\s/$(pulseaudio-ctl full-status | cut -d' ' -f3 | sed 's/no//; s/yes//') /; s/\s*$//"
+exec = ~/Documents/scripts/microphone.sh
 format = %{A1:pulseaudio-ctl mute-input:}%{A3:systemsettings5 kcm_pulseaudio:}<label>%{A}%{A}
-interval = 2
+tail = true
 
 [module/polywins]
 type = custom/script

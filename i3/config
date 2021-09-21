@@ -28,7 +28,7 @@ no_focus [class="plasmashell" window_type="notification"]
 
 for_window [class="code-oss"] fullscreen disable
 for_window [title="float_me_plz"] floating enable
-for_window [title="zoom"] floating enable
+for_window [title="zoom"] fullscreen disable; floating enable
 for_window [title="updatelist_polybar_aur"] floating enable
 
 #Logitech thumb button
@@ -54,17 +54,17 @@ bindsym --release Ctrl+j exec xdotool key Next
 
 bindsym XF86AudioRaiseVolume exec Documents/scripts/politebeep.sh up
 bindsym XF86AudioLowerVolume exec Documents/scripts/politebeep.sh down
-bindsym XF86AudioMute exec pulseaudio-ctl mute & polybar-msg hook microphone 1
-bindsym XF86AudioMicMute exec pulseaudio-ctl mute-input && polybar-msg hook microphone 1
+bindsym XF86AudioMute exec pulseaudio-ctl mute
+bindsym XF86AudioMicMute exec pulseaudio-ctl mute-input && ps ax | grep "bash .*microphone.sh" | cut -d" " -f1 | xargs -I{} kill -USR1 {}
 # bindsym XF86Tools exec pulseaudio-ctl mute-input && polybar-msg hook microphone 1
 # bindsym XF86AudioPrev exec ~/polybar-scripts/player-mpris-tail.py previous
 # bindsym XF86AudioPlay exec ~/polybar-scripts/player-mpris-tail.py play-pause
 # bindsym XF86AudioNext exec ~/polybar-scripts/player-mpris-tail.py next
 
-bindsym F1 exec pulseaudio-ctl mute-input && polybar-msg hook microphone 1
+bindsym F1 exec pulseaudio-ctl mute-input && ps ax | grep "bash .*microphone.sh" | cut -d" " -f1 | xargs -I{} kill -USR1 {}
 bindsym F2 exec Documents/scripts/politebeep.sh down
 bindsym F3 exec Documents/scripts/politebeep.sh up
-bindsym F4 exec pulseaudio-ctl mute & polybar-msg hook microphone 1
+bindsym F4 exec pulseaudio-ctl mute
 bindsym F6 exec ~/polybar-scripts/player-mpris-tail.py previous
 bindsym F7 exec ~/polybar-scripts/player-mpris-tail.py play-pause
 bindsym F8 exec ~/polybar-scripts/player-mpris-tail.py next
@@ -367,9 +367,10 @@ mode "one-handed" {
         bindsym F6 exec ~/polybar-scripts/player-mpris-tail.py previous
         bindsym F7 exec ~/polybar-scripts/player-mpris-tail.py play-pause
         bindsym F8 exec ~/polybar-scripts/player-mpris-tail.py next
-        bindsym space exec ~/polybar-scripts/player-mpris-tail.py play-pause
+        # bindsym space exec ~/polybar-scripts/player-mpris-tail.py play-pause
 
-        bindsym colon focus left
+        bindsym colon focus output left
+        bindsym quotedbl focus output right
         bindsym h focus left
         bindsym j focus down
         bindsym k focus up
@@ -416,11 +417,11 @@ mode "one-handed" {
         
         bindsym plus exec sudo ~/Documents/scripts/brightchange.sh up
         bindsym minus exec sudo ~/Documents/scripts/brightchange.sh down
-        bindsym quotedbl exec sudo ~/Documents/scripts/brightchange.sh max
-        bindsym question exec sudo ~/Documents/scripts/brightchange.sh high
-        bindsym colon exec sudo ~/Documents/scripts/brightchange.sh mid
-        bindsym greater exec sudo ~/Documents/scripts/brightchange.sh low
-        bindsym less exec sudo ~/Documents/scripts/brightchange.sh min
+        # bindsym quotedbl exec sudo ~/Documents/scripts/brightchange.sh max
+        # bindsym question exec sudo ~/Documents/scripts/brightchange.sh high
+        # bindsym colon exec sudo ~/Documents/scripts/brightchange.sh mid
+        # bindsym greater exec sudo ~/Documents/scripts/brightchange.sh low
+        # bindsym less exec sudo ~/Documents/scripts/brightchange.sh min
         bindsym m exec sudo ~/Documents/scripts/brightchange.sh
 
         bindsym Return mode "default"
