@@ -10,8 +10,8 @@ while true; do
         grep volume -m1 |
         cut -d/ -f2 |
         sed "s/\s/$(pulseaudio-ctl full-status |
-        cut -d' ' -f3 |
-        sed 's/no//; s/yes//') /; s/\s*$//"
+            cut -d' ' -f3 |
+            sed 's/no//; s/yes//') /; s/\s*$//"
     sleep 2 &
     wait $!
 done

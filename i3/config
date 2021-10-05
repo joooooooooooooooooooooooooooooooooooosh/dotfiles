@@ -28,7 +28,7 @@ no_focus [class="plasmashell" window_type="notification"]
 
 for_window [class="code-oss"] fullscreen disable
 for_window [title="float_me_plz"] floating enable
-for_window [title="zoom"] fullscreen disable; floating enable
+# for_window [title="zoom" class="zoom"] fullscreen disable; floating enable
 for_window [title="updatelist_polybar_aur"] floating enable
 
 #Logitech thumb button
@@ -55,13 +55,13 @@ bindsym --release Ctrl+j exec xdotool key Next
 bindsym XF86AudioRaiseVolume exec Documents/scripts/politebeep.sh up
 bindsym XF86AudioLowerVolume exec Documents/scripts/politebeep.sh down
 bindsym XF86AudioMute exec pulseaudio-ctl mute
-bindsym XF86AudioMicMute exec pulseaudio-ctl mute-input && ps ax | grep "bash .*microphone.sh" | cut -d" " -f1 | xargs -I{} kill -USR1 {}
+bindsym XF86AudioMicMute exec pulseaudio-ctl mute-input && ~/Documents/scripts/updatemic.sh
 # bindsym XF86Tools exec pulseaudio-ctl mute-input && polybar-msg hook microphone 1
 # bindsym XF86AudioPrev exec ~/polybar-scripts/player-mpris-tail.py previous
 # bindsym XF86AudioPlay exec ~/polybar-scripts/player-mpris-tail.py play-pause
 # bindsym XF86AudioNext exec ~/polybar-scripts/player-mpris-tail.py next
 
-bindsym F1 exec pulseaudio-ctl mute-input && ps ax | grep "bash .*microphone.sh" | cut -d" " -f1 | xargs -I{} kill -USR1 {}
+bindsym F1 exec pulseaudio-ctl mute-input && ~/Documents/scripts/updatemic.sh
 bindsym F2 exec Documents/scripts/politebeep.sh down
 bindsym F3 exec Documents/scripts/politebeep.sh up
 bindsym F4 exec pulseaudio-ctl mute
@@ -119,8 +119,8 @@ bindsym $mod+Shift+w exec dolphin /run/media/joshh/Windows-SSD/Users/joshh/Docum
 bindsym Mod4+s exec spectacle
 bindsym Mod4+Shift+s exec spectacle
 
-bindsym $mod+Shift+e exec $term -e zsh -ic 'TERM=xterm ranger'
-bindsym $mod+Shift+b exec $term -t "float_me_plz" -e zsh -ic 'TERM=xterm ranger ~/Pictures/wallpapers'
+bindsym $mod+Shift+e exec $term -e zsh -ic 'TERM=xterm-256color ranger'
+bindsym $mod+Shift+b exec $term -t "float_me_plz" -e zsh -ic 'TERM=xterm-256color ranger ~/Pictures/wallpapers'
 
 bindsym Mod4+Tab exec rofi -show window
 bindsym $mod+b exec ~/.config/polybar/launch.sh
@@ -130,16 +130,18 @@ bindsym $mod+Ctrl+p exec ~/Documents/scripts/bluescript.sh
 #bindsym $mod+Mod4+s exec ~/Documents/scripts/bluescript.sh 00:1B:66:C5:29:8F
 
 # gamma go brr
-bindsym $mod+Ctrl+Shift+t exec          xrandr --output HDMI-1 --brightness 1.5
-bindsym $mod+Ctrl+less exec             sudo ~/Documents/scripts/brightchange.sh off !hdmi
-bindsym $mod+Ctrl+Shift+plus exec       sudo ~/Documents/scripts/brightchange.sh up
-bindsym $mod+Ctrl+Shift+minus exec      sudo ~/Documents/scripts/brightchange.sh down
-bindsym $mod+Ctrl+Shift+quotedbl exec   sudo ~/Documents/scripts/brightchange.sh max
-bindsym $mod+Ctrl+Shift+question exec   sudo ~/Documents/scripts/brightchange.sh high
-bindsym $mod+Ctrl+Shift+colon exec      sudo ~/Documents/scripts/brightchange.sh mid
-bindsym $mod+Ctrl+Shift+greater exec    sudo ~/Documents/scripts/brightchange.sh low
-bindsym $mod+Ctrl+Shift+less exec       sudo ~/Documents/scripts/brightchange.sh min
-bindsym $mod+Ctrl+Shift+m exec          sudo ~/Documents/scripts/brightchange.sh
+bindsym $mod+Ctrl+Shift+t           exec xrandr --output HDMI-1 --brightness 1.5
+bindsym $mod+Ctrl+plus              exec sudo ~/Documents/scripts/brightchange.sh up !hdmi
+bindsym $mod+Ctrl+minus             exec sudo ~/Documents/scripts/brightchange.sh down !hdmi
+bindsym $mod+Ctrl+less              exec sudo ~/Documents/scripts/brightchange.sh off !hdmi
+bindsym $mod+Ctrl+Shift+plus        exec sudo ~/Documents/scripts/brightchange.sh up
+bindsym $mod+Ctrl+Shift+minus       exec sudo ~/Documents/scripts/brightchange.sh down
+bindsym $mod+Ctrl+Shift+quotedbl    exec sudo ~/Documents/scripts/brightchange.sh max
+bindsym $mod+Ctrl+Shift+question    exec sudo ~/Documents/scripts/brightchange.sh high
+bindsym $mod+Ctrl+Shift+colon       exec sudo ~/Documents/scripts/brightchange.sh mid
+bindsym $mod+Ctrl+Shift+greater     exec sudo ~/Documents/scripts/brightchange.sh low
+bindsym $mod+Ctrl+Shift+less        exec sudo ~/Documents/scripts/brightchange.sh min
+bindsym $mod+Ctrl+Shift+m           exec sudo ~/Documents/scripts/brightchange.sh
 
 # Set colors from Xresources
 # Change 'color7' and 'color2' to whatever colors you want i3 to use 

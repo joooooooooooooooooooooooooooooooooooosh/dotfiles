@@ -59,7 +59,7 @@ font-2 = Nimbus Sans:style=Regular:size=11;3.5
 # font-2 = OTF:Inconsolata Nerd Font Mono:size=11:style=Medium;3.5
 # font-2 = siji:size=11:style=Regular;3
 
-modules-left = i3 headphones pulseaudio player split
+modules-left = i3 pulseaudio player split
 modules-center = polywins
 # modules-center = xwindow
 modules-right = aslr aur brightness micvolume filesystem ram cpu newcharging newbattery wlan date power
@@ -119,7 +119,7 @@ interval = 10
 [module/micvolume]
 type = custom/script
 exec = ~/Documents/scripts/microphone.sh
-format = %{A1:pulseaudio-ctl mute-input:}%{A3:systemsettings5 kcm_pulseaudio:}<label>%{A}%{A}
+format = %{A1:pulseaudio-ctl mute-input && ~/Documents/scripts/updatemic.sh:}%{A3:systemsettings5 kcm_pulseaudio:}<label>%{A}%{A}
 tail = true
 
 [module/polywins]
@@ -132,7 +132,7 @@ tail = true
 
 [module/player]
 type = custom/script
-exec = ~/polybar-scripts/player-mpris-tail.py -f ' {:t50:{title}:} %{A1:~/polybar-scripts/player-mpris-tail.py previous:}  %{A} %{A1:~/polybar-scripts/player-mpris-tail.py play-pause:} {icon} %{A} %{A1:~/polybar-scripts/player-mpris-tail.py next:}  %{A}' --icon-playing  --icon-paused 
+exec = ~/polybar-scripts/player-mpris-tail.py -f ' {:t40:{title}:} %{A1:~/polybar-scripts/player-mpris-tail.py previous:}  %{A} %{A1:~/polybar-scripts/player-mpris-tail.py play-pause:} {icon} %{A} %{A1:~/polybar-scripts/player-mpris-tail.py next:}  %{A}' --icon-playing  --icon-paused 
 tail = true
 label = %output%
 format-underline = #1db954
@@ -151,7 +151,7 @@ type = custom/script
 exec = acpi | awk '{print $4;}' | awk '{sum += $1} END {print int(sum/2) "%"}'
 exec-if = acpi -a | grep on
 interval = 30
-label =  %output%
+label =   %output%
 format-underline = #ffb52a
 
 [module/xwindow]
@@ -356,7 +356,7 @@ type = internal/pulseaudio
 # sink = alsa_output.pci-0000_12_00.3.analog-stereo
 
 format-volume-underline = #f42069
-format-volume = <ramp-volume> <bar-volume>
+format-volume = "<ramp-volume> <bar-volume> "
 format-volume-margin = 1
 # label-volume = vol
 # label-volume-foreground = ${root.foreground}
@@ -368,7 +368,7 @@ ramp-volume-2 = 
 format-muted-underline = #f42069
 format-muted-foreground = ${colors.foreground-alt}
 format-muted-margin = 1
-label-muted =   volume mute
+label-muted =   volume muted
 
 bar-volume-width = 7
 # bar-volume-foreground-0 = #55aa55

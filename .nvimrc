@@ -10,6 +10,7 @@ autocmd FileType tex setlocal spell
 autocmd FileType plaintex setlocal spell
 " autocmd * setlocal tabstop=4
 " autocmd * setlocal shiftwidth=4
+set noequalalways
 set tabstop=4 shiftwidth=4
 set omnifunc=syntaxcomplete#Complete
 set mouse=a
@@ -43,13 +44,12 @@ set backupdir=~/tmp/nvim//,.
 
 let mapleader=" "
 let NERDTreeMinimalUI=1
+let NERDTreeHijackNetrw=1
 let g:python3_host_prog = '/usr/bin/python'
 
 noremap ; :
 "noremap : ;
 nnoremap <Leader>; ;
-
-nmap <Leader>p <Leader>aggi#!/usr/bin/python3<CR>import pwn<CR>p = pwn.process("<Esc>:r !echo %<CR>kJx$xxxa")<Esc>yypf.lcwgdb.debug<Esc>0i# <Esc>o# pwn.context.log_level = 'debug'<CR>p.interactive()<Esc>:w<CR><Leader>dchmod +x %<CR><Leader>a
 
 nnoremap <S-Tab> <<_
 vnoremap <Tab> >gv
@@ -111,7 +111,8 @@ nnoremap <Leader>a ^
 nnoremap <silent> <Leader>A :CocAction<CR>
 " nnoremap <Leader>o :FZFExplore<CR>
 nnoremap <Leader>o :Files<CR>
-nnoremap <Leader>l :LspStopServer<CR>
+nnoremap <Leader>l :CocDisable<CR>
+nnoremap <Leader>L :CocList<CR>
 nnoremap <Leader>n :source ~/.nvimrc<CR>
 nnoremap <Leader>d :Dispatch 
 nnoremap <Leader>D :Dispatch! 
@@ -121,6 +122,7 @@ nnoremap <Leader>z :ZenMode<CR>
 nnoremap <Leader>en :tabedit ~/.nvimrc<CR>
 nnoremap <Leader>g :GitGutterToggle<CR>
 nnoremap <Leader>G :Git 
+nnoremap <Leader>R :CocRestart<CR> 
 
 set splitbelow
 set splitright
@@ -159,12 +161,12 @@ augroup END
 
 call plug#begin('~/.vim/plugged')
 Plug 'dylanaraps/wal.vim'
-Plug 'frazrepo/vim-rainbow'
+Plug 'p00f/nvim-ts-rainbow'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-obsession'
- Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-commentary'
 
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -173,11 +175,10 @@ Plug 'folke/which-key.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'windwp/nvim-autopairs'
 
-Plug 'troydm/zoomwintab.vim'
 Plug 'folke/zen-mode.nvim'
+Plug 'troydm/zoomwintab.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
-Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 call plug#end()
 
@@ -208,6 +209,13 @@ lua << EOF
     },
     indent = {
       enable = true,
+    },
+    rainbow = {
+      enable = true,
+      extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+      max_file_lines = nil, -- Do not enable for files with more than n lines, int
+      -- colors = {}, -- table of hex strings
+      -- termcolors = {} -- table of colour name strings
     },
   }
 
@@ -314,16 +322,6 @@ highlight CocWarningVirtualText ctermfg=6
 " endfunction
 
 " command! -nargs=* FZFExplore call FzfExplore(shellescape(<q-args>))
-
-let g:rainbow_active = 1
-let g:rainbow_load_separately = [
-    \ [ '*' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
-    \ [ '*.tex' , [['(', ')'], ['\[', '\]']] ],
-    \ [ '*.cpp' , [['(', ')'], ['\[', '\]'], ['{', '}']] ],
-    \ [ '*.{html,htm}' , [['(', ')'], ['\[', '\]'], ['{', '}'], ['<\a[^>]*>', '</[^>]*>']] ],
-    \ ]
-
-let g:rainbow_ctermfgs = ['5', '4', '2', '11', 'white']
 
 autocmd VimEnter * call SetupLightlineColors()
 function SetupLightlineColors() abort

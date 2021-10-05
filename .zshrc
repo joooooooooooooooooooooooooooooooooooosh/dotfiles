@@ -7,6 +7,7 @@
 # If you come from bash you might have to change your $PATH.
 (cat ~/.cache/wal/sequences &)
 export PATH=$HOME/bin:/usr/local/bin:$PATH:.:/root/.gem/ruby/2.7.0/bin:/home/joshh/.local/share/gem/ruby/3.0.0/bin
+export PATH=$PATH:/opt/gradle/gradle-5.4.1/bin
 export PYTHONPATH="/usr/lib/python3.9/site-packages":$PYTHONPATH
 
 # Path to your oh-my-zsh installation.
@@ -133,6 +134,15 @@ alias laz='{du -sh .*; du -sh *} 2>/dev/null | sort -h'
 alias updot=' ~/Documents/scripts/updatedotfiles.sh'
 alias ranger='TERM=rxvt-unicode-256color ranger'
 
+j() {
+    run=`echo $1 | sed 's/\//./g; s/.java$//'`
+    if [ "$2" = "ea" ] 2>/dev/null; then
+        javac "$1" && java "-ea" "$run"
+    else
+        javac "$1" && java "$run"
+    fi
+}
+
 fzc() {
     file=`fzf`
     cd `echo $file | sed 's/\/[^\/]*$//'` 2>/dev/null
@@ -186,29 +196,41 @@ manos() {
 }
 
 bible() {
-        book="genesis"
-        chapter=1
-        last=1
-        if [ $# -ge 2 ]; then
-                book=$1
-                chapter=$2
-                last=$chapter
+    book="genesis"
+    chapter=1
+    last=1
+    if [ $# -ge 2 ]; then
+            book=$1
+            chapter=$2
+            last=$chapter
+    fi
+
+    if [ $# -ge 3 ]; then
+            last=$3
+    fi
+
+    if [[ $book =~ "/" ]]; then
+        IFS=\/ read -r version _ <<< "$book";
+        mkdir -p "$HOME/tmp/bible/$version"
+    fi
+
+    # TODO: get rid of double spaces
+    # particularly bad in esv/james 1
+    for i in {$chapter..$last}; do
+        cache="$HOME/tmp/bible/$book$i"
+
+        if [ ! -f $cache ]; then
+            curl -s https://www.biblestudytools.com/$book/$i.html |
+              grep "verse-number" -A2 |
+              sed -E '/class=\"verse-[0-9]/d; s/.*strong>([0-9][0-9]*).*/\1/; /^--/d; s/^\s*//; s/^([[:digit:]]+)$/[1m\1[0m/; s///g' |
+              perl -pe 's/ *?<sup.*?\/sup> *?/ /g; s/ *?<.*?>(.<.*?>)? *?/ /g' |
+              tr '\n' ' ' |
+              fold -sw 60 |
+              sed '$s/ $/\n/' >$cache
         fi
 
-        if [ $# -ge 3 ]; then
-                last=$3
-        fi
-
-        for i in {$chapter..$last}; do
-                curl -s https://www.biblestudytools.com/$book/$i.html |
-                  grep "verse-number" -A2 |
-                  sed -E '/class=\"verse-[0-9]/d; s/.*strong>([0-9][0-9]*).*/\1/; /--/d; s/^\s*//; s/^([[:digit:]]+)$/[1m\1[0m/; s///g' |
-                  perl -pe 's/ *?<sup.*?\/sup> *?/ /g; s/ *?<.*?>(.<.*?>)? *?/ /g' |
-                  tr '\n' ' ' |
-                  fold -sw 60 |
-                  sed '$s/ $/\n/' |
-                  less
-        done
+        less $cache
+    done
 }
 
 uni() {
