@@ -1,6 +1,6 @@
 #!/bin/bash
 
-wal -q -i $1
+wal -q -i "$1"
 wal-discord
 spicetify update >/dev/null
 sed -i 's/@selected-.*fore/@back/' ~/.cache/wal/colors-rofi-dark.rasi

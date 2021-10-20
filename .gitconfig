@@ -5,7 +5,7 @@
 	s = status
 	a = add
 	c = commit
-	pl = pull
+	pl = "pull --rebase"
 	ph = push
 	d = diff
 	ch = checkout

@@ -1,4 +1,5 @@
 #!/bin/zsh
+# TODO: calculate these using /sys/class/backlight/intel_backlight/max_brightness
 if [ "$1" = "max" ]; then
 	((BRIGHT = 4285))
 elif [ "$1" = "high" ]; then
@@ -16,7 +17,8 @@ elif [ "$1" = "up" ]; then
 elif [ "$1" = "down" ]; then
 	((BRIGHT = `cat /sys/class/backlight/intel_backlight/brightness` - 150))
 else
-	a=`rofi -dmenu -p "set brightness (0 - 4285)"`
+	a=$1
+	[ -z $1 ] && a=`rofi -dmenu -p "set brightness (0 - 4285)"`
 	case $a in
     ''|*[!0-9]*) 
 		echo "Usage: $0 [max|high|mid|low|min|NUMBER < 4285]"

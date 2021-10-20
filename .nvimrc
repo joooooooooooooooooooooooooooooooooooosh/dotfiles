@@ -117,6 +117,7 @@ nnoremap <Leader>n :source ~/.nvimrc<CR>
 nnoremap <Leader>d :Dispatch 
 nnoremap <Leader>D :Dispatch! 
 nnoremap <Leader>s :set spell!<CR>
+nnoremap <Leader>S :CocList symbols<CR>
 nnoremap <Leader>k "zyiw:!man <C-R>z<CR>g
 nnoremap <Leader>z :ZenMode<CR>
 nnoremap <Leader>en :tabedit ~/.nvimrc<CR>
@@ -266,6 +267,7 @@ EOF
 
 nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
 inoremap <silent><expr> <C-x><C-o> coc#refresh()
+inoremap <silent><expr> <C-y> :call CocActionAsync('showSignatureHelp')
 nnoremap <expr><C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
 nnoremap <expr><C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
 inoremap <expr><C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
@@ -280,12 +282,13 @@ xmap <leader>=  <Plug>(coc-format-selected)
 nmap <leader>=  <Plug>(coc-format-selected)
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
+" nmap <silent> gi <Plug>(coc-implementation) " gi used for last insert
 nmap <silent> gr <Plug>(coc-references)
 nmap <silent> gs <Plug>(coc-range-select)
 xmap <silent> gs <Plug>(coc-range-select)
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
+autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
