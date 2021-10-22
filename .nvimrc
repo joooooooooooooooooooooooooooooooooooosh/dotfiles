@@ -104,8 +104,10 @@ cnoreabbrev <expr> te getcmdtype() == ":" && getcmdline() == 'te' ? 'tabedit' : 
 cnoreabbrev <expr> tc getcmdtype() == ":" && getcmdline() == 'tc' ? 'tabclose' : 'tc'
 
 nnoremap <Leader>t :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
-nmap <Leader>T :sp<CR><C-W>J<C-W>o:terminal<CR>
+nnoremap <Leader>T :tabnew<CR>:terminal<CR>
 nnoremap <Leader>/ :set hlsearch!<CR>
+nnoremap <Leader>, :tabmove -1<CR>
+nnoremap <Leader>. :tabmove +1<CR>
 nnoremap <Leader>0 ^
 nnoremap <Leader>a ^
 nnoremap <silent> <Leader>A :CocAction<CR>
@@ -121,26 +123,22 @@ nnoremap <Leader>S :CocList symbols<CR>
 nnoremap <Leader>k "zyiw:!man <C-R>z<CR>g
 nnoremap <Leader>z :ZenMode<CR>
 nnoremap <Leader>en :tabedit ~/.nvimrc<CR>
-nnoremap <Leader>g :GitGutterToggle<CR>
+nnoremap <Leader>g :Git<CR>
 nnoremap <Leader>G :Git 
 nnoremap <Leader>R :CocRestart<CR> 
 
 set splitbelow
 set splitright
-nnoremap <C-J> <C-W>j
-nnoremap <C-K> <C-W>k
-nnoremap <C-L> <C-W>l
-nnoremap <C-H> <C-W>h
-nnoremap <C-P> <C-W>p
 nnoremap <silent> <C-W><C-Q> :silent ZoomWinTabOut<CR><C-W><C-Q>
 
 tnoremap <C-W> <C-\><C-n><C-W>
+tnoremap <C-W><C-W> <C-W>
 tnoremap <Esc> <C-\><C-n>
 tnoremap <C-H> <C-\><C-n><C-W><C-H>
 tnoremap <C-J> <C-\><C-n><C-W><C-J>
 tnoremap <C-K> <C-\><C-n><C-W><C-K>
-tnoremap <silent> <C-Q> <C-\><C-n>:silent ZoomWinTabOut<CR><C-W><C-Q>
-tnoremap <silent> <C-W><C-Q> <C-\><C-n>:silent ZoomWinTabOut<CR><C-W><C-Q>
+tmap <silent> <C-Q> <C-\><C-n>:bd!<CR>
+tmap <silent> <C-W><C-Q> <C-\><C-n>:bd!<CR>
 
 nmap <leader><tab> <plug>(fzf-maps-n)
 xmap <leader><tab> <plug>(fzf-maps-x)
