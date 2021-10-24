@@ -5,10 +5,17 @@
 	s = status
 	a = add
 	c = commit
+    cane = commit --amend --no-edit
 	pl = "pull --rebase"
 	ph = push
 	d = diff
 	ch = checkout
-	l = log
+    l = log
+    lg = log --color --graph \
+          --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' \
+          --abbrev-commit
 [init]
 	defaultBranch = main
+
+[rerere]
+    enabled = true

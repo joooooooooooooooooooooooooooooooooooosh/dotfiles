@@ -88,6 +88,7 @@ format-foreground = ${colors.foreground-alt}
 interval = 10
 
 [module/brightness]
+; TODO: change 4285 to be taken from max_brightness
 type = custom/ipc
 hook-0 = bc -l <<< "scale=3; `cat /sys/class/backlight/intel_backlight/brightness` / 4285 * 100" | sed 's/\..*/%/g'
 initial = 1
@@ -156,8 +157,6 @@ format-underline = #ffb52a
 
 [module/xwindow]
 type = internal/xwindow
-# camel = %title:0:50:...%
-# camel-alt = %title%
 # label = %title:0:50:...%
 # label = %title:0:80:...%
 label = %title:0:50:...%

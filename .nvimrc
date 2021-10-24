@@ -11,6 +11,7 @@ autocmd FileType plaintex setlocal spell
 " autocmd * setlocal tabstop=4
 " autocmd * setlocal shiftwidth=4
 set noequalalways
+set nowrap
 set tabstop=4 shiftwidth=4
 set omnifunc=syntaxcomplete#Complete
 set mouse=a
@@ -103,6 +104,9 @@ cnoreabbrev <expr> tl getcmdtype() == ":" && getcmdline() == 'tl' ? 'tabn' : 'tl
 cnoreabbrev <expr> te getcmdtype() == ":" && getcmdline() == 'te' ? 'tabedit' : 'te'
 cnoreabbrev <expr> tc getcmdtype() == ":" && getcmdline() == 'tc' ? 'tabclose' : 'tc'
 
+cnoreabbrev <expr> T getcmdtype() == ":" && getcmdline() == 'T' ? 'Telescope' : 'T'
+cnoreabbrev <expr> t getcmdtype() == ":" && getcmdline() == 't' ? 'Telescope' : 't'
+
 nnoremap <Leader>t :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
 nnoremap <Leader>T :tabnew<CR>:terminal<CR>
 nnoremap <Leader>/ :set hlsearch!<CR>
@@ -111,9 +115,8 @@ nnoremap <Leader>. :tabmove +1<CR>
 nnoremap <Leader>0 ^
 nnoremap <Leader>a ^
 nnoremap <silent> <Leader>A :CocAction<CR>
-" nnoremap <Leader>o :FZFExplore<CR>
-nnoremap <Leader>o :Files<CR>
-nnoremap <Leader>l :CocDisable<CR>
+" nnoremap <Leader>l :CocDisable<CR>
+nnoremap <Leader>l :CocList<CR>
 nnoremap <Leader>L :CocList<CR>
 nnoremap <Leader>n :source ~/.nvimrc<CR>
 nnoremap <Leader>d :Dispatch 
@@ -121,11 +124,20 @@ nnoremap <Leader>D :Dispatch!
 nnoremap <Leader>s :set spell!<CR>
 nnoremap <Leader>S :CocList symbols<CR>
 nnoremap <Leader>k "zyiw:!man <C-R>z<CR>g
+nnoremap <Leader>w :set wrap!<CR>
+nnoremap <Leader>q :copen<CR>
 nnoremap <Leader>z :ZenMode<CR>
 nnoremap <Leader>en :tabedit ~/.nvimrc<CR>
 nnoremap <Leader>g :Git<CR>
 nnoremap <Leader>G :Git 
 nnoremap <Leader>R :CocRestart<CR> 
+
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fm <cmd>Telescope man_pages<cr>
+nnoremap <leader>fs <cmd>Telescope spell_suggest<cr>
+nnoremap <leader>fq <cmd>Telescope quickfix<cr>
 
 set splitbelow
 set splitright
@@ -139,13 +151,6 @@ tnoremap <C-J> <C-\><C-n><C-W><C-J>
 tnoremap <C-K> <C-\><C-n><C-W><C-K>
 tmap <silent> <C-Q> <C-\><C-n>:bd!<CR>
 tmap <silent> <C-W><C-Q> <C-\><C-n>:bd!<CR>
-
-nmap <leader><tab> <plug>(fzf-maps-n)
-xmap <leader><tab> <plug>(fzf-maps-x)
-omap <leader><tab> <plug>(fzf-maps-o)
-imap <c-x><c-k> <plug>(fzf-complete-word)
-imap <c-x><c-f> <plug>(fzf-complete-path)
-imap <c-x><c-l> <plug>(fzf-complete-line)
 
 nmap <Leader>c :setlocal commentstring=
 nmap <silent><C-_> gcc
@@ -167,8 +172,9 @@ Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-commentary'
 
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'nvim-telescope/telescope.nvim'
 Plug 'folke/which-key.nvim'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -223,7 +229,7 @@ lua << EOF
       map = '<C-a>',
       end_key = ';',
       chars = { '{', '[', '(', '"', "'", "<" },
-      pattern = string.gsub([[ [%s%;%'%"%>%]%)%}%,] ]], '%s+', ''),
+      pattern = string.gsub([[ [%s%;%'%"%>%]%)%}%,%.] ]], '%s+', ''),
     },
   }
 
@@ -261,6 +267,35 @@ lua << EOF
 
 
     remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
+    local actions = require('telescope.actions')
+  require('telescope').setup{
+    defaults = {
+      -- Default configuration for telescope goes here:
+      -- config_key = value,
+      mappings = {
+        i = {
+          -- map actions.which_key to <C-h> (default: <C-/>)
+          -- actions.which_key shows the mappings for your picker,
+          -- e.g. git_{create, delete, ...}_branch for the git_branches picker
+          ["<C-h>"] = "which_key",
+          -- add_to_qflist if we don't want to overwrite existing entries
+          ["<C-q>"] = actions.send_to_qflist,
+          ["<Esc>"] = "close",
+        },
+      }
+    },
+    extensions = {
+      fzf = {
+        fuzzy = true,                    -- false will only do exact matching
+        override_generic_sorter = true,  -- override the generic sorter
+        override_file_sorter = true,     -- override the file sorter
+        case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+                                         -- the default case_mode is "smart_case"
+      },
+    },
+  }
+
+  require('telescope').load_extension('fzf')
 EOF
 
 nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
@@ -302,27 +337,10 @@ endfunction
 autocmd CursorHold * silent call CocActionAsync('highlight')
 " autocmd CursorHold * if ! coc#util#has_float() | call CocActionAsync('doHover') | endif 
 
-colorscheme wal
-
 highlight CocErrorSign ctermfg=4
 highlight CocErrorVirtualText ctermfg=4
 highlight CocWarningSign ctermfg=6
 highlight CocWarningVirtualText ctermfg=6
-
-" Search pattern across repository files
-" function! FzfExplore(...)
-"     let inpath = substitute(a:1, "'", '', 'g')
-"     if inpath == "" || matchend(inpath, '/') == strlen(inpath)
-"         execute "cd" getcwd() . '/' . inpath
-"         let cwpath = getcwd() . '/'
-"         call fzf#run(fzf#wrap(fzf#vim#with_preview({'source': 'ls -1ap', 'dir': cwpath, 'sink': 'FZFExplore', 'options': ['--prompt', cwpath]})))
-"     else
-"         let file = getcwd() . '/' . inpath
-"         execute "e" file
-"     endif
-" endfunction
-
-" command! -nargs=* FZFExplore call FzfExplore(shellescape(<q-args>))
 
 autocmd VimEnter * call SetupLightlineColors()
 function SetupLightlineColors() abort
@@ -348,6 +366,8 @@ function SetupLightlineColors() abort
   let l:pallete.tabline.tabsel = [ [ 'NONE', 'NONE', 'NONE', '10' ] ]
   call lightline#colorscheme()
 endfunction
+
+colorscheme wal
 
 if v:progname =~? "evim"
   finish
