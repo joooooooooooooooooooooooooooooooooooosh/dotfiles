@@ -1,9 +1,9 @@
 swipe:
   3: 
     left: 
-      command: 'sh /home/joshh/Documents/scripts/nextonmonitor.sh next'
+      command: 'i3-msg workspace next_on_output'
     right: 
-      command: 'sh /home/joshh/Documents/scripts/nextonmonitor.sh prev'
+      command: 'i3-msg workspace prev_on_output'
     up: 
       command: 'rofi -show drun'
     down: 
