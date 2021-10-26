@@ -1,7 +1,7 @@
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 # if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  # source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 # fi
 
 # If you come from bash you might have to change your $PATH.
@@ -158,41 +158,41 @@ ns() {
 }
 
 sec() {
-  checksec --file=$1
+    checksec --file=$1
 }
 
 lr() {
-        file=`la | rofi -dmenu -i -matching fuzzy -p "cd"`
-        chpath=`pwd`
-        while [ $file ]; do
-                if [ -f $chpath"/$file" ]; then
-                        cd $chpath
-                        nvim $file
-                        return
-                fi
+    file=`la | rofi -dmenu -i -matching fuzzy -p "cd"`
+    chpath=`pwd`
+    while [ $file ]; do
+        if [ -f $chpath"/$file" ]; then
+            cd $chpath
+            nvim $file
+            return
+        fi
 
-                chpath=$chpath"/$file"
-                file=`la $chpath | rofi -dmenu -i -matching fuzzy -p "cd"`
-        done
-        cd $chpath
+        chpath=$chpath"/$file"
+        file=`la $chpath | rofi -dmenu -i -matching fuzzy -p "cd"`
+    done
+    cd $chpath
 }
 
 vr() {
-        if [ $1 ]; then
-                nvim $1
-                return
-        fi
-        file=`la | rofi -dmenu -i -matching fuzzy -p "nvim"`
-        nvim $file
+    if [ $1 ]; then
+        nvim $1
+        return
+    fi
+    file=`la | rofi -dmenu -i -matching fuzzy -p "nvim"`
+    nvim $file
 }
 
 mkcd() {
-        mkdir -p $1
-        cd $1
+    mkdir -p $1
+    cd $1
 }
 
 manos() {
-        links "https://cgi.cse.unsw.edu.au/~cs3231/18s1/os161/man/$1.html"
+    links "https://cgi.cse.unsw.edu.au/~cs3231/18s1/os161/man/$1.html"
 }
 
 bible() {
@@ -200,13 +200,13 @@ bible() {
     chapter=1
     last=1
     if [ $# -ge 2 ]; then
-            book=$1
-            chapter=$2
-            last=$chapter
+        book=$1
+        chapter=$2
+        last=$chapter
     fi
 
     if [ $# -ge 3 ]; then
-            last=$3
+        last=$3
     fi
 
     if [[ $book =~ "/" ]]; then
@@ -215,18 +215,17 @@ bible() {
     fi
 
     # TODO: get rid of double spaces
-    # particularly bad in esv/james 1
     for i in {$chapter..$last}; do
         cache="$HOME/tmp/bible/$book$i"
 
         if [ ! -f $cache ]; then
             curl -s https://www.biblestudytools.com/$book/$i.html |
-              grep "verse-number" -A2 |
-              sed -E '/class=\"verse-[0-9]/d; s/.*strong>([0-9][0-9]*).*/\1/; /^--/d; s/^\s*//; s/^([[:digit:]]+)$/[1m\1[0m/; s///g' |
-              perl -pe 's/ *?<sup.*?\/sup> *?/ /g; s/ *?<.*?>(.<.*?>)? *?/ /g' |
-              tr '\n' ' ' |
-              fold -sw 60 |
-              sed '$s/ $/\n/' >$cache
+                grep "verse-number" -A2 |
+                sed -E '/class=\"verse-[0-9]/d; s/.*strong>([0-9][0-9]*).*/\1/; /^--/d; s/^\s*//; s/^([[:digit:]]+)$/[1m\1[0m/; s///g' |
+                perl -pe 's/ *?<sup.*?\/sup> *?/ /g; s/ *?<.*?>(.<.*?>)? *?/ /g' |
+                tr '\n' ' ' |
+                fold -sw 60 |
+                sed '$s/ $/\n/' >$cache
         fi
 
         less $cache
@@ -234,11 +233,11 @@ bible() {
 }
 
 uni() {
-        if [ $# -eq 1 ]; then
-                cd "$HOME/Documents/UNSW/$1"
-        else
-                cd "$HOME/Documents/UNSW"
-        fi
+    if [ $# -eq 1 ]; then
+        cd "$HOME/Documents/UNSW/$1"
+    else
+        cd "$HOME/Documents/UNSW"
+    fi
 }
 
 unsetopt share_history

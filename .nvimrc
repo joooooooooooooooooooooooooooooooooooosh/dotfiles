@@ -126,15 +126,20 @@ nnoremap <Leader>S :CocList symbols<CR>
 nnoremap <Leader>k "zyiw:!man <C-R>z<CR>g
 nnoremap <Leader>w :set wrap!<CR>
 nnoremap <Leader>q :copen<CR>
-nnoremap <Leader>z :ZenMode<CR>
+nnoremap <Leader>z :let &scrolloff=999-&scrolloff<CR>:ZenMode<CR>
 nnoremap <Leader>en :tabedit ~/.nvimrc<CR>
 nnoremap <Leader>g :Git<CR>
 nnoremap <Leader>G :Git 
 nnoremap <Leader>R :CocRestart<CR> 
 
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fc :Telescope coc 
+nnoremap <leader>fds <cmd>Telescope coc document_symbols<cr>
+nnoremap <leader>fws <cmd>Telescope coc workspace_symbols<cr>
+" is there a difference to find_files?
+nnoremap <leader>ff <cmd>Telescope fd<cr> 
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fl <cmd>Telescope loclist<cr>
 nnoremap <leader>fm <cmd>Telescope man_pages<cr>
 nnoremap <leader>fs <cmd>Telescope spell_suggest<cr>
 nnoremap <leader>fq <cmd>Telescope quickfix<cr>
@@ -168,15 +173,16 @@ Plug 'dylanaraps/wal.vim'
 Plug 'p00f/nvim-ts-rainbow'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-obsession'
-Plug 'tpope/vim-commentary'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'folke/which-key.nvim'
 
+Plug 'fannheyward/telescope-coc.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'windwp/nvim-autopairs'
 
@@ -296,6 +302,7 @@ lua << EOF
   }
 
   require('telescope').load_extension('fzf')
+  require('telescope').load_extension('coc')
 EOF
 
 nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
