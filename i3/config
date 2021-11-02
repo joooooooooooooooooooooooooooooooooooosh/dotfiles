@@ -35,7 +35,8 @@ for_window [title="updatelist_polybar_aur"] floating enable
 bindsym Ctrl+Mod1+Tab exec rofi -show drun
 bindsym $mod+Ctrl+f exec $BROWSER
 bindsym $mod+Ctrl+g exec $BROWSER calendar.google.com && wmctrl -a firefox
-bindsym $mod+Ctrl+Shift+v exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@login.cse.unsw.edu.au 'bash -l''
+bindsym $mod+Ctrl+Shift+v exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@l.cse.unsw.edu.au 'bash -l''
+bindsym $mod+Ctrl+Shift+s exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@login.cse.unsw.edu.au 'bash -l''
 
 bindsym --release XF86HomePage exec xdotool key Escape
 bindsym --release Mod4+Right exec xdotool key End
@@ -178,6 +179,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+space exec rofi -show drun
 bindsym $mod+Shift+space exec rofi -show run
 bindsym $mod+Ctrl+space exec rofi -show window
+bindsym $mod+Mod4+space exec rofi -show emoji && xdotool type "$(xclip -o -selection clipboard)"
 
 # change focus
 #bindsym $mod+Left focus left
@@ -380,8 +382,8 @@ mode "one-handed" {
 
         bindsym f fullscreen toggle
 
-        bindsym braceright exec Documents/scripts/nextonmonitor.sh next
-        bindsym braceleft exec Documents/scripts/nextonmonitor.sh prev
+        bindsym braceright workspace next_on_output
+        bindsym braceleft workspace prev_on_output
 
         bindsym Tab workspace back_and_forth
 

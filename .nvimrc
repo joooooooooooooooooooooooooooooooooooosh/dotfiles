@@ -38,7 +38,7 @@ set undodir=~/.vim/undo
 set undolevels=1000
 set shellpipe=>
 set swapfile
-set viewoptions-=options
+set viewoptions-=options,curdir
 set dir=~/tmp/nvim//,.
 set directory=~/tmp/nvim//,.
 set backupdir=~/tmp/nvim//,.
@@ -119,6 +119,7 @@ nnoremap <silent> <Leader>A :CocAction<CR>
 nnoremap <Leader>l :CocList<CR>
 nnoremap <Leader>L :CocList<CR>
 nnoremap <Leader>n :source ~/.nvimrc<CR>
+nnoremap <Leader>cd :lcd %:h<CR> 
 nnoremap <Leader>d :Dispatch 
 nnoremap <Leader>D :Dispatch! 
 nnoremap <Leader>s :set spell!<CR>
@@ -142,6 +143,7 @@ nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fl <cmd>Telescope loclist<cr>
 nnoremap <leader>fm <cmd>Telescope man_pages<cr>
 nnoremap <leader>fs <cmd>Telescope spell_suggest<cr>
+nnoremap <leader>ft <cmd>Telescope live_grep<cr>TODO
 nnoremap <leader>fq <cmd>Telescope quickfix<cr>
 
 set splitbelow
@@ -157,16 +159,16 @@ tnoremap <C-K> <C-\><C-n><C-W><C-K>
 tmap <silent> <C-Q> <C-\><C-n>:bd!<CR>
 tmap <silent> <C-W><C-Q> <C-\><C-n>:bd!<CR>
 
-nmap <Leader>c :setlocal commentstring=
+nmap <Leader>cs :setlocal commentstring=
 nmap <silent><C-_> gcc
 vmap <silent><C-_> gc
 imap <silent><C-_> <Esc>gccA
 
-augroup remember_folds
-    autocmd!
-    autocmd BufWinLeave ?* silent! mkview | filetype detect
-    autocmd BufWinEnter ?* silent! loadview | filetype detect
-augroup END
+" augroup remember_folds
+"     autocmd!
+"     autocmd BufWinLeave ?* silent! mkview | filetype detect
+"     autocmd BufWinEnter ?* silent! loadview | filetype detect
+" augroup END
 
 call plug#begin('~/.vim/plugged')
 Plug 'dylanaraps/wal.vim'
@@ -191,6 +193,7 @@ Plug 'troydm/zoomwintab.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
 Plug 'tpope/vim-fugitive'
+Plug 'github/copilot.vim'
 call plug#end()
 
 lua << EOF

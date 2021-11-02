@@ -225,7 +225,7 @@ bible() {
                 perl -pe 's/ *?<sup.*?\/sup> *?/ /g; s/ *?<.*?>(.<.*?>)? *?/ /g' |
                 tr '\n' ' ' |
                 fold -sw 60 |
-                sed '$s/ $/\n/' >$cache
+                sed -E 's/  +/ /; $s/ $/\n/' >$cache
         fi
 
         less $cache
