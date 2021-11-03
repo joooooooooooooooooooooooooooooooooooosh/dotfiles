@@ -38,34 +38,22 @@ bindsym $mod+Ctrl+g exec $BROWSER calendar.google.com && wmctrl -a firefox
 bindsym $mod+Ctrl+Shift+v exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@l.cse.unsw.edu.au 'bash -l''
 bindsym $mod+Ctrl+Shift+s exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@login.cse.unsw.edu.au 'bash -l''
 
-bindsym --release XF86HomePage exec xdotool key Escape
-bindsym --release Mod4+Right exec xdotool key End
-bindsym --release Mod4+Left exec xdotool key Home
-bindsym --release Mod4+Up exec xdotool key Prior
-bindsym --release Mod4+Down exec xdotool key Next
-bindsym --release Mod4+h exec xdotool key Left 
-bindsym --release Mod4+j exec xdotool key Down
-bindsym --release Mod4+k exec xdotool key Up
-bindsym --release Mod4+l exec xdotool key Right
-bindsym --release Ctrl+k exec xdotool key Prior
-bindsym --release Ctrl+j exec xdotool key Next
-
 #bindsym --release $mod+Ctrl+Shift+less exec xdotool key XF86MonBrightnessDown
 #bindsym --release $mod+Ctrl+Shift+greater exec xdotool key XF86MonBrightnessUp
 
-bindsym XF86AudioRaiseVolume exec Documents/scripts/politebeep.sh up
-bindsym XF86AudioLowerVolume exec Documents/scripts/politebeep.sh down
-bindsym XF86AudioMute exec pulseaudio-ctl mute
-bindsym XF86AudioMicMute exec pulseaudio-ctl mute-input && ~/Documents/scripts/updatemic.sh
+# bindsym XF86AudioRaiseVolume exec Documents/scripts/politebeep.sh up
+# bindsym XF86AudioLowerVolume exec Documents/scripts/politebeep.sh down
+# bindsym XF86AudioMute exec pulseaudio-ctl mute
+# bindsym XF86AudioMicMute exec pulseaudio-ctl mute-input && ~/Documents/scripts/updatemic.sh
 # bindsym XF86Tools exec pulseaudio-ctl mute-input && polybar-msg hook microphone 1
 # bindsym XF86AudioPrev exec ~/polybar-scripts/player-mpris-tail.py previous
 # bindsym XF86AudioPlay exec ~/polybar-scripts/player-mpris-tail.py play-pause
 # bindsym XF86AudioNext exec ~/polybar-scripts/player-mpris-tail.py next
 
-bindsym F1 exec pulseaudio-ctl mute-input && ~/Documents/scripts/updatemic.sh
+bindsym F1 exec pulseaudio-ctl mute
 bindsym F2 exec Documents/scripts/politebeep.sh down
 bindsym F3 exec Documents/scripts/politebeep.sh up
-bindsym F4 exec pulseaudio-ctl mute
+bindsym F4 exec pulseaudio-ctl mute-input && ~/Documents/scripts/updatemic.sh
 bindsym F6 exec ~/polybar-scripts/player-mpris-tail.py previous
 bindsym F7 exec ~/polybar-scripts/player-mpris-tail.py play-pause
 bindsym F8 exec ~/polybar-scripts/player-mpris-tail.py next

@@ -129,7 +129,8 @@ exec = ~/Documents/scripts/microphone.sh
 tail = true
 click-left = pulseaudio-ctl mute-input && ~/Documents/scripts/updatemic.sh
 click-right = systemsettings5 kcm_pulseaudio
-; TODO: could use pactl set-source-volume on scroll
+scroll-up = amixer -D pulse set Capture 5%+ && ~/Documents/scripts/updatemic.sh
+scroll-down = amixer -D pulse set Capture 5%- && ~/Documents/scripts/updatemic.sh
 
 [module/polywins]
 type = custom/script
