@@ -8,6 +8,7 @@ autocmd BufWritePost *.tex exec 'Dispatch! pdflatex %'
 autocmd FileType markdown setlocal spell
 autocmd FileType tex setlocal spell
 autocmd FileType plaintex setlocal spell
+
 " autocmd * setlocal tabstop=4
 " autocmd * setlocal shiftwidth=4
 set noequalalways
@@ -69,6 +70,10 @@ nmap <F11> <BS>
 nmap <F12> <Delete>
 imap <F11> <BS>
 imap <F12> <Delete>
+imap <silent> <C-j> <Esc>:tabprevious<CR>
+imap <silent> <C-k> <Esc>:tabnext<CR>
+nmap <silent> <C-j> :tabprevious<CR>
+nmap <silent> <C-k> :tabnext<CR>
 
 " imap <Leader>c <Esc>:set list!<CR>i
 " nmap <Leader>c :set list!<CR>
@@ -120,6 +125,8 @@ nnoremap <Leader>l :CocList<CR>
 nnoremap <Leader>L :CocList<CR>
 nnoremap <Leader>n :source ~/.nvimrc<CR>
 nnoremap <Leader>cd :lcd %:h<CR> 
+nnoremap <Leader>cj :cnext<CR> 
+nnoremap <Leader>ck :cprev<CR> 
 nnoremap <Leader>d :Dispatch 
 nnoremap <Leader>D :Dispatch! 
 nnoremap <Leader>s :set spell!<CR>
