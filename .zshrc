@@ -134,15 +134,6 @@ alias laz='{du -sh .*; du -sh *} 2>/dev/null | sort -h'
 alias updot=' ~/Documents/scripts/updatedotfiles.sh'
 alias ranger='TERM=rxvt-unicode-256color ranger'
 
-j() {
-    run=`echo $1 | sed 's/\//./g; s/.java$//'`
-    if [ "$2" = "ea" ] 2>/dev/null; then
-        javac "$1" && java "-ea" "$run"
-    else
-        javac "$1" && java "$run"
-    fi
-}
-
 fzc() {
     file=`fzf`
     cd `echo $file | sed 's/\/[^\/]*$//'` 2>/dev/null
@@ -252,7 +243,4 @@ PERL_MM_OPT="INSTALL_BASE=/home/joshh/perl5"; export PERL_MM_OPT;
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-export MCFLY_FUZZY=true
-export MCFLY_RESULTS=20
-eval "$(mcfly init zsh)"
 eval "$(zoxide init zsh)"

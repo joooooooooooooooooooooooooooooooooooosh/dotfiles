@@ -167,7 +167,7 @@ hi rubyRegexp ctermbg=NONE ctermfg=6
 hi rubySymbol ctermbg=NONE ctermfg=2
 hi rubyTodo ctermbg=NONE ctermfg=8
 hi rubyRegexpAnchor ctermbg=NONE ctermfg=7
-    hi link rubyRegexpQuantifier rubyRegexpAnchor
+hi link rubyRegexpQuantifier rubyRegexpAnchor
 hi pythonOperator ctermbg=NONE ctermfg=5
 hi pythonFunction ctermbg=NONE ctermfg=4
 hi pythonRepeat ctermbg=NONE ctermfg=5
@@ -187,6 +187,8 @@ hi ALEErrorSign ctermbg=NONE ctermfg=1
 hi ALEWarningSign ctermbg=NONE ctermfg=3
 hi ALEError ctermbg=NONE ctermfg=1
 hi ALEWarning ctermbg=NONE ctermfg=3
+
+hi CopilotSuggestion ctermbg=NONE ctermfg=12
 
 " }}}
 

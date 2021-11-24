@@ -1,6 +1,7 @@
 [user]
 	email = joshharc@gmail.com
 	name = Josh Harcombe
+
 [alias]
 	s = status
 	a = add
@@ -14,8 +15,34 @@
     lg = log --color --graph \
           --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' \
           --abbrev-commit
+
 [init]
 	defaultBranch = main
 
 [rerere]
     enabled = true
+
+[pager]
+    diff = delta
+    log = delta
+    reflog = delta
+    show = delta
+
+[interactive]
+    diffFilter = delta --color-only --features=interactive
+
+[delta]
+    features = decorations
+    line-numbers = true
+
+[delta "interactive"]
+    keep-plus-minus-markers = false
+
+[delta "decorations"]
+    commit-decoration-style = blue ol
+    commit-style = raw
+    file-style = omit
+    hunk-header-decoration-style = blue box
+    hunk-header-file-style = red
+    hunk-header-line-number-style = "#067a00"
+    hunk-header-style = file line-number syntax

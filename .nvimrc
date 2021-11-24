@@ -181,25 +181,27 @@ call plug#begin('~/.vim/plugged')
 Plug 'dylanaraps/wal.vim'
 Plug 'p00f/nvim-ts-rainbow'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'windwp/nvim-autopairs'
 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-fugitive'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope.nvim'
-Plug 'folke/which-key.nvim'
 
 Plug 'fannheyward/telescope-coc.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'windwp/nvim-autopairs'
 
+Plug 'folke/which-key.nvim'
 Plug 'folke/zen-mode.nvim'
 Plug 'troydm/zoomwintab.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
-Plug 'tpope/vim-fugitive'
+Plug 'fidian/hexmode'
+
 Plug 'github/copilot.vim'
 call plug#end()
 
@@ -314,6 +316,10 @@ lua << EOF
   require('telescope').load_extension('fzf')
   require('telescope').load_extension('coc')
 EOF
+
+" replace tab mapping
+imap <silent><script><expr> <C-T> copilot#Accept("")
+let g:copilot_no_tab_map = v:true
 
 nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
 inoremap <silent><expr> <C-x><C-o> coc#refresh()
