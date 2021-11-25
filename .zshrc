@@ -243,4 +243,7 @@ PERL_MM_OPT="INSTALL_BASE=/home/joshh/perl5"; export PERL_MM_OPT;
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+export MCFLY_FUZZY=true
+export MCFLY_RESULTS=40
+eval "$(mcfly init zsh)"
 eval "$(zoxide init zsh)"

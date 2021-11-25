@@ -8,6 +8,7 @@ autocmd BufWritePost *.tex exec 'Dispatch! pdflatex %'
 autocmd FileType markdown setlocal spell
 autocmd FileType tex setlocal spell
 autocmd FileType plaintex setlocal spell
+autocmd BufReadPre *.s setlocal tabstop=8
 
 " autocmd * setlocal tabstop=4
 " autocmd * setlocal shiftwidth=4
@@ -59,6 +60,9 @@ vnoremap <S-Tab> <gv
 nmap <C-n> :NERDTreeToggle<CR>
 nmap <C-e> $
 imap <C-e> <Esc>A
+
+" autofix spell errors
+inoremap <C-f> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 nnoremap / :set hlsearch<CR>/
 imap <C-L> <Right>

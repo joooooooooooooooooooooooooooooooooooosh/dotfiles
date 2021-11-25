@@ -304,6 +304,7 @@ bindsym $mod+Shift+r exec killall picom & i3-msg restart
 bindsym Mod4+Shift+p exec qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout -1 -1 -1
 
 bindsym $mod+Ctrl+t layout tabbed
+bindsym $mod+Ctrl+s layout stacking
 
 bindsym $mod+Shift+s sticky toggle
 bindsym $mod+Shift+p move scratchpad

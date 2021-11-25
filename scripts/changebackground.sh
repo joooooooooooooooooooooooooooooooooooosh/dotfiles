@@ -15,3 +15,6 @@ for change in `grep ": #" ~/.cache/wal/colors-rofi-dark.rasi | sed 's/ //g'`; do
     color=`echo $change | cut -d# -f2`
     sed -i "/ $field/s/#.*/#$color/" ~/.config/rofi/wal-theme.rasi
 done
+
+# PDF viewer
+sh ~/Documents/scripts/updatezathura.sh
