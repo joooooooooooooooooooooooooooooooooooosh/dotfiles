@@ -1,10 +1,11 @@
 #!/bin/bash
 array=( $@ )
+if test $# -eq 1; then
+	# use the home directory as the destination
+	array+=(".")
+fi
+
 len=${#array[@]}
 
-if test $# -eq 1; then
-	scp "$1" "z5218547@login.cse.unsw.edu.au:~/$1"
-else	
-	printf "%s\n" "${array[@]:0:$len-1}" |
-		parallel scp {} "z5218547@login.cse.unsw.edu.au:~/${@: -1}"
-fi
+printf "%s\n" "${array[@]:0:$len-1}" |
+	parallel scp -r {} "z5218547@login.cse.unsw.edu.au:~/${@: -1}"

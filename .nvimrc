@@ -3,15 +3,16 @@ filetype indent plugin on
 autocmd TermOpen * startinsert
 autocmd TermOpen * setlocal nonumber norelativenumber nospell
 autocmd BufWinEnter,WinEnter term://* startinsert
-autocmd BufWritePost *.tex exec 'Dispatch! cp % view.tex; pdflatex view.tex'
+" TODO: only compile tex once and copy resulting pdf to view.pdf
+" autocmd BufWritePost *.tex exec 'Dispatch! cp % view.tex; pdflatex view.tex'
 autocmd BufWritePost *.tex exec 'Dispatch! pdflatex %'
 autocmd FileType markdown setlocal spell wrap
 autocmd FileType tex setlocal spell wrap
 autocmd FileType plaintex setlocal spell wrap
 autocmd BufReadPre *.s setlocal tabstop=8
 
-" autocmd * setlocal tabstop=4
-" autocmd * setlocal shiftwidth=4
+autocmd BufNewFile *.c  0r ~/.vim/skeletons/skeleton.c
+
 set noequalalways
 set nowrap
 set tabstop=4 shiftwidth=4

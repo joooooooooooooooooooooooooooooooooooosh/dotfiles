@@ -19,6 +19,7 @@ cp -u ~/.config/spicetify/config.ini $DOT_DIR"spicetify/"
 cp -u ~/.config/alacritty/alacritty.yml $DOT_DIR
 cp -u ~/.config/ranger/* $DOT_DIR"ranger/"
 cp -u ~/.config/rofi/*  $DOT_DIR"rofi/"
+cp -ur ~/.vim/skeletons $DOT_DIR"skeletons/"
 
 cur_theme=`cat $DOT_DIR".zshrc" | grep ^ZSH_THEME | sed 's/.*"\(.*\)".*/\1/'`
 

@@ -1,3 +1,3 @@
 #!/bin/bash
 printf "%s\n" "$@" |
-	parallel scp "z5218547@login.cse.unsw.edu.au:~/{}" "`pwd`/"
+	parallel scp -r "z5218547@login.cse.unsw.edu.au:~/{}" "`pwd`/"
