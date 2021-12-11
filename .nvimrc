@@ -6,12 +6,14 @@ autocmd BufWinEnter,WinEnter term://* startinsert
 " TODO: only compile tex once and copy resulting pdf to view.pdf
 " autocmd BufWritePost *.tex exec 'Dispatch! cp % view.tex; pdflatex view.tex'
 autocmd BufWritePost *.tex exec 'Dispatch! pdflatex %'
-autocmd FileType markdown setlocal spell wrap
-autocmd FileType tex setlocal spell wrap
-autocmd FileType plaintex setlocal spell wrap
-autocmd BufReadPre *.s setlocal tabstop=8
 
+autocmd FileType markdown,text setlocal spell wrap
+autocmd FileType tex,plaintex setlocal spell wrap
+autocmd FileType text setlocal textwidth=78
+
+autocmd BufReadPre *.s setlocal tabstop=8
 autocmd BufNewFile *.c  0r ~/.vim/skeletons/skeleton.c
+autocmd BufNewFile day*.rs  0r ~/.vim/skeletons/aoc.rs
 
 set noequalalways
 set nowrap
@@ -117,6 +119,10 @@ cnoreabbrev <expr> tc getcmdtype() == ":" && getcmdline() == 'tc' ? 'tabclose' :
 cnoreabbrev <expr> T getcmdtype() == ":" && getcmdline() == 'T' ? 'Telescope' : 'T'
 cnoreabbrev <expr> t getcmdtype() == ":" && getcmdline() == 't' ? 'Telescope' : 't'
 
+nnoremap \gpf :Git push --force-with-lease<CR>
+" TODO: make this work in multiple languages, support multiple vars
+nnoremap \p ^iprintln!("{}", <Esc>A);<Esc>
+
 nnoremap <Leader>t :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
 nnoremap <Leader>T :tabnew<CR>:terminal<CR>
 nnoremap <Leader>/ :set hlsearch!<CR>
@@ -187,6 +193,7 @@ Plug 'dylanaraps/wal.vim'
 Plug 'p00f/nvim-ts-rainbow'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'windwp/nvim-autopairs'
+Plug 'machakann/vim-sandwich'
 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
@@ -208,6 +215,7 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'fidian/hexmode'
 
 Plug 'github/copilot.vim'
+Plug 'sirver/ultisnips'
 call plug#end()
 
 lua << EOF
@@ -226,7 +234,7 @@ lua << EOF
     -- refer to the configuration section below
   }
 
-  require'nvim-treesitter.configs'.setup {
+  require("nvim-treesitter.configs").setup {
     highlight = {
       enable = true,
       -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
@@ -264,6 +272,7 @@ lua << EOF
     -- npairs.remove_rule("'")
     npairs.add_rules(
         {
+            -- TODO: don't add after a space
             Rule("<", ">", "rust")
             :with_pair(cond.not_after_regex_check("[%w%<%[%{%\"%'%.]"))
             :with_move(function(opts)
@@ -291,7 +300,7 @@ lua << EOF
 
     remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
     local actions = require('telescope.actions')
-  require('telescope').setup{
+  require("telescope").setup{
     defaults = {
       -- Default configuration for telescope goes here:
       -- config_key = value,
@@ -318,8 +327,8 @@ lua << EOF
     },
   }
 
-  require('telescope').load_extension('fzf')
-  require('telescope').load_extension('coc')
+  require("telescope").load_extension('fzf')
+  require("telescope").load_extension('coc')
 EOF
 
 " replace tab mapping
@@ -385,9 +394,9 @@ function SetupLightlineColors() abort
   let l:pallete.insert.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
   let l:pallete.insert.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
   let l:pallete.insert.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  let l:pallete.inactive.left = [ [ 'NONE', 'NONE', '0', '8' ] ]
-  let l:pallete.inactive.right = [ [ 'NONE', 'NONE', '0', '8' ] ]
-  let l:pallete.inactive.middle = [ [ 'NONE', 'NONE', '0', '8' ] ]
+  let l:pallete.inactive.left = [ [ 'NONE', 'NONE', '10', '8' ] ]
+  let l:pallete.inactive.right = [ [ 'NONE', 'NONE', '10', '8' ] ]
+  let l:pallete.inactive.middle = [ [ 'NONE', 'NONE', '10', '8' ] ]
   let l:pallete.tabline.left = l:pallete.normal.middle
   let l:pallete.tabline.middle = l:pallete.normal.middle
   let l:pallete.tabline.right = l:pallete.normal.middle
@@ -400,13 +409,6 @@ colorscheme wal
 if v:progname =~? "evim"
   finish
 endif
-
-augroup vimrcEx
-  au!
-
-  " For all text files set 'textwidth' to 78 characters.
-  autocmd FileType text setlocal textwidth=78
-augroup END
 
 " Add optional packages.
 "

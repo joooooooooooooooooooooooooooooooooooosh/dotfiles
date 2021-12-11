@@ -21,7 +21,7 @@ cp -u ~/.config/ranger/* $DOT_DIR"ranger/"
 cp -u ~/.config/rofi/*  $DOT_DIR"rofi/"
 cp -ur ~/.vim/skeletons $DOT_DIR"skeletons/"
 
-cur_theme=`cat $DOT_DIR".zshrc" | grep ^ZSH_THEME | sed 's/.*"\(.*\)".*/\1/'`
+cur_theme=`cat $DOT_DIR".zshrc" | grep ^ZSH_THEME | cut -d\" -f2`
 
 [ "$cur_theme" != "random" ] && cp "$HOME/.oh-my-zsh/themes/$cur_theme.zsh-theme" $DOT_DIR"current.zsh-theme"
 

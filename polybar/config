@@ -52,6 +52,7 @@ padding-right = 3
 module-margin-left = 1
 module-margin-right = 1
 
+; TODO: add unicode (mostly for player)
 font-0 = moreicons:style=Regular:size=13;3
 font-1 = policons:style=Regular:size=13;3
 font-2 = Nimbus Sans:style=Regular:size=11;3.5

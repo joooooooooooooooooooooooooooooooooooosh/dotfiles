@@ -128,6 +128,7 @@ alias c=lr
 alias cr=lr
 alias n=nvim
 alias fzn='fzf | xargs nvim'
+alias fzd='cd ~/Documents; fzf | xargs nvim'
 alias fns='fd Session.vim | fzf | xargs nvim -S'
 alias binja=binaryninja-demo
 alias lsz='du -sh * | sort -h'
@@ -142,10 +143,16 @@ fzc() {
 }
 
 ns() {
+    # very hacky workaround
+    # to stop sessions with terminals starting in insert mode
+    # TODO: modify vim-obsession to do this instead
     if [ -z $1 ]; then
-        nvim -S Session.vim
+        sed -i '/unlet SessionLoad/istopinsert' Session.vim &&
+            nvim -S Session.vim
     else
-        ls "$1"*"/Session.vim" && nvim -S "./""$1""*/Session.vim"
+        # ls "$1"*"/Session.vim" &&
+        sed -i '/unlet SessionLoad/istopinsert' "./""$1"*"/Session.vim" &&
+            nvim -S "./""$1""*/Session.vim"
     fi
 }
 
