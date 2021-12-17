@@ -63,7 +63,7 @@ font-2 = Nimbus Sans:style=Regular:size=11;3.5
 modules-left = i3 pulseaudio player split
 modules-center = polywins
 ; modules-center = xwindow
-modules-right = aslr aur brightness micvolume filesystem memory cpu newcharging newbattery wlan date power
+modules-right = aslr aur brightness micvolume filesystem memory cpu newbattery wlan date power
 
 tray-position = none
 tray-padding = 2
@@ -139,16 +139,7 @@ format-margin = 1
 [module/newbattery]
 type = custom/script
 exec = ~/polybar-scripts/battery.sh
-exec-if = acpi -a | grep off
-interval = 30
-format-underline = #ffb52a
-
-[module/newcharging]
-type = custom/script
-exec = acpi | awk '{print $4;}' | awk '{sum += $1} END {print int(sum/2) "%"}'
-exec-if = acpi -a | grep on
-interval = 30
-label =   %output%
+interval = 15
 format-underline = #ffb52a
 
 [module/xwindow]

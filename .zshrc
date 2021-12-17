@@ -136,6 +136,12 @@ alias laz='{du -sh .*; du -sh *} 2>/dev/null | sort -h'
 alias updot=' ~/Documents/scripts/updatedotfiles.sh'
 alias ranger='TERM=rxvt-unicode-256color ranger'
 
+swap() {
+    [ $# -ne 2 ] && echo "Usage: swap [file1] [file2]" && return
+    local TMPFILE=`mktemp`
+    mv "$1" $TMPFILE && mv "$2" "$1" && mv $TMPFILE "$2"
+}
+
 fzc() {
     file=`fzf`
     cd `echo $file | sed 's/\/[^\/]*$//'` 2>/dev/null

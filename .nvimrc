@@ -60,6 +60,8 @@ nnoremap <Leader>; ;
 nnoremap <S-Tab> <<_
 vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
+vnoremap > >gv
+vnoremap < <gv
 nmap <C-n> :NERDTreeToggle<CR>
 nmap <C-e> $
 imap <C-e> <Esc>A
@@ -121,7 +123,8 @@ cnoreabbrev <expr> t getcmdtype() == ":" && getcmdline() == 't' ? 'Telescope' : 
 
 nnoremap \gpf :Git push --force-with-lease<CR>
 " TODO: make this work in multiple languages, support multiple vars
-nnoremap \p ^iprintln!("{}", <Esc>A);<Esc>
+nnoremap \p ^iprintln!("{}", <Esc>A);<Esc>==
+nnoremap \dp ^iprintln!("{:?}", <Esc>A);<Esc>==
 
 nnoremap <Leader>t :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
 nnoremap <Leader>T :tabnew<CR>:terminal<CR>
