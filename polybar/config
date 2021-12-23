@@ -126,7 +126,7 @@ scroll-down = amixer -D pulse set Capture 5%- && ~/Documents/scripts/updatemic.s
 
 [module/polywins]
 type = custom/script
-exec = ~/Documents/code/polywins/polywins.sh 2>/dev/null
+exec = ~/Documents/code/polywins/polywins.sh $MONITOR 2>/dev/null
 tail = true
 
 [module/player]
