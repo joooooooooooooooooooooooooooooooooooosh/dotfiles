@@ -15,7 +15,6 @@ move_left() {
 
 move_right() {
     move=$((`i3-msg -t get_workspaces | sed 's/,/\n/g' | grep name | cut -d\" -f4 | sort -nr | head -1` + 1))
-
     check_empty_desktop
 }
 

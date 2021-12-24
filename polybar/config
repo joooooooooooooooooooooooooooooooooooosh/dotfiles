@@ -100,14 +100,6 @@ initial = 1
 click-left = qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout -1 -1 -1
 click-right = systemsettings5
 
-[module/headphones]
-type = custom/ipc
-hook-0 = ~/polybar-scripts/bluescript.sh
-initial = 1
-click-left = ~/Documents/scripts/bluescript.sh
-click-right = ~/polybar-scripts/disconnect.sh
-format-underline = #3B5998
-
 [module/aur]
 type = custom/script
 exec = cat ~/polybar-scripts/.polybar-aur
