@@ -7,11 +7,11 @@ rm -r $DOT_DIR"scripts/"
 cp -ur ~/Documents/scripts $DOT_DIR
 rm -r $DOT_DIR"polybar-scripts/"
 cp -ur ~/polybar-scripts $DOT_DIR
+cp -u ~/.vimrc $DOT_DIR"vim/"
+cp -u ~/.nvimrc $DOT_DIR"vim/"
+cp -u ~/.vim/plugged/wal.vim/colors/wal.vim $DOT_DIR"vim/"
 cp -u ~/.zshrc $DOT_DIR
 cp -u ~/.bashrc $DOT_DIR
-cp -u ~/.vimrc $DOT_DIR
-cp -u ~/.nvimrc $DOT_DIR
-cp -u ~/.vim/plugged/wal.vim/colors/wal.vim $DOT_DIR
 cp -u ~/.Xresources $DOT_DIR
 cp -u ~/.gitconfig $DOT_DIR
 cp -u ~/.gdbinit $DOT_DIR
