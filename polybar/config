@@ -111,13 +111,13 @@ format-underline = #3B5998
 [module/aur]
 type = custom/script
 exec = cat ~/polybar-scripts/.polybar-aur
-click-left = kill $(wmctrl -pl | grep 'updatelist_polybar_aur' | cut -d' ' -f4) || alacritty -t "updatelist_polybar_aur" -e zsh -ic 'while [ -f "/tmp/polybar-aur.lock" ]; do sleep 0.1; done; nvim $HOME/polybar-scripts/.updatelist'
+click-left = ~/Documents/scripts/toggleupdates.sh
 click-right = alacritty --hold -e zsh -ic 'yay -Syu --answerclean None --answerdiff None --answeredit None --answerupgrade None; echo Installation finished'
 interval = 10
 
 [module/micvolume]
 type = custom/script
-exec = ~/Documents/scripts/microphone.sh
+exec = ~/Documents/scripts/microphone.sh 2>/dev/null
 tail = true
 click-left = pulseaudio-ctl mute-input && ~/Documents/scripts/updatemic.sh
 click-right = systemsettings5 kcm_pulseaudio

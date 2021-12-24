@@ -101,7 +101,6 @@ bindsym $mod+Ctrl+b exec --no-startup-id "~/Documents/scripts/changebackground.s
 bindsym $mod+Ctrl+v exec cse /home/joshh/.vscode/extensions/dlasagno.wal-theme-1.0.4/themes/wal.json .vscode-server/extensions/dlasagno.wal-theme-1.0.4/themes/wal.json 
 
 bindsym $mod+e exec dolphin
-bindsym $mod+Shift+u exec dolphin ~/Documents/UNSW
 bindsym $mod+Shift+m exec dolphin ~/Documents/MuseScore3/Scores
 bindsym $mod+Shift+w exec dolphin /run/media/joshh/Windows-SSD/Users/joshh/Documents
 bindsym Mod4+s exec spectacle
@@ -116,6 +115,8 @@ bindsym $mod+Mod4+c exec ~/Documents/scripts/bluescript.sh 1C:52:16:5F:E1:75
 bindsym $mod+Mod4+s exec ~/Documents/scripts/bluescript.sh
 bindsym $mod+Ctrl+p exec ~/Documents/scripts/bluescript.sh
 #bindsym $mod+Mod4+s exec ~/Documents/scripts/bluescript.sh 00:1B:66:C5:29:8F
+
+bindsym $mod+Ctrl+u exec ~/Documents/scripts/toggleupdates.sh
 
 # gamma go brr
 bindsym $mod+Ctrl+Shift+t           exec xrandr --output HDMI-1 --brightness 1.5

@@ -334,6 +334,11 @@ lua << EOF
   require("telescope").load_extension('coc')
 EOF
 
+" Git diff hunk commands from the perspective of the working copy.
+" nnoremap [d :diffget //2 | diffup<CR>
+" nnoremap =d :diffput % | diffup<CR>
+" nnoremap ]d :diffget //3 | diffup<CR>
+
 " replace tab mapping
 imap <silent><script><expr> <C-T> copilot#Accept("")
 let g:copilot_no_tab_map = v:true
