@@ -11,7 +11,7 @@ autocmd FileType markdown,text setlocal spell wrap
 autocmd FileType tex,plaintex setlocal spell wrap
 autocmd FileType text setlocal textwidth=78
 
-autocmd BufReadPre *.s setlocal tabstop=8
+autocmd BufReadPre *.s setlocal tabstop=8 shiftwidth=8 expandtab
 autocmd BufNewFile *.c  0r ~/.vim/skeletons/skeleton.c
 autocmd BufNewFile day*.rs  0r ~/.vim/skeletons/aoc.rs
 
@@ -121,6 +121,7 @@ cnoreabbrev <expr> tc getcmdtype() == ":" && getcmdline() == 'tc' ? 'tabclose' :
 cnoreabbrev <expr> T getcmdtype() == ":" && getcmdline() == 'T' ? 'Telescope' : 'T'
 cnoreabbrev <expr> t getcmdtype() == ":" && getcmdline() == 't' ? 'Telescope' : 't'
 
+nnoremap \cx :Dispatch! chmod +x %<CR>
 nnoremap \gpf :Git push --force-with-lease<CR>
 " TODO: make this work in multiple languages, support multiple vars
 nnoremap \p ^iprintln!("{}", <Esc>A);<Esc>==

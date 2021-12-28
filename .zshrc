@@ -156,7 +156,12 @@ ns() {
         sed -i '/unlet SessionLoad/istopinsert' Session.vim &&
             nvim -S Session.vim
     else
-        # ls "$1"*"/Session.vim" &&
+        if [ `compgen -G "$1*" | wc -l` -ne 1 ]; then
+            echo "Too many matches for $1:"
+            compgen -G "$1*"
+            return 1
+        fi
+
         sed -i '/unlet SessionLoad/istopinsert' "./""$1"*"/Session.vim" &&
             nvim -S "./""$1""*/Session.vim"
     fi

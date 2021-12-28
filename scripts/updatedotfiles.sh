@@ -1,12 +1,12 @@
 #!/bin/bash
 DOT_DIR="$HOME/.dotfiles/"
+CONFIG_DIR=$DOT_DIR"config/"
 
-rm -r $DOT_DIR"polybar/"
-cp -ur ~/.config/polybar $DOT_DIR
+rm -r $CONFIG_DIR"polybar/"
+cp -ur ~/.config/polybar $CONFIG_DIR"polybar/"
 rm -r $DOT_DIR"scripts/"
 cp -ur ~/Documents/scripts $DOT_DIR
-rm -r $DOT_DIR"polybar-scripts/"
-cp -ur ~/polybar-scripts $DOT_DIR
+cp -ur ~/polybar-scripts $CONFIG_DIR"polybar/polybar-scripts/"
 cp -u ~/.vimrc $DOT_DIR"vim/"
 cp -u ~/.nvimrc $DOT_DIR"vim/"
 cp -u ~/.vim/plugged/wal.vim/colors/wal.vim $DOT_DIR"vim/"
@@ -16,16 +16,16 @@ cp -u ~/.Xresources $DOT_DIR
 cp -u ~/.gitconfig $DOT_DIR
 cp -u ~/.gdbinit $DOT_DIR
 cp -u /etc/xdg/picom.conf $DOT_DIR
-cp -u ~/.config/fusuma/config.yml $DOT_DIR"fusuma/"
-cp -u ~/.config/i3/config $DOT_DIR"i3/"
-cp -u ~/.config/spicetify/config.ini $DOT_DIR"spicetify/"
-cp -u ~/.config/alacritty/alacritty.yml $DOT_DIR
-rm -r $DOT_DIR"ranger/"
-cp -ur ~/.config/ranger $DOT_DIR"ranger/"
-rm -r $DOT_DIR"rofi/"
-cp -ur ~/.config/rofi $DOT_DIR
-rm -r $DOT_DIR"skeletons/"
-cp -ur ~/.vim/skeletons $DOT_DIR
+cp -u ~/.config/fusuma/config.yml $CONFIG_DIR"fusuma/"
+cp -u ~/.config/i3/config $CONFIG_DIR"i3/"
+cp -u ~/.config/spicetify/config.ini $CONFIG_DIR"spicetify/"
+cp -u ~/.config/alacritty/alacritty.yml $CONFIG_DIR"alacritty/"
+rm -r $CONFIG_DIR"ranger/"
+cp -ur ~/.config/ranger $CONFIG_DIR"ranger/"
+rm -r $CONFIG_DIR"rofi/"
+cp -ur ~/.config/rofi $CONFIG_DIR"rofi/"
+rm -r $DOT_DIR"vim/skeletons/"
+cp -ur ~/.vim/skeletons $DOT_DIR"vim/"
 
 cur_theme=`cat $DOT_DIR".zshrc" | grep ^ZSH_THEME | cut -d\" -f2`
 

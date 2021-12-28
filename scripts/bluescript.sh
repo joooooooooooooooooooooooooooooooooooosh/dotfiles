@@ -18,4 +18,3 @@ fi
 sleep 3
 echo -e 'exit' >&p
 sleep 2
-polybar-msg hook headphones 1

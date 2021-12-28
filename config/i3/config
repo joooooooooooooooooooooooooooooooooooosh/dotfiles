@@ -452,7 +452,6 @@ bindsym $mod+r mode "resize"
 # Disable titlebar
 new_window pixel 0
 new_float pixel 0
-# border_radius 5
 
 # Gaps (i3-gaps)
 gaps inner 4
