@@ -136,6 +136,13 @@ alias laz='{du -sh .*; du -sh *} 2>/dev/null | sort -h'
 alias updot=' ~/Documents/scripts/updatedotfiles.sh'
 alias ranger='TERM=rxvt-unicode-256color ranger'
 
+unalias gcl
+gcl() {
+    [ $# -lt 1 ] && echo "err: need repo to clone" && return
+    git clone $1
+    cd $(sed -E 's|.*/(.*)\..*|\1|' <<< $1)
+}
+
 swap() {
     [ $# -ne 2 ] && echo "Usage: swap [file1] [file2]" && return
     local TMPFILE=`mktemp`

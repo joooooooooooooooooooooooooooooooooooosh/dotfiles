@@ -98,6 +98,7 @@ bindsym $mod+Ctrl+Shift+space exec ~/polybar-scripts/player-mpris-tail.py play-p
 bindsym $mod+Ctrl+Shift+Right exec ~/polybar-scripts/player-mpris-tail.py next
 
 bindsym $mod+Ctrl+b exec --no-startup-id "~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers/"
+bindsym $mod+Ctrl+l exec --no-startup-id "~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers/ -l"
 bindsym $mod+Ctrl+v exec cse /home/joshh/.vscode/extensions/dlasagno.wal-theme-1.0.4/themes/wal.json .vscode-server/extensions/dlasagno.wal-theme-1.0.4/themes/wal.json 
 
 bindsym $mod+e exec dolphin

@@ -158,7 +158,8 @@ nnoremap <Leader>R :CocRestart<CR>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fc :Telescope coc 
 nnoremap <leader>fds <cmd>Telescope coc document_symbols<cr>
-nnoremap <leader>fws <cmd>Telescope coc workspace_symbols<cr>
+" disable for now since it tends to hang
+" nnoremap <leader>fws <cmd>Telescope coc workspace_symbols<cr>
 " is there a difference to find_files?
 nnoremap <leader>ff <cmd>Telescope fd<cr> 
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
