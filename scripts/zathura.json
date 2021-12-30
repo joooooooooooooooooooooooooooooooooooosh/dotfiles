@@ -1,8 +1,8 @@
 {
-  "page": "#cdcccc",
-  "text": "#333333",
-  "background": "#cdcccc",
-  "highlight": "#766556",
-  "highlight_active": "#C7966C",
-  "error": "#A8A19A"
+  "page": "#090707",
+  "text": "#c1c1c1",
+  "background": "#090707",
+  "highlight": "#573f39",
+  "highlight_active": "#6D6160",
+  "error": "#834E3B"
 }

@@ -1,9 +1,10 @@
 #!/bin/bash
 
-wal -q -i $@
-if [ -z $2 ]; then
+if [ -n $2 ]; then
     echo "alsdfjk"
 fi
+exit
+wal -q -i $@
 wal-discord
 spicetify update >/dev/null
 sed -i 's/@selected-.*fore/@back/' ~/.cache/wal/colors-rofi-dark.rasi
