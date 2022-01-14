@@ -3,6 +3,7 @@ filetype indent plugin on
 autocmd TermOpen * startinsert
 autocmd TermOpen * setlocal nonumber norelativenumber nospell
 autocmd BufWinEnter,WinEnter term://* startinsert
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
 " TODO: only compile tex once and copy resulting pdf to view.pdf
 " autocmd BufWritePost *.tex exec 'Dispatch! cp % view.tex; pdflatex view.tex'
 autocmd BufWritePost *.tex exec 'Dispatch! pdflatex %'
@@ -123,9 +124,15 @@ cnoreabbrev <expr> t getcmdtype() == ":" && getcmdline() == 't' ? 'Telescope' : 
 
 nnoremap \cx :Dispatch! chmod +x %<CR>
 nnoremap \gpf :Git push --force-with-lease<CR>
-" TODO: make this work in multiple languages, support multiple vars
-nnoremap \p ^iprintln!("{}", <Esc>A);<Esc>==
-nnoremap \dp ^iprintln!("{:?}", <Esc>A);<Esc>==
+
+" TODO: make this work in multiple languages
+nnoremap \p :s/\(\<[^ ]\+\)/{\1}/g<CR>^iprintln!("<Esc>A");<Esc>==
+nnoremap \dp :s/\(\<[^ ]\+\)/{\1:?}/g<CR>^iprintln!("<Esc>A");<Esc>==
+nnoremap \ep :s/\(\<[^ ]\+\)/{\1:#?}/g<CR>^iprintln!("<Esc>A");<Esc>==
+
+nmap \op "zyiwo<C-R>z<Esc>\p
+nmap \odp "zyiwo<C-R>z<Esc>\dp
+nmap \oep "zyiwo<C-R>z<Esc>\ep
 
 nnoremap <Leader>t :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
 nnoremap <Leader>T :tabnew<CR>:terminal<CR>
@@ -165,6 +172,7 @@ nnoremap <leader>ff <cmd>Telescope fd<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fl <cmd>Telescope loclist<cr>
 nnoremap <leader>fm <cmd>Telescope man_pages<cr>
+nnoremap <leader>fr <cmd>Telescope coc references<cr>
 nnoremap <leader>fs <cmd>Telescope spell_suggest<cr>
 nnoremap <leader>ft <cmd>Telescope live_grep<cr>TODO
 nnoremap <leader>fq <cmd>Telescope quickfix<cr>

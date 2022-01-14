@@ -128,19 +128,25 @@ alias c=lr
 alias cr=lr
 alias n=nvim
 alias fzn='fzf | xargs nvim'
-alias fzd='cd ~/Documents; fzf | xargs nvim'
+alias fzd='cd ~/Documents; fzc'
 alias fns='fd Session.vim | fzf | xargs nvim -S'
 alias binja=binaryninja-demo
 alias lsz='du -sh * | sort -h'
 alias laz='{du -sh .*; du -sh *} 2>/dev/null | sort -h'
 alias updot=' ~/Documents/scripts/updatedotfiles.sh'
 alias ranger='TERM=rxvt-unicode-256color ranger'
+alias m=tldr
 
 unalias gcl
 gcl() {
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
     git clone $1
     cd $(sed -E 's|.*/(.*)\..*|\1|' <<< $1)
+}
+
+tldr() {
+    [ $# -lt 1 ] && {/usr/bin/tldr; return}
+    /usr/bin/tldr $@ | less
 }
 
 swap() {
@@ -206,10 +212,6 @@ vr() {
 mkcd() {
     mkdir -p $1
     cd $1
-}
-
-manos() {
-    links "https://cgi.cse.unsw.edu.au/~cs3231/18s1/os161/man/$1.html"
 }
 
 bible() {

@@ -72,7 +72,7 @@ tray-transparent = true
 
 [module/split]
 type = custom/script
-exec = python -u ~/Documents/code/i3-alternating-layout/alternating_layouts.py
+exec = ~/Documents/code/i3-alternating-layout/bin/python -u ~/Documents/code/i3-alternating-layout/alternating_layouts.py
 tail = true
 
 [module/aslr]
