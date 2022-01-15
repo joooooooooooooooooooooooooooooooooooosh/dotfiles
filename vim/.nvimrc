@@ -126,11 +126,12 @@ nnoremap \cx :Dispatch! chmod +x %<CR>
 nnoremap \gpf :Git push --force-with-lease<CR>
 
 " TODO: make this work in multiple languages
-nnoremap \p :s/\(\<[^ ]\+\)/{\1}/g<CR>^iprintln!("<Esc>A");<Esc>==
+nnoremap \p iprintln!("");<Esc>==0ci"
+nnoremap \ap :s/\(\<[^ ]\+\)/{\1}/g<CR>^iprintln!("<Esc>A");<Esc>==
 nnoremap \dp :s/\(\<[^ ]\+\)/{\1:?}/g<CR>^iprintln!("<Esc>A");<Esc>==
 nnoremap \ep :s/\(\<[^ ]\+\)/{\1:#?}/g<CR>^iprintln!("<Esc>A");<Esc>==
 
-nmap \op "zyiwo<C-R>z<Esc>\p
+nmap \oap "zyiwo<C-R>z<Esc>\ap
 nmap \odp "zyiwo<C-R>z<Esc>\dp
 nmap \oep "zyiwo<C-R>z<Esc>\ep
 

@@ -36,8 +36,9 @@ if ! [ $# -ge 1 -a "$1" == "-n" ]; then
     if [ "$1" == "-d" ]; then
         git diff
     else
-        git add -A
-        git commit -m "new dotfiles"
+        git add -Ap
+        read -p "Commit message: " msg
+        git commit -m "$msg"
         git push
     fi
 fi
