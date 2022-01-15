@@ -34,6 +34,28 @@ ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
 
 zmodload zsh/datetime
 
+get_prompt_string() {
+    PRE_PROMPT="╭─${user_host}${current_dir}${rvm_ruby}${git_branch}${venv_prompt}"
+    local zero='%([BSUbfksu]|([FK]|){*})'
+    REAL_LENGTH=${#${(S%%)PRE_PROMPT//$~zero/}} 
+}
+
+TRAPWINCH() {
+    # if current prompt wraps after resize, clear extra prompt line and redraw
+    # TODO: REAL_LENGTH isn't calculating git_branch properly
+    # TODO: breaks with RPROMPT
+
+    if [ $REAL_LENGTH -gt $COLUMNS ]; then 
+        print -n "[2K[1F[2K"
+        print -Pn "$PROMPT"
+    fi
+
+    get_prompt_string
+    print -n "7[1F[2K"
+    print -Pn "$PRE_PROMPT"
+    print -n "8"
+}
+
 prompt_preexec() {
   prompt_prexec_realtime=${EPOCHREALTIME}
 }
@@ -63,8 +85,8 @@ prompt_precmd() {
     unset prompt_elapsed_time
   fi
 
-  print -P "╭─${user_host}${current_dir}${rvm_ruby}${git_branch}${venv_prompt}"
-  PROMPT="╰─%B${user_symbol}%b "
+  get_prompt_string
+  print -P "$PRE_PROMPT"
 }
 
 setopt nopromptbang prompt{cr,percent,sp,subst}
