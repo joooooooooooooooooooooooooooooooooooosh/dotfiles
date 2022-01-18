@@ -141,7 +141,7 @@ unalias gcl
 gcl() {
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
     git clone $1
-    cd $(sed -E 's|.*/(.*)\..*|\1|' <<< $1)
+    cd $(sed -E 's|(.*)\.git|\1|; s|.*/(.*)|\1|' <<< $1)
 }
 
 tldr() {
