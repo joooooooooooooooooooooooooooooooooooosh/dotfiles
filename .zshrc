@@ -81,7 +81,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 export FZF_BASE=/usr/bin/fzf
-plugins=(git zsh-autosuggestions autoupdate colored-man-pages autoenv fzf)
+plugins=(git zsh-autosuggestions autoupdate colored-man-pages autoenv fzf copybuffer)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -118,7 +118,7 @@ alias ks=ls
 alias rm='rm -I'
 alias cb='xclip -selection clipboard'
 alias pls='sudo $(fc -ln -1)'
-alias cpd='echo $(fc -ln -1) | perl -pe "chomp if eof" | cb'
+alias cpd='echo $(fc -ln -1) | perl -pe "chomp if eof" | cb' # C-o now does this for current line
 alias timer=termdown
 alias screenkey='screenkey --scr 1 --opacity 0.1 -s small'
 alias yeah=yes
@@ -141,7 +141,7 @@ unalias gcl
 gcl() {
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
     git clone $1
-    cd $(sed -E 's|(.*)\.git|\1|; s|.*/(.*)|\1|' <<< $1)
+    cd $(sed -E 's|(.*)\.git\/?|\1|; s|.*/(.*)|\1|' <<< $1)
 }
 
 tldr() {
