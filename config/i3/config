@@ -55,7 +55,8 @@ bindsym F1 exec pulseaudio-ctl mute
 bindsym F2 exec Documents/scripts/politebeep.sh down
 bindsym F3 exec Documents/scripts/politebeep.sh up
 bindsym F4 exec pulseaudio-ctl mute-input && ~/Documents/scripts/updatemic.sh
-bindsym F6 exec ~/polybar-scripts/player-mpris-tail.py previous
+bindsym F5 exec ~/polybar-scripts/player-mpris-tail.py previous
+bindsym F6 exec ~/polybar-scripts/player-mpris-tail.py play-pause
 bindsym F7 exec ~/polybar-scripts/player-mpris-tail.py play-pause
 bindsym F8 exec ~/polybar-scripts/player-mpris-tail.py next
 
@@ -239,6 +240,8 @@ workspace 19 output eDP-1 HDMI-1
 workspace 20 output eDP-1 HDMI-1
 
 # switch to workspace
+bindsym $mod+Ctrl+a exec ~/Documents/scripts/alphaomega.sh head
+bindsym $mod+Ctrl+e exec ~/Documents/scripts/alphaomega.sh tail
 bindsym $mod+o exec i3-msg workspace `rofi -dmenu -p workspace`
 bindsym $mod+Escape workspace 0
 bindsym $mod+grave workspace 0
@@ -326,10 +329,12 @@ mode "discord" {
         bindsym --release Mod1+Ctrl+k exec xdotool key ctrl+alt+Up  
         bindsym --release Mod1+Ctrl+j exec xdotool key ctrl+alt+Down  
 
+        bindsym --release r mode default; exec xdotool key Escape; mode discord
+
         bindsym $mod+semicolon mode default; focus output left
         bindsym $mod+h mode default; focus left
         bindsym $mod+l mode default; focus right
-        bindsym --release Escape mode default; exec xdotool key Escape
+        # bindsym --release Escape mode default; exec xdotool key Escape
         bindsym $mod+Ctrl+d mode default
         bindsym t mode default
 }
@@ -358,8 +363,8 @@ mode "one-handed" {
         bindsym F3 exec Documents/scripts/politebeep.sh up
         bindsym F4 exec pulseaudio-ctl mute & polybar-msg hook microphone 1
 
-        bindsym F5 exec ~/polybar-scripts/player-mpris-tail.py play-pause
-        bindsym F6 exec ~/polybar-scripts/player-mpris-tail.py previous
+        bindsym F5 exec ~/polybar-scripts/player-mpris-tail.py previous
+        bindsym F6 exec ~/polybar-scripts/player-mpris-tail.py play-pause
         bindsym F7 exec ~/polybar-scripts/player-mpris-tail.py play-pause
         bindsym F8 exec ~/polybar-scripts/player-mpris-tail.py next
         # bindsym space exec ~/polybar-scripts/player-mpris-tail.py play-pause
