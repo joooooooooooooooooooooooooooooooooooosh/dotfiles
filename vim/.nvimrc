@@ -109,6 +109,7 @@ nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 " edit macros
 nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
 
+" TODO: tabs are broken for some reason
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
@@ -326,7 +327,7 @@ lua << EOF
           ["<C-h>"] = "which_key",
           -- add_to_qflist if we don't want to overwrite existing entries
           ["<C-q>"] = actions.send_to_qflist,
-          ["<Esc>"] = "close",
+          -- ["<Esc>"] = "close",
         },
       }
     },
@@ -369,12 +370,14 @@ nmap <silent> ]g <Plug>(coc-diagnostic-next)
 nmap <leader>rn <Plug>(coc-rename)
 xmap <leader>=  <Plug>(coc-format-selected)
 nmap <leader>=  <Plug>(coc-format-selected)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation) " gi used for last insert
-nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gd :Telescope coc definitions<CR>
+nmap <silent> gy :Telescope coc type_definitions<CR>
+nmap <silent> gi :Telescope coc implementations<CR>
+nmap <silent> gr :Telescope coc references<CR>
 nmap <silent> gs <Plug>(coc-range-select)
 xmap <silent> gs <Plug>(coc-range-select)
+
+nnoremap gl gi
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
