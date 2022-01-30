@@ -36,7 +36,7 @@ if ! [ $# -ge 1 -a "$1" == "-n" ]; then
     if [ "$1" == "-d" ]; then
         git diff
     else
-        git add -Ap
+        git add -i
         read -p "Commit message: " msg
         git commit -m "$msg"
         git push
