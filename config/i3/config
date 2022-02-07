@@ -33,7 +33,8 @@ for_window [title="float_me_plz"] floating enable
 for_window [title="updatelist_polybar_aur"] floating enable
 
 #Logitech thumb button
-bindsym Ctrl+Mod1+Tab exec rofi -show drun
+bindsym Ctrl+Mod1+Tab workspace back_and_forth
+
 bindsym $mod+Ctrl+f exec $BROWSER
 bindsym $mod+Ctrl+g exec $BROWSER calendar.google.com && wmctrl -a firefox
 bindsym $mod+Ctrl+Shift+v exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@l.cse.unsw.edu.au 'bash -l''
