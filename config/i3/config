@@ -330,6 +330,9 @@ mode "discord" {
         bindsym --release Mod1+Ctrl+k exec xdotool key ctrl+alt+Up  
         bindsym --release Mod1+Ctrl+j exec xdotool key ctrl+alt+Down  
 
+        bindsym --release Ctrl+s exec xdotool key ctrl+t asterisk
+        bindsym --release Ctrl+c exec xdotool key ctrl+t shift+3
+
         bindsym --release r mode default; exec xdotool key Escape; mode discord
 
         bindsym $mod+semicolon mode default; focus output left
