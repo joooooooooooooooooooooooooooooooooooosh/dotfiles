@@ -102,7 +102,7 @@ click-right = systemsettings5
 
 [module/aur]
 type = custom/script
-exec = cat ~/polybar-scripts/.polybar-aur
+exec = cat ~/.config/polybar/polybar-scripts/.polybar-aur
 click-left = ~/Documents/scripts/toggleupdates.sh
 click-right = alacritty --hold -e zsh -ic 'yay -Syu --answerclean None --answerdiff None --answeredit None --answerupgrade None; echo Installation finished'
 interval = 10
@@ -123,14 +123,14 @@ tail = true
 
 [module/player]
 type = custom/script
-exec = ~/polybar-scripts/player-mpris-tail.py -f ' {:t40:{title}:} %{A1:~/polybar-scripts/player-mpris-tail.py previous:}  %{A} %{A1:~/polybar-scripts/player-mpris-tail.py play-pause:} {icon} %{A} %{A1:~/polybar-scripts/player-mpris-tail.py next:}  %{A}' --icon-playing  --icon-paused 
+exec = ~/.config/polybar/polybar-scripts/player-mpris-tail.py -f ' {:t40:{title}:} %{A1:~/.config/polybar/polybar-scripts/player-mpris-tail.py previous:}  %{A} %{A1:~/.config/polybar/polybar-scripts/player-mpris-tail.py play-pause:} {icon} %{A} %{A1:~/.config/polybar/polybar-scripts/player-mpris-tail.py next:}  %{A}' --icon-playing  --icon-paused 
 tail = true
 format-underline = #1db954
 format-margin = 1
 
 [module/newbattery]
 type = custom/script
-exec = ~/polybar-scripts/battery.sh
+exec = ~/.config/polybar/polybar-scripts/battery.sh
 interval = 15
 format-underline = #ffb52a
 

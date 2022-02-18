@@ -1,5 +1,5 @@
 #!/bin/sh 
-dir="$HOME/polybar-scripts"
+dir="$HOME/.config/polybar/polybar-scripts"
 list="$dir/.updatelist"
 polybar_output="$dir/.polybar-aur"
 tmp_lock="/tmp/polybar-aur.lock"

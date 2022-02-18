@@ -6,7 +6,6 @@ rm -r $CONFIG_DIR"polybar/"
 cp -ur ~/.config/polybar $CONFIG_DIR"polybar/"
 rm -r $DOT_DIR"scripts/"
 cp -ur ~/Documents/scripts $DOT_DIR
-cp -ur ~/polybar-scripts $CONFIG_DIR"polybar/polybar-scripts/"
 cp -u ~/.vimrc $DOT_DIR"vim/"
 cp -u ~/.nvimrc $DOT_DIR"vim/"
 cp -u ~/.vim/plugged/wal.vim/colors/wal.vim $DOT_DIR"vim/"

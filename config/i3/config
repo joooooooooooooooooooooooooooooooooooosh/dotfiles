@@ -48,18 +48,18 @@ bindsym $mod+Ctrl+Shift+s exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@logi
 # bindsym XF86AudioMute exec pulseaudio-ctl mute
 # bindsym XF86AudioMicMute exec pulseaudio-ctl mute-input && ~/Documents/scripts/updatemic.sh
 # bindsym XF86Tools exec pulseaudio-ctl mute-input && polybar-msg hook microphone 1
-# bindsym XF86AudioPrev exec ~/polybar-scripts/player-mpris-tail.py previous
-# bindsym XF86AudioPlay exec ~/polybar-scripts/player-mpris-tail.py play-pause
-# bindsym XF86AudioNext exec ~/polybar-scripts/player-mpris-tail.py next
+# bindsym XF86AudioPrev exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py previous
+# bindsym XF86AudioPlay exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py play-pause
+# bindsym XF86AudioNext exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py next
 
 bindsym F1 exec pulseaudio-ctl mute
 bindsym F2 exec Documents/scripts/politebeep.sh down
 bindsym F3 exec Documents/scripts/politebeep.sh up
 bindsym F4 exec pulseaudio-ctl mute-input && ~/Documents/scripts/updatemic.sh
-bindsym F5 exec ~/polybar-scripts/player-mpris-tail.py previous
-bindsym F6 exec ~/polybar-scripts/player-mpris-tail.py play-pause
-bindsym F7 exec ~/polybar-scripts/player-mpris-tail.py play-pause
-bindsym F8 exec ~/polybar-scripts/player-mpris-tail.py next
+bindsym F5 exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py previous
+bindsym F6 exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py play-pause
+bindsym F7 exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py play-pause
+bindsym F8 exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py next
 
 #Multi monitor
 bindsym $mod+semicolon focus output left
@@ -92,13 +92,13 @@ bindsym $mod+Ctrl+Shift+n exec $term -e zsh -ic 'nvim ~/.nvimrc'
 bindsym $mod+Ctrl+Shift+z exec $term -e zsh -ic 'nvim ~/.zshrc'
 bindsym $mod+Ctrl+Shift+p exec $term -e zsh -ic 'sudo nvim /etc/xdg/picom.conf'
 
-bindsym $mod+Ctrl+Shift+h exec ~/polybar-scripts/player-mpris-tail.py previous
-bindsym $mod+Ctrl+Shift+j exec ~/polybar-scripts/player-mpris-tail.py play-pause
-bindsym $mod+Ctrl+Shift+k exec ~/polybar-scripts/player-mpris-tail.py play-pause
-bindsym $mod+Ctrl+Shift+l exec ~/polybar-scripts/player-mpris-tail.py next
-bindsym $mod+Ctrl+Shift+Left exec ~/polybar-scripts/player-mpris-tail.py previous
-bindsym $mod+Ctrl+Shift+space exec ~/polybar-scripts/player-mpris-tail.py play-pause
-bindsym $mod+Ctrl+Shift+Right exec ~/polybar-scripts/player-mpris-tail.py next
+bindsym $mod+Ctrl+Shift+h exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py previous
+bindsym $mod+Ctrl+Shift+j exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py play-pause
+bindsym $mod+Ctrl+Shift+k exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py play-pause
+bindsym $mod+Ctrl+Shift+l exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py next
+bindsym $mod+Ctrl+Shift+Left exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py previous
+bindsym $mod+Ctrl+Shift+space exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py play-pause
+bindsym $mod+Ctrl+Shift+Right exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py next
 
 bindsym $mod+Ctrl+b exec --no-startup-id "~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers/"
 bindsym $mod+Ctrl+l exec --no-startup-id "~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers/ -l"
@@ -365,11 +365,11 @@ mode "one-handed" {
         bindsym F3 exec Documents/scripts/politebeep.sh up
         bindsym F4 exec pulseaudio-ctl mute & polybar-msg hook microphone 1
 
-        bindsym F5 exec ~/polybar-scripts/player-mpris-tail.py previous
-        bindsym F6 exec ~/polybar-scripts/player-mpris-tail.py play-pause
-        bindsym F7 exec ~/polybar-scripts/player-mpris-tail.py play-pause
-        bindsym F8 exec ~/polybar-scripts/player-mpris-tail.py next
-        # bindsym space exec ~/polybar-scripts/player-mpris-tail.py play-pause
+        bindsym F5 exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py previous
+        bindsym F6 exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py play-pause
+        bindsym F7 exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py play-pause
+        bindsym F8 exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py next
+        # bindsym space exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py play-pause
 
         bindsym colon focus output left
         bindsym quotedbl focus output right
