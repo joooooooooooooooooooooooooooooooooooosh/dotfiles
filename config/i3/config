@@ -38,7 +38,7 @@ bindsym Ctrl+Mod1+Tab workspace back_and_forth
 bindsym $mod+Ctrl+f exec $BROWSER
 bindsym $mod+Ctrl+g exec $BROWSER calendar.google.com && wmctrl -a firefox
 bindsym $mod+Ctrl+Shift+v exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@l.cse.unsw.edu.au 'bash -l''
-bindsym $mod+Ctrl+Shift+s exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@login.cse.unsw.edu.au 'bash -l''
+bindsym $mod+Ctrl+Shift+s exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@login.cse.unsw.edu.au'
 
 #bindsym --release $mod+Ctrl+Shift+less exec xdotool key XF86MonBrightnessDown
 #bindsym --release $mod+Ctrl+Shift+greater exec xdotool key XF86MonBrightnessUp
@@ -323,8 +323,6 @@ bindsym $mod+s exec systemsettings5 kcm_pulseaudio
 mode "discord" {
         bindsym --release k exec xdotool key alt+Up  
         bindsym --release j exec xdotool key alt+Down  
-        bindsym --release Mod1+k exec xdotool key alt+Up  
-        bindsym --release Mod1+j exec xdotool key alt+Down  
         bindsym --release Ctrl+k exec xdotool key ctrl+alt+Up  
         bindsym --release Ctrl+j exec xdotool key ctrl+alt+Down  
         bindsym --release Mod1+Ctrl+k exec xdotool key ctrl+alt+Up  
@@ -333,7 +331,7 @@ mode "discord" {
         bindsym --release Ctrl+s exec xdotool key ctrl+t asterisk
         bindsym --release Ctrl+c exec xdotool key ctrl+t shift+3
 
-        bindsym --release r mode default; exec xdotool key Escape; mode discord
+        # bindsym --release r mode default; exec xdotool key Escape; mode discord
 
         bindsym $mod+semicolon mode default; focus output left
         bindsym $mod+h mode default; focus left

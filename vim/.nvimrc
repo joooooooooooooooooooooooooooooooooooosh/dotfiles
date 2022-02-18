@@ -230,7 +230,6 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'fidian/hexmode'
 
 Plug 'github/copilot.vim'
-Plug 'sirver/ultisnips'
 call plug#end()
 
 lua << EOF
