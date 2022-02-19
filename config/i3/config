@@ -37,8 +37,8 @@ bindsym Ctrl+Mod1+Tab workspace back_and_forth
 
 bindsym $mod+Ctrl+f exec $BROWSER
 bindsym $mod+Ctrl+g exec $BROWSER calendar.google.com && wmctrl -a firefox
-bindsym $mod+Ctrl+Shift+v exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@l.cse.unsw.edu.au 'bash -l''
-bindsym $mod+Ctrl+Shift+s exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@login.cse.unsw.edu.au'
+bindsym $mod+Ctrl+Shift+v exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@l.cse.unsw.edu.au 'zsh -l''
+bindsym $mod+Ctrl+Shift+s exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@login.cse.unsw.edu.au 'zsh -l''
 
 #bindsym --release $mod+Ctrl+Shift+less exec xdotool key XF86MonBrightnessDown
 #bindsym --release $mod+Ctrl+Shift+greater exec xdotool key XF86MonBrightnessUp
