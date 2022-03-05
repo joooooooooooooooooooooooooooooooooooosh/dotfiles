@@ -7,7 +7,6 @@ set $term alacritty
 
 exec --no-startup-id ~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers
 exec --no-startup-id ~/.config/polybar/launch.sh
-exec redshift
 exec $term -e zsh -ic 'sudo fusuma -c ~/.config/fusuma/config.yml -d'
 exec xcape -e 'Control_L=Escape'
 
@@ -29,14 +28,15 @@ no_focus [class="plasmashell" window_type="notification"]
 
 for_window [class="code-oss"] fullscreen disable
 for_window [title="float_me_plz"] floating enable
-# for_window [title="zoom" class="zoom"] fullscreen disable; floating enable
+# for_window [class="zoom" title="zoom"] fullscreen disable; floating enable
+# for_window [class="zoom" title="Zoom Meeting"] floating disable
 for_window [title="updatelist_polybar_aur"] floating enable
 
 #Logitech thumb button
 bindsym Ctrl+Mod1+Tab workspace back_and_forth
 
 bindsym $mod+Ctrl+f exec $BROWSER
-bindsym $mod+Ctrl+g exec $BROWSER calendar.google.com && wmctrl -a firefox
+bindsym $mod+Ctrl+g exec pgrep firefox && firefox calendar.google.com && wmctrl -a firefox
 bindsym $mod+Ctrl+Shift+v exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@l.cse.unsw.edu.au 'zsh -l''
 bindsym $mod+Ctrl+Shift+s exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@login.cse.unsw.edu.au 'zsh -l''
 

@@ -1,9 +1,9 @@
-syntax on
-filetype indent plugin on
+" Vim: set fdm=marker fmr={{{,}}} fdl=0 fdls=-1:
+" autocmds {{{
 autocmd TermOpen * startinsert
 autocmd TermOpen * setlocal nonumber norelativenumber nospell
 autocmd BufWinEnter,WinEnter term://* startinsert
-autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | silent! checktime | endif
 " TODO: only compile tex once and copy resulting pdf to view.pdf
 " autocmd BufWritePost *.tex exec 'Dispatch! cp % view.tex; pdflatex view.tex'
 autocmd BufWritePost *.tex exec 'Dispatch! pdflatex %'
@@ -15,7 +15,11 @@ autocmd FileType text setlocal textwidth=78
 autocmd BufReadPre *.s setlocal tabstop=8 shiftwidth=8 expandtab
 autocmd BufNewFile *.c  0r ~/.vim/skeletons/skeleton.c
 autocmd BufNewFile day*.rs  0r ~/.vim/skeletons/aoc.rs
+" }}}
 
+" common settings {{{
+syntax on
+filetype indent plugin on
 set noequalalways
 set nowrap
 set tabstop=4 shiftwidth=4
@@ -48,6 +52,7 @@ set viewoptions-=options,curdir
 set dir=~/tmp/nvim//,.
 set directory=~/tmp/nvim//,.
 set backupdir=~/tmp/nvim//,.
+" }}}
 
 let mapleader=" "
 let NERDTreeMinimalUI=1
@@ -109,7 +114,6 @@ nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 " edit macros
 nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
 
-" TODO: tabs are broken for some reason
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
@@ -123,9 +127,6 @@ cnoreabbrev <expr> tc getcmdtype() == ":" && getcmdline() == 'tc' ? 'tabclose' :
 cnoreabbrev <expr> T getcmdtype() == ":" && getcmdline() == 'T' ? 'Telescope' : 'T'
 cnoreabbrev <expr> t getcmdtype() == ":" && getcmdline() == 't' ? 'Telescope' : 't'
 
-nnoremap \cx :Dispatch! chmod +x %<CR>
-nnoremap \gpf :Git push --force-with-lease<CR>
-
 " TODO: make this work in multiple languages
 nnoremap \p iprintln!("");<Esc>==0ci"
 nnoremap \ap :s/\(\<[^ ]\+\)/{\1}/g<CR>^iprintln!("<Esc>A");<Esc>==
@@ -136,6 +137,7 @@ nmap \oap "zyiwo<C-R>z<Esc>\ap
 nmap \odp "zyiwo<C-R>z<Esc>\dp
 nmap \oep "zyiwo<C-R>z<Esc>\ep
 
+" leader mappings {{{
 nnoremap <Leader>t :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
 nnoremap <Leader>T :tabnew<CR>:terminal<CR>
 nnoremap <Leader>/ :set hlsearch!<CR>
@@ -178,11 +180,12 @@ nnoremap <leader>fr <cmd>Telescope coc references<cr>
 nnoremap <leader>fs <cmd>Telescope spell_suggest<cr>
 nnoremap <leader>ft <cmd>Telescope live_grep<cr>TODO
 nnoremap <leader>fq <cmd>Telescope quickfix<cr>
+" }}}
 
 set splitbelow
 set splitright
-nnoremap <silent> <C-W><C-Q> :silent ZoomWinTabOut<CR><C-W><C-Q>
 
+" terminal mappings {{{
 tnoremap <C-W> <C-\><C-n><C-W>
 tnoremap <C-W><C-W> <C-W>
 tnoremap <Esc> <C-\><C-n>
@@ -191,11 +194,7 @@ tnoremap <C-J> <C-\><C-n><C-W><C-J>
 tnoremap <C-K> <C-\><C-n><C-W><C-K>
 tmap <silent> <C-Q> <C-\><C-n>:bd!<CR>
 tmap <silent> <C-W><C-Q> <C-\><C-n>:bd!<CR>
-
-nmap <Leader>cs :setlocal commentstring=
-nmap <silent><C-_> gcc
-vmap <silent><C-_> gc
-imap <silent><C-_> <Esc>gccA
+" }}}
 
 " augroup remember_folds
 "     autocmd!
@@ -203,6 +202,7 @@ imap <silent><C-_> <Esc>gccA
 "     autocmd BufWinEnter ?* silent! loadview | filetype detect
 " augroup END
 
+" plugins {{{
 call plug#begin('~/.vim/plugged')
 Plug 'dylanaraps/wal.vim'
 Plug 'p00f/nvim-ts-rainbow'
@@ -231,7 +231,9 @@ Plug 'fidian/hexmode'
 
 Plug 'github/copilot.vim'
 call plug#end()
+" }}}
 
+" lua configuration {{{
 lua << EOF
   require("zen-mode").setup {
     -- your configuration comes here
@@ -344,15 +346,20 @@ lua << EOF
   require("telescope").load_extension('fzf')
   require("telescope").load_extension('coc')
 EOF
+" }}}
 
 " Git diff hunk commands from the perspective of the working copy.
 " nnoremap [d :diffget //2 | diffup<CR>
 " nnoremap =d :diffput % | diffup<CR>
 " nnoremap ]d :diffget //3 | diffup<CR>
 
+" plugin key mappings {{{
 " replace tab mapping
 imap <silent><script><expr> <C-T> copilot#Accept("")
 let g:copilot_no_tab_map = v:true
+
+nnoremap \cx :Dispatch! chmod +x %<CR>
+nnoremap \gpf :Git push --force-with-lease<CR>
 
 nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
 inoremap <silent><expr> <C-x><C-o> coc#refresh()
@@ -377,6 +384,12 @@ nmap <silent> gs <Plug>(coc-range-select)
 xmap <silent> gs <Plug>(coc-range-select)
 
 nnoremap gl gi
+nnoremap <silent> <C-W><C-Q> :silent ZoomWinTabOut<CR><C-W><C-Q>
+
+nmap <Leader>cs :setlocal commentstring=
+nmap <silent><C-_> gcc
+vmap <silent><C-_> gc
+imap <silent><C-_> <Esc>gccA
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
@@ -399,7 +412,9 @@ highlight CocErrorSign ctermfg=4
 highlight CocErrorVirtualText ctermfg=4
 highlight CocWarningSign ctermfg=6
 highlight CocWarningVirtualText ctermfg=6
+" }}}
 
+" lightline {{{
 autocmd VimEnter * call SetupLightlineColors()
 function SetupLightlineColors() abort
   let l:pallete = lightline#palette()
@@ -424,6 +439,7 @@ function SetupLightlineColors() abort
   let l:pallete.tabline.tabsel = [ [ 'NONE', 'NONE', 'NONE', '10' ] ]
   call lightline#colorscheme()
 endfunction
+" }}}
 
 colorscheme wal
 
