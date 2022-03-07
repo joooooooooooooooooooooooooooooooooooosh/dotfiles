@@ -138,48 +138,48 @@ nmap \odp "zyiwo<C-R>z<Esc>\dp
 nmap \oep "zyiwo<C-R>z<Esc>\ep
 
 " leader mappings {{{
-nnoremap <Leader>t :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
-nnoremap <Leader>T :tabnew<CR>:terminal<CR>
-nnoremap <Leader>/ :set hlsearch!<CR>
-nnoremap <Leader>, :tabmove -1<CR>
-nnoremap <Leader>. :tabmove +1<CR>
-nnoremap <Leader>0 ^
-nnoremap <Leader>a ^
+nnoremap <Leader>t  :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
+nnoremap <Leader>T  :tabnew<CR>:terminal<CR>
+nnoremap <Leader>/  :set hlsearch!<CR>
+nnoremap <Leader>,  :tabmove -1<CR>
+nnoremap <Leader>.  :tabmove +1<CR>
+nnoremap <Leader>0  ^
+nnoremap <Leader>a  ^
 nnoremap <silent> <Leader>A :CocAction<CR>
 " nnoremap <Leader>l :CocDisable<CR>
-nnoremap <Leader>l :CocList<CR>
-nnoremap <Leader>L :CocList<CR>
-nnoremap <Leader>n :source ~/.nvimrc<CR>
+nnoremap <Leader>l  :CocList<CR>
+nnoremap <Leader>L  :CocList<CR>
+nnoremap <Leader>n  :source ~/.nvimrc<CR>
 nnoremap <Leader>cd :lcd %:h<CR> 
 nnoremap <Leader>cj :cnext<CR> 
 nnoremap <Leader>ck :cprev<CR> 
-nnoremap <Leader>d :Dispatch 
-nnoremap <Leader>D :Dispatch! 
-nnoremap <Leader>s :set spell!<CR>
-nnoremap <Leader>S :CocList symbols<CR>
-nnoremap <Leader>k "zyiw:!man <C-R>z<CR>g
-nnoremap <Leader>w :set wrap!<CR>
-nnoremap <Leader>q :copen<CR>
-nnoremap <Leader>z :let &scrolloff=999-&scrolloff<CR>:ZenMode<CR>
+nnoremap <Leader>d  :Dispatch 
+nnoremap <Leader>D  :Dispatch! 
+nnoremap <Leader>s  :set spell!<CR>
+nnoremap <Leader>S  :CocList symbols<CR>
+nnoremap <Leader>k  "zyiw:!man <C-R>z<CR>g
+nnoremap <Leader>w  :set wrap!<CR>
+nnoremap <Leader>q  :copen<CR>
+nnoremap <Leader>z  :let &scrolloff=999-&scrolloff<CR>:ZenMode<CR>
 nnoremap <Leader>en :tabedit ~/.nvimrc<CR>
-nnoremap <Leader>g :Git<CR>
-nnoremap <Leader>G :Git 
-nnoremap <Leader>R :CocRestart<CR> 
+nnoremap <Leader>g  :Git<CR>
+nnoremap <Leader>G  :Git 
+nnoremap <Leader>R  :CocRestart<CR> 
 
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fc :Telescope coc 
-nnoremap <leader>fds <cmd>Telescope coc document_symbols<cr>
-" disable for now since it tends to hang
-" nnoremap <leader>fws <cmd>Telescope coc workspace_symbols<cr>
+nnoremap <Leader>fb  <cmd>Telescope buffers<cr>
+nnoremap <Leader>fc  :Telescope coc 
+nnoremap <Leader>fds <cmd>Telescope coc document_symbols<cr>
+" don't hit enter for now since it tends to hang
+nnoremap <Leader>fws :Telescope coc workspace_symbols
 " is there a difference to find_files?
-nnoremap <leader>ff <cmd>Telescope fd<cr> 
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fl <cmd>Telescope loclist<cr>
-nnoremap <leader>fm <cmd>Telescope man_pages<cr>
-nnoremap <leader>fr <cmd>Telescope coc references<cr>
-nnoremap <leader>fs <cmd>Telescope spell_suggest<cr>
-nnoremap <leader>ft <cmd>Telescope live_grep<cr>TODO
-nnoremap <leader>fq <cmd>Telescope quickfix<cr>
+nnoremap <Leader>ff  <cmd>Telescope fd<cr> 
+nnoremap <Leader>fg  <cmd>Telescope live_grep<cr>
+nnoremap <Leader>fl  <cmd>Telescope loclist<cr>
+nnoremap <Leader>fm  <cmd>Telescope man_pages<cr>
+nnoremap <Leader>fr  <cmd>Telescope coc references<cr>
+nnoremap <Leader>fs  <cmd>Telescope spell_suggest<cr>
+nnoremap <Leader>ft  <cmd>Telescope live_grep<cr>TODO
+nnoremap <Leader>fq  <cmd>Telescope quickfix<cr>
 " }}}
 
 set splitbelow
