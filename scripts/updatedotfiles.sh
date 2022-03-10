@@ -25,6 +25,8 @@ rm -r $CONFIG_DIR"rofi/"
 cp -ur ~/.config/rofi $CONFIG_DIR"rofi/"
 rm -r $DOT_DIR"vim/skeletons/"
 cp -ur ~/.vim/skeletons $DOT_DIR"vim/"
+rm -r $CONFIG_DIR"wal/"
+cp -ur ~/.config/wal $CONFIG_DIR"wal/"
 
 cur_theme=`cat $DOT_DIR".zshrc" | grep ^ZSH_THEME | cut -d\" -f2`
 

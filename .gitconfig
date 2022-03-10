@@ -1,23 +1,23 @@
 [user]
-	email = joshharc@gmail.com
-	name = Josh Harcombe
+    email = joshharc@gmail.com
+    name = Josh Harcombe
 
 [alias]
-	s = status
-	a = add
-	c = commit
+    s = status
+    a = add
+    c = commit
     cane = commit --amend --no-edit
-	pl = "pull --rebase"
-	ph = push
-	d = diff
-	ch = checkout
+    pl = "pull --rebase"
+    ph = push
+    d = diff
+    ch = checkout
     l = log
     lg = log --color --graph \
-          --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' \
-          --abbrev-commit
+        --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' \
+        --abbrev-commit
 
 [init]
-	defaultBranch = main
+    defaultBranch = main
 
 [rerere]
     enabled = true
