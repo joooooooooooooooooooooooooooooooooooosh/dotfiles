@@ -63,12 +63,19 @@ font-2 = Nimbus Sans:style=Regular:size=11;3.5
 modules-left = i3 pulseaudio player split
 modules-center = polywins
 ; modules-center = xwindow
-modules-right = aslr aur brightness micvolume filesystem memory cpu newbattery wlan date power
+modules-right = aslr dunst aur brightness micvolume filesystem memory cpu newbattery wlan date power
 
 tray-position = none
 tray-padding = 2
 tray-detached = true
 tray-transparent = true
+
+[module/dunst]
+type = custom/script
+exec = echo dunst off
+exec-if = [ "$(dunstctl is-paused)" = "true" ]
+format-foreground = ${colors.background-alt}
+interval = 2
 
 [module/split]
 type = custom/script

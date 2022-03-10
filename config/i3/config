@@ -160,6 +160,9 @@ floating_modifier $mod
 # hide_edge_borders smart
 # smart_borders on
 
+bindsym $mod+d exec dunstctl close
+bindsym $mod+Shift+d exec dunstctl close-all
+
 # start a terminal
 bindsym $mod+Return exec /usr/bin/$term
 bindsym $mod+Shift+Return exec /usr/bin/termite
