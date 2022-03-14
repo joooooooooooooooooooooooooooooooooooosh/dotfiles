@@ -755,3 +755,13 @@
 .codeBlockLang-O_f4hr {
   color: rgba($syntaxOne, 0.7) !important;
 }
+
+// fixes background of online friends list on DMs page
+.theme-dark .container-2cd8Mz {
+    background-color: $bg !important;
+}
+
+// Background color of server notification bubbles
+.numberBadge-37OJ3S, .base-3IDx3, .baseShapeRound-3epLEv {
+    background-color: $colorUrgent !important;
+}

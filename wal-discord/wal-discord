@@ -135,7 +135,9 @@ main() {
     [[ $FIREFOX_CSS = true ]] && generate_firefox_css "$result"
 
     color=`printf "%s\\n" "$result" | grep background -m1 | cut -d' ' -f4`
-    result=`echo "$result" | sed "s/\\$changeMe/\${color}/"`
+    link_color=`cat ~/.cache/wal/colors | sed -n '4p'`
+    result=`echo "$result" | sed "s/\\$changeMe/\${color}/; s/--text-link: \\$colorHighlight/--text-link: ${link_color}/"`
+
     
     if [[ -n "$out_file" ]]; then
 	    mkdir -p "$(dirname "$out_file")"
