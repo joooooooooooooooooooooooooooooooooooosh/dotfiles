@@ -235,116 +235,122 @@ call plug#end()
 
 " lua configuration {{{
 lua << EOF
-  require("zen-mode").setup {
+require("zen-mode").setup {
     -- your configuration comes here
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
     window = {
-      width = 90,
+        width = 90,
     },
-  }
+}
 
-  require("which-key").setup {
+require("which-key").setup {
     -- your configuration comes here
     -- or leave it empty to use the default settings
     -- refer to the configuration section below
-  }
-
-  require("nvim-treesitter.configs").setup {
-    highlight = {
-      enable = true,
-      -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-      -- Set to `true` if you depend on 'syntax' being enabled (like for indentation).
-      -- This may slow down your editor, and you may see some duplicate highlights.
-      -- Instead of true it can also be a list of languages
-      additional_vim_regex_highlighting = false,
+    plugins = {
+        spelling = {
+            enabled = true,
+            suggestions = 20,
+        }
     },
+}
+
+require("nvim-treesitter.configs").setup {
+    highlight = {
+        enable = true,
+        -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+        -- Set to `true` if you depend on 'syntax' being enabled (like for indentation).
+        -- This may slow down your editor, and you may see some duplicate highlights.
+        -- Instead of true it can also be a list of languages
+        additional_vim_regex_highlighting = false,
+        },
     indent = {
-      enable = true,
+    enable = true,
     },
     rainbow = {
-      enable = true,
-      extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-      max_file_lines = nil, -- Do not enable for files with more than n lines, int
-      -- colors = {}, -- table of hex strings
-      -- termcolors = {} -- table of colour name strings
+        enable = true,
+        extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
+        max_file_lines = nil, -- Do not enable for files with more than n lines, int
+        -- colors = {}, -- table of hex strings
+        -- termcolors = {} -- table of colour name strings
     },
-  }
+}
 
-  require("nvim-autopairs").setup {
+require("nvim-autopairs").setup {
     fast_wrap = {
-      map = '<C-a>',
-      end_key = ';',
-      chars = { '{', '[', '(', '"', "'", "<" },
-      pattern = string.gsub([[ [%s%;%'%"%>%]%)%}%,%.] ]], '%s+', ''),
+        map = '<C-a>',
+        end_key = ';',
+        chars = { '{', '[', '(', '"', "'", "<" },
+        pattern = string.gsub([[ [%s%;%'%"%>%]%)%}%,%.] ]], '%s+', ''),
     },
-  }
+}
 
-    local remap = vim.api.nvim_set_keymap
-    local Rule = require('nvim-autopairs.rule')
-    local cond = require('nvim-autopairs.conds')
-    local npairs = require('nvim-autopairs')
+local remap = vim.api.nvim_set_keymap
+local Rule = require('nvim-autopairs.rule')
+local cond = require('nvim-autopairs.conds')
+local npairs = require('nvim-autopairs')
 
-    -- npairs.remove_rule("'")
-    npairs.add_rules(
-        {
-            -- TODO: don't add after a space
-            Rule("<", ">", "rust")
-            :with_pair(cond.not_after_regex_check("[%w%<%[%{%\"%'%.]"))
-            :with_move(function(opts)
-                return opts.prev_char:match('%>') ~= nil
-            end)
-        },
-        {
-            -- TODO: this is broken
-            Rule("'", "'", "rust")
-            :with_pair(cond.not_before_text_check('&'))
-        }
-    )
+-- npairs.remove_rule("'")
+npairs.add_rules(
+    {
+        -- TODO: don't add after a space
+        Rule("<", ">", "rust")
+        :with_pair(cond.not_after_regex_check("[%w%<%[%{%\"%'%.]"))
+        :with_move(function(opts)
+            return opts.prev_char:match('%>') ~= nil
+        end)
+    },
+    {
+        -- TODO: this is broken
+        Rule("'", "'", "rust")
+        :with_pair(cond.not_before_text_check('&'))
+    }
+)
 
-    -- skip it, if you use another global object
-    _G.MUtils= {}
+-- skip it, if you use another global object
+_G.MUtils= {}
 
-    MUtils.completion_confirm=function()
-      if vim.fn.pumvisible() ~= 0  then
-          return npairs.esc("<cr>")
-      else
-        return npairs.autopairs_cr()
-      end
-    end
+MUtils.completion_confirm=function()
+  if vim.fn.pumvisible() ~= 0  then
+      return npairs.esc("<cr>")
+  else
+    return npairs.autopairs_cr()
+  end
+end
 
 
-    remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
-    local actions = require('telescope.actions')
-  require("telescope").setup{
-    defaults = {
-      -- Default configuration for telescope goes here:
-      -- config_key = value,
-      mappings = {
+remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
+local actions = require('telescope.actions')
+require("telescope").setup {
+defaults = {
+    -- Default configuration for telescope goes here:
+    -- config_key = value,
+    mappings = {
         i = {
-          -- map actions.which_key to <C-h> (default: <C-/>)
-          -- actions.which_key shows the mappings for your picker,
-          -- e.g. git_{create, delete, ...}_branch for the git_branches picker
-          ["<C-h>"] = "which_key",
-          -- add_to_qflist if we don't want to overwrite existing entries
-          ["<C-q>"] = actions.send_to_qflist,
-          -- ["<Esc>"] = "close",
-        },
-      }
+            -- map actions.which_key to <C-h> (default: <C-/>)
+            -- actions.which_key shows the mappings for your picker,
+            -- e.g. git_{create, delete, ...}_branch for the git_branches picker
+            ["<C-h>"] = "which_key",
+            -- add_to_qflist if we don't want to overwrite existing entries
+            ["<C-q>"] = actions.send_to_qflist,
+            -- ["<Esc>"] = "close",
+            },
+        }
     },
-    extensions = {
-      fzf = {
+extensions = {
+    fzf = {
         fuzzy = true,                    -- false will only do exact matching
         override_generic_sorter = true,  -- override the generic sorter
         override_file_sorter = true,     -- override the file sorter
         case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-                                         -- the default case_mode is "smart_case"
-      },
+        -- the default case_mode is "smart_case"
+        },
     },
-  }
+}
 
-  require("telescope").load_extension('fzf')
-  require("telescope").load_extension('coc')
+require("telescope").load_extension('fzf')
+require("telescope").load_extension('coc')
 EOF
 " }}}
 
