@@ -4,9 +4,9 @@
 trap 'echo -n' SIGUSR1
 
 while true; do
-    input=`pacmd stat | grep source | cut -d' ' -f4`
+    input=$(pacmd stat | grep source | cut -d' ' -f4)
     pacmd list-sources | 
-        grep $input -A 10 |
+        grep "$input" -A 10 |
         grep volume -m1 |
         cut -d/ -f2 |
         sed "s/\s/$(pulseaudio-ctl full-status |

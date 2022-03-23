@@ -1,5 +1,5 @@
 #!/bin/bash
-WINDOW=`i3-msg -t get_workspaces | jq '.[] | select(.focused==true).name' | cut -d '"' -f2`
+WINDOW=$(i3-msg -t get_workspaces | jq '.[] | select(.focused==true).name' | cut -d '"' -f2)
 if [ "$1" = "next" ]
 then
 	((WINDOW=WINDOW + 1))
