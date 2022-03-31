@@ -124,7 +124,6 @@ alias screenkey='screenkey --scr 1 --opacity 0.1 -s small'
 alias yeah=yes
 alias q=" exit"
 alias v=vr
-alias c=lr
 alias cr=lr
 alias n=nvim
 alias fzn='fzf | xargs nvim'
@@ -137,40 +136,41 @@ alias updot=' ~/Documents/scripts/updatedotfiles.sh'
 alias ranger='TERM=rxvt-unicode-256color ranger'
 alias ra=ranger
 alias m=tldr
+alias c=cargo
 
 unalias gcl
 gcl() {
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
-    git clone $1 &&
-    cd $(sed -E 's|(.*)\.git/?|\1|; s|.*/(.*)|\1|' <<< $1)
+    git clone "$1" &&
+    cd "$(sed -E 's|(.*)\.git/?|\1|; s|.*/(.*)|\1|' <<< "$1")"
 }
 
 tldr() {
-    [ $# -lt 1 ] && {/usr/bin/tldr; return}
-    /usr/bin/tldr $@ | less
+    [ $# -lt 1 ] && { /usr/bin/tldr; return; }
+    /usr/bin/tldr "$@" | less
 }
 
 swap() {
     [ $# -ne 2 ] && echo "Usage: swap [file1] [file2]" && return
-    local TMPFILE=`mktemp`
+    local TMPFILE=$(mktemp)
     mv "$1" $TMPFILE && mv "$2" "$1" && mv $TMPFILE "$2"
 }
 
 fzc() {
-    file=`fzf`
-    cd `echo $file | sed 's/\/[^\/]*$//'` 2>/dev/null
-    nvim `echo $file | sed 's/.*\///'`
+    file=$(fzf)
+    cd $(echo $file | sed 's/\/[^\/]*$//') 2>/dev/null
+    nvim "$(echo "$file" | sed 's/.*\///')"
 }
 
 ns() {
     # very hacky workaround
     # to stop sessions with terminals starting in insert mode
     # TODO: modify vim-obsession to do this instead
-    if [ -z $1 ]; then
+    if [ -z "$1" ]; then
         sed -i '/unlet SessionLoad/istopinsert' Session.vim &&
             nvim -S Session.vim
     else
-        if [ `compgen -G "$1*" | wc -l` -ne 1 ]; then
+        if [ $(compgen -G "$1*" | wc -l) -ne 1 ]; then
             echo "Too many matches for $1:"
             compgen -G "$1*"
             return 1
@@ -182,37 +182,37 @@ ns() {
 }
 
 sec() {
-    checksec --file=$1
+    checksec --file="$1"
 }
 
 lr() {
-    file=`la | rofi -dmenu -i -matching fuzzy -p "cd"`
-    chpath=`pwd`
-    while [ $file ]; do
-        if [ -f $chpath"/$file" ]; then
-            cd $chpath
-            nvim $file
+    file=$(la | rofi -dmenu -i -matching fuzzy -p "cd")
+    chpath=$(pwd)
+    while [ "$file" ]; do
+        if [ -f "$(chpath)/$file" ]; then
+            cd "$chpath"
+            nvim "$file"
             return
         fi
 
         chpath=$chpath"/$file"
-        file=`la $chpath | rofi -dmenu -i -matching fuzzy -p "cd"`
+        file=$(la "$chpath" | rofi -dmenu -i -matching fuzzy -p "cd")
     done
-    cd $chpath
+    cd "$chpath"
 }
 
 vr() {
-    if [ $1 ]; then
-        nvim $1
+    if [ "$1" ]; then
+        nvim "$1"
         return
     fi
-    file=`la | rofi -dmenu -i -matching fuzzy -p "nvim"`
-    nvim $file
+    file=$(la | rofi -dmenu -i -matching fuzzy -p "nvim")
+    nvim "$file"
 }
 
 mkcd() {
-    mkdir -p $1
-    cd $1
+    mkdir -p "$1"
+    cd "$1"
 }
 
 bible() {
@@ -238,17 +238,17 @@ bible() {
     for i in {$chapter..$last}; do
         cache="$HOME/tmp/bible/$book$i"
 
-        if [ ! -f $cache ]; then
-            curl -s https://www.biblestudytools.com/$book/$i.html |
+        if [ ! -f "$cache" ]; then
+            curl -s "https://www.biblestudytools.com/$book/$i.html" |
                 grep "verse-number" -A2 |
                 sed -E '/class=\"verse-[0-9]/d; s/.*strong>([0-9][0-9]*).*/\1/; /^--/d; s/^\s*//; s/^([[:digit:]]+)$/[1m\1[0m/; s///g' |
                 perl -pe 's/ *?<sup.*?\/sup> *?/ /g; s/ *?<.*?>(.<.*?>)? *?/ /g' |
                 tr '\n' ' ' |
                 fold -sw 60 |
-                sed -E 's/  +/ /; $s/ $/\n/' >$cache
+                sed -E 's/  +/ /; $s/ $/\n/' >"$cache"
         fi
 
-        less $cache
+        less "$cache"
     done
 }
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 if [ -z $1 ]; then
     con=`bluetoothctl devices | cut -d' ' -f3- |
        rofi -dmenu -i -columns 2 -matching fuzzy -p "(dis)connect"`

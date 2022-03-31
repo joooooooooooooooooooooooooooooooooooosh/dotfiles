@@ -12,7 +12,7 @@ autocmd FileType markdown,text setlocal spell wrap
 autocmd FileType tex,plaintex setlocal spell wrap
 autocmd FileType text setlocal textwidth=78
 
-autocmd BufReadPre *.s setlocal tabstop=8 shiftwidth=8 expandtab
+autocmd BufReadPre,BufNewFile *.s setlocal tabstop=8 shiftwidth=8 expandtab
 autocmd BufNewFile *.c  0r ~/.vim/skeletons/skeleton.c
 autocmd BufNewFile day*.rs  0r ~/.vim/skeletons/aoc.rs
 " }}}
@@ -133,6 +133,7 @@ nnoremap \ap :s/\(\<[^ ]\+\)/{\1}/g<CR>^iprintln!("<Esc>A");<Esc>==
 nnoremap \dp :s/\(\<[^ ]\+\)/{\1:?}/g<CR>^iprintln!("<Esc>A");<Esc>==
 nnoremap \ep :s/\(\<[^ ]\+\)/{\1:#?}/g<CR>^iprintln!("<Esc>A");<Esc>==
 
+nmap \op  o<Esc>\p
 nmap \oap "zyiwo<C-R>z<Esc>\ap
 nmap \odp "zyiwo<C-R>z<Esc>\dp
 nmap \oep "zyiwo<C-R>z<Esc>\ep
@@ -163,14 +164,14 @@ nnoremap <Leader>q  :copen<CR>
 nnoremap <Leader>z  :let &scrolloff=999-&scrolloff<CR>:ZenMode<CR>
 nnoremap <Leader>en :tabedit ~/.nvimrc<CR>
 nnoremap <Leader>g  :Git<CR>
-nnoremap <Leader>G  :Git 
+nnoremap <Leader>G  :tabnew<CR>:Git<CR>
 nnoremap <Leader>R  :CocRestart<CR> 
 
 nnoremap <Leader>fb  <cmd>Telescope buffers<cr>
 nnoremap <Leader>fc  :Telescope coc 
 nnoremap <Leader>fds <cmd>Telescope coc document_symbols<cr>
 " don't hit enter for now since it tends to hang
-nnoremap <Leader>fws :Telescope coc workspace_symbols
+nnoremap <Leader>fws <cmd>Telescope coc workspace_symbols<cr>
 " is there a difference to find_files?
 nnoremap <Leader>ff  <cmd>Telescope fd<cr> 
 nnoremap <Leader>fg  <cmd>Telescope live_grep<cr>
@@ -179,6 +180,7 @@ nnoremap <Leader>fm  <cmd>Telescope man_pages<cr>
 nnoremap <Leader>fr  <cmd>Telescope coc references<cr>
 nnoremap <Leader>fs  <cmd>Telescope spell_suggest<cr>
 nnoremap <Leader>ft  <cmd>Telescope live_grep<cr>TODO
+nnoremap <Leader>fu  <cmd>Telescope grep_string<cr>
 nnoremap <Leader>fq  <cmd>Telescope quickfix<cr>
 " }}}
 
@@ -365,6 +367,7 @@ imap <silent><script><expr> <C-T> copilot#Accept("")
 let g:copilot_no_tab_map = v:true
 
 nnoremap \cx :Dispatch! chmod +x %<CR>
+nnoremap \cc :Dispatch! javac -d target VC/*java VC/Checker/*java<CR> 
 nnoremap \gpf :Git push --force-with-lease<CR>
 
 nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
