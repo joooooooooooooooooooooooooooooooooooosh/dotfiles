@@ -7,6 +7,8 @@ autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | silent!
 " TODO: only compile tex once and copy resulting pdf to view.pdf
 " autocmd BufWritePost *.tex exec 'Dispatch! cp % view.tex; pdflatex view.tex'
 autocmd BufWritePost *.tex exec 'Dispatch! pdflatex %'
+" TODO: some kind of autocmd to unload nvimrc in sessions
+" autocmd BufWinLeave ~/.nvimrc exec 'bdelete ~/.nvimrc'
 
 autocmd FileType markdown,text setlocal spell wrap
 autocmd FileType tex,plaintex setlocal spell wrap
@@ -138,6 +140,13 @@ nmap \oap "zyiwo<C-R>z<Esc>\ap
 nmap \odp "zyiwo<C-R>z<Esc>\dp
 nmap \oep "zyiwo<C-R>z<Esc>\ep
 
+nmap \t iTODO<Esc>gcc==A
+" cc clears auto comments added if this is being performed from a commented line
+nmap \ot o<Esc>cc<Esc>\t: 
+nmap \Ot O<Esc>cc<Esc>\t: 
+nmap \oj o<Esc>cc<Esc>\t(josh): 
+nmap \Oj O<Esc>cc<Esc>\t(josh): 
+
 " leader mappings {{{
 nnoremap <Leader>t  :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
 nnoremap <Leader>T  :tabnew<CR>:terminal<CR>
@@ -161,7 +170,7 @@ nnoremap <Leader>S  :CocList symbols<CR>
 nnoremap <Leader>k  "zyiw:!man <C-R>z<CR>g
 nnoremap <Leader>w  :set wrap!<CR>
 nnoremap <Leader>q  :copen<CR>
-nnoremap <Leader>z  :let &scrolloff=999-&scrolloff<CR>:ZenMode<CR>
+nnoremap <Leader>z  :let &scrolloff=999-&scrolloff<CR>:ZenMode<CR>zz
 nnoremap <Leader>en :tabedit ~/.nvimrc<CR>
 nnoremap <Leader>g  :Git<CR>
 nnoremap <Leader>G  :tabnew<CR>:Git<CR>
@@ -191,9 +200,8 @@ set splitright
 tnoremap <C-W> <C-\><C-n><C-W>
 tnoremap <C-W><C-W> <C-W>
 tnoremap <Esc> <C-\><C-n>
-tnoremap <C-H> <C-\><C-n><C-W><C-H>
-tnoremap <C-J> <C-\><C-n><C-W><C-J>
-tnoremap <C-K> <C-\><C-n><C-W><C-K>
+tnoremap <C-J> <C-\><C-n>:tabprevious<CR>
+tnoremap <C-K> <C-\><C-n>:tabnext<CR>
 tmap <silent> <C-Q> <C-\><C-n>:bd!<CR>
 tmap <silent> <C-W><C-Q> <C-\><C-n>:bd!<CR>
 " }}}

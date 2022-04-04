@@ -8,6 +8,7 @@ set $term alacritty
 exec --no-startup-id ~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers
 exec --no-startup-id ~/.config/polybar/launch.sh
 exec --no-startup-id dunst
+# exec_always --no-startup-id ~/Documents/code/i3-auto-layout/target/release/i3-auto-layout
 exec $term -e zsh -ic 'sudo fusuma -c ~/.config/fusuma/config.yml -d'
 exec xcape -e 'Control_L=Escape'
 
@@ -35,7 +36,7 @@ for_window [title="float_me_plz"] floating enable
 for_window [title="updatelist_polybar_aur"] floating enable
 
 #Logitech thumb button
-bindsym Ctrl+Mod1+Tab workspace back_and_forth
+# bindsym Ctrl+Mod1+Tab workspace back_and_forth
 
 bindsym $mod+Ctrl+f exec $BROWSER
 bindsym $mod+Ctrl+g exec pgrep firefox && firefox calendar.google.com && wmctrl -a firefox
