@@ -26,9 +26,6 @@ ZSH_THEME="bira"
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
-# Don't exit if <C-D> is pressed. Prevents exiting the shell by accident (e.g.
-# pressing <C-D> twice).
-setopt ignoreeof
 setopt HIST_IGNORE_SPACE
 
 # Uncomment the following line to use hyphen-insensitive completion.
@@ -137,6 +134,8 @@ alias ranger='TERM=rxvt-unicode-256color ranger'
 alias ra=ranger
 alias m=tldr
 alias c=cargo
+alias clean-none-images='docker image ls | grep "^<none>" | sed "s/[^ ]* *[^ ]* *//" | cut -d" " -f1 | xargs docker image rm'
+alias top=bpytop
 
 unalias gcl
 gcl() {
@@ -153,7 +152,7 @@ tldr() {
 swap() {
     [ $# -ne 2 ] && echo "Usage: swap [file1] [file2]" && return
     local TMPFILE=$(mktemp)
-    mv "$1" $TMPFILE && mv "$2" "$1" && mv $TMPFILE "$2"
+    mv "$1" "$TMPFILE" && mv "$2" "$1" && mv "$TMPFILE" "$2"
 }
 
 fzc() {
@@ -216,6 +215,7 @@ mkcd() {
 }
 
 bible() {
+    # TODO: website changed
     book="genesis"
     chapter=1
     last=1
@@ -272,7 +272,7 @@ PERL_MM_OPT="INSTALL_BASE=/home/joshh/perl5"; export PERL_MM_OPT;
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-export MCFLY_FUZZY=true
+export MCFLY_FUZZY=2
 export MCFLY_RESULTS=40
 eval "$(mcfly init zsh)"
 eval "$(zoxide init zsh)"

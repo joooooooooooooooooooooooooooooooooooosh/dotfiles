@@ -20,6 +20,9 @@
 [init]
     defaultBranch = main
 
+[diff]
+	external = difft
+
 [rerere]
     enabled = true
 

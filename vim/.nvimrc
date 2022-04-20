@@ -6,7 +6,7 @@ autocmd BufWinEnter,WinEnter term://* startinsert
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | silent! checktime | endif
 " TODO: only compile tex once and copy resulting pdf to view.pdf
 " autocmd BufWritePost *.tex exec 'Dispatch! cp % view.tex; pdflatex view.tex'
-autocmd BufWritePost *.tex exec 'Dispatch! pdflatex %'
+autocmd BufWritePost *.tex exec 'Dispatch! tectonic %'
 " TODO: some kind of autocmd to unload nvimrc in sessions
 " autocmd BufWinLeave ~/.nvimrc exec 'bdelete ~/.nvimrc'
 
@@ -14,6 +14,8 @@ autocmd FileType markdown,text setlocal spell wrap
 autocmd FileType tex,plaintex setlocal spell wrap
 autocmd FileType text setlocal textwidth=78
 
+" TODO: change comment style automatically
+" autocmd BufReadPost,BufNewFile *.c set commentstring=//%s
 autocmd BufReadPre,BufNewFile *.s setlocal tabstop=8 shiftwidth=8 expandtab
 autocmd BufNewFile *.c  0r ~/.vim/skeletons/skeleton.c
 autocmd BufNewFile day*.rs  0r ~/.vim/skeletons/aoc.rs
@@ -108,6 +110,9 @@ onoremap <expr> N  'nN'[v:searchforward]
 " C-n and C-p match start of command when searching history
 cnoremap <expr> <c-n> wildmenumode() ? "\<c-n>" : "\<down>"
 cnoremap <expr> <c-p> wildmenumode() ? "\<c-p>" : "\<up>"
+
+nnoremap zj gjzz
+nnoremap zk gkzz
 
 " enter blank lines
 nnoremap [<space>  :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
@@ -361,6 +366,10 @@ extensions = {
 
 require("telescope").load_extension('fzf')
 require("telescope").load_extension('coc')
+
+vim.g.copilot_filetypes = {
+    ['TelescopePrompt'] = false
+}
 EOF
 " }}}
 
@@ -375,12 +384,13 @@ imap <silent><script><expr> <C-T> copilot#Accept("")
 let g:copilot_no_tab_map = v:true
 
 nnoremap \cx :Dispatch! chmod +x %<CR>
-nnoremap \cc :Dispatch! javac -d target VC/*java VC/Checker/*java<CR> 
+nnoremap \cc :Dispatch! javac -d target VC/*java VC/CodeGen/*java<CR> 
 nnoremap \gpf :Git push --force-with-lease<CR>
 
 nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
 inoremap <silent><expr> <C-x><C-o> coc#refresh()
-inoremap <silent><expr> <C-y> :call CocActionAsync('showSignatureHelp')
+" idk what this was supposed to do
+inoremap <silent><expr> <C-y> call CocActionAsync('showSignatureHelp')
 nnoremap <expr><C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
 nnoremap <expr><C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
 inoremap <expr><C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
