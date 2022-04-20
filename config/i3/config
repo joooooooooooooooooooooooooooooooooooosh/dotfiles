@@ -118,8 +118,8 @@ bindsym $mod+Shift+b exec $term -t "float_me_plz" -e zsh -ic 'TERM=xterm-256colo
 
 bindsym Mod4+Tab exec rofi -show window
 bindsym $mod+b exec ~/.config/polybar/launch.sh
-bindsym $mod+Mod4+c exec ~/Documents/scripts/bluescript.sh 1C:52:16:5F:E1:75
-bindsym $mod+Mod4+s exec ~/Documents/scripts/bluescript.sh
+# bindsym $mod+Mod4+c exec ~/Documents/scripts/bluescript.sh 1C:52:16:5F:E1:75
+# bindsym $mod+Mod4+s exec ~/Documents/scripts/bluescript.sh
 bindsym $mod+Ctrl+p exec ~/Documents/scripts/bluescript.sh
 #bindsym $mod+Mod4+s exec ~/Documents/scripts/bluescript.sh 00:1B:66:C5:29:8F
 
@@ -127,17 +127,17 @@ bindsym $mod+Ctrl+u exec ~/Documents/scripts/toggleupdates.sh
 
 # gamma go brr
 bindsym $mod+Ctrl+Shift+t           exec xrandr --output HDMI-1 --brightness 1.5
-bindsym $mod+Ctrl+plus              exec sudo ~/Documents/scripts/brightchange.sh up !hdmi
-bindsym $mod+Ctrl+minus             exec sudo ~/Documents/scripts/brightchange.sh down !hdmi
-bindsym $mod+Ctrl+less              exec sudo ~/Documents/scripts/brightchange.sh off !hdmi
-bindsym $mod+Ctrl+Shift+plus        exec sudo ~/Documents/scripts/brightchange.sh up
-bindsym $mod+Ctrl+Shift+minus       exec sudo ~/Documents/scripts/brightchange.sh down
-bindsym $mod+Ctrl+Shift+quotedbl    exec sudo ~/Documents/scripts/brightchange.sh max
-bindsym $mod+Ctrl+Shift+question    exec sudo ~/Documents/scripts/brightchange.sh high
-bindsym $mod+Ctrl+Shift+colon       exec sudo ~/Documents/scripts/brightchange.sh mid
-bindsym $mod+Ctrl+Shift+greater     exec sudo ~/Documents/scripts/brightchange.sh low
-bindsym $mod+Ctrl+Shift+less        exec sudo ~/Documents/scripts/brightchange.sh min
-bindsym $mod+Ctrl+Shift+m           exec sudo ~/Documents/scripts/brightchange.sh
+bindsym $mod+Ctrl+plus              exec ~/Documents/scripts/_brightchange.sh up !hdmi
+bindsym $mod+Ctrl+minus             exec ~/Documents/scripts/_brightchange.sh down !hdmi
+bindsym $mod+Ctrl+less              exec ~/Documents/scripts/_brightchange.sh off !hdmi
+bindsym $mod+Ctrl+Shift+plus        exec ~/Documents/scripts/_brightchange.sh up
+bindsym $mod+Ctrl+Shift+minus       exec ~/Documents/scripts/_brightchange.sh down
+bindsym $mod+Ctrl+Shift+quotedbl    exec ~/Documents/scripts/_brightchange.sh max
+bindsym $mod+Ctrl+Shift+question    exec ~/Documents/scripts/_brightchange.sh high
+bindsym $mod+Ctrl+Shift+colon       exec ~/Documents/scripts/_brightchange.sh mid
+bindsym $mod+Ctrl+Shift+greater     exec ~/Documents/scripts/_brightchange.sh low
+bindsym $mod+Ctrl+Shift+less        exec ~/Documents/scripts/_brightchange.sh min
+bindsym $mod+Ctrl+Shift+m           exec ~/Documents/scripts/_brightchange.sh
 
 # Set colors from Xresources
 # Change 'color7' and 'color2' to whatever colors you want i3 to use 
@@ -167,7 +167,7 @@ bindsym $mod+Shift+d exec dunstctl close-all
 
 # start a terminal
 bindsym $mod+Return exec /usr/bin/$term
-bindsym $mod+Shift+Return exec /usr/bin/termite
+# bindsym $mod+Shift+Return exec /usr/bin/termite
 bindsym $mod+Ctrl+Shift+Return exec /usr/bin/urxvt
 
 # kill focused window
@@ -420,14 +420,14 @@ mode "one-handed" {
         bindsym Shift+9 workspace 19
         bindsym Shift+0 workspace 20
         
-        bindsym plus exec sudo ~/Documents/scripts/brightchange.sh up
-        bindsym minus exec sudo ~/Documents/scripts/brightchange.sh down
-        # bindsym quotedbl exec sudo ~/Documents/scripts/brightchange.sh max
-        # bindsym question exec sudo ~/Documents/scripts/brightchange.sh high
-        # bindsym colon exec sudo ~/Documents/scripts/brightchange.sh mid
-        # bindsym greater exec sudo ~/Documents/scripts/brightchange.sh low
-        # bindsym less exec sudo ~/Documents/scripts/brightchange.sh min
-        bindsym m exec sudo ~/Documents/scripts/brightchange.sh
+        bindsym plus exec ~/Documents/scripts/_brightchange.sh up
+        bindsym minus exec ~/Documents/scripts/_brightchange.sh down
+        # bindsym quotedbl exec ~/Documents/scripts/_brightchange.sh max
+        # bindsym question exec ~/Documents/scripts/_brightchange.sh high
+        # bindsym colon exec ~/Documents/scripts/_brightchange.sh mid
+        # bindsym greater exec ~/Documents/scripts/_brightchange.sh low
+        # bindsym less exec ~/Documents/scripts/_brightchange.sh min
+        bindsym m exec ~/Documents/scripts/_brightchange.sh
 
         bindsym Return mode "default"
         bindsym Escape mode "default"

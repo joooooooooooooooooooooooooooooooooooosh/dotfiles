@@ -95,10 +95,10 @@ type = custom/ipc
 hook-0 = bc -l <<< "scale=3; `cat /sys/class/backlight/intel_backlight/brightness` / 4285 * 100" | sed 's/\..*/%/g'
 initial = 1
 format-prefix = " "
-click-left = sudo ~/Documents/scripts/brightchange.sh down
-click-right = sudo ~/Documents/scripts/brightchange.sh up
-scroll-up = sudo ~/Documents/scripts/brightchange.sh up
-scroll-down = sudo ~/Documents/scripts/brightchange.sh down
+click-left = ~/Documents/scripts/_brightchange.sh down
+click-right = ~/Documents/scripts/_brightchange.sh up
+scroll-up = ~/Documents/scripts/_brightchange.sh up
+scroll-down = ~/Documents/scripts/_brightchange.sh down
 
 [module/power]
 type = custom/ipc
