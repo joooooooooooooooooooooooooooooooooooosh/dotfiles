@@ -134,7 +134,7 @@ alias ranger='TERM=rxvt-unicode-256color ranger'
 alias ra=ranger
 alias m=tldr
 alias c=cargo
-alias clean-none-images='docker image ls | grep "^<none>" | sed "s/[^ ]* *[^ ]* *//" | cut -d" " -f1 | xargs docker image rm'
+alias clean-none-images='docker image ls | grep "^<none>" | awk '{print $3}' | xargs docker image rm'
 alias top=bpytop
 
 unalias gcl
