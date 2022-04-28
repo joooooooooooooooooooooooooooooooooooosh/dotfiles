@@ -136,6 +136,7 @@ alias m=tldr
 alias c=cargo
 alias clean-none-images='docker image ls | grep "^<none>" | awk '{print $3}' | xargs docker image rm'
 alias top=bpytop
+alias gsl='git stash && git pull && git stash pop'
 
 unalias gcl
 gcl() {
@@ -239,13 +240,14 @@ bible() {
         cache="$HOME/tmp/bible/$book$i"
 
         if [ ! -f "$cache" ]; then
-            curl -s "https://www.biblestudytools.com/$book/$i.html" |
-                grep "verse-number" -A2 |
-                sed -E '/class=\"verse-[0-9]/d; s/.*strong>([0-9][0-9]*).*/\1/; /^--/d; s/^\s*//; s/^([[:digit:]]+)$/[1m\1[0m/; s///g' |
+            curl -s "https://www.biblestudytools.com/$book/$chapter.html" |
+                grep "x-show=\"verseNumbers\"" -A3 |
+                sed -E 's/>([[:digit:]])+<\/a>/\n\1\n/;' |
+                sed -E '/x-show=\"verseNumbers\"/d; /^--/d; s/^\s*//; s/^([[:digit:]]+)$/[1m\1[0m/' |
                 perl -pe 's/ *?<sup.*?\/sup> *?/ /g; s/ *?<.*?>(.<.*?>)? *?/ /g' |
                 tr '\n' ' ' |
-                fold -sw 60 |
-                sed -E 's/  +/ /; $s/ $/\n/' >"$cache"
+                sed -E 's/  +/ /g; $s/ $/\n/' |
+                fold -sw 60 >"$cache"
         fi
 
         less "$cache"
