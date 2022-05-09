@@ -45,7 +45,7 @@ set ignorecase smartcase
 set expandtab
 set foldmethod=manual
 set clipboard=unnamedplus
-set laststatus=2
+set laststatus=3
 set incsearch nohlsearch
 set undofile
 set undodir=~/.vim/undo
@@ -67,6 +67,7 @@ noremap ; :
 "noremap : ;
 nnoremap <Leader>; ;
 
+" nnoremap <Tab> >>$
 nnoremap <S-Tab> <<_
 vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
@@ -187,13 +188,14 @@ nnoremap <Leader>fds <cmd>Telescope coc document_symbols<cr>
 " don't hit enter for now since it tends to hang
 nnoremap <Leader>fws <cmd>Telescope coc workspace_symbols<cr>
 " is there a difference to find_files?
-nnoremap <Leader>ff  <cmd>Telescope fd<cr> 
+nnoremap <Leader>ff  <cmd>Telescope fd<cr>
 nnoremap <Leader>fg  <cmd>Telescope live_grep<cr>
 nnoremap <Leader>fl  <cmd>Telescope loclist<cr>
 nnoremap <Leader>fm  <cmd>Telescope man_pages<cr>
 nnoremap <Leader>fr  <cmd>Telescope coc references<cr>
 nnoremap <Leader>fs  <cmd>Telescope spell_suggest<cr>
-nnoremap <Leader>ft  <cmd>Telescope live_grep<cr>TODO
+" TODO: broken
+" nnoremap <Leader>ft  <cmd>Telescope live_grep<cr>TODO
 nnoremap <Leader>fu  <cmd>Telescope grep_string<cr>
 nnoremap <Leader>fq  <cmd>Telescope quickfix<cr>
 " }}}
@@ -229,6 +231,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-fugitive'
+Plug 'akinsho/git-conflict.nvim'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
