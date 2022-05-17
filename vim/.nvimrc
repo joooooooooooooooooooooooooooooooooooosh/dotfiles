@@ -166,13 +166,13 @@ nnoremap <silent> <Leader>A :CocAction<CR>
 nnoremap <Leader>l  :CocList<CR>
 nnoremap <Leader>L  :CocList<CR>
 nnoremap <Leader>n  :source ~/.nvimrc<CR>
-nnoremap <Leader>cd :lcd %:h<CR> 
-nnoremap <Leader>cj :cnext<CR> 
-nnoremap <Leader>ck :cprev<CR> 
 nnoremap <Leader>d  :Dispatch 
 nnoremap <Leader>D  :Dispatch! 
+nnoremap <Leader>cd :lcd %:h<CR>
+nnoremap <Leader>cj :cnext<CR>
+nnoremap <Leader>ck :cprev<CR>
 nnoremap <Leader>s  :set spell!<CR>
-nnoremap <Leader>S  :CocList symbols<CR>
+nnoremap <Leader>S  :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 nnoremap <Leader>k  "zyiw:!man <C-R>z<CR>g
 nnoremap <Leader>w  :set wrap!<CR>
 nnoremap <Leader>q  :copen<CR>
@@ -180,7 +180,8 @@ nnoremap <Leader>z  :let &scrolloff=999-&scrolloff<CR>:ZenMode<CR>zz
 nnoremap <Leader>en :tabedit ~/.nvimrc<CR>
 nnoremap <Leader>g  :Git<CR>
 nnoremap <Leader>G  :tabnew<CR>:Git<CR>
-nnoremap <Leader>R  :CocRestart<CR> 
+nnoremap <Leader>R  :CocRestart<CR>
+nnoremap <Leader>u  :UndotreeToggle<CR>
 
 nnoremap <Leader>fb  <cmd>Telescope buffers<cr>
 nnoremap <Leader>fc  :Telescope coc 
@@ -244,6 +245,7 @@ Plug 'folke/which-key.nvim'
 Plug 'folke/zen-mode.nvim'
 Plug 'troydm/zoomwintab.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'mbbill/undotree'
 
 Plug 'fidian/hexmode'
 
@@ -387,7 +389,6 @@ imap <silent><script><expr> <C-T> copilot#Accept("")
 let g:copilot_no_tab_map = v:true
 
 nnoremap \cx :Dispatch! chmod +x %<CR>
-nnoremap \cc :Dispatch! javac -d target VC/*java VC/CodeGen/*java<CR> 
 nnoremap \gpf :Git push --force-with-lease<CR>
 
 nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
@@ -436,7 +437,7 @@ endfunction
 
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
-" autocmd CursorHold * if ! coc#util#has_float() | call CocActionAsync('doHover') | endif 
+" autocmd CursorHold * if ! coc#util#has_float() | call CocActionAsync('doHover') | endif
 
 highlight CocErrorSign ctermfg=4
 highlight CocErrorVirtualText ctermfg=4

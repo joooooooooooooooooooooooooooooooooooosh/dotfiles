@@ -134,7 +134,6 @@ alias ranger='TERM=rxvt-unicode-256color ranger'
 alias ra=ranger
 alias m=tldr
 alias c=cargo
-alias clean-none-images='docker image ls | grep "^<none>" | awk '{print $3}' | xargs docker image rm'
 alias top=bpytop
 alias gsl='git stash && git pull && git stash pop'
 
@@ -143,6 +142,13 @@ gcl() {
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
     git clone "$1" &&
     cd "$(sed -E 's|(.*)\.git/?|\1|; s|.*/(.*)|\1|' <<< "$1")"
+}
+
+clean-none-images() {
+    docker image ls |
+        grep "^<none>" |
+        awk '{print $3}' |
+        xargs docker image rm
 }
 
 tldr() {

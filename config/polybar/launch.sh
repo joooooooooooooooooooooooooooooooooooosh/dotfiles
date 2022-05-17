@@ -1,6 +1,5 @@
 #!/bin/bash
-killall -q polybar &
-wait
+killall polybar
 # TODO: only launch one bar when screens are duplicated
 # TODO: if this is fixed change the polywins README example
 # while pgrep -x polybar >/dev/null; do sleep 1; done
