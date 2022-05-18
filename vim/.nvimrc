@@ -155,7 +155,7 @@ nmap \Oj O<Esc>cc<Esc>\t(josh):
 
 " leader mappings {{{
 nnoremap <Leader>t  :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
-nnoremap <Leader>T  :tabnew<CR>:terminal<CR>
+nnoremap <Leader>T  :tabnew<CR><Esc>:terminal<CR>
 nnoremap <Leader>/  :set hlsearch!<CR>
 nnoremap <Leader>,  :tabmove -1<CR>
 nnoremap <Leader>.  :tabmove +1<CR>
@@ -166,11 +166,11 @@ nnoremap <silent> <Leader>A :CocAction<CR>
 nnoremap <Leader>l  :CocList<CR>
 nnoremap <Leader>L  :CocList<CR>
 nnoremap <Leader>n  :source ~/.nvimrc<CR>
-nnoremap <Leader>d  :Dispatch 
-nnoremap <Leader>D  :Dispatch! 
 nnoremap <Leader>cd :lcd %:h<CR>
 nnoremap <Leader>cj :cnext<CR>
 nnoremap <Leader>ck :cprev<CR>
+nnoremap <Leader>d  :Dispatch 
+nnoremap <Leader>D  :Dispatch! 
 nnoremap <Leader>s  :set spell!<CR>
 nnoremap <Leader>S  :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 nnoremap <Leader>k  "zyiw:!man <C-R>z<CR>g
