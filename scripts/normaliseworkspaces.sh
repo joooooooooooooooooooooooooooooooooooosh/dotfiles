@@ -28,9 +28,8 @@ ws_on_output() {
 ws_reserved() {
     local ws=$1
     local norm_ws=$2
-    [ "$ws" != "$norm_ws" ] &&
-        fetch_wss \
-            | grep -q "^$norm_ws,"
+    fetch_wss \
+        | grep -q "^$norm_ws,"
 }
 
 move_workspace() {
@@ -54,14 +53,15 @@ min_ws=0
 for output in $outputs; do
     norm_ws=$((norm_ws > min_ws ? norm_ws : min_ws))
     for ws in $(ws_on_output "$output"); do
-        if ws_reserved "$ws" "$norm_ws" ; then
-            echo "Occupied ws: $ws -> $norm_ws"
+        if [ "$ws" = "$norm_ws" ]; then
+            norm_ws=$((norm_ws + 1))
+            continue
+        elif ws_reserved "$ws" "$norm_ws"; then
             reserved_wss=$(echo -en "$reserved_wss\n$output,$ws,$norm_ws")
             norm_ws=$((norm_ws + 1))
             continue
         fi
 
-        echo "$output:$ws -> $norm_ws"
         move_workspace "$output" "$ws" "$norm_ws"
         norm_ws=$((norm_ws + 1))
     done
@@ -78,12 +78,10 @@ i=1
 while IFS=, read -r output ws norm_ws; do
     if sed "1,${i}d" <<< "$reserved_wss" | grep "$norm_ws" | grep -q ",$norm_ws,"; then
         # destination is used later
-        echo "aaaaaa ws: $ws -> $junk_ws"
         booked_out_wss=$(echo -en "$booked_out_wss\n$output,$junk_ws,$norm_ws")
         move_workspace "$output" "$ws" "$junk_ws"
         junk_ws=$((junk_ws + 1))
     else
-        echo "reserved $output:$ws -> $norm_ws"
         move_workspace "$output" "$ws" "$norm_ws"
     fi
 
@@ -98,7 +96,6 @@ done <<< "$input"
 booked_out_wss=$(sed '1d' <<< "$booked_out_wss")
 
 while IFS=, read -r output ws norm_ws; do
-    echo "final $output:$ws -> $norm_ws"
     move_workspace "$output" "$ws" "$norm_ws"
 done <<< "$booked_out_wss"
 
