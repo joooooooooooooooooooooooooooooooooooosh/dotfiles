@@ -15,6 +15,7 @@ exec xcape -e 'Control_L=Escape'
 # TODO: clean up hacky kde stuff
 exec --no-startup-id wmctrl -c Plasma
 exec sleep 2; killall plasmashell
+for_window [class="kcalc"] floating enable
 for_window [title="Desktop — Plasma"] kill; floating enable; border none
 for_window [class="plasmashell"] kill; floating enable;
 for_window [class="Plasma"] floating enable; border none
@@ -75,6 +76,7 @@ bindsym $mod+Mod4+semicolon exec Documents/scripts/movetolaptop.sh left
 bindsym $mod+Mod4+apostrophe exec Documents/scripts/movetolaptop.sh right
 bindsym $mod+Mod4+BackSpace exec Documents/scripts/swapwindow.sh
 bindsym $mod+m exec ~/Documents/scripts/moveworkspace.sh
+bindsym $mod+Ctrl+m exec ~/Documents/scripts/normaliseworkspaces.sh
 bindsym $mod+Shift+braceleft exec ~/Documents/scripts/movewindow.sh prev
 bindsym $mod+Shift+braceright exec ~/Documents/scripts/movewindow.sh next
 
@@ -419,7 +421,7 @@ mode "one-handed" {
         bindsym Shift+8 workspace 18
         bindsym Shift+9 workspace 19
         bindsym Shift+0 workspace 20
-        
+
         bindsym plus exec ~/Documents/scripts/_brightchange.sh up
         bindsym minus exec ~/Documents/scripts/_brightchange.sh down
         # bindsym quotedbl exec ~/Documents/scripts/_brightchange.sh max
