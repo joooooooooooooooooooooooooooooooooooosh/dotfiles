@@ -141,7 +141,13 @@ unalias gcl
 gcl() {
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
     git clone "$1" &&
-    cd "$(sed -E 's|(.*)\.git/?|\1|; s|.*/(.*)|\1|' <<< "$1")"
+        cd "$(sed -E 's|(.*)\.git/?|\1|; s|.*/(.*)|\1|' <<< "$1")"
+}
+
+cman() {
+    apropos "$1" |
+        grep '(3)' |
+        less
 }
 
 clean-none-images() {
@@ -163,7 +169,7 @@ swap() {
 }
 
 fzc() {
-    file=$(fzf)
+    local file=$(fzf)
     cd $(echo $file | sed 's/\/[^\/]*$//') 2>/dev/null
     nvim "$(echo "$file" | sed 's/.*\///')"
 }
@@ -192,8 +198,8 @@ sec() {
 }
 
 lr() {
-    file=$(la | rofi -dmenu -i -matching fuzzy -p "cd")
-    chpath=$(pwd)
+    local file=$(la | rofi -dmenu -i -matching fuzzy -p "cd")
+    local chpath=$(pwd)
     while [ "$file" ]; do
         if [ -f "$(chpath)/$file" ]; then
             cd "$chpath"
@@ -212,20 +218,38 @@ vr() {
         nvim "$1"
         return
     fi
-    file=$(la | rofi -dmenu -i -matching fuzzy -p "nvim")
-    nvim "$file"
+    nvim "$(la | rofi -dmenu -i -matching fuzzy -p 'nvim')"
 }
 
 mkcd() {
-    mkdir -p "$1"
-    cd "$1"
+    mkdir -p "$1" && cd "$1"
+}
+
+populate_chapter() {
+    local book=$1
+    local chapter=$2
+    local cache="$HOME/tmp/bible/$book$chapter";
+
+    if [ ! -f "$cache" ]; then
+        echo -e "[1m$chapter[0m\n" >"$cache"
+
+        curl -s "https://www.biblestudytools.com/$book/$chapter.html" |
+            grep "x-show=\"verseNumbers\"" -A3 |
+            sed -E 's/>([[:digit:]]+)<\/a>/\n\1\n/' |
+            sed -E '/x-show=\"verseNumbers\"/d; /^--/d; s/^\s*//; s/^([[:digit:]]+)$/[1m\1[0m/' |
+            perl -pe 's/ *?<sup.*?\/sup> *?/ /g; s/ *?<.*?>(.<.*?>)? *?/ /g' |
+            tr '\n' ' ' |
+            sed -E 's/  +/ /g; $s/ $/\n/' |
+            fold -sw 60 >>"$cache"
+
+        echo >>"$cache"
+    fi
 }
 
 bible() {
-    # TODO: website changed
-    book="genesis"
-    chapter=1
-    last=1
+    local book="genesis"
+    local chapter=1
+    local last=1
     if [ $# -ge 2 ]; then
         book=$1
         chapter=$2
@@ -241,31 +265,14 @@ bible() {
         mkdir -p "$HOME/tmp/bible/$version"
     fi
 
-    # TODO: get rid of double spaces
-    for i in {$chapter..$last}; do
-        cache="$HOME/tmp/bible/$book$i"
+    env_parallel --env populate_chapter --max-args=1 \
+        populate_chapter $book ::: $(echo {$chapter..$last})
 
-        if [ ! -f "$cache" ]; then
-            curl -s "https://www.biblestudytools.com/$book/$chapter.html" |
-                grep "x-show=\"verseNumbers\"" -A3 |
-                sed -E 's/>([[:digit:]])+<\/a>/\n\1\n/;' |
-                sed -E '/x-show=\"verseNumbers\"/d; /^--/d; s/^\s*//; s/^([[:digit:]]+)$/[1m\1[0m/' |
-                perl -pe 's/ *?<sup.*?\/sup> *?/ /g; s/ *?<.*?>(.<.*?>)? *?/ /g' |
-                tr '\n' ' ' |
-                sed -E 's/  +/ /g; $s/ $/\n/' |
-                fold -sw 60 >"$cache"
-        fi
-
-        less "$cache"
-    done
+    echo "$HOME/tmp/bible/$book"{$chapter..$last} | xargs cat | less
 }
 
 uni() {
-    if [ $# -eq 1 ]; then
-        cd "$HOME/Documents/UNSW/$1"
-    else
-        cd "$HOME/Documents/UNSW"
-    fi
+    cd "$HOME/Documents/UNSW/$1"
 }
 
 unsetopt share_history
@@ -276,7 +283,7 @@ PERL5LIB="/home/joshh/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB
 PERL_LOCAL_LIB_ROOT="/home/joshh/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
 PERL_MB_OPT="--install_base \"/home/joshh/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/joshh/perl5"; export PERL_MM_OPT;
-
+. `which env_parallel.zsh`
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
