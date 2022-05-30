@@ -7,8 +7,8 @@ killall polybar
 if type "xrandr"; then
   for m in $(polybar --list-monitors | cut -d: -f1); do
     echo $m
-    MONITOR=$m polybar --reload example &
+    MONITOR=$m polybar example &
   done
 else
-  polybar --reload example &
+  polybar example &
 fi
