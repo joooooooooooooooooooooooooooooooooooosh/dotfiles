@@ -120,6 +120,7 @@ nnoremap [<space>  :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
 nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 
 " edit macros
+" use "q<Leader>m
 nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
 
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -222,6 +223,9 @@ tmap <silent> <C-W><C-Q> <C-\><C-n>:bd!<CR>
 
 " plugins {{{
 call plug#begin('~/.vim/plugged')
+Plug 'joooooooooooooooooooooooooooooooooooosh/lightline.vim'
+Plug 'joooooooooooooooooooooooooooooooooooosh/zoomwintab.vim'
+
 Plug 'dylanaraps/wal.vim'
 Plug 'p00f/nvim-ts-rainbow'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -243,7 +247,6 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'folke/which-key.nvim'
 Plug 'folke/zen-mode.nvim'
-Plug 'troydm/zoomwintab.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'mbbill/undotree'
 
