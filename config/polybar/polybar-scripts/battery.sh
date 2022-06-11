@@ -1,5 +1,5 @@
 #!/bin/bash
-batt=$(acpi -b | awk '{sum += $4} END {print int(sum/2)}')
+batt=$(acpi -b | awk '{sum += $4} END {print int(sum/NR)}')
 
 if acpi -a | grep on >/dev/null; then
     icon=""

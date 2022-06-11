@@ -262,13 +262,13 @@ bible() {
 
     if [[ $book =~ "/" ]]; then
         IFS=\/ read -r version _ <<< "$book";
-        mkdir -p "$HOME/tmp/bible/$version"
+        mkdir -p "$HOME/.cache/bible/$version"
     fi
 
     env_parallel --env populate_chapter --max-args=1 \
         populate_chapter $book ::: $(echo {$chapter..$last})
 
-    echo "$HOME/tmp/bible/$book"{$chapter..$last} | xargs cat | less
+    echo "$HOME/.cache/bible/$book"{$chapter..$last} | xargs cat | less
 }
 
 uni() {

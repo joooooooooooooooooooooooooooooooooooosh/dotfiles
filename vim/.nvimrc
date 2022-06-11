@@ -154,6 +154,9 @@ nmap \Ot O<Esc>cc<Esc>\t:
 nmap \oj o<Esc>cc<Esc>\t(josh): 
 nmap \Oj O<Esc>cc<Esc>\t(josh): 
 
+nmap \gr ?{<CR>?(<CR>Bgr
+nmap \gd ?(<CR>Bgd
+
 " leader mappings {{{
 nnoremap <Leader>t  :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
 nnoremap <Leader>T  :tabnew<CR><Esc>:terminal<CR>
