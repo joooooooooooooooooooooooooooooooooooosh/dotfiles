@@ -4,10 +4,10 @@
 Add it to a crontab or make a symbolic link to the script in /etc/cron.minutely
 
 Symlinks:
-`wal/templates/dunstrc` to `~/.config/dunst/dunstrc`
+`~/.cache/wal/dunstrc` to `~/.config/dunst/dunstrc`
 Hardlinks:
-`wal/templates/rofi-wal-theme` to `~/.config/rofi/wal-theme.rasi`
-`wal/templates/zathurarc` to `~/.config/zathura/zathurarc`
+`~/.cache/wal/rofi-wal-theme` to `~/.config/rofi/wal-theme.rasi`
+`~/.cache/wal/zathurarc` to `~/.config/zathura/zathurarc`
 
 If you don't have a desktop notifications handler, make sure to disable desktop notifications in apps such as `discord` that tend to panic if their attempts to send a desktop notification fail.
 
@@ -16,3 +16,6 @@ the `ranger` alias in .zshrc fails if `urxvt` is not installed - installing urxv
 
 Installing fonts for polybar:
 `sudo cp fonts/*/font/*.ttf /usr/share/fonts/TTF/`
+
+for using i3 on top of kde plasma (don't kill me):
+`ln -s ~/Documents/scripts/kdei3.sh ~/.config/plasma-workspace/env/kdei3.sh`
