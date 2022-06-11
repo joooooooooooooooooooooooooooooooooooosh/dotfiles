@@ -1,0 +1,184 @@
+{
+  "name": "moreicons",
+  "css_prefix_text": "icon-",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "531bc468eecbb8867d822f1c11f1e039",
+      "css": "calendar",
+      "code": 59392,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "0f6a2573a7b6df911ed199bb63717e27",
+      "css": "github-circled",
+      "code": 61595,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "0ece9a12de796b8411f868d582bee678",
+      "css": "github-squared",
+      "code": 62208,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "9a0873ae5167deefbf38061b7cddbe34",
+      "css": "bluetooth-b",
+      "code": 62100,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "fb15371451b9110f93afcaa70d6ea98d",
+      "css": "bluetooth",
+      "code": 62099,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "1cb3652ffb3492344fa3a675c3ff3290",
+      "css": "microchip",
+      "code": 62171,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "okc52fdxu9uz2wnl0awdtv5373is429s",
+      "css": "volume-high",
+      "code": 59393,
+      "src": "typicons"
+    },
+    {
+      "uid": "3bf8e868324f7efb93c7bde31be9cc5e",
+      "css": "volume-middle",
+      "code": 59394,
+      "src": "typicons"
+    },
+    {
+      "uid": "43m0a70tvxqc6q7jxgzhz5lmlt3ce2iy",
+      "css": "volume-low",
+      "code": 59395,
+      "src": "typicons"
+    },
+    {
+      "uid": "0a9d5a8bfa0ccfd44a38328b8ca276c2",
+      "css": "volume-off",
+      "code": 59396,
+      "src": "typicons"
+    },
+    {
+      "uid": "b1a40ej6b1xgsxjeh1b1urm8ptglt0hk",
+      "css": "mic",
+      "code": 59397,
+      "src": "typicons"
+    },
+    {
+      "uid": "b7bd78e163801889af145e513d6c5383",
+      "css": "mic-outline",
+      "code": 59398,
+      "src": "typicons"
+    },
+    {
+      "uid": "e5297b06d9300be7e7c347f78a9b8b61",
+      "css": "headphones",
+      "code": 59399,
+      "src": "typicons"
+    },
+    {
+      "uid": "012ff5762ccb18c16bdfdd6baf187406",
+      "css": "volume-up",
+      "code": 59400,
+      "src": "elusive"
+    },
+    {
+      "uid": "b59b3b618699b467541f631edd5a02ed",
+      "css": "volume",
+      "code": 59401,
+      "src": "elusive"
+    },
+    {
+      "uid": "5d9730dc93976d27eb07914eab50a507",
+      "css": "volume-down",
+      "code": 59402,
+      "src": "elusive"
+    },
+    {
+      "uid": "8489d61496923b1159b01d8a0a7b2df0",
+      "css": "volume-off-1",
+      "code": 59403,
+      "src": "elusive"
+    },
+    {
+      "uid": "8ca5f77677a66dbe813213ca75ac1474",
+      "css": "mic-1",
+      "code": 59404,
+      "src": "elusive"
+    },
+    {
+      "uid": "4d2f54ceffd4645d3ce6fe82b404190d",
+      "css": "mic-circled",
+      "code": 59405,
+      "src": "elusive"
+    },
+    {
+      "uid": "7480a298ce334eef70193895e799c3fd",
+      "css": "headphones-1",
+      "code": 59406,
+      "src": "elusive"
+    },
+    {
+      "uid": "7a2707491ef57c1e98921df65b572a66",
+      "css": "hdd",
+      "code": 59407,
+      "src": "elusive"
+    },
+    {
+      "uid": "02ad0683eaa9826f396fa7ccf1f1fb25",
+      "css": "database",
+      "code": 59408,
+      "src": "linecons"
+    },
+    {
+      "uid": "e92e6cad2da0ee4bc374a1ef4c6ab12b",
+      "css": "terminal",
+      "code": 59409,
+      "src": "websymbols"
+    },
+    {
+      "uid": "cba6018f5de17c76f70b7d2c06037e5a",
+      "css": "mail",
+      "code": 59410,
+      "src": "websymbols"
+    },
+    {
+      "uid": "221947bea81f49a11b863c686a7bd235",
+      "css": "search",
+      "code": 59411,
+      "src": "websymbols"
+    },
+    {
+      "uid": "d59ff824282fc6edaeca991deab522aa",
+      "css": "server",
+      "code": 62003,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "9396b2d8849e0213a0f11c5fd7fcc522",
+      "css": "tasks",
+      "code": 61614,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "795efd07cd5205b589c883916a76cff0",
+      "css": "hdd-1",
+      "code": 61600,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "26613a2e6bc41593c54bead46f8c8ee3",
+      "css": "file-code",
+      "code": 61897,
+      "src": "fontawesome"
+    }
+  ]
+}

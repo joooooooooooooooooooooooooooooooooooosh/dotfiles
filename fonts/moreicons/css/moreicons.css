@@ -1,0 +1,86 @@
+@font-face {
+  font-family: 'moreicons';
+  src: url('../font/moreicons.eot?36052221');
+  src: url('../font/moreicons.eot?36052221#iefix') format('embedded-opentype'),
+       url('../font/moreicons.woff2?36052221') format('woff2'),
+       url('../font/moreicons.woff?36052221') format('woff'),
+       url('../font/moreicons.ttf?36052221') format('truetype'),
+       url('../font/moreicons.svg?36052221#moreicons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'moreicons';
+    src: url('../font/moreicons.svg?36052221#moreicons') format('svg');
+  }
+}
+*/
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "moreicons";
+  font-style: normal;
+  font-weight: normal;
+  speak: never;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+ 
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.icon-calendar:before { content: '\e800'; } /* '' */
+.icon-volume-high:before { content: '\e801'; } /* '' */
+.icon-volume-middle:before { content: '\e802'; } /* '' */
+.icon-volume-low:before { content: '\e803'; } /* '' */
+.icon-volume-off:before { content: '\e804'; } /* '' */
+.icon-mic:before { content: '\e805'; } /* '' */
+.icon-mic-outline:before { content: '\e806'; } /* '' */
+.icon-headphones:before { content: '\e807'; } /* '' */
+.icon-volume-up:before { content: '\e808'; } /* '' */
+.icon-volume:before { content: '\e809'; } /* '' */
+.icon-volume-down:before { content: '\e80a'; } /* '' */
+.icon-volume-off-1:before { content: '\e80b'; } /* '' */
+.icon-mic-1:before { content: '\e80c'; } /* '' */
+.icon-mic-circled:before { content: '\e80d'; } /* '' */
+.icon-headphones-1:before { content: '\e80e'; } /* '' */
+.icon-hdd:before { content: '\e80f'; } /* '' */
+.icon-database:before { content: '\e810'; } /* '' */
+.icon-terminal:before { content: '\e811'; } /* '' */
+.icon-mail:before { content: '\e812'; } /* '' */
+.icon-search:before { content: '\e813'; } /* '' */
+.icon-github-circled:before { content: '\f09b'; } /* '' */
+.icon-hdd-1:before { content: '\f0a0'; } /* '' */
+.icon-tasks:before { content: '\f0ae'; } /* '' */
+.icon-file-code:before { content: '\f1c9'; } /* '' */
+.icon-server:before { content: '\f233'; } /* '' */
+.icon-bluetooth:before { content: '\f293'; } /* '' */
+.icon-bluetooth-b:before { content: '\f294'; } /* '' */
+.icon-microchip:before { content: '\f2db'; } /* '' */
+.icon-github-squared:before { content: '\f300'; } /* '' */
