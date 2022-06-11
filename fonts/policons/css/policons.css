@@ -1,0 +1,135 @@
+@font-face {
+  font-family: 'policons';
+  src: url('../font/policons.eot?33642398');
+  src: url('../font/policons.eot?33642398#iefix') format('embedded-opentype'),
+       url('../font/policons.woff2?33642398') format('woff2'),
+       url('../font/policons.woff?33642398') format('woff'),
+       url('../font/policons.ttf?33642398') format('truetype'),
+       url('../font/policons.svg?33642398#policons') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'policons';
+    src: url('../font/policons.svg?33642398#policons') format('svg');
+  }
+}
+*/
+ 
+ [class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "policons";
+  font-style: normal;
+  font-weight: normal;
+  speak: never;
+ 
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  /* opacity: .8; */
+ 
+  /* For safety - reset parent styles, that can break glyph codes*/
+  font-variant: normal;
+  text-transform: none;
+ 
+  /* fix buttons height, for twitter bootstrap */
+  line-height: 1em;
+ 
+  /* Animation center compensation - margins should be symmetric */
+  /* remove if not needed */
+  margin-left: .2em;
+ 
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+ 
+  /* Uncomment for 3D effect */
+  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+}
+ 
+.icon-music:before { content: '\e800'; } /* '' */
+.icon-search:before { content: '\e801'; } /* '' */
+.icon-mail:before { content: '\e802'; } /* '' */
+.icon-home:before { content: '\e803'; } /* '' */
+.icon-volume-up:before { content: '\e804'; } /* '' */
+.icon-headphones:before { content: '\e805'; } /* '' */
+.icon-volume-down:before { content: '\e806'; } /* '' */
+.icon-volume-off:before { content: '\e807'; } /* '' */
+.icon-fast-fw:before { content: '\e808'; } /* '' */
+.icon-fast-bw:before { content: '\e809'; } /* '' */
+.icon-to-start-alt:before { content: '\e80a'; } /* '' */
+.icon-to-end:before { content: '\e80b'; } /* '' */
+.icon-to-end-alt:before { content: '\e80c'; } /* '' */
+.icon-to-start:before { content: '\e80d'; } /* '' */
+.icon-pause:before { content: '\e80e'; } /* '' */
+.icon-stop:before { content: '\e80f'; } /* '' */
+.icon-play:before { content: '\e810'; } /* '' */
+.icon-shuffle:before { content: '\e811'; } /* '' */
+.icon-arrows-cw:before { content: '\e812'; } /* '' */
+.icon-off:before { content: '\e813'; } /* '' */
+.icon-rss:before { content: '\e814'; } /* '' */
+.icon-code:before { content: '\e815'; } /* '' */
+.icon-mic-1:before { content: '\e816'; } /* '' */
+.icon-clock:before { content: '\e817'; } /* '' */
+.icon-light-down:before { content: '\e818'; } /* '' */
+.icon-light-up:before { content: '\e819'; } /* '' */
+.icon-adjust:before { content: '\e81a'; } /* '' */
+.icon-block:before { content: '\e81b'; } /* '' */
+.icon-lamp:before { content: '\e81c'; } /* '' */
+.icon-progress-1:before { content: '\e81d'; } /* '' */
+.icon-progress-2:before { content: '\e81e'; } /* '' */
+.icon-fast-backward:before { content: '\e81f'; } /* '' */
+.icon-fast-forward:before { content: '\e820'; } /* '' */
+.icon-to-start-1:before { content: '\e821'; } /* '' */
+.icon-to-end-1:before { content: '\e822'; } /* '' */
+.icon-pause-1:before { content: '\e823'; } /* '' */
+.icon-stop-1:before { content: '\e824'; } /* '' */
+.icon-play-1:before { content: '\e825'; } /* '' */
+.icon-shuffle-1:before { content: '\e826'; } /* '' */
+.icon-arrows-ccw:before { content: '\e827'; } /* '' */
+.icon-wifi:before { content: '\e828'; } /* '' */
+.icon-power:before { content: '\e829'; } /* '' */
+.icon-bat-charge:before { content: '\e82a'; } /* '' */
+.icon-bat4:before { content: '\e82b'; } /* '' */
+.icon-bat3:before { content: '\e82c'; } /* '' */
+.icon-bat2:before { content: '\e82d'; } /* '' */
+.icon-bat1:before { content: '\e82e'; } /* '' */
+.icon-flash:before { content: '\e82f'; } /* '' */
+.icon-rss-alt:before { content: '\e830'; } /* '' */
+.icon-rss-1:before { content: '\e831'; } /* '' */
+.icon-spin3:before { content: '\e832'; } /* '' */
+.icon-moon:before { content: '\e833'; } /* '' */
+.icon-headphones-1:before { content: '\e834'; } /* '' */
+.icon-clock-1:before { content: '\e835'; } /* '' */
+.icon-flash-1:before { content: '\e836'; } /* '' */
+.icon-progress-7:before { content: '\e837'; } /* '' */
+.icon-progress-6:before { content: '\e838'; } /* '' */
+.icon-progress-5:before { content: '\e839'; } /* '' */
+.icon-progress-4:before { content: '\e83a'; } /* '' */
+.icon-progress-3:before { content: '\e83b'; } /* '' */
+.icon-progress-8:before { content: '\e83c'; } /* '' */
+.icon-progress-0:before { content: '\e83d'; } /* '' */
+.icon-progress-9:before { content: '\e83e'; } /* '' */
+.icon-terminal:before { content: '\f120'; } /* '' */
+.icon-mic:before { content: '\f130'; } /* '' */
+.icon-mute:before { content: '\f131'; } /* '' */
+.icon-plug:before { content: '\f1e6'; } /* '' */
+.icon-battery-4:before { content: '\f240'; } /* '' */
+.icon-battery-3:before { content: '\f241'; } /* '' */
+.icon-battery-2:before { content: '\f242'; } /* '' */
+.icon-battery-1:before { content: '\f243'; } /* '' */
+.icon-battery-0:before { content: '\f244'; } /* '' */
+.icon-usb:before { content: '\f287'; } /* '' */
+.icon-thermometer:before { content: '\f2c7'; } /* '' */
+.icon-thermometer-3:before { content: '\f2c8'; } /* '' */
+.icon-thermometer-2:before { content: '\f2c9'; } /* '' */
+.icon-thermometer-quarter:before { content: '\f2ca'; } /* '' */
+.icon-thermometer-0:before { content: '\f2cb'; } /* '' */
