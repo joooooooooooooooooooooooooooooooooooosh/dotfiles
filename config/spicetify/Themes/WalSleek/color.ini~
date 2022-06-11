@@ -1,0 +1,59 @@
+[Psycho]
+; Red on dark grey background
+text               = ${xrdb:color7}
+subtext            = ${xrdb:color6}
+button-text        = ${xrdb:color0}
+main               = ${xrdb:color0}
+sidebar            = ${xrdb:color0}
+player             = ${xrdb:color0}
+card               = ${xrdb:color0}
+shadow             = 000000
+selected-row       = ${xrdb:color3}
+button             = ${xrdb:color2}
+button-active      = ${xrdb:color10}
+button-disabled    = ${xrdb:color0}
+tab-active         = ${xrdb:color4}
+notification       = ${xrdb:color1}
+notification-error = ${xrdb:color1}
+playback-bar       = ${xrdb:color1}
+misc               = ${xrdb:color11}
+
+[Deep]
+; White on dark blue background
+text               = ffffff
+subtext            = ffffff
+button-text        = ffffff
+main               = 020816
+sidebar            = 051024
+player             = 030b1e
+card               = 0a1527
+shadow             = 000000
+selected-row       = 1464b5
+button             = 1464b5
+button-active      = 4a99e9
+button-disabled    = 353535
+tab-active         = 0a1527
+notification       = 051024
+notification-error = 051024
+playback-bar       = 37b778
+misc               = BFBFBF
+
+[BIB]
+; Green on dark grey background
+text               = 8bc34a
+subtext            = b4b4b4
+button-text        = 202020
+main               = 202020
+sidebar            = 202020
+player             = 242424
+card               = 242424
+shadow             = 000000
+selected-row       = 8fdc35
+button             = 8bc34a
+button-active      = 98da4b
+button-disabled    = 353535
+tab-active         = 303030
+notification       = 242424
+notification-error = 242424
+playback-bar       = 8bc34a
+misc               = FFFFFF
