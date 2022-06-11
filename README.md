@@ -12,3 +12,7 @@ Hardlinks:
 If you don't have a desktop notifications handler, make sure to disable desktop notifications in apps such as `discord` that tend to panic if their attempts to send a desktop notification fail.
 
 `config/ranger/plugins/zoxide` is a submodule, so in git's infinite wisdom it doesn't clone the submodule along with the repository. Run `git submodule update --init config/ranger/plugins/zoxide` to fix that.
+the `ranger` alias in .zshrc fails if `urxvt` is not installed - installing urxvt will fix ranger's behaviour on alacritty
+
+Installing fonts for polybar:
+`sudo cp fonts/*/font/*.ttf /usr/share/fonts/TTF/`
