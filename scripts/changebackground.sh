@@ -1,9 +1,11 @@
 #!/bin/bash
 
 wal -q -i "$@"
+killall dunst
+
 if [ "$2" != "-l" ]; then
     wal-discord
-    spicetify update
+    sed 's/#//' ~/.cache/wal/spicetify_color.ini > ~/.config/spicetify/Themes/WalSleek/color.ini
 fi
 
 # invert text colour of selected element

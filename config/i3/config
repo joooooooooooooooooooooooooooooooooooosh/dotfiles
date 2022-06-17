@@ -4,6 +4,7 @@
 # Alt key is Mod1, and Windows key is Mod4
 set $mod Mod1
 set $term alacritty
+set $BROWSER firefox
 
 exec --no-startup-id ~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers
 exec --no-startup-id ~/.config/polybar/launch.sh
@@ -320,7 +321,7 @@ bindsym $mod+Shift+r exec killall picom & i3-msg restart
 # bindsym $mod+Ctrl+Shift+e exit
 
 # lock the screen
-bindsym Mod4+Shift+p exec qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout -1 -1 -1
+bindsym Mod4+Shift+p exec qdbus org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout 1 1 2
 
 bindsym $mod+Ctrl+t layout tabbed
 bindsym $mod+Ctrl+s layout stacking

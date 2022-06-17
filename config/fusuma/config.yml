@@ -5,7 +5,7 @@ swipe:
     right: 
       command: 'i3-msg workspace prev_on_output'
     up: 
-      command: 'rofi -show drun'
+      command: 'runuser -u joshh -- rofi -show drun'
     down: 
       command: 'killall rofi || xdotool key Escape'
   4:

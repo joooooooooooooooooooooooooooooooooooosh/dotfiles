@@ -53,9 +53,9 @@ set undolevels=1000
 set shellpipe=>
 set swapfile
 set viewoptions-=options,curdir
-set dir=~/tmp/nvim//,.
-set directory=~/tmp/nvim//,.
-set backupdir=~/tmp/nvim//,.
+set dir=/tmp/nvim//,.
+set directory=/tmp/nvim//,.
+set backupdir=/tmp/nvim//,.
 " }}}
 
 let mapleader=" "
