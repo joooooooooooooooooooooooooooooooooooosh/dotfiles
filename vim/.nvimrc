@@ -229,6 +229,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'joooooooooooooooooooooooooooooooooooosh/lightline.vim'
 Plug 'joooooooooooooooooooooooooooooooooooosh/zoomwintab.vim'
 
+Plug 'sainnhe/sonokai'
 Plug 'dylanaraps/wal.vim'
 Plug 'p00f/nvim-ts-rainbow'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -253,11 +254,23 @@ Plug 'folke/zen-mode.nvim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'mbbill/undotree'
 
+Plug 'kevinhwang91/nvim-ufo'
+Plug 'kevinhwang91/promise-async'
+
 Plug 'fidian/hexmode'
 
 Plug 'github/copilot.vim'
 call plug#end()
 " }}}
+
+let g:sonokai_better_performance = 1
+let g:sonokai_transparent_background = 1
+set termguicolors
+" colorscheme wal
+" colorscheme happy_hacking
+colorscheme sonokai
+" highlight DiffAdd  guibg=#145214
+highlight DiffText guibg=#004d66
 
 " lua configuration {{{
 lua << EOF
@@ -381,6 +394,21 @@ require("telescope").load_extension('coc')
 vim.g.copilot_filetypes = {
     ['TelescopePrompt'] = false
 }
+
+require('git-conflict').setup {
+    default_mappings = true, -- disable buffer local mapping created by this plugin
+    disable_diagnostics = true, -- This will disable the diagnostics in a buffer whilst it is conflicted
+    highlights = { -- They must have background color, otherwise the default color will be used
+        incoming = 'DiffText',
+        current = 'DiffAdd',
+    }
+}
+
+require('ufo').setup()
+vim.wo.foldcolumn = '0'
+vim.wo.foldlevel = 99 -- feel free to decrease the value
+vim.wo.foldenable = true
+
 EOF
 " }}}
 
@@ -477,8 +505,6 @@ function SetupLightlineColors() abort
   call lightline#colorscheme()
 endfunction
 " }}}
-
-colorscheme wal
 
 if v:progname =~? "evim"
   finish
