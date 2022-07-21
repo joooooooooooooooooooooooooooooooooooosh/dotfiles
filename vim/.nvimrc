@@ -43,7 +43,6 @@ set relativenumber
 set signcolumn=number
 set ignorecase smartcase
 set expandtab
-set foldmethod=manual
 set clipboard=unnamedplus
 set laststatus=3
 set incsearch nohlsearch
@@ -53,9 +52,9 @@ set undolevels=1000
 set shellpipe=>
 set swapfile
 set viewoptions-=options,curdir
-set dir=/tmp/nvim//,.
-set directory=/tmp/nvim//,.
-set backupdir=/tmp/nvim//,.
+set dir=$HOME/.vim/swapfiles//
+set directory=$HOME/.vim/swapfiles//
+set backupdir=$HOME/.vim/swapfiles//
 " }}}
 
 let mapleader=" "
@@ -73,7 +72,7 @@ vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
 vnoremap > >gv
 vnoremap < <gv
-nmap <C-n> :NERDTreeToggle<CR>
+nmap <C-n> :NERDTreeFind<CR>
 nmap <C-e> $
 imap <C-e> <Esc>A
 
@@ -90,10 +89,24 @@ nmap <F11> <BS>
 nmap <F12> <Delete>
 imap <F11> <BS>
 imap <F12> <Delete>
+
+" tab navigation
 imap <silent> <C-j> <Esc>:tabprevious<CR>
 imap <silent> <C-k> <Esc>:tabnext<CR>
 nmap <silent> <C-j> :tabprevious<CR>
 nmap <silent> <C-k> :tabnext<CR>
+nnoremap <leader>1 1gt
+nnoremap <leader>2 2gt
+nnoremap <leader>3 3gt
+nnoremap <leader>4 4gt
+nnoremap <leader>5 5gt
+nnoremap <leader>6 6gt
+nnoremap <leader>7 7gt
+nnoremap <leader>8 8gt
+nnoremap <leader>9 9gt
+nnoremap <leader>0 10gt
+nnoremap <leader><C-a> :tabfirst<CR>
+nnoremap <leader><C-e> :tablast<CR>
 
 " imap <Leader>c <Esc>:set list!<CR>i
 " nmap <Leader>c :set list!<CR>
@@ -148,15 +161,18 @@ nmap \odp "zyiwo<C-R>z<Esc>\dp
 nmap \oep "zyiwo<C-R>z<Esc>\ep
 
 nmap \t iTODO<Esc>gcc==A
+nmap \j \t(joshh)
 " cc clears auto comments added if this is being performed from a commented line
 nmap \ot o<Esc>cc<Esc>\t: 
 nmap \Ot O<Esc>cc<Esc>\t: 
-nmap \oj o<Esc>cc<Esc>\t(josh): 
-nmap \Oj O<Esc>cc<Esc>\t(josh): 
+nmap \oj o<Esc>cc<Esc>\j: 
+nmap \Oj O<Esc>cc<Esc>\j: 
 
 nmap \gr ?{<CR>?(<CR>Bgr
 nmap \gd ?(<CR>Bgd
 
+" strip trailing whitespace
+nnoremap <silent> \ws :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR><C-o>
 " leader mappings {{{
 nnoremap <Leader>t  :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
 nnoremap <Leader>T  :tabnew<CR><Esc>:terminal<CR>
@@ -197,7 +213,7 @@ nnoremap <Leader>ff  <cmd>Telescope fd<cr>
 nnoremap <Leader>fg  <cmd>Telescope live_grep<cr>
 nnoremap <Leader>fl  <cmd>Telescope loclist<cr>
 nnoremap <Leader>fm  <cmd>Telescope man_pages<cr>
-nnoremap <Leader>fr  <cmd>Telescope coc references<cr>
+nnoremap <Leader>fr  <cmd>Telescope grep_string<cr>
 nnoremap <Leader>fs  <cmd>Telescope spell_suggest<cr>
 " TODO: broken
 " nnoremap <Leader>ft  <cmd>Telescope live_grep<cr>TODO
@@ -249,17 +265,16 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'fannheyward/telescope-coc.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+Plug 'https://gitlab.com/yorickpeterse/nvim-window.git'
 Plug 'folke/which-key.nvim'
 Plug 'folke/zen-mode.nvim'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree'
 Plug 'mbbill/undotree'
 
 Plug 'kevinhwang91/nvim-ufo'
 Plug 'kevinhwang91/promise-async'
 
 Plug 'fidian/hexmode'
-
-Plug 'github/copilot.vim'
 call plug#end()
 " }}}
 
@@ -391,10 +406,6 @@ extensions = {
 require("telescope").load_extension('fzf')
 require("telescope").load_extension('coc')
 
-vim.g.copilot_filetypes = {
-    ['TelescopePrompt'] = false
-}
-
 require('git-conflict').setup {
     default_mappings = true, -- disable buffer local mapping created by this plugin
     disable_diagnostics = true, -- This will disable the diagnostics in a buffer whilst it is conflicted
@@ -404,12 +415,71 @@ require('git-conflict').setup {
     }
 }
 
-require('ufo').setup()
-vim.wo.foldcolumn = '0'
-vim.wo.foldlevel = 99 -- feel free to decrease the value
-vim.wo.foldenable = true
+local handler = function(virtText, lnum, endLnum, width, truncate)
+    local newVirtText = {}
+    local suffix = (' ...  %d '):format(endLnum - lnum)
+    local sufWidth = vim.fn.strdisplaywidth(suffix)
+    local targetWidth = width - sufWidth
+    local curWidth = 0
+    for _, chunk in ipairs(virtText) do
+        local chunkText = chunk[1]
+        local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+        if targetWidth > curWidth + chunkWidth then
+            table.insert(newVirtText, chunk)
+        else
+            chunkText = truncate(chunkText, targetWidth - curWidth)
+            local hlGroup = chunk[2]
+            table.insert(newVirtText, {chunkText, hlGroup})
+            chunkWidth = vim.fn.strdisplaywidth(chunkText)
+            -- str width returned from truncate() may less than 2nd argument, need padding
+            if curWidth + chunkWidth < targetWidth then
+                suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+            end
+            break
+        end
+        curWidth = curWidth + chunkWidth
+    end
+    table.insert(newVirtText, {suffix, 'MoreMsg'})
+    return newVirtText
+end
+
+vim.o.foldcolumn = '0'
+vim.o.foldlevel = 99 -- feel free to decrease the value
+vim.o.foldenable = true
+
+vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
+vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
+
+-- global handler
+require('ufo').setup({
+    fold_virt_text_handler = handler
+})
+
+-- buffer scope handler
+-- will override global handler if it is existed
+local bufnr = vim.api.nvim_get_current_buf()
+require('ufo').setFoldVirtTextHandler(bufnr, handler)
+
+require('nvim-window').setup({
+    -- The characters available for hinting windows.
+    chars = {
+        'q', 'w', 'e', 'o', 'k', "'", 'd', 'i', 'j', 'l', ';', 's', 'a',
+    },
+
+    -- A group to use for overwriting the Normal highlight group in the floating
+    -- window. This can be used to change the background color.
+    normal_hl = 'BlackOnLightYellow',
+
+    -- The highlight group to apply to the line that contains the hint characters.
+    -- This is used to make them stand out more.
+    hint_hl = 'Bold',
+
+    -- The border style to use for the floating window.
+    border = 'none'
+})
 
 EOF
+hi BlackOnLightYellow guifg=#000000 guibg=#f2de91
 " }}}
 
 " Git diff hunk commands from the perspective of the working copy.
@@ -418,10 +488,11 @@ EOF
 " nnoremap ]d :diffget //3 | diffup<CR>
 
 " plugin key mappings {{{
-" replace tab mapping
-imap <silent><script><expr> <C-T> copilot#Accept("")
-let g:copilot_no_tab_map = v:true
+" nmap <C-p> <Plug>(choosewin)
+" let g:choosewin_overlay_enable = 1
+map <silent> <C-p> :lua require('nvim-window').pick()<CR>
 
+autocmd FileType c,cpp setlocal commentstring=//%s
 nnoremap \cx :Dispatch! chmod +x %<CR>
 nnoremap \gpf :Git push --force-with-lease<CR>
 
@@ -429,10 +500,15 @@ nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
 inoremap <silent><expr> <C-x><C-o> coc#refresh()
 " idk what this was supposed to do
 inoremap <silent><expr> <C-y> call CocActionAsync('showSignatureHelp')
-nnoremap <expr><C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
-nnoremap <expr><C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
-inoremap <expr><C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
-inoremap <expr><C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
+" nnoremap <expr><C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
+" nnoremap <expr><C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
+" inoremap <expr><C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
+" inoremap <expr><C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
+nnoremap \ca <plug>(coc-codeaction-cursor)
+nnoremap \cl <plug>(coc-codeaction-line)
+nnoremap \cc <plug>(coc-codeaction)
+nnoremap \cs <plug>(coc-codeaction-selected)
+vnoremap \cs <plug>(coc-codeaction-selected)
 
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -470,7 +546,7 @@ function! s:show_documentation()
 endfunction
 
 " Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
+" autocmd CursorHold * silent call CocActionAsync('highlight')
 " autocmd CursorHold * if ! coc#util#has_float() | call CocActionAsync('doHover') | endif
 
 highlight CocErrorSign ctermfg=4
@@ -501,7 +577,7 @@ function SetupLightlineColors() abort
   let l:pallete.tabline.left = l:pallete.normal.middle
   let l:pallete.tabline.middle = l:pallete.normal.middle
   let l:pallete.tabline.right = l:pallete.normal.middle
-  let l:pallete.tabline.tabsel = [ [ 'NONE', 'NONE', 'NONE', '10' ] ]
+  let l:pallete.tabline.tabsel = [ [ '#f39660', 'NONE', 'NONE', '10' ] ]
   call lightline#colorscheme()
 endfunction
 " }}}

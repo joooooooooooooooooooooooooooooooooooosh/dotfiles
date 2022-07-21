@@ -51,7 +51,7 @@ DISABLE_MAGIC_FUNCTIONS=true
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+# ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # COMPLETION_WAITING_DOTS="true"
@@ -121,7 +121,6 @@ alias screenkey='screenkey --scr 1 --opacity 0.1 -s small'
 alias yeah=yes
 alias q=" exit"
 alias v=vr
-alias cr=lr
 alias n=nvim
 alias fzn='fzf | xargs nvim'
 alias fzd='cd ~/Documents; fzc'
@@ -136,12 +135,29 @@ alias m=tldr
 alias c=cargo
 alias top=bpytop
 alias gsl='git stash && git pull && git stash pop'
+alias gcom='git checkout $(git branch | {grep " main$" || echo "master"} | sed "s/* //")'
+alias toggle-power-mode='~/Documents/scripts/toggle-power-mode.sh'
+alias add='awk "{s+=\$1} END{print s}"'
 
 unalias gcl
 gcl() {
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
     git clone "$1" &&
         cd "$(sed -E 's|(.*)\.git/?|\1|; s|.*/(.*)|\1|' <<< "$1")"
+}
+
+gw() {
+    git diff $1^ $1
+}
+
+faketty () {
+    script -qefc "$(printf "%q " "$@")" /dev/null
+}
+
+cr() {
+    local output=$(perl -pe "s/\..*?$//" <<< "$1")
+    gcc "$1" -o "$output"
+    ./$output
 }
 
 cman() {
@@ -194,7 +210,7 @@ ns() {
 }
 
 sec() {
-    checksec --file="$1"
+    pwn checksec --file="$1"
 }
 
 lr() {
@@ -228,7 +244,7 @@ mkcd() {
 populate_chapter() {
     local book=$1
     local chapter=$2
-    local cache="$HOME/tmp/bible/$book$chapter";
+    local cache="$HOME/.cache/bible/$book$chapter";
 
     if [ ! -f "$cache" ]; then
         echo -e "[1m$chapter[0m\n" >"$cache"

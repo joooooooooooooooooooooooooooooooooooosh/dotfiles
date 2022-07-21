@@ -13,6 +13,8 @@
     lg   = log --color --graph \
         --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' \
         --abbrev-commit
+    lol  = log --graph --decorate --pretty=oneline --abbrev-commit
+    lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
     ph   = push
     pl   = "pull --rebase"
     s    = status
@@ -51,3 +53,5 @@
     hunk-header-file-style        = red
     hunk-header-line-number-style = "#067a00"
     hunk-header-style             = file line-number syntax
+[pull]
+	rebase = false

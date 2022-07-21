@@ -8,4 +8,4 @@ fi
 len=${#array[@]}
 
 printf "%s\n" "${array[@]:0:$len-1}" |
-	parallel scp -r {} "z5218547@login.cse.unsw.edu.au:~/${@: -1}"
+	parallel scp -r {} "z5218547@login.cse.unsw.edu.au:~/${array[@]: -1}"

@@ -194,6 +194,6 @@ hi CopilotSuggestion ctermbg=NONE ctermfg=12
 
 " Plugin options {{{
 
-let g:limelight_conceal_ctermfg = 8
+" let g:limelight_conceal_ctermfg = 8
 
 " }}}
