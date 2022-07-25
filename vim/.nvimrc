@@ -4,7 +4,7 @@ autocmd TermOpen * startinsert
 autocmd TermOpen * setlocal nonumber norelativenumber nospell
 
 " enter insert mode only if cursor on same line as last prompt
-autocmd BufWinEnter,WinEnter term://* silent $/\$/?\$?mark z
+autocmd BufWinEnter,WinEnter,TermOpen term://* silent! $/\$/?\$?mark z
     \| if ( line("'z") == line(".") )
         \| startinsert
     \| endif
