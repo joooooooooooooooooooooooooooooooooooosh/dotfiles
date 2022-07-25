@@ -2,7 +2,13 @@
 " autocmds {{{
 autocmd TermOpen * startinsert
 autocmd TermOpen * setlocal nonumber norelativenumber nospell
-autocmd BufWinEnter,WinEnter term://* startinsert
+
+" enter insert mode only if cursor on same line as last prompt
+autocmd BufWinEnter,WinEnter term://* silent $/\$/?\$?mark z
+    \| if ( line("'z") == line(".") )
+        \| startinsert
+    \| endif
+
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | silent! checktime | endif
 " TODO: only compile tex once and copy resulting pdf to view.pdf
 " autocmd BufWritePost *.tex exec 'Dispatch! cp % view.tex; pdflatex view.tex'
@@ -171,6 +177,8 @@ nmap \Oj O<Esc>cc<Esc>\j:
 nmap \gr ?{<CR>?(<CR>Bgr
 nmap \gd ?(<CR>Bgd
 
+nnoremap <expr> \z foldclosed('.') != -1 ? 'zO' : 'zC'
+
 " strip trailing whitespace
 nnoremap <silent> \ws :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR><C-o>
 " leader mappings {{{
@@ -265,6 +273,7 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'fannheyward/telescope-coc.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+Plug 'phaazon/hop.nvim'
 Plug 'https://gitlab.com/yorickpeterse/nvim-window.git'
 Plug 'folke/which-key.nvim'
 Plug 'folke/zen-mode.nvim'
@@ -289,6 +298,8 @@ highlight DiffText guibg=#004d66
 
 " lua configuration {{{
 lua << EOF
+require("hop").setup()
+
 require("zen-mode").setup {
     -- your configuration comes here
     -- or leave it empty to use the default settings
