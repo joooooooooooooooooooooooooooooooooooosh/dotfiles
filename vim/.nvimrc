@@ -253,8 +253,10 @@ call plug#begin('~/.vim/plugged')
 Plug 'joooooooooooooooooooooooooooooooooooosh/lightline.vim'
 Plug 'joooooooooooooooooooooooooooooooooooosh/zoomwintab.vim'
 
+Plug 'sainnhe/everforest'
 Plug 'sainnhe/sonokai'
 Plug 'dylanaraps/wal.vim'
+
 Plug 'p00f/nvim-ts-rainbow'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'windwp/nvim-autopairs'
@@ -289,10 +291,13 @@ call plug#end()
 
 let g:sonokai_better_performance = 1
 let g:sonokai_transparent_background = 1
+let g:everforest_better_performance = 1
+let g:everforest_transparent_background = 1
 set termguicolors
 " colorscheme wal
 " colorscheme happy_hacking
-colorscheme sonokai
+" colorscheme sonokai
+colorscheme everforest
 " highlight DiffAdd  guibg=#145214
 highlight DiffText guibg=#004d66
 
@@ -511,15 +516,17 @@ nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
 inoremap <silent><expr> <C-x><C-o> coc#refresh()
 " idk what this was supposed to do
 inoremap <silent><expr> <C-y> call CocActionAsync('showSignatureHelp')
-" nnoremap <expr><C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
-" nnoremap <expr><C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
-" inoremap <expr><C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
-" inoremap <expr><C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
+nnoremap <expr><C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
+nnoremap <expr><C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
+inoremap <expr><C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
+inoremap <expr><C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
 nnoremap \ca <plug>(coc-codeaction-cursor)
 nnoremap \cl <plug>(coc-codeaction-line)
 nnoremap \cc <plug>(coc-codeaction)
 nnoremap \cs <plug>(coc-codeaction-selected)
 vnoremap \cs <plug>(coc-codeaction-selected)
+
+nnoremap \s  :CocCommand clangd.switchSourceHeader<CR>
 
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -557,8 +564,7 @@ function! s:show_documentation()
 endfunction
 
 " Highlight the symbol and its references when holding the cursor.
-" autocmd CursorHold * silent call CocActionAsync('highlight')
-" autocmd CursorHold * if ! coc#util#has_float() | call CocActionAsync('doHover') | endif
+autocmd CursorHold * silent call CocActionAsync('highlight')
 
 highlight CocErrorSign ctermfg=4
 highlight CocErrorVirtualText ctermfg=4
