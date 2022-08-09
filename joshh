@@ -1,0 +1,5 @@
+* * * * * /home/joshh/.config/polybar/polybar-scripts/aur-updates.sh
+#0 23 * * 1,2,3 sudo /home/joshh/Documents/scripts/toggle-battery-saving.sh off
+#0 10 * * 4 sudo /home/joshh/Documents/scripts/toggle-battery-saving.sh on
+0 22 * * * redshift
+0 10 * * * killall redshift

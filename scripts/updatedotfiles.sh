@@ -30,6 +30,7 @@ rm -r "${CONFIG_DIR}wal/"
 cp -ur ~/.config/wal "${CONFIG_DIR}wal/"
 rm -rf "${DOT_DIR}wal-discord/"
 cp -ur ~/wal-discord "${DOT_DIR}wal-discord/"
+cp -u /var/spool/cron/joshh "$DOT_DIR"
 
 cur_theme=$(grep ^ZSH_THEME "${DOT_DIR}.zshrc" | cut -d\" -f2)
 

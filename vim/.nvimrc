@@ -128,8 +128,8 @@ xnoremap <expr> N  'nN'[v:searchforward]
 onoremap <expr> N  'nN'[v:searchforward]
 
 " C-n and C-p match start of command when searching history
-cnoremap <expr> <c-n> wildmenumode() ? "\<c-n>" : "\<down>"
-cnoremap <expr> <c-p> wildmenumode() ? "\<c-p>" : "\<up>"
+cnoremap <expr> <C-n> wildmenumode() ? "\<c-n>" : "\<down>"
+cnoremap <expr> <C-p> wildmenumode() ? "\<c-p>" : "\<up>"
 
 nnoremap zj gjzz
 nnoremap zk gkzz
@@ -141,10 +141,6 @@ nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 " edit macros
 " use "q<Leader>m
 nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
-
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
 cnoreabbrev <expr> tn getcmdtype() == ":" && getcmdline() == 'tn' ? 'tabnew' : 'tn'
 cnoreabbrev <expr> th getcmdtype() == ":" && getcmdline() == 'th' ? 'tabp' : 'th'
@@ -295,7 +291,6 @@ let g:everforest_better_performance = 1
 let g:everforest_transparent_background = 1
 set termguicolors
 " colorscheme wal
-" colorscheme happy_hacking
 " colorscheme sonokai
 colorscheme everforest
 " highlight DiffAdd  guibg=#145214
@@ -303,7 +298,9 @@ highlight DiffText guibg=#004d66
 
 " lua configuration {{{
 lua << EOF
-require("hop").setup()
+require("hop").setup {
+    multi_windows = true,
+}
 
 require("zen-mode").setup {
     -- your configuration comes here
@@ -504,9 +501,8 @@ hi BlackOnLightYellow guifg=#000000 guibg=#f2de91
 " nnoremap ]d :diffget //3 | diffup<CR>
 
 " plugin key mappings {{{
-" nmap <C-p> <Plug>(choosewin)
-" let g:choosewin_overlay_enable = 1
 map <silent> <C-p> :lua require('nvim-window').pick()<CR>
+nmap <silent> <Leader>; :HopWord<CR>
 
 autocmd FileType c,cpp setlocal commentstring=//%s
 nnoremap \cx :Dispatch! chmod +x %<CR>
@@ -514,17 +510,22 @@ nnoremap \gpf :Git push --force-with-lease<CR>
 
 nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
 inoremap <silent><expr> <C-x><C-o> coc#refresh()
-" idk what this was supposed to do
-inoremap <silent><expr> <C-y> call CocActionAsync('showSignatureHelp')
-nnoremap <expr><C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
-nnoremap <expr><C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
-inoremap <expr><C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
-inoremap <expr><C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
-nnoremap \ca <plug>(coc-codeaction-cursor)
-nnoremap \cl <plug>(coc-codeaction-line)
-nnoremap \cc <plug>(coc-codeaction)
-nnoremap \cs <plug>(coc-codeaction-selected)
-vnoremap \cs <plug>(coc-codeaction-selected)
+
+inoremap <silent><expr> <C-y> CocActionAsync('showSignatureHelp')
+
+" inoremap <silent><expr> <Tab>   coc#pum#visible() ? "\<C-n>" : "\<Tab>"
+" inoremap <silent><expr> <S-Tab> coc#pum#visible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <silent><expr> <Tab>    coc#pum#visible() ? coc#pum#confirm() : "\<cr>"
+
+nnoremap <expr> <C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
+nnoremap <expr> <C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
+inoremap <expr> <C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
+inoremap <expr> <C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
+nnoremap <silent> \ca <plug>(coc-codeaction-cursor)
+nnoremap <silent> \cl <plug>(coc-codeaction-line)
+nnoremap <silent> \cc <plug>(coc-codeaction)
+nnoremap <silent> \cs <plug>(coc-codeaction-selected)
+vnoremap <silent> \cs <plug>(coc-codeaction-selected)
 
 nnoremap \s  :CocCommand clangd.switchSourceHeader<CR>
 
@@ -557,7 +558,7 @@ function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
   elseif (coc#rpc#ready())
-    call CocActionAsync('doHover')
+    silent call CocActionAsync('doHover')
   else
     execute '!' . &keywordprg . " " . expand('<cword>')
   endif

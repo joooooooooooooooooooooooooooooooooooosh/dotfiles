@@ -4,6 +4,8 @@ list="$dir/.updatelist"
 polybar_output="$dir/.polybar-aur"
 tmp_lock="/tmp/polybar-aur.lock"
 
+trap "rm $tmp_lock" INT HUP QUIT TERM EXIT
+
 if [ -f $tmp_lock ]; then
     exit
 fi

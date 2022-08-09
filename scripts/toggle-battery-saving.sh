@@ -7,7 +7,7 @@ case $1 in
     arg=1
     ;;
 *)
-    echo "usage: $0 [0|1]"
+    echo "usage: $0 [0|off|1|on]"
     exit
     ;;
 esac
