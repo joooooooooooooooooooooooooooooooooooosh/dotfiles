@@ -515,7 +515,7 @@ inoremap <silent><expr> <C-y> CocActionAsync('showSignatureHelp')
 
 " inoremap <silent><expr> <Tab>   coc#pum#visible() ? "\<C-n>" : "\<Tab>"
 " inoremap <silent><expr> <S-Tab> coc#pum#visible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <silent><expr> <Tab>    coc#pum#visible() ? coc#pum#confirm() : "\<cr>"
+inoremap <silent><expr> <Tab>    coc#pum#visible() ? coc#pum#confirm() : "\<Tab>"
 
 nnoremap <expr> <C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
 nnoremap <expr> <C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
