@@ -11,10 +11,10 @@ autocmd BufWinEnter,WinEnter,TermOpen term://* silent! $/\$/?\$?mark z
 
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | silent! checktime | endif
 " TODO: only compile tex once and copy resulting pdf to view.pdf
-" autocmd BufWritePost *.tex exec 'Dispatch! cp % view.tex; pdflatex view.tex'
+autocmd BufWritePost *.tex exec 'Dispatch! cp % view.tex; tectonic view.tex'
 autocmd BufWritePost *.tex exec 'Dispatch! tectonic %'
 " TODO: some kind of autocmd to unload nvimrc in sessions
-" autocmd BufWinLeave ~/.nvimrc exec 'bdelete ~/.nvimrc'
+" autocmd BufWinLeave ~/.nvimrc exec 'bunload \~\/\.nvimrc | bdelete \~\/\.nvimrc'
 
 autocmd FileType markdown,text setlocal spell wrap
 autocmd FileType tex,plaintex setlocal spell wrap
@@ -81,9 +81,10 @@ vnoremap < <gv
 nmap <C-n> :NERDTreeFind<CR>
 nmap <C-e> $
 imap <C-e> <Esc>A
+imap <C-a> <Esc>^i
 
 " autofix spell errors
-inoremap <C-f> <c-g>u<Esc>[s1z=`]a<c-g>u
+inoremap <C-x><C-x> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 nnoremap / :set hlsearch<CR>/
 imap <C-L> <Right>
@@ -346,7 +347,7 @@ require("nvim-treesitter.configs").setup {
 
 require("nvim-autopairs").setup {
     fast_wrap = {
-        map = '<C-a>',
+        map = '<C-f>',
         end_key = ';',
         chars = { '{', '[', '(', '"', "'", "<" },
         pattern = string.gsub([[ [%s%;%'%"%>%]%)%}%,%.] ]], '%s+', ''),

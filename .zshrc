@@ -122,6 +122,7 @@ alias yeah=yes
 alias q=" exit"
 alias v=vr
 alias n=nvim
+alias np="nvim -p"
 alias fzn='fzf | xargs nvim'
 alias fzd='cd ~/Documents; fzc'
 alias fns='fd Session.vim | fzf | xargs nvim -S'
