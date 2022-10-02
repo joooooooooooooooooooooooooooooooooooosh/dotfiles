@@ -182,7 +182,7 @@ bindsym $mod+Shift+q kill
 bindsym $mod+space exec rofi -show drun
 bindsym $mod+Shift+space exec rofi -show run
 bindsym $mod+Ctrl+space exec rofi -show window
-bindsym $mod+Mod4+space exec rofi -show emoji && xdotool type "$(xclip -o -selection clipboard)"
+bindsym $mod+Mod4+space exec rofi -show emoji
 
 # change focus
 #bindsym $mod+Left focus left

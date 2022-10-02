@@ -143,7 +143,7 @@ alias add='awk "{s+=\$1} END{print s}"'
 unalias gcl
 gcl() {
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
-    git clone "$1" &&
+    git clone "$(sed 's|.*//github.com/|git@github.com:|' <<< "$1")" &&
         cd "$(sed -E 's|(.*)\.git/?|\1|; s|.*/(.*)|\1|' <<< "$1")"
 }
 
@@ -151,7 +151,26 @@ gw() {
     git diff $1^ $1
 }
 
-faketty () {
+cses() {
+    [ ! -f Cargo.toml ] && echo "run this from the root directory" && return
+    local mytmp=$(mktemp -d)
+    local task=$(basename $PWD)
+    cd ..
+    local week=$(basename $PWD)
+
+    mv $task/target $mytmp
+    cse $task 6991/$week/
+    mv $mytmp/target $task
+
+    cd $task
+    TERM=linux ssh -t z5218547@login3.cse.unsw.edu.au "cd 6991/$week/$task; zsh -l"
+}
+
+cn() {
+    cargo new $1 && cd $1
+}
+
+faketty() {
     script -qefc "$(printf "%q " "$@")" /dev/null
 }
 

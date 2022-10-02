@@ -55,3 +55,5 @@
     hunk-header-style             = file line-number syntax
 [pull]
 	rebase = false
+[push]
+	autoSetupRemote = true

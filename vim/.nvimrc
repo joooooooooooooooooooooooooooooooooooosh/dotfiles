@@ -154,9 +154,9 @@ cnoreabbrev <expr> t getcmdtype() == ":" && getcmdline() == 't' ? 'Telescope' : 
 
 " TODO: make this work in multiple languages
 nnoremap \p iprintln!("");<Esc>==0ci"
-nnoremap \ap :s/\(\<[^ ]\+\)/{\1}/g<CR>^iprintln!("<Esc>A");<Esc>==
-nnoremap \dp :s/\(\<[^ ]\+\)/{\1:?}/g<CR>^iprintln!("<Esc>A");<Esc>==
-nnoremap \ep :s/\(\<[^ ]\+\)/{\1:#?}/g<CR>^iprintln!("<Esc>A");<Esc>==
+nnoremap \ap :s/\(\<[^ ]\+\)/{\1}/g<CR>^iprintln!("<Esc>A");<Esc>==:set nohlsearch<CR>
+nnoremap \dp :s/\(\<[^ ]\+\)/{\1:?}/g<CR>^iprintln!("<Esc>A");<Esc>==:set nohlsearch<CR>
+nnoremap \ep :s/\(\<[^ ]\+\)/{\1:#?}/g<CR>^iprintln!("<Esc>A");<Esc>==:set nohlsearch<CR>
 
 nmap \op  o<Esc>\p
 nmap \oap "zyiwo<C-R>z<Esc>\ap
@@ -171,7 +171,7 @@ nmap \Ot O<Esc>cc<Esc>\t:
 nmap \oj o<Esc>cc<Esc>\j: 
 nmap \Oj O<Esc>cc<Esc>\j: 
 
-nmap \gr ?{<CR>?(<CR>Bgr
+nmap \gr [m]ngr
 nmap \gd ?(<CR>Bgd
 
 nnoremap <expr> \z foldclosed('.') != -1 ? 'zO' : 'zC'
@@ -211,6 +211,7 @@ nnoremap <Leader>u  :UndotreeToggle<CR>
 nnoremap <Leader>fb  <cmd>Telescope buffers<cr>
 nnoremap <Leader>fc  :Telescope coc 
 nnoremap <Leader>fds <cmd>Telescope coc document_symbols<cr>
+nnoremap <Leader>fe  <cmd>Telescope coc diagnostics<cr>
 " don't hit enter for now since it tends to hang
 nnoremap <Leader>fws <cmd>Telescope coc workspace_symbols<cr>
 " is there a difference to find_files?
@@ -256,6 +257,9 @@ Plug 'dylanaraps/wal.vim'
 
 Plug 'p00f/nvim-ts-rainbow'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/nvim-treesitter-context'
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'nvim-treesitter/playground'
 Plug 'windwp/nvim-autopairs'
 Plug 'machakann/vim-sandwich'
 
@@ -264,6 +268,7 @@ Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-fugitive'
 Plug 'akinsho/git-conflict.nvim'
+Plug 'kdheepak/lazygit.nvim'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
@@ -394,6 +399,9 @@ require("telescope").setup {
 defaults = {
     -- Default configuration for telescope goes here:
     -- config_key = value,
+    file_ignore_patterns = {
+        "target", -- rust build dir
+    },
     mappings = {
         i = {
             -- map actions.which_key to <C-h> (default: <C-/>)
@@ -427,6 +435,63 @@ require('git-conflict').setup {
         incoming = 'DiffText',
         current = 'DiffAdd',
     }
+}
+
+-- require("treesitter-context").setup {
+--     mode = 'topline',
+-- }
+
+require("nvim-treesitter.configs").setup {
+  textobjects = {
+    select = {
+      enable = true,
+
+      -- Automatically jump forward to textobj, similar to targets.vim
+      lookahead = true,
+
+      keymaps = {
+        -- You can use the capture groups defined in textobjects.scm
+        ["af"] = "@function.outer",
+        ["if"] = "@function.inner",
+        ["ac"] = "@class.outer",
+        -- you can optionally set descriptions to the mappings (used in the desc parameter of nvim_buf_set_keymap
+        ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+      },
+      -- You can choose the select mode (default is charwise 'v')
+      selection_modes = {
+        ['@parameter.outer'] = 'v', -- charwise
+        ['@function.outer'] = 'V', -- linewise
+        ['@class.outer'] = '<c-v>', -- blockwise
+      },
+      -- If you set this to `true` (default is `false`) then any textobject is
+      -- extended to include preceding xor succeeding whitespace. Succeeding
+      -- whitespace has priority in order to act similarly to eg the built-in
+      -- `ap`.
+      include_surrounding_whitespace = true,
+    },
+    move = {
+      enable = true,
+      set_jumps = true, -- whether to set jumps in the jumplist
+      goto_next_start = {
+        ["]m"] = "@function.outer",
+        ["]]"] = "@class.outer",
+        ["]n"] = "@name",
+      },
+      goto_next_end = {
+        ["]M"] = "@function.outer",
+        ["]["] = "@class.outer",
+      },
+      goto_previous_start = {
+        ["[m"] = "@function.outer",
+        ["[["] = "@class.outer",
+        ["[n"] = "@name",
+      },
+      goto_previous_end = {
+        ["[M"] = "@function.outer",
+        ["[]"] = "@class.outer",
+      },
+    },
+  },
 }
 
 local handler = function(virtText, lnum, endLnum, width, truncate)
