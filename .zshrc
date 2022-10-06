@@ -139,6 +139,7 @@ alias gsl='git stash && git pull && git stash pop'
 alias gcom='git checkout $(git branch | {grep " main$" || echo "master"} | sed "s/* //")'
 alias toggle-power-mode='~/Documents/scripts/toggle-power-mode.sh'
 alias add='awk "{s+=\$1} END{print s}"'
+alias viewdoc='firefox ./target/doc/$(basename $PWD)/index.html'
 
 unalias gcl
 gcl() {

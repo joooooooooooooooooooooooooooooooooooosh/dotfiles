@@ -21,3 +21,12 @@ Installing fonts for polybar:
 
 for using i3 on top of kde plasma (don't kill me):
 `ln -s ~/Documents/scripts/kdei3.sh ~/.config/plasma-workspace/env/kdei3.sh`
+
+
+to go in `/etc/sudoers.d/overrides`:
+
+joshh ALL=(root) NOPASSWD:/home/joshh/Documents/scripts/brightchange.sh
+joshh ALL=(root) NOPASSWD:/home/joshh/Documents/scripts/toggle-power-mode.sh
+joshh ALL=(root) NOPASSWD:/home/joshh/Documents/scripts/toggle-battery-saving.sh
+joshh ALL=(root) NOPASSWD:/home/joshh/Documents/scripts/togglegaps.sh
+joshh ALL=(root) NOPASSWD:/usr/bin/fusuma

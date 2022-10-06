@@ -129,6 +129,7 @@ bindsym $mod+Ctrl+p exec ~/Documents/scripts/bluescript.sh
 #bindsym $mod+Mod4+s exec ~/Documents/scripts/bluescript.sh 00:1B:66:C5:29:8F
 
 bindsym $mod+Ctrl+u exec ~/Documents/scripts/toggleupdates.sh
+bindsym $mod+Ctrl+Shift+g exec sudo ~/Documents/scripts/togglegaps.sh
 
 # gamma go brr
 bindsym $mod+Ctrl+Shift+t           exec xrandr --output HDMI-A-0 --brightness 1.5
@@ -163,9 +164,6 @@ client.background       $bg
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
-
-# hide_edge_borders smart
-# smart_borders on
 
 bindsym $mod+d exec dunstctl close
 bindsym $mod+Shift+d exec dunstctl close-all
@@ -472,12 +470,21 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # Disable titlebar
-new_window pixel 0
-new_float pixel 0
+# new_window pixel 0
+# new_float pixel 0
 
-# Gaps (i3-gaps)
-gaps inner 4
+hide_edge_borders smart
+smart_borders on
+
+##### IF GAPS
+# for_window [class=".*"] border pixel 0
+# gaps inner 4
+# gaps outer 0
+##### ELSE
+for_window [class=".*"] border pixel 3
+gaps inner 0
 gaps outer 0
+##### END
 
 # Only enable gaps on a workspace when there is at least one container
 smart_gaps on

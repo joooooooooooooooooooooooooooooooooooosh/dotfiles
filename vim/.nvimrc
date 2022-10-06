@@ -174,6 +174,8 @@ nmap \Oj O<Esc>cc<Esc>\j:
 nmap \gr [m]ngr
 nmap \gd ?(<CR>Bgd
 
+nmap \f :%!rustfmt<CR>
+
 nnoremap <expr> \z foldclosed('.') != -1 ? 'zO' : 'zC'
 
 " strip trailing whitespace
