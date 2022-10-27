@@ -17,7 +17,6 @@ export ZSH=$HOME/.oh-my-zsh
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-# ZSH_THEME="agnoster"
 # ZSH_THEME="refined"
 # ZSH_THEME="random"
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
@@ -168,7 +167,7 @@ cses() {
 }
 
 cn() {
-    cargo new $1 && cd $1
+    cargo new $@ && cd $1
 }
 
 faketty() {

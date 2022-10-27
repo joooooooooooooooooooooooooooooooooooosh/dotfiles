@@ -1,5 +1,5 @@
 #!/bin/bash
-batt=$(acpi -b | awk '{sum += $4} END {print int(sum/NR)}')
+batt=$(acpi -b | grep -v "rate information unavailable" | awk '{sum += $4} END {print int(sum/NR)}')
 
 if acpi -a | grep on >/dev/null; then
     icon=""

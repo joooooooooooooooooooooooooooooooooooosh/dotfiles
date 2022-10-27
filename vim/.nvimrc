@@ -132,6 +132,8 @@ onoremap <expr> N  'nN'[v:searchforward]
 cnoremap <expr> <C-n> wildmenumode() ? "\<c-n>" : "\<down>"
 cnoremap <expr> <C-p> wildmenumode() ? "\<c-p>" : "\<up>"
 
+nnoremap gp `[v`]
+
 nnoremap zj gjzz
 nnoremap zk gkzz
 
@@ -214,7 +216,7 @@ nnoremap <Leader>fb  <cmd>Telescope buffers<cr>
 nnoremap <Leader>fc  :Telescope coc 
 nnoremap <Leader>fds <cmd>Telescope coc document_symbols<cr>
 nnoremap <Leader>fe  <cmd>Telescope coc diagnostics<cr>
-" don't hit enter for now since it tends to hang
+nnoremap <Leader>fp  <cmd>Telescope coc commands<cr>
 nnoremap <Leader>fws <cmd>Telescope coc workspace_symbols<cr>
 " is there a difference to find_files?
 nnoremap <Leader>ff  <cmd>Telescope fd<cr>
@@ -279,6 +281,7 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'fannheyward/telescope-coc.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+Plug 'monaqa/dial.nvim'
 Plug 'phaazon/hop.nvim'
 Plug 'https://gitlab.com/yorickpeterse/nvim-window.git'
 Plug 'folke/which-key.nvim'

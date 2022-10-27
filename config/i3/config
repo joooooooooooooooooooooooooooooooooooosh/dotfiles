@@ -30,6 +30,7 @@ for_window [class="(?i)*nextcloud*"] floating disable
 for_window [class="plasmashell" window_type="notification"] floating enable, border none, move right 700px, move down 450px
 no_focus [class="plasmashell" window_type="notification"] 
 
+for_window [title="Rocket League (64-bit, DX11, Cooked)"] fullscreen enable
 for_window [class="code-oss"] fullscreen disable
 for_window [class="discord"] fullscreen disable
 for_window [title="float_me_plz"] floating enable
@@ -42,8 +43,7 @@ for_window [title="updatelist_polybar_aur"] floating enable
 
 bindsym $mod+Ctrl+f exec $BROWSER
 bindsym $mod+Ctrl+g exec pgrep firefox && firefox calendar.google.com && wmctrl -a firefox
-bindsym $mod+Ctrl+Shift+v exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@l.cse.unsw.edu.au 'zsh -l''
-bindsym $mod+Ctrl+Shift+s exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@login3.cse.unsw.edu.au 'zsh -l''
+bindsym $mod+Ctrl+Shift+s exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@cse.unsw.edu.au 'zsh -l''
 
 #bindsym --release $mod+Ctrl+Shift+less exec xdotool key XF86MonBrightnessDown
 #bindsym --release $mod+Ctrl+Shift+greater exec xdotool key XF86MonBrightnessUp
@@ -481,7 +481,7 @@ smart_borders on
 # gaps inner 4
 # gaps outer 0
 ##### ELSE
-for_window [class=".*"] border pixel 3
+for_window [class=".*"] border pixel 1
 gaps inner 0
 gaps outer 0
 ##### END

@@ -4,8 +4,6 @@ offending_files="
 /home/joshh/.config/i3/config
 /etc/xdg/picom.conf
 "
-# offending_files="test"
-
 for f in $offending_files; do
     # TODO: will not recalculate for each IF GAPS block
     no_has_gaps=$(grep -A1 "##### IF GAPS" $f | tail -1 | grep -q "^#"; echo $?)
