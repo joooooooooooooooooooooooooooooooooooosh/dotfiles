@@ -2,7 +2,7 @@
 BACKLIGHT_PATH="/sys/class/backlight/amdgpu_bl0"
 MAX_BRIGHTNESS=$(cat ${BACKLIGHT_PATH}/max_brightness)
 if [ "$1" = "max" ]; then
-	((BRIGHT = MAX_BRIGHTNESS))
+	((BRIGHT = MAX_BRIGHTNESS - 1))
 elif [ "$1" = "high" ]; then
 	((BRIGHT = MAX_BRIGHTNESS * 3 / 4))
 elif [ "$1" = "mid" ]; then
@@ -26,6 +26,7 @@ else
     *) ((BRIGHT=$a)) ;;
 	esac
 fi
+((BRIGHT = BRIGHT + 1))
 # if [ $BRIGHT -gt 4285 ]; then
 #	echo "Usage: $0 [max|high|mid|low|min|NUMBER < 4285]"
 #	exit 1

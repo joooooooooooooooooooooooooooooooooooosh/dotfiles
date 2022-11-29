@@ -477,13 +477,13 @@ hide_edge_borders smart
 smart_borders on
 
 ##### IF GAPS
-# for_window [class=".*"] border pixel 0
-# gaps inner 4
-# gaps outer 0
-##### ELSE
-for_window [class=".*"] border pixel 1
-gaps inner 0
+for_window [class=".*"] border pixel 0
+gaps inner 4
 gaps outer 0
+##### ELSE
+# for_window [class=".*"] border pixel 1
+# gaps inner 0
+# gaps outer 0
 ##### END
 
 # Only enable gaps on a workspace when there is at least one container

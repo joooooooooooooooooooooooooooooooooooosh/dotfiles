@@ -143,7 +143,7 @@ alias viewdoc='firefox ./target/doc/$(basename $PWD)/index.html'
 unalias gcl
 gcl() {
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
-    git clone "$(sed 's|.*//github.com/|git@github.com:|' <<< "$1")" &&
+    git clone $(sed 's|.*//github.com/|git@github.com:|' <<< $@) &&
         cd "$(sed -E 's|(.*)\.git/?|\1|; s|.*/(.*)|\1|' <<< "$1")"
 }
 
@@ -152,7 +152,7 @@ gw() {
 }
 
 cses() {
-    [ ! -f Cargo.toml ] && echo "run this from the root directory" && return
+    [ ! -f Cargo.toml ] && echo "run this from the root directory or press <Enter> to continue" && read
     local mytmp=$(mktemp -d)
     local task=$(basename $PWD)
     cd ..
@@ -176,8 +176,7 @@ faketty() {
 
 cr() {
     local output=$(perl -pe "s/\..*?$//" <<< "$1")
-    gcc "$1" -o "$output"
-    ./$output
+    gcc "$1" -o "$output" && ./$output
 }
 
 cman() {
@@ -233,30 +232,6 @@ sec() {
     pwn checksec --file="$1"
 }
 
-lr() {
-    local file=$(la | rofi -dmenu -i -matching fuzzy -p "cd")
-    local chpath=$(pwd)
-    while [ "$file" ]; do
-        if [ -f "$(chpath)/$file" ]; then
-            cd "$chpath"
-            nvim "$file"
-            return
-        fi
-
-        chpath=$chpath"/$file"
-        file=$(la "$chpath" | rofi -dmenu -i -matching fuzzy -p "cd")
-    done
-    cd "$chpath"
-}
-
-vr() {
-    if [ "$1" ]; then
-        nvim "$1"
-        return
-    fi
-    nvim "$(la | rofi -dmenu -i -matching fuzzy -p 'nvim')"
-}
-
 mkcd() {
     mkdir -p "$1" && cd "$1"
 }
@@ -304,7 +279,7 @@ bible() {
     env_parallel --env populate_chapter --max-args=1 \
         populate_chapter $book ::: $(echo {$chapter..$last})
 
-    echo "$HOME/.cache/bible/$book"{$chapter..$last} | xargs cat | less
+    cat "$HOME/.cache/bible/$book"{$chapter..$last} | less
 }
 
 uni() {
