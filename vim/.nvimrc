@@ -11,7 +11,7 @@ autocmd BufWinEnter,WinEnter,TermOpen term://* silent! $/\$/?\$?mark z
 
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | silent! checktime | endif
 " TODO: only compile tex once and copy resulting pdf to view.pdf
-" autocmd BufWritePost *.tex exec 'Dispatch! cp % view.tex; tectonic view.tex'
+autocmd BufWritePost *.tex exec 'Dispatch! cp % view.tex; tectonic view.tex'
 autocmd BufWritePost *.tex exec 'Dispatch! tectonic %'
 " TODO: some kind of autocmd to unload nvimrc in sessions
 " autocmd BufWinLeave ~/.nvimrc exec 'bunload \~\/\.nvimrc | bdelete \~\/\.nvimrc'
@@ -65,6 +65,8 @@ set backupdir=$HOME/.vim/swapfiles//
 " }}}
 
 let mapleader=" "
+let NERDTreeMinimalUI=1
+let NERDTreeHijackNetrw=1
 let g:python3_host_prog = '/usr/bin/python'
 
 noremap ; :
@@ -77,20 +79,19 @@ vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
 vnoremap > >gv
 vnoremap < <gv
-nmap <C-n> <CMD>NvimTreeFindFileToggle<CR>
+nmap <C-n> :NERDTreeFind<CR>
 nmap <C-e> $
 imap <C-e> <Esc>A
 imap <C-a> <Esc>^i
-imap <C-z> <Delete>
 
 " autofix spell errors
 inoremap <C-x><C-x> <c-g>u<Esc>[s1z=`]a<c-g>u
 
-" nnoremap / <CMD>set hlsearch<CR>/
+nnoremap / :set hlsearch<CR>/
 imap <C-L> <Right>
-imap <C-S> <Esc><CMD>w<CR>
-vmap <C-S> <Esc><CMD>w<CR>
-nmap <C-S> <CMD>w<CR>
+imap <C-S> <Esc>:w<CR>
+vmap <C-S> :w<CR>
+nmap <C-S> :w<CR>
 nnoremap <BS> X
 nmap <F11> <BS>
 nmap <F12> <Delete>
@@ -98,10 +99,10 @@ imap <F11> <BS>
 imap <F12> <Delete>
 
 " tab navigation
-imap <silent> <C-j> <Esc><CMD>tabprevious<CR>
-imap <silent> <C-k> <Esc><CMD>tabnext<CR>
-nmap <silent> <C-j> <CMD>tabprevious<CR>
-nmap <silent> <C-k> <CMD>tabnext<CR>
+imap <silent> <C-j> <Esc>:tabprevious<CR>
+imap <silent> <C-k> <Esc>:tabnext<CR>
+nmap <silent> <C-j> :tabprevious<CR>
+nmap <silent> <C-k> :tabnext<CR>
 nnoremap <leader>1 1gt
 nnoremap <leader>2 2gt
 nnoremap <leader>3 3gt
@@ -112,12 +113,12 @@ nnoremap <leader>7 7gt
 nnoremap <leader>8 8gt
 nnoremap <leader>9 9gt
 nnoremap <leader>0 10gt
-nnoremap <leader><C-a> <CMD>tabfirst<CR>
-nnoremap <leader><C-e> <CMD>tablast<CR>
+nnoremap <leader><C-a> :tabfirst<CR>
+nnoremap <leader><C-e> :tablast<CR>
 
-" imap <Leader>c <Esc><CMD>set list!<CR>i
-" nmap <Leader>c <CMD>set list!<CR>
-" nmap <Leader>x <CMD>Dispatch latexmk -pvc -pdf %<CR>
+" imap <Leader>c <Esc>:set list!<CR>i
+" nmap <Leader>c :set list!<CR>
+" nmap <Leader>x :Dispatch latexmk -pvc -pdf %<CR>
 
 " consistent N/n search directions
 nnoremap <expr> n  'Nn'[v:searchforward]
@@ -143,7 +144,7 @@ nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 
 " edit macros
 " use "q<Leader>m
-nnoremap <leader>m  <CMD><c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
+nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
 
 cnoreabbrev <expr> tn getcmdtype() == ":" && getcmdline() == 'tn' ? 'tabnew' : 'tn'
 cnoreabbrev <expr> th getcmdtype() == ":" && getcmdline() == 'th' ? 'tabp' : 'th'
@@ -156,9 +157,9 @@ cnoreabbrev <expr> t getcmdtype() == ":" && getcmdline() == 't' ? 'Telescope' : 
 
 " TODO: make this work in multiple languages
 nnoremap \p iprintln!("");<Esc>==0ci"
-nnoremap \ap <CMD>s/\(\<[^ ]\+\)/{\1}/g<CR>^iprintln!("<Esc>A");<Esc>==:set nohlsearch<CR>
-nnoremap \dp <CMD>s/\(\<[^ ]\+\)/{\1:?}/g<CR>^iprintln!("<Esc>A");<Esc>==:set nohlsearch<CR>
-nnoremap \ep <CMD>s/\(\<[^ ]\+\)/{\1:#?}/g<CR>^iprintln!("<Esc>A");<Esc>==:set nohlsearch<CR>
+nnoremap \ap :s/\(\<[^ ]\+\)/{\1}/g<CR>^iprintln!("<Esc>A");<Esc>==:set nohlsearch<CR>
+nnoremap \dp :s/\(\<[^ ]\+\)/{\1:?}/g<CR>^iprintln!("<Esc>A");<Esc>==:set nohlsearch<CR>
+nnoremap \ep :s/\(\<[^ ]\+\)/{\1:#?}/g<CR>^iprintln!("<Esc>A");<Esc>==:set nohlsearch<CR>
 
 nmap \op  o<Esc>\p
 nmap \oap "zyiwo<C-R>z<Esc>\ap
@@ -176,43 +177,44 @@ nmap \Oj O<Esc>cc<Esc>\j:
 nmap \gr [m]ngr
 nmap \gd ?(<CR>Bgd
 
-nmap \f <CMD>%!rustfmt<CR>
+nmap \f :%!rustfmt<CR>
 
 nnoremap <expr> \z foldclosed('.') != -1 ? 'zO' : 'zC'
 
 " strip trailing whitespace
-nnoremap <silent> \ws <CMD>let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR><C-o>
+nnoremap <silent> \ws :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR><C-o>
 " leader mappings {{{
-nnoremap <Leader>t  <CMD>sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
-nnoremap <Leader>T  <CMD>tabnew<CR><CMD>terminal<CR>
-nnoremap <Leader>/  <CMD>set hlsearch!<CR>
-nnoremap <Leader>,  <CMD>tabmove -1<CR>
-nnoremap <Leader>.  <CMD>tabmove +1<CR>
+nnoremap <Leader>t  :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
+nnoremap <Leader>T  :tabnew<CR><Esc>:terminal<CR>
+nnoremap <Leader>/  :set hlsearch!<CR>
+nnoremap <Leader>,  :tabmove -1<CR>
+nnoremap <Leader>.  :tabmove +1<CR>
 nnoremap <Leader>0  ^
 nnoremap <Leader>a  ^
-nnoremap <silent> <Leader>A <CMD>CocAction<CR>
-nnoremap <Leader>L  <CMD>CocList<CR>
-nnoremap <Leader>n  <CMD>source ~/.nvimrc<CR>
-nnoremap <Leader>cd <CMD>lcd %:h<CR>
-nnoremap <Leader>cj <CMD>cnext<CR>
-nnoremap <Leader>ck <CMD>cprev<CR>
-nnoremap <Leader>d  <CMD>Dispatch 
-nnoremap <Leader>D  <CMD>Dispatch! 
-nnoremap <Leader>s  <CMD>set spell!<CR>
-nnoremap <Leader>S  <CMD>let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+nnoremap <silent> <Leader>A :CocAction<CR>
+" nnoremap <Leader>l :CocDisable<CR>
+nnoremap <Leader>l  :CocList<CR>
+nnoremap <Leader>L  :CocList<CR>
+nnoremap <Leader>n  :source ~/.nvimrc<CR>
+nnoremap <Leader>cd :lcd %:h<CR>
+nnoremap <Leader>cj :cnext<CR>
+nnoremap <Leader>ck :cprev<CR>
+nnoremap <Leader>d  :Dispatch 
+nnoremap <Leader>D  :Dispatch! 
+nnoremap <Leader>s  :set spell!<CR>
+nnoremap <Leader>S  :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 nnoremap <Leader>k  "zyiw:!man <C-R>z<CR>g
-nnoremap <Leader>w  <CMD>set wrap!<CR>
-nnoremap <Leader>q  <CMD>copen<CR>
-nnoremap <Leader>z  <CMD>let &scrolloff=999-&scrolloff<CR>:ZenMode<CR>zz
-nnoremap <Leader>en <CMD>tabedit ~/.nvimrc<CR>
-nnoremap <Leader>lg <CMD>LazyGit<CR>
-nnoremap <Leader>g  <CMD>Git<CR>
-nnoremap <Leader>G  <CMD>tabnew<CR><CMD>Git<CR>
-nnoremap <Leader>R  <CMD>CocRestart<CR>
-nnoremap <Leader>u  <CMD>UndotreeToggle<CR>
+nnoremap <Leader>w  :set wrap!<CR>
+nnoremap <Leader>q  :copen<CR>
+nnoremap <Leader>z  :let &scrolloff=999-&scrolloff<CR>:ZenMode<CR>zz
+nnoremap <Leader>en :tabedit ~/.nvimrc<CR>
+nnoremap <Leader>g  :Git<CR>
+nnoremap <Leader>G  :tabnew<CR>:Git<CR>
+nnoremap <Leader>R  :CocRestart<CR>
+nnoremap <Leader>u  :UndotreeToggle<CR>
 
 nnoremap <Leader>fb  <cmd>Telescope buffers<cr>
-nnoremap <Leader>fc  <CMD>Telescope coc 
+nnoremap <Leader>fc  :Telescope coc 
 nnoremap <Leader>fds <cmd>Telescope coc document_symbols<cr>
 nnoremap <Leader>fe  <cmd>Telescope coc diagnostics<cr>
 nnoremap <Leader>fp  <cmd>Telescope coc commands<cr>
@@ -261,8 +263,8 @@ Plug 'dylanaraps/wal.vim'
 Plug 'p00f/nvim-ts-rainbow'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-context'
-" Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-" Plug 'nvim-treesitter/playground'
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+Plug 'nvim-treesitter/playground'
 Plug 'windwp/nvim-autopairs'
 Plug 'machakann/vim-sandwich'
 
@@ -280,21 +282,12 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'fannheyward/telescope-coc.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-" Plug 'DNLHC/glance.nvim' " doesn't seem to work
-" Plug 'rmagatti/goto-preview'
-
 Plug 'monaqa/dial.nvim'
 Plug 'phaazon/hop.nvim'
 Plug 'https://gitlab.com/yorickpeterse/nvim-window.git'
-
-" Plug 'rcarriga/nvim-notify'
-" Plug 'hrsh7th/nvim-cmp'
-" Plug 'MunifTanjim/nui.nvim'
-" Plug 'folke/noice.nvim'
-
 Plug 'folke/which-key.nvim'
 Plug 'folke/zen-mode.nvim'
-Plug 'nvim-tree/nvim-tree.lua'
+Plug 'scrooloose/nerdtree'
 Plug 'mbbill/undotree'
 
 Plug 'kevinhwang91/nvim-ufo'
@@ -305,9 +298,9 @@ call plug#end()
 " }}}
 
 let g:sonokai_better_performance = 1
-let g:sonokai_transparent_background = 1
+" let g:sonokai_transparent_background = 1
 let g:everforest_better_performance = 1
-let g:everforest_transparent_background = 1
+" let g:everforest_transparent_background = 1
 set termguicolors
 " colorscheme wal
 " colorscheme sonokai
@@ -317,19 +310,8 @@ highlight DiffText guibg=#004d66
 
 " lua configuration {{{
 lua << EOF
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-require("nvim-tree").setup({
-    view = {
-        preserve_window_proportions = true,
-    },
-})
-
--- require("goto-preview").setup {}
-
 require("hop").setup {
-    -- TODO reenable this once it's not broken
-    -- multi_windows = true,
+    multi_windows = true,
 }
 
 require("zen-mode").setup {
@@ -352,25 +334,6 @@ require("which-key").setup {
         }
     },
 }
-
--- require("noice").setup({
---   lsp = {
---     -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
---     override = {
---       ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
---       ["vim.lsp.util.stylize_markdown"] = true,
---       ["cmp.entry.get_documentation"] = true,
---     },
---   },
---   -- you can enable a preset for easier configuration
---   presets = {
---     bottom_search = false, -- use a classic bottom cmdline for search
---     command_palette = true, -- position the cmdline and popupmenu together
---     long_message_to_split = true, -- long messages will be sent to a split
---     inc_rename = false, -- enables an input dialog for inc-rename.nvim
---     lsp_doc_border = false, -- add a border to hover docs and signature help
---   },
--- })
 
 require("nvim-treesitter.configs").setup {
     highlight = {

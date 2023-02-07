@@ -18,7 +18,7 @@ let g:colors_name = 'wal'
 " set t_Co=16
 hi Normal ctermbg=NONE ctermfg=7
 hi NonText ctermbg=NONE ctermfg=0
-hi Comment ctermbg=NONE ctermfg=15
+hi Comment ctermbg=NONE ctermfg=8
 hi Conceal ctermbg=NONE
 hi Constant ctermbg=NONE ctermfg=3
 hi Error ctermbg=1 ctermfg=7
@@ -34,30 +34,29 @@ hi Type ctermbg=NONE ctermfg=3
 hi Underlined ctermbg=NONE ctermfg=1 cterm=underline
 hi StatusLine ctermbg=7 ctermfg=0
 hi StatusLineNC ctermbg=8 ctermfg=0
-hi TabLine ctermbg=0 ctermfg=2
-hi TabLineFill ctermbg=0 ctermfg=0
-hi TabLineSel ctermbg=0 ctermfg=3
+hi TabLine ctermbg=NONE ctermfg=8
+hi TabLineFill ctermbg=NONE ctermfg=8
+hi TabLineSel ctermbg=4 ctermfg=0
 hi TermCursorNC ctermbg=3 ctermfg=0
 hi VertSplit ctermbg=8 ctermfg=0
 hi Title ctermbg=NONE ctermfg=4
-hi CursorLine ctermbg=1 ctermfg=NONE
+hi CursorLine ctermbg=2 ctermfg=0
 hi LineNr ctermbg=NONE ctermfg=8
-hi CursorLineNr ctermbg=NONE ctermfg=7
+hi CursorLineNr ctermbg=NONE ctermfg=8
 hi helpLeadBlank ctermbg=NONE ctermfg=7
 hi helpNormal ctermbg=NONE ctermfg=7
 hi Visual ctermbg=0 ctermfg=15 cterm=reverse term=reverse
 hi VisualNOS ctermbg=NONE ctermfg=1
-hi Pmenu ctermbg=0 ctermfg=3
-" hi Pmenu ctermbg=8 ctermfg=3
+hi Pmenu ctermbg=8 ctermfg=7
 hi PmenuSbar ctermbg=6 ctermfg=7
 hi PmenuSel ctermbg=4 ctermfg=0
 hi PmenuThumb ctermbg=8 ctermfg=8
 hi FoldColumn ctermbg=NONE ctermfg=7
-hi Folded ctermbg=NONE ctermfg=15
+hi Folded ctermbg=NONE ctermfg=8
 hi WildMenu ctermbg=2 ctermfg=0
 hi SpecialKey ctermbg=NONE ctermfg=8
 hi DiffAdd ctermbg=NONE ctermfg=2
-hi DiffChange ctermbg=NONE ctermfg=15
+hi DiffChange ctermbg=NONE ctermfg=8
 hi DiffDelete ctermbg=NONE ctermfg=1
 hi DiffText ctermbg=NONE ctermfg=4
 hi IncSearch ctermbg=3 ctermfg=0
@@ -188,12 +187,10 @@ hi ALEWarningSign ctermbg=NONE ctermfg=3
 hi ALEError ctermbg=NONE ctermfg=1
 hi ALEWarning ctermbg=NONE ctermfg=3
 
-hi CopilotSuggestion ctermbg=NONE ctermfg=12
-
 " }}}
 
 " Plugin options {{{
 
-" let g:limelight_conceal_ctermfg = 8
+let g:limelight_conceal_ctermfg = 8
 
 " }}}

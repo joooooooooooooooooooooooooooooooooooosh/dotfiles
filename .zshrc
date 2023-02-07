@@ -1,3 +1,6 @@
+export PATH=$PATH:/opt/homebrew/bin/
+export PATH=$PATH:/opt/atlassian/bin/
+export PATH=$PATH:/usr/local/go/bin/
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 # if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -5,8 +8,8 @@
 # fi
 
 # If you come from bash you might have to change your $PATH.
-(cat ~/.cache/wal/sequences &)
-export PATH=$HOME/bin:/usr/local/bin:$PATH:.:/root/.gem/ruby/2.7.0/bin:/home/joshh/.local/share/gem/ruby/3.0.0/bin
+# (cat ~/.cache/wal/sequences &)
+export PATH=$HOME/bin:/usr/local/bin:$PATH:.:/root/.gem/ruby/2.7.0/bin:$HOME/.local/share/gem/ruby/3.0.0/bin
 export PATH=$PATH:/opt/gradle/gradle-5.4.1/bin
 export PYTHONPATH="/usr/lib/python3.9/site-packages":$PYTHONPATH
 
@@ -40,7 +43,7 @@ HYPHEN_INSENSITIVE="true"
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
 
-# Uncomment the following line if pasting URLs and other text is messed up.
+# Uncomment the following line if pasting URLs and other text is mesgsed up.
 DISABLE_MAGIC_FUNCTIONS=true
 
 # Uncomment the following line to disable colors in ls.
@@ -77,7 +80,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 export FZF_BASE=/usr/bin/fzf
-plugins=(git zsh-autosuggestions autoupdate colored-man-pages autoenv copybuffer)
+plugins=(git zsh-autosuggestions colored-man-pages copybuffer)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -107,11 +110,10 @@ bindkey -s "" " clear"
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 
-alias ls='ls --group-directories-first --color=auto'
-alias la='ls -A'
+alias ls='exa'
+alias la='exa -a'
 alias sl=ls
 alias ks=ls
-alias rm='rm -I'
 alias cb='xclip -selection clipboard'
 alias pls='sudo $(fc -ln -1)'
 alias cpd='echo $(fc -ln -1) | perl -pe "chomp if eof" | cb' # C-o now does this for current line
@@ -135,16 +137,20 @@ alias m=tldr
 alias c=cargo
 alias top=bpytop
 alias gsl='git stash && git pull && git stash pop'
-alias gcom='git checkout $(git branch | {grep " main$" || echo "master"} | sed "s/* //")'
+alias gcom='git checkout $(git branch | {grep " main$" || echo "master"} | gsed "s/* //")'
 alias toggle-power-mode='~/Documents/scripts/toggle-power-mode.sh'
 alias add='awk "{s+=\$1} END{print s}"'
 alias viewdoc='firefox ./target/doc/$(basename $PWD)/index.html'
 
+notify() {
+    $@ && terminal-notifier -title "$*" -message "Completed" || terminal-notifier -title "$*" -message "Failed"
+}
+
 unalias gcl
 gcl() {
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
-    git clone $(sed 's|.*//github.com/|git@github.com:|' <<< $@) &&
-        cd "$(sed -E 's|(.*)\.git/?|\1|; s|.*/(.*)|\1|' <<< "$1")"
+    git clone "$(gsed 's|.*//github.com/|git@github.com:|' <<< "$1")" &&
+        cd "$(gsed -E 's|(.*)\.git/?|\1|; s|.*/(.*)|\1|' <<< "$1")"
 }
 
 gw() {
@@ -152,7 +158,7 @@ gw() {
 }
 
 cses() {
-    [ ! -f Cargo.toml ] && echo "run this from the root directory or press <Enter> to continue" && read
+    [ ! -f Cargo.toml ] && echo "run this from the root directory" && return
     local mytmp=$(mktemp -d)
     local task=$(basename $PWD)
     cd ..
@@ -176,7 +182,8 @@ faketty() {
 
 cr() {
     local output=$(perl -pe "s/\..*?$//" <<< "$1")
-    gcc "$1" -o "$output" && ./$output
+    gcc "$1" -o "$output"
+    ./$output
 }
 
 cman() {
@@ -205,8 +212,8 @@ swap() {
 
 fzc() {
     local file=$(fzf)
-    cd $(echo $file | sed 's/\/[^\/]*$//') 2>/dev/null
-    nvim "$(echo "$file" | sed 's/.*\///')"
+    cd $(echo $file | gsed 's/\/[^\/]*$//') 2>/dev/null
+    nvim "$(echo "$file" | gsed 's/.*\///')"
 }
 
 ns() {
@@ -214,7 +221,7 @@ ns() {
     # to stop sessions with terminals starting in insert mode
     # TODO: modify vim-obsession to do this instead
     if [ -z "$1" ]; then
-        sed -i '/unlet SessionLoad/istopinsert' Session.vim &&
+        gsed -i '/unlet SessionLoad/istopinsert' Session.vim &&
             nvim -S Session.vim
     else
         if [ $(compgen -G "$1*" | wc -l) -ne 1 ]; then
@@ -223,7 +230,7 @@ ns() {
             return 1
         fi
 
-        sed -i '/unlet SessionLoad/istopinsert' "./""$1"*"/Session.vim" &&
+        gsed -i '/unlet SessionLoad/istopinsert' "./""$1"*"/Session.vim" &&
             nvim -S "./""$1""*/Session.vim"
     fi
 }
@@ -232,55 +239,79 @@ sec() {
     pwn checksec --file="$1"
 }
 
+lr() {
+    local file=$(la | rofi -dmenu -i -matching fuzzy -p "cd")
+    local chpath=$(pwd)
+    while [ "$file" ]; do
+        if [ -f "$(chpath)/$file" ]; then
+            cd "$chpath"
+            nvim "$file"
+            return
+        fi
+
+        chpath=$chpath"/$file"
+        file=$(la "$chpath" | rofi -dmenu -i -matching fuzzy -p "cd")
+    done
+    cd "$chpath"
+}
+
+vr() {
+    if [ "$1" ]; then
+        nvim "$1"
+        return
+    fi
+    nvim "$(la | rofi -dmenu -i -matching fuzzy -p 'nvim')"
+}
+
 mkcd() {
     mkdir -p "$1" && cd "$1"
 }
 
-populate_chapter() {
-    local book=$1
-    local chapter=$2
-    local cache="$HOME/.cache/bible/$book$chapter";
+# populate_chapter() {
+#     local book=$1
+#     local chapter=$2
+#     local cache="$HOME/.cache/bible/$book$chapter";
 
-    if [ ! -f "$cache" ]; then
-        echo -e "[1m$chapter[0m\n" >"$cache"
+#     if [ ! -f "$cache" ]; then
+#         echo -e "[1m$chapter[0m\n" >"$cache"
 
-        curl -s "https://www.biblestudytools.com/$book/$chapter.html" |
-            grep "x-show=\"verseNumbers\"" -A3 |
-            sed -E 's/>([[:digit:]]+)<\/a>/\n\1\n/' |
-            sed -E '/x-show=\"verseNumbers\"/d; /^--/d; s/^\s*//; s/^([[:digit:]]+)$/[1m\1[0m/' |
-            perl -pe 's/ *?<sup.*?\/sup> *?/ /g; s/ *?<.*?>(.<.*?>)? *?/ /g' |
-            tr '\n' ' ' |
-            sed -E 's/  +/ /g; $s/ $/\n/' |
-            fold -sw 60 >>"$cache"
+#         curl -s "https://www.biblestudytools.com/$book/$chapter.html" |
+#             grep "x-show=\"verseNumbers\"" -A3 |
+#             gsed -E 's/>([[:digit:]]+)<\/a>/\n\1\n/' |
+#             gsed -E '/x-show=\"verseNumbers\"/d; /^--/d; s/^\s*//; s/^([[:digit:]]+)$/[1m\1[0m/' |
+#             perl -pe 's/ *?<sup.*?\/sup> *?/ /g; s/ *?<.*?>(.<.*?>)? *?/ /g' |
+#             tr '\n' ' ' |
+#             gsed -E 's/  +/ /g; $s/ $/\n/' |
+#             fold -sw 60 >>"$cache"
 
-        echo >>"$cache"
-    fi
-}
+#         echo >>"$cache"
+#     fi
+# }
 
-bible() {
-    local book="genesis"
-    local chapter=1
-    local last=1
-    if [ $# -ge 2 ]; then
-        book=$1
-        chapter=$2
-        last=$chapter
-    fi
+# bible() {
+#     local book="genesis"
+#     local chapter=1
+#     local last=1
+#     if [ $# -ge 2 ]; then
+#         book=$1
+#         chapter=$2
+#         last=$chapter
+#     fi
 
-    if [ $# -ge 3 ]; then
-        last=$3
-    fi
+#     if [ $# -ge 3 ]; then
+#         last=$3
+#     fi
 
-    if [[ $book =~ "/" ]]; then
-        IFS=\/ read -r version _ <<< "$book";
-        mkdir -p "$HOME/.cache/bible/$version"
-    fi
+#     if [[ $book =~ "/" ]]; then
+#         IFS=\/ read -r version _ <<< "$book";
+#         mkdir -p "$HOME/.cache/bible/$version"
+#     fi
 
-    env_parallel --env populate_chapter --max-args=1 \
-        populate_chapter $book ::: $(echo {$chapter..$last})
+#     env_parallel --env populate_chapter --max-args=1 \
+#         populate_chapter $book ::: $(echo {$chapter..$last})
 
-    cat "$HOME/.cache/bible/$book"{$chapter..$last} | less
-}
+#     echo "$HOME/.cache/bible/$book"{$chapter..$last} | xargs cat | less
+# }
 
 uni() {
     cd "$HOME/Documents/UNSW/$1"
@@ -289,12 +320,12 @@ uni() {
 unsetopt share_history
 source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export EDITOR="nvim"
-PATH="/home/joshh/.cargo/bin:/home/joshh/perl5/bin${PATH:+:${PATH}}"; export PATH;
-PERL5LIB="/home/joshh/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
-PERL_LOCAL_LIB_ROOT="/home/joshh/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
-PERL_MB_OPT="--install_base \"/home/joshh/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/home/joshh/perl5"; export PERL_MM_OPT;
-. `which env_parallel.zsh`
+PATH="$HOME/.cargo/bin:$HOME/perl5/bin${PATH:+:${PATH}}"; export PATH;
+PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="$HOME/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"$HOME/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
+# . `which env_parallel.zsh`
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
@@ -302,3 +333,5 @@ export MCFLY_FUZZY=2
 export MCFLY_RESULTS=40
 eval "$(mcfly init zsh)"
 eval "$(zoxide init zsh)"
+[[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh
+PATH=$PATH:$HOME/Library/Python/3.9/bin

@@ -1,0 +1,27 @@
+cmd - h : yabai -m window --focus west
+alt - h : yabai -m window --focus west
+alt - j : yabai -m window --focus stack.next || yabai -m window --focus south
+alt - k : yabai -m window --focus stack.prev || yabai -m window --focus north
+alt - l : yabai -m window --focus east
+
+alt + shift - h : yabai -m window --swap west
+alt + shift - j : yabai -m window --swap south
+alt + shift - k : yabai -m window --swap north
+alt + shift - l : yabai -m window --swap east
+
+alt - tab : yabai -m display --focus prev || yabai -m display --focus last
+
+alt - f : yabai -m window --toggle zoom-fullscreen
+alt + shift - f : yabai -m window --toggle float
+
+alt - return : open -a alacritty -n
+
+alt + shift - q : yabai -m window --close
+
+alt + ctrl - s : yabai -m space --layout stack
+alt + ctrl - b : yabai -m space --layout bsp
+
+alt - p : skhd -k "alt + shift - up"
+alt - n : skhd -k "alt + shift - down"
+
+alt - s : scratchpad --toggle alacritty
