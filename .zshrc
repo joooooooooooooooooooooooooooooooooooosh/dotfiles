@@ -149,8 +149,9 @@ notify() {
 unalias gcl
 gcl() {
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
-    git clone "$(gsed 's|.*//github.com/|git@github.com:|' <<< "$1")" &&
-        cd "$(gsed -E 's|(.*)\.git/?|\1|; s|.*/(.*)|\1|' <<< "$1")"
+    local repo="$(gsed -E 's|/src/.*$||' <<< "$1")"
+    git clone "$(gsed -E 's|^.*//([^/]+)/|git@\1:|' <<< "$repo")" &&
+        cd "$(gsed -E 's|(.*)\.git/?|\1|; s|.*/(.*)|\1|' <<< "$repo")"
 }
 
 gw() {
@@ -335,3 +336,4 @@ eval "$(mcfly init zsh)"
 eval "$(zoxide init zsh)"
 [[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh
 PATH=$PATH:$HOME/Library/Python/3.9/bin
+PATH="$HOME/graudit:${PATH:+:${PATH}}"; export PATH;
