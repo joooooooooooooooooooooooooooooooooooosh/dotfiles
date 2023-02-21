@@ -151,6 +151,10 @@ gw() {
     git diff $1^ $1
 }
 
+resource() {
+    source ~/.zshrc
+}
+
 cses() {
     [ ! -f Cargo.toml ] && echo "run this from the root directory or press <Enter> to continue" && read
     local mytmp=$(mktemp -d)
@@ -298,7 +302,14 @@ PERL_MM_OPT="INSTALL_BASE=/home/joshh/perl5"; export PERL_MM_OPT;
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+if type rg &> /dev/null; then
+    export FZF_DEFAULT_COMMAND='rg --files'
+fi
+
 export MCFLY_FUZZY=2
 export MCFLY_RESULTS=40
 eval "$(mcfly init zsh)"
+
+# idk why this is still set
+unset ESBUILD_BINARY_PATH
 eval "$(zoxide init zsh)"

@@ -132,7 +132,7 @@ bindsym $mod+Ctrl+u exec ~/Documents/scripts/toggleupdates.sh
 bindsym $mod+Ctrl+Shift+g exec sudo ~/Documents/scripts/togglegaps.sh
 
 # gamma go brr
-bindsym $mod+Ctrl+Shift+t           exec xrandr --output HDMI-A-0 --brightness 1.5
+bindsym $mod+Ctrl+Shift+t           exec xrandr --output DisplayPort-1 --brightness 1.5
 bindsym $mod+Ctrl+plus              exec ~/Documents/scripts/_brightchange.sh up !hdmi
 bindsym $mod+Ctrl+minus             exec ~/Documents/scripts/_brightchange.sh down !hdmi
 bindsym $mod+Ctrl+less              exec ~/Documents/scripts/_brightchange.sh off !hdmi
@@ -232,27 +232,27 @@ bindsym $mod+Shift+t focus mode_toggle
 bindsym $mod+Shift+Tab focus mode_toggle
 
 # workspace outputs
-workspace 0 output HDMI-A-0 eDP
-workspace 1 output HDMI-A-0 eDP
-workspace 2 output HDMI-A-0 eDP
-workspace 3 output HDMI-A-0 eDP
-workspace 4 output HDMI-A-0 eDP
-workspace 5 output HDMI-A-0 eDP
-workspace 6 output HDMI-A-0 eDP
-workspace 7 output HDMI-A-0 eDP
-workspace 8 output HDMI-A-0 eDP
-workspace 9 output HDMI-A-0 eDP
-workspace 10 output eDP HDMI-A-0
-workspace 11 output eDP HDMI-A-0
-workspace 12 output eDP HDMI-A-0
-workspace 13 output eDP HDMI-A-0
-workspace 14 output eDP HDMI-A-0
-workspace 15 output eDP HDMI-A-0
-workspace 16 output eDP HDMI-A-0
-workspace 17 output eDP HDMI-A-0
-workspace 18 output eDP HDMI-A-0
-workspace 19 output eDP HDMI-A-0
-workspace 20 output eDP HDMI-A-0
+workspace 0 output DisplayPort-1 eDP
+workspace 1 output DisplayPort-1 eDP
+workspace 2 output DisplayPort-1 eDP
+workspace 3 output DisplayPort-1 eDP
+workspace 4 output DisplayPort-1 eDP
+workspace 5 output DisplayPort-1 eDP
+workspace 6 output DisplayPort-1 eDP
+workspace 7 output DisplayPort-1 eDP
+workspace 8 output DisplayPort-1 eDP
+workspace 9 output DisplayPort-1 eDP
+workspace 10 output eDP DisplayPort-1
+workspace 11 output eDP DisplayPort-1
+workspace 12 output eDP DisplayPort-1
+workspace 13 output eDP DisplayPort-1
+workspace 14 output eDP DisplayPort-1
+workspace 15 output eDP DisplayPort-1
+workspace 16 output eDP DisplayPort-1
+workspace 17 output eDP DisplayPort-1
+workspace 18 output eDP DisplayPort-1
+workspace 19 output eDP DisplayPort-1
+workspace 20 output eDP DisplayPort-1
 
 # switch to workspace
 bindsym $mod+Ctrl+a exec ~/Documents/scripts/alphaomega.sh head
@@ -508,7 +508,7 @@ focus_follows_mouse yes
 #exec_always --no-startup-id polybar example
 
 # Composite manager
-exec_always --no-startup-id picom --experimental-backends --config /etc/xdg/picom.conf
+exec_always --no-startup-id picom --config /etc/xdg/picom.conf
 
 #Natural scrolling
 #exec --no-startup-id ~/Documents/scripts/naturalscroll.sh

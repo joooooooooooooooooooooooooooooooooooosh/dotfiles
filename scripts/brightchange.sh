@@ -36,7 +36,7 @@ XRANDR_BRIGHTNESS=`bc -l <<< "scale=3; $BRIGHT / $MAX_BRIGHTNESS"`
 if [ $2 -a $2 != "!hdmi" ]; then
 	# killall redshift
 	# i3-msg exec "redshift -b $XRANDR_BRIGHTNESS:$XRANDR_BRIGHTNESS -r"
-	xrandr --output HDMI-A-0 --brightness $XRANDR_BRIGHTNESS
+	xrandr --output DisplayPort-1 --brightness $XRANDR_BRIGHTNESS
 fi
 
 # polybar-msg action "#brightness.hook.0"

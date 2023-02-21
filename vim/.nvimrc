@@ -21,6 +21,8 @@ autocmd FileType tex,plaintex setlocal spell wrap
 autocmd FileType text setlocal textwidth=78
 autocmd FileType make set list
 
+autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+
 " TODO: change comment style automatically
 " autocmd BufReadPost,BufNewFile *.c set commentstring=//%s
 autocmd BufReadPre,BufNewFile *.s setlocal tabstop=8 shiftwidth=8 expandtab
@@ -143,7 +145,7 @@ nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
 
 " edit macros
 " use "q<Leader>m
-nnoremap <leader>m  <CMD><c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
+nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
 
 cnoreabbrev <expr> tn getcmdtype() == ":" && getcmdline() == 'tn' ? 'tabnew' : 'tn'
 cnoreabbrev <expr> th getcmdtype() == ":" && getcmdline() == 'th' ? 'tabp' : 'th'
@@ -196,8 +198,8 @@ nnoremap <Leader>n  <CMD>source ~/.nvimrc<CR>
 nnoremap <Leader>cd <CMD>lcd %:h<CR>
 nnoremap <Leader>cj <CMD>cnext<CR>
 nnoremap <Leader>ck <CMD>cprev<CR>
-nnoremap <Leader>d  <CMD>Dispatch 
-nnoremap <Leader>D  <CMD>Dispatch! 
+nnoremap <Leader>d      :Dispatch 
+nnoremap <Leader>D      :Dispatch! 
 nnoremap <Leader>s  <CMD>set spell!<CR>
 nnoremap <Leader>S  <CMD>let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 nnoremap <Leader>k  "zyiw:!man <C-R>z<CR>g
@@ -212,7 +214,7 @@ nnoremap <Leader>R  <CMD>CocRestart<CR>
 nnoremap <Leader>u  <CMD>UndotreeToggle<CR>
 
 nnoremap <Leader>fb  <cmd>Telescope buffers<cr>
-nnoremap <Leader>fc  <CMD>Telescope coc 
+nnoremap <Leader>fc      :Telescope coc 
 nnoremap <Leader>fds <cmd>Telescope coc document_symbols<cr>
 nnoremap <Leader>fe  <cmd>Telescope coc diagnostics<cr>
 nnoremap <Leader>fp  <cmd>Telescope coc commands<cr>
@@ -224,8 +226,7 @@ nnoremap <Leader>fl  <cmd>Telescope loclist<cr>
 nnoremap <Leader>fm  <cmd>Telescope man_pages<cr>
 nnoremap <Leader>fr  <cmd>Telescope grep_string<cr>
 nnoremap <Leader>fs  <cmd>Telescope spell_suggest<cr>
-" TODO: broken
-" nnoremap <Leader>ft  <cmd>Telescope live_grep<cr>TODO
+nnoremap <Leader>ft  <cmd>TodoTelescope<cr>
 nnoremap <Leader>fu  <cmd>Telescope grep_string<cr>
 nnoremap <Leader>fq  <cmd>Telescope quickfix<cr>
 " }}}
@@ -260,7 +261,7 @@ Plug 'dylanaraps/wal.vim'
 
 Plug 'p00f/nvim-ts-rainbow'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'nvim-treesitter/nvim-treesitter-context'
+" Plug 'nvim-treesitter/nvim-treesitter-context'
 " Plug 'nvim-treesitter/nvim-treesitter-textobjects'
 " Plug 'nvim-treesitter/playground'
 Plug 'windwp/nvim-autopairs'
@@ -268,8 +269,9 @@ Plug 'machakann/vim-sandwich'
 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-sleuth'
 Plug 'akinsho/git-conflict.nvim'
 Plug 'kdheepak/lazygit.nvim'
 
@@ -292,15 +294,20 @@ Plug 'https://gitlab.com/yorickpeterse/nvim-window.git'
 " Plug 'MunifTanjim/nui.nvim'
 " Plug 'folke/noice.nvim'
 
+Plug 'folke/todo-comments.nvim'
 Plug 'folke/which-key.nvim'
 Plug 'folke/zen-mode.nvim'
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'mbbill/undotree'
+Plug 'liuchengxu/vista.vim'
 
 Plug 'kevinhwang91/nvim-ufo'
 Plug 'kevinhwang91/promise-async'
 
 Plug 'fidian/hexmode'
+
+" Plug 'github/copilot.vim'
+Plug 'eandrju/cellular-automaton.nvim'
 call plug#end()
 " }}}
 
@@ -324,6 +331,8 @@ require("nvim-tree").setup({
         preserve_window_proportions = true,
     },
 })
+
+require("todo-comments").setup {}
 
 -- require("goto-preview").setup {}
 
@@ -604,6 +613,9 @@ EOF
 hi BlackOnLightYellow guifg=#000000 guibg=#f2de91
 " }}}
 
+imap <silent><script><expr> <C-T> copilot#Accept("\<CR>")
+let g:copilot_no_tab_map = v:true
+
 " Git diff hunk commands from the perspective of the working copy.
 " nnoremap [d :diffget //2 | diffup<CR>
 " nnoremap =d :diffput % | diffup<CR>
@@ -659,6 +671,9 @@ nmap <Leader>cs :setlocal commentstring=
 nmap <silent><C-_> gcc
 vmap <silent><C-_> gc
 imap <silent><C-_> <Esc>gccA
+
+nmap \cg <cmd>CellularAutomaton game_of_life<cr>
+nmap \cm <cmd>CellularAutomaton make_it_rain<cr>
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
