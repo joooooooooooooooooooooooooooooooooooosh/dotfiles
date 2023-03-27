@@ -2,7 +2,7 @@
 DOT_DIR="$HOME/.dotfiles/"
 CONFIG_DIR=$DOT_DIR"config/"
 
-rm -r "${CONFIG_DIR}polybar/"
+rm -rf "${CONFIG_DIR}polybar/"
 cp -ur ~/.config/polybar "${CONFIG_DIR}polybar/"
 rm -r "${DOT_DIR}scripts/"
 cp -ur ~/Documents/scripts "$DOT_DIR"

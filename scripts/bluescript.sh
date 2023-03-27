@@ -1,20 +1,20 @@
 #!/bin/zsh
 if [ -z $1 ]; then
-    con=`bluetoothctl devices | cut -d' ' -f3- |
-       rofi -dmenu -i -columns 2 -matching fuzzy -p "(dis)connect"`
+    con=$({bluetoothctl devices; bluetoothctl devices Connected} \
+        | sort | uniq -c | sort -nr \
+        | sed '/^ *[^1] Device/{s/$/ (Connected)/}' \
+        | awk '{ for(i=4; i<=NF; ++i) printf $i""FS; print "" }' \
+        | rofi -dmenu -i -columns 2 -matching fuzzy -p "(dis)connect" \
+        | sed 's/ (Connected) $//; s/ *$//')
     if [ -z $con ]; then
         exit 1
     fi
-    1=`bluetoothctl devices | grep $con | cut -d' ' -f2`
+    1=$(bluetoothctl devices | grep "$con" | cut -d' ' -f2)
 fi
 
-coproc bluetoothctl
-if hcitool con | grep $1
+if bluetoothctl devices Connected | grep $1
 then
-    echo -e "disconnect $1" >&p
+    bluetoothctl <<< "disconnect $1"
 else
-    echo -e "connect $1" >&p
+    bluetoothctl <<< "connect $1"
 fi
-sleep 3
-echo -e 'exit' >&p
-sleep 2

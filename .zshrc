@@ -102,13 +102,10 @@ source $ZSH/oh-my-zsh.sh
 # also cause i need the pre-prompt exec stuff now
 bindkey -s "" " clear"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-
-alias ls='ls --group-directories-first --color=auto'
-alias la='ls -A'
+alias ls='exa --group-directories-first'
+alias la='ls -a' # ls -A for regular ls
+alias ll='ls -lh'
+alias l='ls -lah'
 alias sl=ls
 alias ks=ls
 alias rm='rm -I'
@@ -122,8 +119,8 @@ alias q=" exit"
 alias v=vr
 alias n=nvim
 alias np="nvim -p"
-alias fzn='fzf | xargs nvim'
 alias fzd='cd ~/Documents; fzc'
+alias fzn='nvim $(fzf)'
 alias fns='fd Session.vim | fzf | xargs nvim -S'
 alias binja=binaryninja-demo
 alias lsz='du -sh * | sort -h'
@@ -139,12 +136,21 @@ alias gcom='git checkout $(git branch | {grep " main$" || echo "master"} | sed "
 alias toggle-power-mode='~/Documents/scripts/toggle-power-mode.sh'
 alias add='awk "{s+=\$1} END{print s}"'
 alias viewdoc='firefox ./target/doc/$(basename $PWD)/index.html'
+alias tmux='tmux -f ~/.config/tmux/.tmux.conf'
+
+notify() {
+    $@ && {
+        echo -e "\"$*\"\nSucceeded" | xargs notify-send -t 0
+    } || {
+        echo -e "\"$*\"\nFailed" | xargs notify-send -t 0
+    }
+}
 
 unalias gcl
 gcl() {
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
-    git clone $(sed 's|.*//github.com/|git@github.com:|' <<< $@) &&
-        cd "$(sed -E 's|(.*)\.git/?|\1|; s|.*/(.*)|\1|' <<< "$1")"
+    git clone $(sed 's|.*//github.com/|git@github.com:|; s|/src/.*$||' <<< $@) &&
+        cd "$(sed -E 's|(.*)\.git/?|\1|; s|.*/(.*)|\1|; s|/src/.*$||' <<< "$1")"
 }
 
 gw() {
@@ -208,6 +214,11 @@ swap() {
 }
 
 fzc() {
+    local file=$(fzf)
+    cd $(echo $file | sed 's/\/[^\/]*$//') 2>/dev/null
+}
+
+fzcn() {
     local file=$(fzf)
     cd $(echo $file | sed 's/\/[^\/]*$//') 2>/dev/null
     nvim "$(echo "$file" | sed 's/.*\///')"
@@ -305,6 +316,8 @@ PERL_MM_OPT="INSTALL_BASE=/home/joshh/perl5"; export PERL_MM_OPT;
 if type rg &> /dev/null; then
     export FZF_DEFAULT_COMMAND='rg --files'
 fi
+
+export CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
 
 export MCFLY_FUZZY=2
 export MCFLY_RESULTS=40

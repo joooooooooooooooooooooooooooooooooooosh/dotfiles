@@ -33,6 +33,7 @@ autocmd BufNewFile day*.rs  0r ~/.vim/skeletons/aoc.rs
 " common settings {{{
 syntax on
 filetype indent plugin on
+set titlestring=%F
 set noequalalways
 set nowrap
 set tabstop=4 shiftwidth=4
@@ -178,9 +179,39 @@ nmap \Oj O<Esc>cc<Esc>\j:
 nmap \gr [m]ngr
 nmap \gd ?(<CR>Bgd
 
-nmap \f <CMD>%!rustfmt<CR>
+nmap \f <CMD>%!rustfmt --edition 2021<CR>
 
 nnoremap <expr> \z foldclosed('.') != -1 ? 'zO' : 'zC'
+
+" Terminal Function
+let g:term_height = 12
+let g:term_buf = 0
+let g:term_win = 0
+function! TermToggle()
+    if win_gotoid(g:term_win)
+        let g:term_height = winheight("")
+        hide
+    else
+        botright new
+        exec "resize " . g:term_height
+        try
+            exec "buffer " . g:term_buf
+        catch
+            call termopen($SHELL, {"detach": 0})
+            let g:term_buf = bufnr("")
+            set nonumber
+            set norelativenumber
+            set signcolumn=no
+        endtry
+        startinsert!
+        let g:term_win = win_getid()
+    endif
+endfunction
+nnoremap <silent> <Leader><C-t> :let g:term_height=50<CR>:call TermToggle()<CR>
+nnoremap <silent> <C-t> :call TermToggle()<CR>
+inoremap <silent> <C-t> <Esc>:call TermToggle()<CR>
+tnoremap <silent> <C-t> <C-\><C-n>:call TermToggle()<CR>
+
 
 " strip trailing whitespace
 nnoremap <silent> \ws <CMD>let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR><C-o>
@@ -311,6 +342,9 @@ Plug 'eandrju/cellular-automaton.nvim'
 call plug#end()
 " }}}
 
+nmap <Leader>v <cmd>Vista!!<cr>
+nmap <Leader>fv <cmd>Vista finder! coc<cr>
+
 let g:sonokai_better_performance = 1
 let g:sonokai_transparent_background = 1
 let g:everforest_better_performance = 1
@@ -324,6 +358,7 @@ highlight DiffText guibg=#004d66
 
 " lua configuration {{{
 lua << EOF
+
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 require("nvim-tree").setup({
@@ -613,8 +648,8 @@ EOF
 hi BlackOnLightYellow guifg=#000000 guibg=#f2de91
 " }}}
 
-imap <silent><script><expr> <C-T> copilot#Accept("\<CR>")
-let g:copilot_no_tab_map = v:true
+" imap <silent><script><expr> <C-T> copilot#Accept("\<CR>")
+" let g:copilot_no_tab_map = v:true
 
 " Git diff hunk commands from the perspective of the working copy.
 " nnoremap [d :diffget //2 | diffup<CR>
