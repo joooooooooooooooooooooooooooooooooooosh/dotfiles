@@ -31,7 +31,7 @@ autocmd BufNewFile day*.rs  0r ~/.vim/skeletons/aoc.rs
 " }}}
 
 " common settings {{{
-syntax on
+syntax off " not needed because of treesitter
 filetype indent plugin on
 set titlestring=%F
 set noequalalways
@@ -45,6 +45,7 @@ set backspace=indent,eol,start
 set timeoutlen=750
 set updatetime=500
 set hidden
+" set spell
 set autoindent
 set autoread
 set ruler
@@ -85,6 +86,9 @@ nmap <C-e> $
 imap <C-e> <Esc>A
 imap <C-a> <Esc>^i
 imap <C-z> <Delete>
+
+" clear quickfix list
+nmap <Leader>cc <CMD>cexpr []<CR>
 
 " autofix spell errors
 inoremap <C-x><C-x> <c-g>u<Esc>[s1z=`]a<c-g>u
@@ -134,6 +138,14 @@ onoremap <expr> N  'nN'[v:searchforward]
 " C-n and C-p match start of command when searching history
 cnoremap <expr> <C-n> wildmenumode() ? "\<c-n>" : "\<down>"
 cnoremap <expr> <C-p> wildmenumode() ? "\<c-p>" : "\<up>"
+
+function! s:Gx()
+  let l:url = expand("<cWORD>")
+  " execute "!xdg-open " . shellescape(l:url, 1)
+  execute "Dispatch! xdg-open " . shellescape(l:url, 1)
+endfunction
+
+nmap <silent> gx :call <SID>Gx()<CR>
 
 nnoremap gp `[v`]
 
@@ -294,7 +306,7 @@ Plug 'p00f/nvim-ts-rainbow'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 " Plug 'nvim-treesitter/nvim-treesitter-context'
 " Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-" Plug 'nvim-treesitter/playground'
+Plug 'nvim-treesitter/playground'
 Plug 'windwp/nvim-autopairs'
 Plug 'machakann/vim-sandwich'
 
@@ -372,8 +384,7 @@ require("todo-comments").setup {}
 -- require("goto-preview").setup {}
 
 require("hop").setup {
-    -- TODO reenable this once it's not broken
-    -- multi_windows = true,
+    multi_windows = true,
 }
 
 require("zen-mode").setup {
@@ -419,6 +430,7 @@ require("which-key").setup {
 require("nvim-treesitter.configs").setup {
     highlight = {
         enable = true,
+
         -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
         -- Set to `true` if you depend on 'syntax' being enabled (like for indentation).
         -- This may slow down your editor, and you may see some duplicate highlights.
@@ -426,7 +438,7 @@ require("nvim-treesitter.configs").setup {
         additional_vim_regex_highlighting = false,
         },
     indent = {
-    enable = true,
+        enable = true,
     },
     rainbow = {
         enable = true,
@@ -497,6 +509,8 @@ defaults = {
             ["<C-h>"] = "which_key",
             -- add_to_qflist if we don't want to overwrite existing entries
             ["<C-q>"] = actions.send_to_qflist,
+            ["<C-f>"] = actions.send_selected_to_qflist + actions.open_qflist,
+            ["<C-l>"] = actions.smart_add_to_qflist + actions.open_qflist,
             -- ["<Esc>"] = "close",
             },
         }
@@ -629,7 +643,7 @@ require('ufo').setFoldVirtTextHandler(bufnr, handler)
 require('nvim-window').setup({
     -- The characters available for hinting windows.
     chars = {
-        'q', 'w', 'e', 'o', 'k', "'", 'd', 'i', 'j', 'l', ';', 's', 'a',
+        'f', 'd', 's', 'r', 'e', 'w', 'j', 'i', 'o', 'k', 'l', 'u', ';',
     },
 
     -- A group to use for overwriting the Normal highlight group in the floating

@@ -3,8 +3,7 @@
 # TODO: better way to guarantee outputs in correct order
 outputs=$(i3-msg -t get_outputs \
     | sed 's/\"current_workspace\"/\n/g' \
-    | sed -En '/\"active\":true/{s/.*\"name\":\"([^\"]+)\".*/\1/; P}' \
-    | tac
+    | sed -En '/\"active\":true/{s/.*\"name\":\"([^\"]+)\".*/\1/; P}'
 )
 
 original_wss=$(i3-msg -t get_workspaces | \
@@ -39,7 +38,7 @@ move_workspace() {
 
     i3-msg workspace "$ws"
     # TODO: how many layers do we need to go up?
-    i3-msg focus parent; i3-msg focus parent; i3-msg focus parent; i3-msg focus parent; i3-msg focus parent
+    i3-msg focus parent; i3-msg focus parent; i3-msg focus parent; i3-msg focus parent; i3-msg focus parent; i3-msg focus parent; i3-msg focus parent;
     i3-msg move container to workspace "$norm_ws"
     # in case the new workspace is on another monitor by default
     i3-msg workspace "$norm_ws"

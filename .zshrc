@@ -6,7 +6,7 @@
 
 # If you come from bash you might have to change your $PATH.
 (cat ~/.cache/wal/sequences &)
-export PATH=$HOME/bin:/usr/local/bin:$PATH:.:/root/.gem/ruby/2.7.0/bin:/home/joshh/.local/share/gem/ruby/3.0.0/bin
+export PATH=$HOME/bin:/usr/local/bin:$PATH:/root/.gem/ruby/2.7.0/bin:/home/joshh/.local/share/gem/ruby/3.0.0/bin
 export PATH=$PATH:/opt/gradle/gradle-5.4.1/bin
 export PYTHONPATH="/usr/lib/python3.9/site-packages":$PYTHONPATH
 

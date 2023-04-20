@@ -34,9 +34,11 @@ fi
 echo $BRIGHT | sudo tee ${BACKLIGHT_PATH}/brightness
 XRANDR_BRIGHTNESS=`bc -l <<< "scale=3; $BRIGHT / $MAX_BRIGHTNESS"`
 if [ $2 -a $2 != "!hdmi" ]; then
+	for output in $(xrandr --listmonitors | sed '1d; s/.* //' | grep -v eDP); do
+		xrandr --output $output --brightness $XRANDR_BRIGHTNESS
+	done
 	# killall redshift
 	# i3-msg exec "redshift -b $XRANDR_BRIGHTNESS:$XRANDR_BRIGHTNESS -r"
-	xrandr --output DisplayPort-1 --brightness $XRANDR_BRIGHTNESS
 fi
 
 # polybar-msg action "#brightness.hook.0"

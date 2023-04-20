@@ -2,7 +2,7 @@
 ; Red on dark grey background
 text               = ${xrdb:color7}
 subtext            = ${xrdb:color6}
-button-text        = ${xrdb:color0}
+nav-active-text    = ${xrdb:color0}
 main               = ${xrdb:color0}
 sidebar            = ${xrdb:color0}
 player             = ${xrdb:color0}
@@ -22,16 +22,19 @@ misc               = ${xrdb:color11}
 ; White on dark blue background
 text               = ffffff
 subtext            = ffffff
-button-text        = ffffff
+nav-active-text    = ffffff
 main               = 020816
 sidebar            = 051024
 player             = 030b1e
 card               = 0a1527
 shadow             = 000000
-selected-row       = 1464b5
+main-secondary     = 1464b5
 button             = 1464b5
+button-secondary   = 0a1527
 button-active      = 4a99e9
 button-disabled    = 353535
+nav-active         = 0a1527
+play-button        = 0a1527
 tab-active         = 0a1527
 notification       = 051024
 notification-error = 051024

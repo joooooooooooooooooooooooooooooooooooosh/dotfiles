@@ -9,8 +9,14 @@ ps ax | grep polybar | grep -Ev 'grep|launch.sh|vim' | awk '{print $1}' | xargs 
 # polybar example & disown
 if type "xrandr"; then
   for m in $(polybar --list-monitors | cut -d: -f1); do
-    echo $m
-    MONITOR=$m polybar $m &
+    bar=$m
+    if ! sed -En "s/^\[bar\/([^]]+)\]/\1/; T; p" ~/.config/polybar/config.ini \
+      | grep "^$m$" >/dev/null; then
+      bar="example"
+    fi
+      
+    echo $m launching $bar
+    MONITOR=$m polybar $bar &
   done
 else
   polybar example &

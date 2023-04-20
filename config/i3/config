@@ -67,15 +67,15 @@ bindsym F7 exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py play-paus
 bindsym F8 exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py next
 
 #Multi monitor
-bindsym $mod+semicolon focus output left
-bindsym $mod+apostrophe focus output right
-bindsym $mod+Shift+semicolon move container to output left
-bindsym $mod+Shift+apostrophe move container to output right
-bindsym $mod+Ctrl+semicolon move workspace to output left
-bindsym $mod+Ctrl+apostrophe move workspace to output right
-bindsym $mod+Mod4+semicolon exec Documents/scripts/movetolaptop.sh left
-bindsym $mod+Mod4+apostrophe exec Documents/scripts/movetolaptop.sh right
-bindsym $mod+Mod4+BackSpace exec Documents/scripts/swapwindow.sh
+bindsym $mod+semicolon focus output next
+bindsym $mod+apostrophe focus output next
+bindsym $mod+Shift+semicolon move container to output next
+bindsym $mod+Shift+apostrophe move container to output next
+bindsym $mod+Ctrl+semicolon move workspace to output next
+bindsym $mod+Ctrl+apostrophe move workspace to output next
+bindsym $mod+Mod4+semicolon exec ~/Documents/scripts/movetolaptop.sh left
+bindsym $mod+Mod4+apostrophe exec ~/Documents/scripts/movetolaptop.sh right
+bindsym $mod+Mod4+BackSpace exec ~/Documents/scripts/swapwindow.sh
 bindsym $mod+m exec ~/Documents/scripts/moveworkspace.sh
 bindsym $mod+Ctrl+m exec ~/Documents/scripts/normaliseworkspaces.sh
 bindsym $mod+Shift+braceleft exec ~/Documents/scripts/movewindow.sh prev
