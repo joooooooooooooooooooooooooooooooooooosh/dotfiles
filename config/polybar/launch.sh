@@ -11,7 +11,7 @@ if type "xrandr"; then
   for m in $(polybar --list-monitors | cut -d: -f1); do
     bar=$m
     if ! sed -En "s/^\[bar\/([^]]+)\]/\1/; T; p" ~/.config/polybar/config.ini \
-      | grep "^$m$" >/dev/null; then
+        | grep "^$m$" >/dev/null; then
       bar="example"
     fi
       

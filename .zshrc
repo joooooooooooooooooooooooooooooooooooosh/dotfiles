@@ -77,7 +77,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 export FZF_BASE=/usr/bin/fzf
-plugins=(git zsh-autosuggestions autoupdate colored-man-pages autoenv copybuffer)
+plugins=(git zsh-autosuggestions autoupdate colored-man-pages copybuffer)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -130,9 +130,11 @@ alias ranger='TERM=rxvt-unicode-256color ranger'
 alias ra=ranger
 alias m=tldr
 alias c=cargo
+alias cupdate='cargo install $(cargo install --list | sed -En "/:$/{s/ .*//; p}")'
+alias cudeps='cargo +nightly udeps'
 alias top=bpytop
 alias gsl='git stash && git pull && git stash pop'
-alias gcom='git checkout $(git branch | {grep " main$" || echo "master"} | sed "s/* //")'
+alias gcom='git checkout $(git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2)'
 alias toggle-power-mode='~/Documents/scripts/toggle-power-mode.sh'
 alias add='awk "{s+=\$1} END{print s}"'
 alias viewdoc='firefox ./target/doc/$(basename $PWD)/index.html'
@@ -154,6 +156,7 @@ gcl() {
 }
 
 gw() {
+    [ $# -lt 1 ] && 1="HEAD"
     git diff $1^ $1
 }
 
