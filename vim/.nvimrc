@@ -338,6 +338,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'phaazon/hop.nvim'
 Plug 'https://gitlab.com/yorickpeterse/nvim-window.git'
+" Plug 'drzel/vim-in-proportion'
 
 " Plug 'rcarriga/nvim-notify'
 " Plug 'hrsh7th/nvim-cmp'
@@ -359,8 +360,8 @@ Plug 'kevinhwang91/nvim-ufo'
 Plug 'kevinhwang91/promise-async'
 
 Plug 'fidian/hexmode'
-Plug 'samodostal/image.nvim'
-Plug 'm00qek/baleia.nvim', { 'tag': 'v1.3.0' } " color support for image.nvim
+" Plug 'samodostal/image.nvim'
+" Plug 'm00qek/baleia.nvim', { 'tag': 'v1.3.0' } " color support for image.nvim
 
 " Plug 'github/copilot.vim'
 Plug 'eandrju/cellular-automaton.nvim'
@@ -385,19 +386,19 @@ highlight DiffText guibg=#004d66
 
 " lua configuration {{{
 lua << EOF
-require("image").setup({
-    render = {
-        min_padding = 5,
-        show_label = true,
-        show_image_dimensions = true,
-        use_dither = true,
-        foreground_color = true,
-        background_color = true,
-    },
-    events = {
-        update_on_nvim_resize = true,
-    },
-})
+-- require("image").setup({
+--     render = {
+--         min_padding = 5,
+--         show_label = true,
+--         show_image_dimensions = true,
+--         use_dither = true,
+--         foreground_color = true,
+--         background_color = true,
+--     },
+--     events = {
+--         update_on_nvim_resize = true,
+--     },
+-- })
 
 require("wf").setup()
 
@@ -795,7 +796,7 @@ map <silent> <C-p> :lua require('nvim-window').pick()<CR>
 nmap <silent> <Leader>; :HopWord<CR>
 
 autocmd FileType c,cpp setlocal commentstring=//%s
-nnoremap \cx :Dispatch! chmod +x %<CR>
+nnoremap \cx :Dispatch! chmod u+x %<CR>
 nnoremap \gpf :Git push --force-with-lease<CR>
 nnoremap \gh :GBrowse<CR>
 

@@ -1,3 +1,4 @@
+# Vim: set ft=zsh
 # ZSH Theme - Preview: https://gyazo.com/8becc8a7ed5ab54a0262a470555c3eed.png
 local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
 
@@ -12,7 +13,7 @@ fi
 local current_dir='%{$terminfo[bold]$fg[blue]%}%-0<..<%~ %{$reset_color%}'
 local git_branch='$(git_prompt_info)'
 local rvm_ruby='$(ruby_prompt_info)'
-local venv_prompt='$(virtualenv_prompt_info)'
+local venv_prompt='${ZSH_THEME_VIRTUALENV_PREFIX}venv${ZSH_THEME_VIRTUALENV_SUFFIX}'
 
 ZSH_THEME_RVM_PROMPT_OPTIONS="i v g"
 
@@ -35,26 +36,28 @@ ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
 zmodload zsh/datetime
 
 get_prompt_string() {
-    PRE_PROMPT="╭─${user_host}${current_dir}${rvm_ruby}${git_branch}${venv_prompt}"
+    PRE_PROMPT="╭─${user_host}${current_dir}${rvm_ruby}${git_branch}"
+    which deactivate >/dev/null && PRE_PROMPT="${PRE_PROMPT}${venv_prompt}"
     local zero='%([BSUbfksu]|([FK]|){*})'
     REAL_LENGTH=${#${(S%%)PRE_PROMPT//$~zero/}} 
 }
 
-TRAPWINCH() {
-    # if current prompt wraps after resize, clear extra prompt line and redraw
-    # TODO: REAL_LENGTH isn't calculating git_branch properly
-    # TODO: breaks with RPROMPT
+# TRAPWINCH() {
+#     # if current prompt wraps after resize, clear extra prompt line and redraw
+#     # TODO: REAL_LENGTH isn't calculating git_branch properly
+#     # TODO: breaks with RPROMPT
 
-    if [ $REAL_LENGTH -gt $COLUMNS ]; then 
-        print -n "[2K[1F[2K"
-        print -Pn "$PROMPT"
-    fi
+#     # TODO: sometimes TRAPWINCH activates before REAL_LENGTH is set
+#     if [ $REAL_LENGTH -gt $COLUMNS ]; then 
+#         print -n "[2K[1F[2K"
+#         print -Pn "$PROMPT"
+#     fi
 
-    get_prompt_string
-    print -n "7[1F[2K"
-    print -Pn "$PRE_PROMPT"
-    print -n "8"
-}
+#     get_prompt_string
+#     print -n "7[1F[2K"
+#     print -Pn "$PRE_PROMPT"
+#     print -n "8"
+# }
 
 prompt_preexec() {
   prompt_prexec_realtime=${EPOCHREALTIME}

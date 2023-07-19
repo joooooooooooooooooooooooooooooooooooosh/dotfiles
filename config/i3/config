@@ -133,18 +133,18 @@ bindsym $mod+Ctrl+u exec ~/Documents/scripts/toggleupdates.sh
 bindsym $mod+Ctrl+Shift+g exec sudo ~/Documents/scripts/togglegaps.sh
 
 # gamma go brr
-bindsym $mod+Ctrl+Shift+t           exec xrandr --output DisplayPort-1 --brightness 1.5
-bindsym $mod+Ctrl+plus              exec ~/Documents/scripts/_brightchange.sh up !hdmi
-bindsym $mod+Ctrl+minus             exec ~/Documents/scripts/_brightchange.sh down !hdmi
-bindsym $mod+Ctrl+less              exec ~/Documents/scripts/_brightchange.sh off !hdmi
-bindsym $mod+Ctrl+Shift+plus        exec ~/Documents/scripts/_brightchange.sh up
-bindsym $mod+Ctrl+Shift+minus       exec ~/Documents/scripts/_brightchange.sh down
-bindsym $mod+Ctrl+Shift+quotedbl    exec ~/Documents/scripts/_brightchange.sh max
-bindsym $mod+Ctrl+Shift+question    exec ~/Documents/scripts/_brightchange.sh high
-bindsym $mod+Ctrl+Shift+colon       exec ~/Documents/scripts/_brightchange.sh mid
-bindsym $mod+Ctrl+Shift+greater     exec ~/Documents/scripts/_brightchange.sh low
-bindsym $mod+Ctrl+Shift+less        exec ~/Documents/scripts/_brightchange.sh min
-bindsym $mod+Ctrl+Shift+m           exec ~/Documents/scripts/_brightchange.sh
+bindsym $mod+Ctrl+Shift+t        exec xrandr --output DisplayPort-1 --brightness 1.5
+bindsym $mod+Ctrl+plus           exec ~/Documents/scripts/_brightchange.sh up !hdmi
+bindsym $mod+Ctrl+minus          exec ~/Documents/scripts/_brightchange.sh down !hdmi
+bindsym $mod+Ctrl+less           exec ~/Documents/scripts/_brightchange.sh off !hdmi
+bindsym $mod+Ctrl+Shift+plus     exec ~/Documents/scripts/_brightchange.sh up
+bindsym $mod+Ctrl+Shift+minus    exec ~/Documents/scripts/_brightchange.sh down
+bindsym $mod+Ctrl+Shift+quotedbl exec ~/Documents/scripts/_brightchange.sh max
+bindsym $mod+Ctrl+Shift+question exec ~/Documents/scripts/_brightchange.sh high
+bindsym $mod+Ctrl+Shift+colon    exec ~/Documents/scripts/_brightchange.sh mid
+bindsym $mod+Ctrl+Shift+greater  exec ~/Documents/scripts/_brightchange.sh low
+bindsym $mod+Ctrl+Shift+less     exec ~/Documents/scripts/_brightchange.sh min
+bindsym $mod+Ctrl+Shift+m        exec ~/Documents/scripts/_brightchange.sh
 
 # Set colors from Xresources
 # Change 'color7' and 'color2' to whatever colors you want i3 to use 
@@ -178,10 +178,10 @@ bindsym $mod+Ctrl+Shift+Return exec /usr/bin/urxvt
 bindsym $mod+Shift+q kill
 
 # rofi app and window launchers
-bindsym $mod+space exec rofi -show drun
+bindsym $mod+space       exec rofi -show drun
 bindsym $mod+Shift+space exec rofi -show run
-bindsym $mod+Ctrl+space exec rofi -show window
-bindsym $mod+Mod4+space exec rofi -show emoji
+bindsym $mod+Ctrl+space  exec rofi -show window
+bindsym $mod+Mod4+space  exec rofi -show emoji
 
 # change focus
 #bindsym $mod+Left focus left
@@ -199,9 +199,9 @@ bindsym $mod+Mod4+p focus parent
 bindsym $mod+Mod4+c focus child
 
 # move windows in workspaces
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Left  move left
+bindsym $mod+Shift+Down  move down
+bindsym $mod+Shift+Up    move up
 bindsym $mod+Shift+Right move right
 
 #bindsym $mod+Shift+semicolon move left
@@ -212,18 +212,18 @@ bindsym $mod+Shift+l move right
 
 # toggle split orientation
 bindsym $mod+BackSpace split toggle
-bindsym $mod+comma split vertical
-bindsym $mod+period split horizontal
+bindsym $mod+comma     split vertical
+bindsym $mod+period    split horizontal
 # bindsym $mod+comma layout splitv
 # bindsym $mod+period layout splith
 
 # enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen toggle
+bindsym $mod+f            fullscreen toggle
 bindsym $mod+Ctrl+Shift+f fullscreen toggle global
 
 # change gaps interactively
 bindsym $mod+minus gaps inner current minus 2
-bindsym $mod+plus gaps inner current plus 2
+bindsym $mod+plus  gaps inner current plus 2
 
 # toggle tiling / floating
 bindsym $mod+Shift+f floating toggle
@@ -233,27 +233,27 @@ bindsym $mod+Shift+t focus mode_toggle
 bindsym $mod+Shift+Tab focus mode_toggle
 
 # workspace outputs
-workspace 0 output DisplayPort-1 eDP
-workspace 1 output DisplayPort-1 eDP
-workspace 2 output DisplayPort-1 eDP
-workspace 3 output DisplayPort-1 eDP
-workspace 4 output DisplayPort-1 eDP
-workspace 5 output DisplayPort-1 eDP
-workspace 6 output DisplayPort-1 eDP
-workspace 7 output DisplayPort-1 eDP
-workspace 8 output DisplayPort-1 eDP
-workspace 9 output DisplayPort-1 eDP
-workspace 10 output eDP DisplayPort-1
-workspace 11 output eDP DisplayPort-1
-workspace 12 output eDP DisplayPort-1
-workspace 13 output eDP DisplayPort-1
-workspace 14 output eDP DisplayPort-1
-workspace 15 output eDP DisplayPort-1
-workspace 16 output eDP DisplayPort-1
-workspace 17 output eDP DisplayPort-1
-workspace 18 output eDP DisplayPort-1
-workspace 19 output eDP DisplayPort-1
-workspace 20 output eDP DisplayPort-1
+workspace 0  output nonprimary primary
+workspace 1  output nonprimary primary
+workspace 2  output nonprimary primary
+workspace 3  output nonprimary primary
+workspace 4  output nonprimary primary
+workspace 5  output nonprimary primary
+workspace 6  output nonprimary primary
+workspace 7  output nonprimary primary
+workspace 8  output nonprimary primary
+workspace 9  output nonprimary primary
+workspace 10 output primary    nonprimary
+workspace 11 output primary    nonprimary
+workspace 12 output primary    nonprimary
+workspace 13 output primary    nonprimary
+workspace 14 output primary    nonprimary
+workspace 15 output primary    nonprimary
+workspace 16 output primary    nonprimary
+workspace 17 output primary    nonprimary
+workspace 18 output primary    nonprimary
+workspace 19 output primary    nonprimary
+workspace 20 output primary    nonprimary
 
 # switch to workspace
 bindsym $mod+Ctrl+a exec ~/Documents/scripts/alphaomega.sh head
@@ -289,29 +289,29 @@ bindsym $mod+braceleft workspace prev_on_output
 bindsym $mod+Tab workspace back_and_forth
 
 # move focused container to workspace
-bindsym $mod+Shift+Escape move container to workspace 0
-bindsym $mod+Shift+grave move container to workspace 0
-bindsym $mod+Shift+1 move container to workspace 1
-bindsym $mod+Shift+2 move container to workspace 2
-bindsym $mod+Shift+3 move container to workspace 3
-bindsym $mod+Shift+4 move container to workspace 4
-bindsym $mod+Shift+5 move container to workspace 5
-bindsym $mod+Shift+6 move container to workspace 6
-bindsym $mod+Shift+7 move container to workspace 7
-bindsym $mod+Shift+8 move container to workspace 8
-bindsym $mod+Shift+9 move container to workspace 9
-bindsym $mod+Shift+0 move container to workspace 10
+bindsym $mod+Shift+Escape     move container to workspace 0
+bindsym $mod+Shift+grave      move container to workspace 0
+bindsym $mod+Shift+1          move container to workspace 1
+bindsym $mod+Shift+2          move container to workspace 2
+bindsym $mod+Shift+3          move container to workspace 3
+bindsym $mod+Shift+4          move container to workspace 4
+bindsym $mod+Shift+5          move container to workspace 5
+bindsym $mod+Shift+6          move container to workspace 6
+bindsym $mod+Shift+7          move container to workspace 7
+bindsym $mod+Shift+8          move container to workspace 8
+bindsym $mod+Shift+9          move container to workspace 9
+bindsym $mod+Shift+0          move container to workspace 10
 bindsym $mod+Shift+Ctrl+grave move container to workspace 10
-bindsym $mod+Shift+Ctrl+1 move container to workspace 11
-bindsym $mod+Shift+Ctrl+2 move container to workspace 12
-bindsym $mod+Shift+Ctrl+3 move container to workspace 13
-bindsym $mod+Shift+Ctrl+4 move container to workspace 14
-bindsym $mod+Shift+Ctrl+5 move container to workspace 15
-bindsym $mod+Shift+Ctrl+6 move container to workspace 16
-bindsym $mod+Shift+Ctrl+7 move container to workspace 17
-bindsym $mod+Shift+Ctrl+8 move container to workspace 18
-bindsym $mod+Shift+Ctrl+9 move container to workspace 19
-bindsym $mod+Shift+Ctrl+0 move container to workspace 20
+bindsym $mod+Shift+Ctrl+1     move container to workspace 11
+bindsym $mod+Shift+Ctrl+2     move container to workspace 12
+bindsym $mod+Shift+Ctrl+3     move container to workspace 13
+bindsym $mod+Shift+Ctrl+4     move container to workspace 14
+bindsym $mod+Shift+Ctrl+5     move container to workspace 15
+bindsym $mod+Shift+Ctrl+6     move container to workspace 16
+bindsym $mod+Shift+Ctrl+7     move container to workspace 17
+bindsym $mod+Shift+Ctrl+8     move container to workspace 18
+bindsym $mod+Shift+Ctrl+9     move container to workspace 19
+bindsym $mod+Shift+Ctrl+0     move container to workspace 20
 
 # reload the configuration file
 bindsym $mod+Shift+c reload
@@ -330,7 +330,7 @@ bindsym $mod+Ctrl+s layout stacking
 
 bindsym $mod+Shift+s sticky toggle
 bindsym $mod+Shift+p move scratchpad
-bindsym $mod+p scratchpad show
+bindsym $mod+p       scratchpad show
 
 # shortcuts for common system configuration tasks
 bindsym $mod+s exec systemsettings5 kcm_pulseaudio
@@ -445,22 +445,22 @@ mode "one-handed" {
 bindsym $mod+Ctrl+Shift+o mode "one-handed"
 
 mode "resize" {
-        bindsym h resize grow width 5 px or 5 ppt
-        bindsym j resize shrink height 5 px or 5 ppt
-        bindsym k resize grow height 5 px or 5 ppt
-        bindsym l resize shrink width 5 px or 5 ppt
+        bindsym h       resize grow width 5 px or 5 ppt
+        bindsym j       resize shrink height 5 px or 5 ppt
+        bindsym k       resize grow height 5 px or 5 ppt
+        bindsym l       resize shrink width 5 px or 5 ppt
         bindsym Shift+h resize grow width 1 px or 1 ppt
         bindsym Shift+j resize shrink height 1 px or 1 ppt
         bindsym Shift+k resize grow height 1 px or 1 ppt
         bindsym Shift+l resize shrink width 1 px or 1 ppt
 
-        bindsym Left resize grow width 5 px or 5 ppt
-        bindsym Down resize shrink height 5 px or 5 ppt
-        bindsym Up resize grow height 5 px or 5 ppt
-        bindsym Right resize shrink width 5 px or 5 ppt
-        bindsym Shift+Left resize grow width 1 px or 1 ppt
-        bindsym Shift+Down resize shrink height 1 px or 1 ppt
-        bindsym Shift+Up resize grow height 1 px or 1 ppt
+        bindsym Left        resize grow width 5 px or 5 ppt
+        bindsym Down        resize shrink height 5 px or 5 ppt
+        bindsym Up          resize grow height 5 px or 5 ppt
+        bindsym Right       resize shrink width 5 px or 5 ppt
+        bindsym Shift+Left  resize grow width 1 px or 1 ppt
+        bindsym Shift+Down  resize shrink height 1 px or 1 ppt
+        bindsym Shift+Up    resize grow height 1 px or 1 ppt
         bindsym Shift+Right resize shrink width 1 px or 1 ppt
 
         # back to normal: Enter or Escape
@@ -479,7 +479,7 @@ smart_borders on
 
 ##### IF GAPS
 for_window [class=".*"] border pixel 0
-gaps inner 2
+gaps inner 4
 gaps outer 0
 ##### ELSE
 # for_window [class=".*"] border pixel 1

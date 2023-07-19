@@ -1,3 +1,4 @@
+# vim: ft=sh
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
 # if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
@@ -9,6 +10,7 @@
 export PATH=$HOME/bin:/usr/local/bin:$PATH:/root/.gem/ruby/2.7.0/bin:/home/joshh/.local/share/gem/ruby/3.0.0/bin
 export PATH=$PATH:/opt/gradle/gradle-5.4.1/bin
 export PYTHONPATH="/usr/lib/python3.9/site-packages":$PYTHONPATH
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -141,11 +143,11 @@ alias viewdoc='firefox ./target/doc/$(basename $PWD)/index.html'
 alias tmux='tmux -f ~/.config/tmux/.tmux.conf'
 
 notify() {
-    $@ && {
+    if $@; then
         echo -e "\"$*\"\nSucceeded" | xargs notify-send -t 0
-    } || {
+    else
         echo -e "\"$*\"\nFailed" | xargs notify-send -t 0
-    }
+    fi
 }
 
 unalias gcl
