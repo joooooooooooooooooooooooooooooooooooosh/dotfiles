@@ -128,6 +128,7 @@ bindsym $mod+b exec ~/.config/polybar/launch.sh
 # bindsym $mod+Mod4+s exec ~/Documents/scripts/bluescript.sh
 bindsym $mod+Ctrl+p exec ~/Documents/scripts/bluescript.sh
 #bindsym $mod+Mod4+s exec ~/Documents/scripts/bluescript.sh 00:1B:66:C5:29:8F
+bindsym $mod+Ctrl+o exec ~/Documents/scripts/control_outputs.sh
 
 bindsym $mod+Ctrl+u exec ~/Documents/scripts/toggleupdates.sh
 bindsym $mod+Ctrl+Shift+g exec sudo ~/Documents/scripts/togglegaps.sh

@@ -246,13 +246,13 @@ nnoremap <silent> <Leader>A <CMD>CocAction<CR>
 nnoremap <Leader>L  <CMD>CocList<CR>
 nnoremap <Leader>n  <CMD>source ~/.nvimrc<CR>
 nnoremap <Leader>cd <CMD>lcd %:h<CR>
-nnoremap <Leader>cj <CMD>cnext<CR>
-nnoremap <Leader>ck <CMD>cprev<CR>
+nnoremap <Leader>j <CMD>cnext<CR>zz
+nnoremap <Leader>k <CMD>cprev<CR>zz
 nnoremap <Leader>d      :Dispatch 
 nnoremap <Leader>D      :Dispatch! 
 nnoremap <Leader>s  <CMD>set spell!<CR>
 nnoremap <Leader>S  <CMD>let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
-nnoremap <Leader>k  "zyiw:!man <C-R>z<CR>g
+" nnoremap <Leader>k  "zyiw:!man <C-R>z<CR>g
 nnoremap <Leader>ww  <CMD>set wrap!<CR>
 nnoremap <Leader>q  <CMD>copen<CR>
 nnoremap <Leader>z  <CMD>let &scrolloff=999-&scrolloff<CR>:ZenMode<CR>zz
