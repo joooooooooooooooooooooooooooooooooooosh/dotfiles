@@ -107,7 +107,7 @@ bindsym $mod+Ctrl+Shift+Left exec ~/.config/polybar/polybar-scripts/player-mpris
 bindsym $mod+Ctrl+Shift+space exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py play-pause
 bindsym $mod+Ctrl+Shift+Right exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py next
 
-bindsym $mod+Ctrl+Shift+r exec zsh -ic 'killall redshift || redshift'
+bindsym $mod+Ctrl+Shift+r exec zsh -ic 'killall redshift || redshift -m vidmode'
 
 bindsym $mod+Ctrl+b exec --no-startup-id "~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers/"
 # bindsym $mod+Ctrl+l exec --no-startup-id "~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers/ -l"

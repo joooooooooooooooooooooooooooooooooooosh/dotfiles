@@ -86,6 +86,7 @@ vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
 vnoremap > >gv
 vnoremap < <gv
+vnoremap . :normal .<CR>
 nmap <C-n> <CMD>NvimTreeFindFileToggle<CR>
 nmap <C-e> $
 imap <C-e> <Esc>A

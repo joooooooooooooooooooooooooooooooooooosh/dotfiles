@@ -138,6 +138,7 @@ alias top=bpytop
 alias gsl='git stash && git pull && git stash pop'
 alias gcom='git checkout $(git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2)'
 alias toggle-power-mode='~/Documents/scripts/toggle-power-mode.sh'
+# shellcheck disable=SC2142
 alias add='awk "{s+=\$1} END{print s}"'
 alias viewdoc='firefox ./target/doc/$(basename $PWD)/index.html'
 alias tmux='tmux -f ~/.config/tmux/.tmux.conf'
@@ -215,7 +216,7 @@ tldr() {
 swap() {
     [ $# -ne 2 ] && echo "Usage: swap [file1] [file2]" && return
     local TMPFILE=$(mktemp)
-    mv "$1" "$TMPFILE" && mv "$2" "$1" && mv "$TMPFILE" "$2"
+    mv "$1" "$TMPFILE" && mv "$2" "$1" && mv "$TMPFILE" "$2" && rm "$TMPFILE"
 }
 
 fzc() {
