@@ -6,7 +6,7 @@ if [ "$MONITOR" = "eDP" ]; then
     max_brightness=$(cat /sys/class/backlight/amdgpu_bl0/max_brightness)
     bc -l <<< "scale=3; $brightness / $max_brightness * 100"
 else
-    brightness=$(xrandr --verbose \
+    brightness=$(stdbuf -o0 xrandr --verbose \
 	| grep Brightness -B10 \
 	| sed -n '/connected/{s/ .*//; p}; /Brightness/{s/.*: //; p}' \
 	| grep "$MONITOR" -A1 \
