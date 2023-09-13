@@ -400,7 +400,6 @@ lua << EOF
 --         update_on_nvim_resize = true,
 --     },
 -- })
-
 require("wf").setup()
 
 --  require("notify").setup({

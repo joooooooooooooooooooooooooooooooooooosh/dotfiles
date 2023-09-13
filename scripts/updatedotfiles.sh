@@ -9,8 +9,9 @@ cp -ur ~/Documents/scripts "$DOT_DIR"
 cp -u ~/.vimrc "${DOT_DIR}vim/"
 cp -u ~/.nvimrc "${DOT_DIR}vim/"
 cp -u ~/.vim/plugged/wal.vim/colors/wal.vim "${DOT_DIR}vim/"
-cp -u ~/.zshrc "$DOT_DIR"
-cp -u ~/.bashrc "$DOT_DIR"
+cp -u ~/.zshrc "${DOT_DIR}shell"
+cp -u ~/.bashrc "${DOT_DIR}shell"
+cp -u ~/.aliases "${DOT_DIR}shell"
 cp -u ~/.Xresources "$DOT_DIR"
 cp -u ~/.gitconfig "$DOT_DIR"
 cp -u ~/.gdbinit "$DOT_DIR"
@@ -33,9 +34,8 @@ cp -ur ~/wal-discord "${DOT_DIR}wal-discord/"
 cp -u /var/spool/cron/joshh "${DOT_DIR}"
 cp -u /etc/udev/rules.d/80.power.rules "${DOT_DIR}"
 
-cur_theme=$(grep ^ZSH_THEME "${DOT_DIR}.zshrc" | cut -d\" -f2)
-
-[ "$cur_theme" != "random" ] && cp "$HOME/.oh-my-zsh/themes/$cur_theme.zsh-theme" "${DOT_DIR}current.zsh-theme"
+cur_theme=$(grep "^ZSH_THEME" "${DOT_DIR}shell/.zshrc" | cut -d\" -f2)
+[ "$cur_theme" != "random" ] && cp "$HOME/.oh-my-zsh/themes/$cur_theme.zsh-theme" "${DOT_DIR}shell/current.zsh-theme"
 
 if ! { [ $# -ge 1 ] && [ "$1" == "-n" ]; }; then
     cd "$DOT_DIR" || { echo "cd ${DOT_DIR} failed"; exit 1; }

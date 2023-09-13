@@ -9,6 +9,7 @@ set $BROWSER firefox
 exec --no-startup-id ~/Documents/scripts/changebackground.sh ~/Pictures/wallpapers
 exec --no-startup-id ~/.config/polybar/launch.sh
 exec --no-startup-id dunst
+exec --no-startup-id redshift -m vidmode
 # exec_always --no-startup-id ~/Documents/code/i3-auto-layout/target/release/i3-auto-layout
 exec $term -e zsh -ic 'sudo fusuma -c ~/.config/fusuma/config.yml -d'
 exec xcape -e 'Control_L=Escape'
@@ -39,20 +40,20 @@ for_window [title="float_me_plz"] floating enable
 # for_window [class="zoom" title="Zoom Meeting"] floating disable
 for_window [title="updatelist_polybar_aur"] floating enable
 
-#Logitech thumb button
+# Logitech thumb button
 # bindsym Ctrl+Mod1+Tab workspace back_and_forth
 
-bindsym $mod+Ctrl+f exec $BROWSER
+# bindsym $mod+Ctrl+f exec $BROWSER
 bindsym $mod+Ctrl+g exec pgrep firefox && firefox calendar.google.com && wmctrl -a firefox
 bindsym $mod+Ctrl+Shift+s exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@cse.unsw.edu.au 'zsh -l''
 
-#bindsym --release $mod+Ctrl+Shift+less exec xdotool key XF86MonBrightnessDown
-#bindsym --release $mod+Ctrl+Shift+greater exec xdotool key XF86MonBrightnessUp
+# bindsym --release $mod+Ctrl+Shift+less exec xdotool key XF86MonBrightnessDown
+# bindsym --release $mod+Ctrl+Shift+greater exec xdotool key XF86MonBrightnessUp
 
 # bindsym XF86AudioRaiseVolume exec Documents/scripts/politebeep.sh up
 # bindsym XF86AudioLowerVolume exec Documents/scripts/politebeep.sh down
 # bindsym XF86AudioMute exec pulseaudio-ctl mute
-# bindsym XF86AudioMicMute exec pulseaudio-ctl mute-input && ~/Documents/scripts/updatemic.sh
+# bindsym XF86AudioMicMute exec pulseaudio-ctl mute-input && ~/.config/polybar/polybar-scripts/updatemic.sh
 # bindsym XF86Tools exec pulseaudio-ctl mute-input && polybar-msg hook microphone 1
 # bindsym XF86AudioPrev exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py previous
 # bindsym XF86AudioPlay exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py play-pause
@@ -61,13 +62,13 @@ bindsym $mod+Ctrl+Shift+s exec $term -e zsh -ic 'TERM=linux ssh -t z5218547@cse.
 bindsym F1 exec pulseaudio-ctl mute
 bindsym F2 exec Documents/scripts/politebeep.sh down
 bindsym F3 exec Documents/scripts/politebeep.sh up
-bindsym F4 exec pulseaudio-ctl mute-input && ~/Documents/scripts/updatemic.sh
+bindsym F4 exec pulseaudio-ctl mute-input && ~/.config/polybar/polybar-scripts/updatemic.sh
 bindsym F5 exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py previous
 bindsym F6 exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py play-pause
 bindsym F7 exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py play-pause
 bindsym F8 exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py next
 
-#Multi monitor
+# Multi monitor
 bindsym $mod+semicolon focus output next
 bindsym $mod+apostrophe focus output next
 bindsym $mod+Shift+semicolon move container to output next
@@ -82,21 +83,22 @@ bindsym $mod+Ctrl+m exec ~/Documents/scripts/normaliseworkspaces.sh
 bindsym $mod+Shift+braceleft exec ~/Documents/scripts/movewindow.sh prev
 bindsym $mod+Shift+braceright exec ~/Documents/scripts/movewindow.sh next
 
-#Dynamic wallpapers
-#bindsym $mod+Ctrl+Shift+a exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh affinity'
-#bindsym $mod+Ctrl+Shift+f exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh Fire'
-#bindsym $mod+Ctrl+Shift+r exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh -r'
-#bindsym $mod+Ctrl+Shift+s exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh -s'
-#bindsym $mod+Ctrl+Shift+t exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh palms'
-#bindsym $mod+Ctrl+Shift+d exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh lake'
-#bindsym $mod+Ctrl+Shift+v exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh sky'
-#bindsym $mod+Ctrl+Shift+m exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh mountain'
+# Dynamic wallpapers
+# bindsym $mod+Ctrl+Shift+a exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh affinity'
+# bindsym $mod+Ctrl+Shift+f exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh Fire'
+# bindsym $mod+Ctrl+Shift+r exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh -r'
+# bindsym $mod+Ctrl+Shift+s exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh -s'
+# bindsym $mod+Ctrl+Shift+t exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh palms'
+# bindsym $mod+Ctrl+Shift+d exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh lake'
+# bindsym $mod+Ctrl+Shift+v exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh sky'
+# bindsym $mod+Ctrl+Shift+m exec $term -e zsh -ic '~/Documents/scripts/dynamic.sh mountain'
 
-#custom shortcuts
+# custom shortcuts
 bindsym $mod+Ctrl+Shift+c exec $term -e zsh -ic 'nvim ~/.config/i3/config'
 bindsym $mod+Ctrl+Shift+b exec $term -e zsh -ic 'nvim ~/.config/polybar/config.ini'
 bindsym $mod+Ctrl+Shift+n exec $term -e zsh -ic 'nvim ~/.nvimrc'
 bindsym $mod+Ctrl+Shift+z exec $term -e zsh -ic 'nvim ~/.zshrc'
+bindsym $mod+Ctrl+Shift+a exec $term -e zsh -ic 'nvim ~/.aliases'
 bindsym $mod+Ctrl+Shift+p exec $term -e zsh -ic 'sudo nvim /etc/xdg/picom.conf'
 
 bindsym $mod+Ctrl+Shift+h exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py previous
@@ -479,6 +481,8 @@ hide_edge_borders smart
 smart_borders on
 
 ##### IF GAPS
+exec ~/.config/i3/xborder/xborders --smart-hide-border --border-radius 8 --border-mode center --border-width 4 --border-rgba "$(grep color6 ~/.cache/wal/colors.json | cut -d\" -f4)cc"
+bindsym $mod+Shift+x exec killall xborders; exec ~/.config/i3/xborder/xborders --smart-hide-border --border-radius 8 --border-mode center --border-width 4 --border-rgba "$(grep color6 ~/.cache/wal/colors.json | cut -d\" -f4)cc"
 for_window [class=".*"] border pixel 0
 gaps inner 4
 gaps outer 0

@@ -1,9 +1,13 @@
 #!/bin/bash
 
 # TODO: better way to guarantee outputs in correct order
+# required order:
+# - laptop
+# - external monitor
 outputs=$(i3-msg -t get_outputs \
     | sed 's/\"current_workspace\"/\n/g' \
-    | sed -En '/\"active\":true/{s/.*\"name\":\"([^\"]+)\".*/\1/; P}'
+    | sed -En '/\"active\":true/{s/.*\"name\":\"([^\"]+)\".*/\1/; P}' \
+    | tac
 )
 
 original_wss=$(i3-msg -t get_workspaces | \
