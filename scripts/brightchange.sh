@@ -26,11 +26,12 @@ else
     *) ((BRIGHT=$a)) ;;
 	esac
 fi
+
 ((BRIGHT = BRIGHT + 1))
-# if [ $BRIGHT -gt 4285 ]; then
-#	echo "Usage: $0 [max|high|mid|low|min|NUMBER < 4285]"
-#	exit 1
-# fi
+if [ $BRIGHT -gt $MAX_BRIGHTNESS ]; then
+	 BRIGHT=$MAX_BRIGHTNESS
+fi
+
 echo $BRIGHT | sudo tee ${BACKLIGHT_PATH}/brightness
 XRANDR_BRIGHTNESS=`bc -l <<< "scale=3; $BRIGHT / $MAX_BRIGHTNESS"`
 if [ $2 -a $2 != "!hdmi" ]; then

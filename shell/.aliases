@@ -18,6 +18,7 @@ alias v=vr
 alias n=nvim
 alias fzd='cd ~/Documents; fzc'
 alias fzn='nvim $(fzf)'
+alias cfzcn='cd ~/.config; fzcn'
 alias fns='fd Session.vim | fzf | xargs nvim -S'
 alias binja=binaryninja-demo
 alias lsz='du -sh * | sort -h'
@@ -37,6 +38,7 @@ alias toggle-power-mode='~/Documents/scripts/toggle-power-mode.sh'
 alias add='awk "{s+=\$1} END{print s}"'
 alias viewdoc='firefox ./target/doc/$(basename $PWD)/index.html'
 alias tmux='tmux -f ~/.config/tmux/.tmux.conf'
+alias priv=' fc -p'
 
 np() {
     [ -z "$1" ] && return
@@ -44,9 +46,13 @@ np() {
         && nvim "$1"
 }
 
+cl() {
+    curl "$1" -o "$(sed 's/\?.*//' <<< $(basename "$1"))"
+}
+
 ctfetch() {
     file=$(basename "$1")
-    wget "$1" && mv $file $(sed 's/\?.*//' <<< $file)
+    wget "$1" && mv "$file" $(sed 's/\?.*//' <<< $file)
 }
 
 notify() {

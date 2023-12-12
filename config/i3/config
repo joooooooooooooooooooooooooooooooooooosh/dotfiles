@@ -380,6 +380,11 @@ mode "one-handed" {
         bindsym F3 exec Documents/scripts/politebeep.sh up
         bindsym F4 exec pulseaudio-ctl mute & polybar-msg hook microphone 1
 
+        bindsym Ctrl+h exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py previous
+        bindsym Ctrl+j exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py play-pause
+        bindsym Ctrl+k exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py play-pause
+        bindsym Ctrl+l exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py next
+
         bindsym F5 exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py previous
         bindsym F6 exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py play-pause
         bindsym F7 exec ~/.config/polybar/polybar-scripts/player-mpris-tail.py play-pause
@@ -411,6 +416,7 @@ mode "one-handed" {
         bindsym 8 workspace 8
         bindsym 9 workspace 9
         bindsym 0 workspace 10
+        bindsym Ctrl+grave workspace 10
         bindsym Ctrl+1 workspace 11
         bindsym Ctrl+2 workspace 12
         bindsym Ctrl+3 workspace 13
@@ -421,6 +427,7 @@ mode "one-handed" {
         bindsym Ctrl+8 workspace 18
         bindsym Ctrl+9 workspace 19
         bindsym Ctrl+0 workspace 20
+        bindsym Shift+grave workspace 10
         bindsym Shift+1 workspace 11
         bindsym Shift+2 workspace 12
         bindsym Shift+3 workspace 13
@@ -481,8 +488,8 @@ hide_edge_borders smart
 smart_borders on
 
 ##### IF GAPS
-exec ~/.config/i3/xborder/xborders --smart-hide-border --border-radius 8 --border-mode center --border-width 4 --border-rgba "$(grep color6 ~/.cache/wal/colors.json | cut -d\" -f4)cc"
-bindsym $mod+Shift+x exec killall xborders; exec ~/.config/i3/xborder/xborders --smart-hide-border --border-radius 8 --border-mode center --border-width 4 --border-rgba "$(grep color6 ~/.cache/wal/colors.json | cut -d\" -f4)cc"
+exec ~/.config/i3/xborder/xborders --disable-version-warning --smart-hide-border --border-radius 8 --border-mode center --border-width 4 --border-rgba "$(grep color6 ~/.cache/wal/colors.json | cut -d\" -f4)cc"
+bindsym $mod+Shift+x exec killall xborders || exec ~/.config/i3/xborder/xborders --disable-version-warning --smart-hide-border --border-radius 8 --border-mode center --border-width 4 --border-rgba "$(grep color6 ~/.cache/wal/colors.json | cut -d\" -f4)cc"
 for_window [class=".*"] border pixel 0
 gaps inner 4
 gaps outer 0
@@ -507,6 +514,7 @@ popup_during_fullscreen smart
 
 # window focus follows your mouse movements as the mouse crosses window borders
 focus_follows_mouse yes
+focus_on_window_activation no
 
 # Run programs when i3 starts
 # wal sets random image from Wallpapers folder and sets colour scheme accordingly

@@ -14,6 +14,7 @@ local current_dir='%{$terminfo[bold]$fg[blue]%}%-0<..<%~ %{$reset_color%}'
 local git_branch='$(git_prompt_info)'
 local rvm_ruby='$(ruby_prompt_info)'
 local venv_prompt='${ZSH_THEME_VIRTUALENV_PREFIX}venv${ZSH_THEME_VIRTUALENV_SUFFIX}'
+local nohistory='${ZSH_THEME_NOHISTORY_PREFIX}private${ZSH_THEME_NOHISTORY_SUFFIX}'
 
 ZSH_THEME_RVM_PROMPT_OPTIONS="i v g"
 
@@ -28,18 +29,21 @@ ZSH_THEME_GIT_PROMPT_SUFFIX="› %{$reset_color%}"
 ZSH_THEME_RUBY_PROMPT_PREFIX="%{$fg[red]%}‹"
 ZSH_THEME_RUBY_PROMPT_SUFFIX="› %{$reset_color%}"
 
-ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX="%{$fg[green]%}‹"
-ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX="› %{$reset_color%}"
-ZSH_THEME_VIRTUALENV_PREFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_PREFIX
-ZSH_THEME_VIRTUALENV_SUFFIX=$ZSH_THEME_VIRTUAL_ENV_PROMPT_SUFFIX
+ZSH_THEME_VIRTUALENV_PREFIX="%{$fg[green]%}‹"
+ZSH_THEME_VIRTUALENV_SUFFIX="› %{$reset_color%}"
+
+ZSH_THEME_NOHISTORY_PREFIX="%{$fg[magenta]%}‹"
+ZSH_THEME_NOHISTORY_SUFFIX="› %{$reset_color%}"
 
 zmodload zsh/datetime
 
 get_prompt_string() {
-    PRE_PROMPT="╭─${user_host}${current_dir}${rvm_ruby}${git_branch}"
-    which deactivate >/dev/null && PRE_PROMPT="${PRE_PROMPT}${venv_prompt}"
-    local zero='%([BSUbfksu]|([FK]|){*})'
-    REAL_LENGTH=${#${(S%%)PRE_PROMPT//$~zero/}} 
+  PRE_PROMPT="╭─${user_host}${current_dir}${rvm_ruby}${git_branch}"
+  which deactivate >/dev/null && PRE_PROMPT="${PRE_PROMPT}${venv_prompt}"
+  [ -z $HISTFILE ] && PRE_PROMPT="${PRE_PROMPT}${nohistory}"
+
+  local zero='%([BSUbfksu]|([FK]|){*})'
+  REAL_LENGTH=${#${(S%%)PRE_PROMPT//$~zero/}} 
 }
 
 # TRAPWINCH() {

@@ -584,14 +584,14 @@ local npairs = require('nvim-autopairs')
 
 -- npairs.remove_rule("'")
 npairs.add_rules(
-    {
-        -- TODO: don't add after a space
-        Rule("<", ">", "rust")
-        :with_pair(cond.not_after_regex_check("[%w%<%[%{%\"%'%.]"))
-        :with_move(function(opts)
-            return opts.prev_char:match('%>') ~= nil
-        end)
-    },
+    -- {
+    --     -- TODO: don't add after a space
+    --     Rule("<", ">", "rust")
+    --     :with_pair(cond.not_after_regex_check("[%w%<%[%{%\"%'%.]"))
+    --     :with_move(function(opts)
+    --         return opts.prev_char:match('%>') ~= nil
+    --     end)
+    -- },
     {
         -- TODO: this is broken
         Rule("'", "'", "rust")

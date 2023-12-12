@@ -11,10 +11,10 @@ fi
 
 pulseaudio-ctl "$1"
 
-# ignoring musescore since it always lists sink as on
+# ignoring musescore 3 and 4 since it always lists sink as on
 if ! (pacmd list-sink-inputs | 
      grep -E "state: RUNNING|application.name =" |
-     sed -E '{N; s/state:.*\n.*MuseScore.*// ;P;D}' |
+     sed -E '{N; s/state:.*\n.*MuseScore.*//; s/state:.*\n.*ALSA plug-in \[mscore\].*//; P;D}' |
      grep "state: RUNNING" >/dev/null); then
 
     #nothing is playing audio

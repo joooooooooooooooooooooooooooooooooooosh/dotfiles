@@ -122,10 +122,13 @@ if type rg &> /dev/null; then
     export FZF_DEFAULT_COMMAND='rg --files'
 fi
 
+export WINEPREFIX=~/.wine
+
 export CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
 
-export MCFLY_FUZZY=2
+export MCFLY_FUZZY=3
 export MCFLY_RESULTS=40
+export MCFLY_RESULTS_SORT=LAST_RUN # options: [LAST_RUN, RANK]
 eval "$(mcfly init zsh)"
 
 # idk why this is still set
