@@ -1,5 +1,5 @@
 #!/bin/zsh
-BACKLIGHT_PATH="/sys/class/backlight/amdgpu_bl0"
+BACKLIGHT_PATH="/sys/class/backlight/*"
 MAX_BRIGHTNESS=$(cat ${BACKLIGHT_PATH}/max_brightness)
 if [ "$1" = "max" ]; then
 	((BRIGHT = MAX_BRIGHTNESS - 1))

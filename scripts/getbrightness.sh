@@ -2,8 +2,8 @@
 
 MONITOR=$1
 if [ "$MONITOR" = "eDP" ]; then
-    brightness=$(cat /sys/class/backlight/amdgpu_bl0/brightness)
-    max_brightness=$(cat /sys/class/backlight/amdgpu_bl0/max_brightness)
+    brightness=$(cat /sys/class/backlight/*/brightness)
+    max_brightness=$(cat /sys/class/backlight/*/max_brightness)
     bc -l <<< "scale=3; $brightness / $max_brightness * 100"
 else
     brightness=$(stdbuf -o0 xrandr --verbose \
