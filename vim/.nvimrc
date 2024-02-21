@@ -4,7 +4,7 @@ autocmd TermOpen * startinsert
 autocmd TermOpen * setlocal nonumber norelativenumber nospell
 
 " enter insert mode only if cursor on same line as last prompt
-autocmd BufWinEnter,WinEnter,TermOpen term://* silent! $/\$/?\$?mark z
+autocmd BufWinEnter,WinEnter,TermOpen term://* silent! $/\$/?[$>]?mark z
     \| if ( line("'z") == line(".") )
         \| startinsert
     \| endif
@@ -21,16 +21,20 @@ autocmd FileType tex,plaintex setlocal spell wrap
 autocmd FileType text setlocal textwidth=78
 autocmd FileType make set list
 
+" autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+
 " TODO: change comment style automatically
 " autocmd BufReadPost,BufNewFile *.c set commentstring=//%s
 autocmd BufReadPre,BufNewFile *.s setlocal tabstop=8 shiftwidth=8 expandtab
 autocmd BufNewFile *.c  0r ~/.vim/skeletons/skeleton.c
 autocmd BufNewFile day*.rs  0r ~/.vim/skeletons/aoc.rs
+" autocmd BufWritePre *.hs CocCommand editor.action.formatDocument
 " }}}
 
 " common settings {{{
-syntax on
+syntax on " might not be needed because of treesitter
 filetype indent plugin on
+set titlestring=%F
 set noequalalways
 set nowrap
 set tabstop=4 shiftwidth=4
@@ -42,6 +46,7 @@ set backspace=indent,eol,start
 set timeoutlen=750
 set updatetime=500
 set hidden
+" set spell
 set autoindent
 set autoread
 set ruler
@@ -64,10 +69,14 @@ set directory=$HOME/.vim/swapfiles//
 set backupdir=$HOME/.vim/swapfiles//
 " }}}
 
+" 3141 hack
+nnoremap <Space>re <C-W>l:r<CR>
+
 let mapleader=" "
 let NERDTreeMinimalUI=1
 let NERDTreeHijackNetrw=1
 let g:python3_host_prog = '/usr/bin/python'
+let g:netrw_browsex_viewer = "xdg-open"
 
 noremap ; :
 "noremap : ;
@@ -79,19 +88,25 @@ vnoremap <Tab> >gv
 vnoremap <S-Tab> <gv
 vnoremap > >gv
 vnoremap < <gv
-nmap <C-n> :NERDTreeFind<CR>
+vnoremap . :normal .<CR>
+nmap <C-n> <CMD>NvimTreeFindFileToggle<CR>
 nmap <C-e> $
 imap <C-e> <Esc>A
 imap <C-a> <Esc>^i
+
+" clear quickfix list
+nmap <Leader>cc <CMD>cexpr []<CR>
+
+nmap <Leader>cp <CMD>%y<CR>
 
 " autofix spell errors
 inoremap <C-x><C-x> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 nnoremap / :set hlsearch<CR>/
 imap <C-L> <Right>
-imap <C-S> <Esc>:w<CR>
-vmap <C-S> :w<CR>
-nmap <C-S> :w<CR>
+imap <C-S> <Esc><CMD>silent w<CR>
+vmap <C-S> <Esc><CMD>silent w<CR>
+nmap <C-S> <CMD>silent w<CR>
 nnoremap <BS> X
 nmap <F11> <BS>
 nmap <F12> <Delete>
@@ -132,6 +147,14 @@ onoremap <expr> N  'nN'[v:searchforward]
 " C-n and C-p match start of command when searching history
 cnoremap <expr> <C-n> wildmenumode() ? "\<c-n>" : "\<down>"
 cnoremap <expr> <C-p> wildmenumode() ? "\<c-p>" : "\<up>"
+
+" function! s:Gx()
+"   let l:url = expand("<cWORD>")
+"   " execute "!xdg-open " . shellescape(l:url, 1)
+"   execute "Dispatch! xdg-open " . shellescape(l:url, 1)
+" endfunction
+
+" nmap <silent> gx :call <SID>Gx()<CR>
 
 nnoremap gp `[v`]
 
@@ -181,6 +204,36 @@ nmap \f :%!rustfmt<CR>
 
 nnoremap <expr> \z foldclosed('.') != -1 ? 'zO' : 'zC'
 
+" Terminal Function
+let g:term_height = 12
+let g:term_buf = 0
+let g:term_win = 0
+function! TermToggle()
+    if win_gotoid(g:term_win)
+        let g:term_height = winheight("")
+        hide
+    else
+        botright new
+        exec "resize " . g:term_height
+        try
+            exec "buffer " . g:term_buf
+        catch
+            call termopen($SHELL, {"detach": 0})
+            let g:term_buf = bufnr("")
+            set nonumber
+            set norelativenumber
+            set signcolumn=no
+        endtry
+        startinsert!
+        let g:term_win = win_getid()
+    endif
+endfunction
+nnoremap <silent> <Leader><C-t> :let g:term_height=50<CR>:call TermToggle()<CR>
+nnoremap <silent> <C-t> :call TermToggle()<CR>
+inoremap <silent> <C-t> <Esc>:call TermToggle()<CR>
+tnoremap <silent> <C-t> <C-\><C-n>:call TermToggle()<CR>
+
+
 " strip trailing whitespace
 nnoremap <silent> \ws :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR><C-o>
 " leader mappings {{{
@@ -191,30 +244,29 @@ nnoremap <Leader>,  :tabmove -1<CR>
 nnoremap <Leader>.  :tabmove +1<CR>
 nnoremap <Leader>0  ^
 nnoremap <Leader>a  ^
-nnoremap <silent> <Leader>A :CocAction<CR>
-" nnoremap <Leader>l :CocDisable<CR>
-nnoremap <Leader>l  :CocList<CR>
-nnoremap <Leader>L  :CocList<CR>
-nnoremap <Leader>n  :source ~/.nvimrc<CR>
-nnoremap <Leader>cd :lcd %:h<CR>
-nnoremap <Leader>cj :cnext<CR>
-nnoremap <Leader>ck :cprev<CR>
-nnoremap <Leader>d  :Dispatch 
-nnoremap <Leader>D  :Dispatch! 
-nnoremap <Leader>s  :set spell!<CR>
-nnoremap <Leader>S  :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
-nnoremap <Leader>k  "zyiw:!man <C-R>z<CR>g
-nnoremap <Leader>w  :set wrap!<CR>
-nnoremap <Leader>q  :copen<CR>
-nnoremap <Leader>z  :let &scrolloff=999-&scrolloff<CR>:ZenMode<CR>zz
-nnoremap <Leader>en :tabedit ~/.nvimrc<CR>
-nnoremap <Leader>g  :Git<CR>
-nnoremap <Leader>G  :tabnew<CR>:Git<CR>
-nnoremap <Leader>R  :CocRestart<CR>
-nnoremap <Leader>u  :UndotreeToggle<CR>
+nnoremap <silent> <Leader>A <CMD>CocAction<CR>
+nnoremap <Leader>L  <CMD>CocList<CR>
+nnoremap <Leader>n  <CMD>source ~/.nvimrc<CR>
+nnoremap <Leader>cd <CMD>lcd %:h<CR>
+nnoremap <Leader>j <CMD>cnext<CR>zz
+nnoremap <Leader>k <CMD>cprev<CR>zz
+nnoremap <Leader>d      :Dispatch 
+nnoremap <Leader>D      :Dispatch! 
+nnoremap <Leader>s  <CMD>set spell!<CR>
+nnoremap <Leader>S  <CMD>let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+" nnoremap <Leader>k  "zyiw:!man <C-R>z<CR>g
+nnoremap <Leader>ww  <CMD>set wrap!<CR>
+nnoremap <Leader>q  <CMD>copen<CR>
+nnoremap <Leader>z  <CMD>let &scrolloff=999-&scrolloff<CR>:ZenMode<CR>zz
+nnoremap <Leader>en <CMD>tabedit ~/.nvimrc<CR>
+nnoremap <Leader>lg <CMD>LazyGit<CR>
+nnoremap <Leader>g  <CMD>Git<CR>
+nnoremap <Leader>G  <CMD>tabnew<CR><CMD>Git<CR>
+nnoremap <Leader>R  <CMD>CocRestart<CR>
+nnoremap <Leader>u  <CMD>UndotreeToggle<CR>
 
 nnoremap <Leader>fb  <cmd>Telescope buffers<cr>
-nnoremap <Leader>fc  :Telescope coc 
+nnoremap <Leader>fc      :Telescope coc 
 nnoremap <Leader>fds <cmd>Telescope coc document_symbols<cr>
 nnoremap <Leader>fe  <cmd>Telescope coc diagnostics<cr>
 nnoremap <Leader>fp  <cmd>Telescope coc commands<cr>
@@ -226,8 +278,7 @@ nnoremap <Leader>fl  <cmd>Telescope loclist<cr>
 nnoremap <Leader>fm  <cmd>Telescope man_pages<cr>
 nnoremap <Leader>fr  <cmd>Telescope grep_string<cr>
 nnoremap <Leader>fs  <cmd>Telescope spell_suggest<cr>
-" TODO: broken
-" nnoremap <Leader>ft  <cmd>Telescope live_grep<cr>TODO
+nnoremap <Leader>ft  <cmd>TodoTelescope<cr>
 nnoremap <Leader>fu  <cmd>Telescope grep_string<cr>
 nnoremap <Leader>fq  <cmd>Telescope quickfix<cr>
 " }}}
@@ -260,7 +311,7 @@ Plug 'sainnhe/everforest'
 Plug 'sainnhe/sonokai'
 Plug 'dylanaraps/wal.vim'
 
-Plug 'p00f/nvim-ts-rainbow'
+Plug 'HiPhish/nvim-ts-rainbow2'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -270,8 +321,10 @@ Plug 'machakann/vim-sandwich'
 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
+Plug 'tpope/vim-obsession'
+Plug 'tpope/vim-sleuth'
 Plug 'akinsho/git-conflict.nvim'
 Plug 'kdheepak/lazygit.nvim'
 
@@ -282,20 +335,43 @@ Plug 'nvim-telescope/telescope.nvim'
 Plug 'fannheyward/telescope-coc.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-Plug 'monaqa/dial.nvim'
+" Plug 'DNLHC/glance.nvim' " doesn't seem to work
+" Plug 'rmagatti/goto-preview'
+
 Plug 'phaazon/hop.nvim'
 Plug 'https://gitlab.com/yorickpeterse/nvim-window.git'
+" Plug 'drzel/vim-in-proportion'
+
+" Plug 'rcarriga/nvim-notify'
+" Plug 'hrsh7th/nvim-cmp'
+" Plug 'MunifTanjim/nui.nvim'
+" Plug 'folke/noice.nvim'
+
+Plug 'folke/todo-comments.nvim'
 Plug 'folke/which-key.nvim'
 Plug 'folke/zen-mode.nvim'
-Plug 'scrooloose/nerdtree'
+Plug 'Cassin01/wf.nvim', { 'tag': '*' }
+" Plug 'liuchengxu/vista.vim'
+
+Plug 'nvim-tree/nvim-tree.lua'
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'kevinhwang91/rnvimr'
 Plug 'mbbill/undotree'
 
 Plug 'kevinhwang91/nvim-ufo'
 Plug 'kevinhwang91/promise-async'
 
 Plug 'fidian/hexmode'
+" Plug 'samodostal/image.nvim'
+" Plug 'm00qek/baleia.nvim', { 'tag': 'v1.3.0' } " color support for image.nvim
+
+" Plug 'github/copilot.vim'
+Plug 'eandrju/cellular-automaton.nvim'
 call plug#end()
 " }}}
+		
+" nmap <Leader>v <cmd>Vista!!<cr>
+" nmap <Leader>fv <cmd>Vista finder! coc<cr>
 
 let g:sonokai_better_performance = 1
 " let g:sonokai_transparent_background = 1
@@ -305,11 +381,91 @@ set termguicolors
 " colorscheme wal
 " colorscheme sonokai
 colorscheme everforest
+" set background=light
+let g:lightline = {'colorscheme' : 'everforest'}
 " highlight DiffAdd  guibg=#145214
 highlight DiffText guibg=#004d66
 
 " lua configuration {{{
 lua << EOF
+-- require("image").setup({
+--     render = {
+--         min_padding = 5,
+--         show_label = true,
+--         show_image_dimensions = true,
+--         use_dither = true,
+--         foreground_color = true,
+--         background_color = true,
+--     },
+--     events = {
+--         update_on_nvim_resize = true,
+--     },
+-- })
+
+require("which-key").setup {}
+
+require("wf").setup()
+
+--  require("notify").setup({
+--      background_color = "#000000",
+--  })
+--  vim.notify = require("notify")
+
+-- vim.g.loaded_netrw = 1
+-- vim.g.loaded_netrwPlugin = 1
+require("nvim-tree").setup({
+    view = {
+        preserve_window_proportions = true,
+    },
+})
+
+require('nvim-web-devicons').setup {
+ -- your personnal icons can go here (to override)
+ -- you can specify color or cterm_color instead of specifying both of them
+ -- DevIcon will be appended to `name`
+ override = {
+  zsh = {
+    icon = "",
+    color = "#428850",
+    cterm_color = "65",
+    name = "Zsh"
+  }
+ };
+ -- globally enable different highlight colors per icon (default to true)
+ -- if set to false all icons will have the default icon's color
+ color_icons = true;
+ -- globally enable default icons (default to false)
+ -- will get overriden by `get_icons` option
+ default = true;
+ -- globally enable "strict" selection of icons - icon will be looked up in
+ -- different tables, first by filename, and if not found by extension; this
+ -- prevents cases when file doesn't have any extension but still gets some icon
+ -- because its name happened to match some extension (default to false)
+ strict = true;
+ -- same as `override` but specifically for overrides by filename
+ -- takes effect when `strict` is true
+ override_by_filename = {
+  [".gitignore"] = {
+    icon = "",
+    color = "#f1502f",
+    name = "Gitignore"
+  }
+ };
+ -- same as `override` but specifically for overrides by extension
+ -- takes effect when `strict` is true
+ override_by_extension = {
+  ["log"] = {
+    icon = "",
+    color = "#81e043",
+    name = "Log"
+  }
+ };
+}
+
+require("todo-comments").setup {}
+
+-- require("goto-preview").setup {}
+
 require("hop").setup {
     multi_windows = true,
 }
@@ -323,21 +479,53 @@ require("zen-mode").setup {
     },
 }
 
-require("which-key").setup {
-    -- your configuration comes here
-    -- or leave it empty to use the default settings
-    -- refer to the configuration section below
-    plugins = {
-        spelling = {
-            enabled = true,
-            suggestions = 20,
-        }
-    },
-}
+-- local which_key = require("wf.builtin.which_key")
+local register = require("wf.builtin.register")
+local buffer = require("wf.builtin.buffer")
+local mark = require("wf.builtin.mark")
+
+-- Register
+vim.keymap.set(
+  "n",
+  "<Space>wr",
+  register(),
+  { noremap = true, silent = true, desc = "[wf.nvim] register" }
+)
+
+-- Buffer
+vim.keymap.set(
+  "n",
+  "<Space>wb",
+  buffer({}),
+  { noremap = true, silent = true, desc = "[wf.nvim] buffer" }
+)
+
+-- Mark
+vim.keymap.set(
+    "n",
+    "<Space>wm",
+    mark(),
+    { noremap = true, silent = true, desc = "[wf.nvim] mark" }
+)
+-- vim.keymap.set(
+--     "n",
+--     "'",
+--     mark(),
+--     { nowait = true, noremap = true, silent = true, desc = "[wf.nvim] mark" }
+-- )
+
+-- Which Key
+-- vim.keymap.set(
+--     "n",
+--     "<Leader>",
+--     which_key({ text_insert_in_advance = "" }),
+--     { noremap = true, silent = true, desc = "[wf.nvim] which-key" }
+-- )
 
 require("nvim-treesitter.configs").setup {
     highlight = {
         enable = true,
+
         -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
         -- Set to `true` if you depend on 'syntax' being enabled (like for indentation).
         -- This may slow down your editor, and you may see some duplicate highlights.
@@ -345,14 +533,23 @@ require("nvim-treesitter.configs").setup {
         additional_vim_regex_highlighting = false,
         },
     indent = {
-    enable = true,
+        enable = true,
     },
     rainbow = {
         enable = true,
-        extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-        max_file_lines = nil, -- Do not enable for files with more than n lines, int
-        -- colors = {}, -- table of hex strings
-        -- termcolors = {} -- table of colour name strings
+        -- disable = { 'jsx', 'cpp' },
+        query = {
+            'rainbow-parens',
+            html = 'rainbow-tags',
+        },
+        strategy = require("ts-rainbow").strategy.global,
+        hlgroups = {
+            'Red',
+            'Orange',
+            'Yellow',
+            'Blue',
+            'Purple',
+        },
     },
 }
 
@@ -372,14 +569,14 @@ local npairs = require('nvim-autopairs')
 
 -- npairs.remove_rule("'")
 npairs.add_rules(
-    {
-        -- TODO: don't add after a space
-        Rule("<", ">", "rust")
-        :with_pair(cond.not_after_regex_check("[%w%<%[%{%\"%'%.]"))
-        :with_move(function(opts)
-            return opts.prev_char:match('%>') ~= nil
-        end)
-    },
+    -- {
+    --     -- TODO: don't add after a space
+    --     Rule("<", ">", "rust")
+    --     :with_pair(cond.not_after_regex_check("[%w%<%[%{%\"%'%.]"))
+    --     :with_move(function(opts)
+    --         return opts.prev_char:match('%>') ~= nil
+    --     end)
+    -- },
     {
         -- TODO: this is broken
         Rule("'", "'", "rust")
@@ -415,18 +612,20 @@ defaults = {
             -- e.g. git_{create, delete, ...}_branch for the git_branches picker
             ["<C-h>"] = "which_key",
             -- add_to_qflist if we don't want to overwrite existing entries
-            ["<C-q>"] = actions.send_to_qflist,
+            ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+            ["<C-f>"] = actions.send_selected_to_qflist + actions.open_qflist,
+            ["<C-l>"] = actions.smart_add_to_qflist + actions.open_qflist,
             -- ["<Esc>"] = "close",
             },
         }
     },
-extensions = {
-    fzf = {
-        fuzzy = true,                    -- false will only do exact matching
-        override_generic_sorter = true,  -- override the generic sorter
-        override_file_sorter = true,     -- override the file sorter
-        case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-        -- the default case_mode is "smart_case"
+    extensions = {
+        fzf = {
+            fuzzy = true,                    -- false will only do exact matching
+            override_generic_sorter = true,  -- override the generic sorter
+            override_file_sorter = true,     -- override the file sorter
+            case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+            -- the default case_mode is "smart_case"
         },
     },
 }
@@ -548,7 +747,7 @@ require('ufo').setFoldVirtTextHandler(bufnr, handler)
 require('nvim-window').setup({
     -- The characters available for hinting windows.
     chars = {
-        'q', 'w', 'e', 'o', 'k', "'", 'd', 'i', 'j', 'l', ';', 's', 'a',
+        'f', 'd', 's', 'r', 'e', 'w', 'j', 'i', 'o', 'k', 'l', 'u', ';',
     },
 
     -- A group to use for overwriting the Normal highlight group in the floating
@@ -564,8 +763,13 @@ require('nvim-window').setup({
 })
 
 EOF
+
 hi BlackOnLightYellow guifg=#000000 guibg=#f2de91
+let g:nvim_tree_window_picker_chars = "asdfkjlqweruiop"
 " }}}
+
+" imap <silent><script><expr> <C-T> copilot#Accept("\<CR>")
+" let g:copilot_no_tab_map = v:true
 
 " Git diff hunk commands from the perspective of the working copy.
 " nnoremap [d :diffget //2 | diffup<CR>
@@ -577,8 +781,9 @@ map <silent> <C-p> :lua require('nvim-window').pick()<CR>
 nmap <silent> <Leader>; :HopWord<CR>
 
 autocmd FileType c,cpp setlocal commentstring=//%s
-nnoremap \cx :Dispatch! chmod +x %<CR>
+nnoremap \cx :Dispatch! chmod u+x %<CR>
 nnoremap \gpf :Git push --force-with-lease<CR>
+nnoremap \gh :GBrowse<CR>
 
 nnoremap <silent> <leader>h :call <SID>show_documentation()<CR>
 inoremap <silent><expr> <C-x><C-o> coc#refresh()
@@ -598,6 +803,7 @@ nnoremap <silent> \cl <plug>(coc-codeaction-line)
 nnoremap <silent> \cc <plug>(coc-codeaction)
 nnoremap <silent> \cs <plug>(coc-codeaction-selected)
 vnoremap <silent> \cs <plug>(coc-codeaction-selected)
+nnoremap <silent> \cr <CMD>CocRestart<CR>
 
 nnoremap \s  :CocCommand clangd.switchSourceHeader<CR>
 
@@ -623,6 +829,9 @@ nmap <silent><C-_> gcc
 vmap <silent><C-_> gc
 imap <silent><C-_> <Esc>gccA
 
+nmap \cg <cmd>CellularAutomaton game_of_life<cr>
+nmap \cm <cmd>CellularAutomaton make_it_rain<cr>
+
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 
@@ -645,29 +854,29 @@ highlight CocWarningSign ctermfg=6
 highlight CocWarningVirtualText ctermfg=6
 " }}}
 
-" lightline {{{
+" lightline {{{;
 autocmd VimEnter * call SetupLightlineColors()
 function SetupLightlineColors() abort
   let l:pallete = lightline#palette()
-  let l:pallete.normal.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  let l:pallete.normal.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  let l:pallete.normal.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  let l:pallete.visual.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  let l:pallete.visual.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  let l:pallete.visual.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  let l:pallete.replace.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  let l:pallete.replace.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  let l:pallete.replace.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  let l:pallete.insert.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  let l:pallete.insert.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  let l:pallete.insert.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  let l:pallete.inactive.left = [ [ 'NONE', 'NONE', '10', '8' ] ]
-  let l:pallete.inactive.right = [ [ 'NONE', 'NONE', '10', '8' ] ]
-  let l:pallete.inactive.middle = [ [ 'NONE', 'NONE', '10', '8' ] ]
-  let l:pallete.tabline.left = l:pallete.normal.middle
-  let l:pallete.tabline.middle = l:pallete.normal.middle
-  let l:pallete.tabline.right = l:pallete.normal.middle
-  let l:pallete.tabline.tabsel = [ [ '#f39660', 'NONE', 'NONE', '10' ] ]
+  " let l:pallete.normal.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+  " let l:pallete.normal.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+  " let l:pallete.normal.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+  " let l:pallete.visual.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+  " let l:pallete.visual.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+  " let l:pallete.visual.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+  " let l:pallete.replace.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+  " let l:pallete.replace.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+  " let l:pallete.replace.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+  " let l:pallete.insert.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+  " let l:pallete.insert.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+  " let l:pallete.insert.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+  " let l:pallete.inactive.left = [ [ 'NONE', 'NONE', '10', '8' ] ]
+  " let l:pallete.inactive.right = [ [ 'NONE', 'NONE', '10', '8' ] ]
+  " let l:pallete.inactive.middle = [ [ 'NONE', 'NONE', '10', '8' ] ]
+  let l:pallete.tabline.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+  let l:pallete.tabline.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+  let l:pallete.tabline.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+  " let l:pallete.tabline.tabsel = [ [ '#f39660', 'NONE', 'NONE', '10' ] ]
   call lightline#colorscheme()
 endfunction
 " }}}

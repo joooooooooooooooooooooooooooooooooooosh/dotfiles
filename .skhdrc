@@ -1,15 +1,19 @@
-cmd - h : yabai -m window --focus west
-alt - h : yabai -m window --focus west
-alt - j : yabai -m window --focus stack.next || yabai -m window --focus south
-alt - k : yabai -m window --focus stack.prev || yabai -m window --focus north
-alt - l : yabai -m window --focus east
+alt - h : yabai -m window --focus west || yabai -m display --focus prev || yabai -m window --focus last
+alt - j : yabai -m window --focus stack.next || yabai -m window --focus stack.first || yabai -m window --focus south || yabai -m window --focus north
+alt - k : yabai -m window --focus stack.prev || yabai -m window --focus stack.last || yabai -m window --focus north || yabai -m window --focus south
+alt - l : yabai -m window --focus east || yabai -m display --focus next || yabai -m window --focus first
 
 alt + shift - h : yabai -m window --swap west
 alt + shift - j : yabai -m window --swap south
 alt + shift - k : yabai -m window --swap north
 alt + shift - l : yabai -m window --swap east
 
-alt - tab : yabai -m display --focus prev || yabai -m display --focus last
+# ;
+alt - 0x29 : yabai -m display --focus prev || yabai -m display --focus last
+alt + shift - 0x29 : yabai -m window --display prev || yabai -m window --display last
+# '
+alt - 0x27 : yabai -m display --focus next || yabai -m display --focus first
+alt + shift - 0x27 : yabai -m window --display next || yabai -m window --display first
 
 alt - f : yabai -m window --toggle zoom-fullscreen
 alt + shift - f : yabai -m window --toggle float
@@ -24,4 +28,4 @@ alt + ctrl - b : yabai -m space --layout bsp
 alt - p : skhd -k "alt + shift - up"
 alt - n : skhd -k "alt + shift - down"
 
-alt - s : scratchpad --toggle alacritty
+alt - s : ~/bin/scratchpad

@@ -1,0 +1,211 @@
+# vim: ft=sh
+
+alias ls='exa --group-directories-first'
+alias la='ls -a' # ls -A for regular ls
+alias ll='ls -lh'
+alias l='ls -lah'
+alias sl=ls
+alias ks=ls
+alias rm='rm -I'
+alias cb='xclip -selection clipboard'
+alias pls='sudo $(fc -ln -1)'
+alias cpd='echo $(fc -ln -1) | perl -pe "chomp if eof" | cb' # C-o now does this for current line
+alias timer=termdown
+alias screenkey='screenkey --scr 1 --opacity 0.1 -s small'
+alias yeah=yes
+alias q=" exit"
+alias v=vr
+alias n=nvim
+alias fzd='cd ~/Documents; fzc'
+alias fzn='nvim $(fzf)'
+alias cfzcn='cd ~/.config; fzcn'
+alias fns='fd Session.vim | fzf | xargs nvim -S'
+alias binja=binaryninja-demo
+alias lsz='du -sh * | sort -h'
+alias laz='{du -sh .*; du -sh *} 2>/dev/null | sort -h'
+alias updot=' ~/Documents/scripts/updatedotfiles.sh'
+alias ranger='TERM=rxvt-unicode-256color ranger'
+alias ra=ranger
+alias m=tldr
+alias c=cargo
+alias cupdate='cargo install $(cargo install --list | sed -En "/:$/{s/ .*//; p}")'
+alias cudeps='cargo +nightly udeps'
+alias top=bpytop
+alias gsl='git stash && git pull && git stash pop'
+alias gcom='git checkout $(git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2-)'
+alias toggle-power-mode='~/Documents/scripts/toggle-power-mode.sh'
+# shellcheck disable=SC2142
+alias add='awk "{s+=\$1} END{print s}"'
+alias viewdoc='firefox ./target/doc/$(basename $PWD)/index.html'
+alias tmux='tmux -f ~/.config/tmux/.tmux.conf'
+alias priv=' fc -p'
+
+np() {
+    [ -z "$1" ] && return
+    mkdir -p "$(basename "$1")" \
+        && nvim "$1"
+}
+
+cl() {
+    curl "$1" -o "$(sed 's/\?.*//' <<< $(basename "$1"))"
+}
+
+ctfetch() {
+    file=$(basename "$1")
+    wget "$1" && mv "$file" $(sed 's/\?.*//' <<< $file)
+}
+
+notify() {
+    if $@; then
+        echo -e "\"$*\"\nSucceeded" | xargs notify-send -t 0
+    else
+        echo -e "\"$*\"\nFailed" | xargs notify-send -t 0
+    fi
+}
+
+gcls() {
+    [ $# -lt 2 ] && echo "err: need branch & repo to clone" && return
+    git clone --depth 1 --branch "$1" "$(sed -E 's|.*//(.*).com/|git@\1.com:|; s|/src/.*$||' <<< ${@:2})" &&
+        cd "$(sed -E 's|(.*)\.git/?|\1|; s|.*/(.*)|\1|; s|/src/.*$||' <<< "$2")" || return
+}
+
+unalias gcl
+gcl() {
+    [ $# -lt 1 ] && echo "err: need repo to clone" && return
+    git clone "$(sed -E 's|.*//(.*).com/|git@\1.com:|; s|/src/.*$||' <<< $@)" &&
+        cd "$(sed -E 's|(.*)\.git/?|\1|; s|.*/(.*)|\1|; s|/src/.*$||' <<< "$1")" || return
+}
+
+gw() {
+    [ $# -lt 1 ] && 1="HEAD"
+    git diff $1^ $1
+}
+
+resource() {
+    source ~/.zshrc
+}
+
+cn() {
+    cargo new $@ && cd $1
+}
+
+faketty() {
+    script -qefc "$(printf "%q " "$@")" /dev/null
+}
+
+cr() {
+    local output=$(perl -pe "s/\..*?$//" <<< "$1")
+    gcc "$1" -o "$output" && ./$output
+}
+
+cman() {
+    apropos "$1" |
+        grep '(3)' |
+        less
+}
+
+clean-none-images() {
+    docker image ls |
+        grep "^<none>" |
+        awk '{print $3}' |
+        xargs docker image rm
+}
+
+tldr() {
+    [ $# -lt 1 ] && { /usr/bin/tldr; return; }
+    /usr/bin/tldr "$@" | less
+}
+
+swap() {
+    [ $# -ne 2 ] && echo "Usage: swap [file1] [file2]" && return
+    local TMPFILE=$(mktemp)
+    mv "$1" "$TMPFILE" && mv "$2" "$1" && mv "$TMPFILE" "$2" && rm "$TMPFILE"
+}
+
+fzc() {
+    local file=$(fzf)
+    cd $(echo $file | sed 's/\/[^\/]*$//') 2>/dev/null
+}
+
+fzcn() {
+    local file=$(fzf)
+    cd $(echo $file | sed 's/\/[^\/]*$//') 2>/dev/null
+    nvim "$(echo "$file" | sed 's/.*\///')"
+}
+
+ns() {
+    # very hacky workaround
+    # to stop sessions with terminals starting in insert mode
+    # TODO: modify vim-obsession to do this instead
+    if [ -z "$1" ]; then
+        sed -i '/unlet SessionLoad/istopinsert' Session.vim &&
+            nvim -S Session.vim
+    else
+        if [ $(compgen -G "$1*" | wc -l) -ne 1 ]; then
+            echo "Too many matches for $1:"
+            compgen -G "$1*"
+            return 1
+        fi
+
+        sed -i '/unlet SessionLoad/istopinsert' "./""$1"*"/Session.vim" &&
+            nvim -S "./""$1""*/Session.vim"
+    fi
+}
+
+sec() {
+    pwn checksec --file="$1"
+}
+
+mkcd() {
+    mkdir -p "$1" && cd "$1"
+}
+
+# populate_chapter() {
+#     local book=$1
+#     local chapter=$2
+#     local cache="$HOME/.cache/bible/$book$chapter";
+# 
+#     if [ ! -f "$cache" ]; then
+#         echo -e "[1m$chapter[0m\n" >"$cache"
+# 
+#         curl -s "https://www.biblestudytools.com/$book/$chapter.html" |
+#             grep "x-show=\"verseNumbers\"" -A3 |
+#             sed -E 's/>([[:digit:]]+)<\/a>/\n\1\n/' |
+#             sed -E '/x-show=\"verseNumbers\"/d; /^--/d; s/^\s*//; s/^([[:digit:]]+)$/[1m\1[0m/' |
+#             perl -pe 's/ *?<sup.*?\/sup> *?/ /g; s/ *?<.*?>(.<.*?>)? *?/ /g' |
+#             tr '\n' ' ' |
+#             sed -E 's/  +/ /g; $s/ $/\n/' |
+#             fold -sw 60 >>"$cache"
+# 
+#         echo >>"$cache"
+#     fi
+# }
+# 
+# bible() {
+#     local book="genesis"
+#     local chapter=1
+#     local last=1
+#     if [ $# -ge 2 ]; then
+#         book=$1
+#         chapter=$2
+#         last=$chapter
+#     fi
+# 
+#     if [ $# -ge 3 ]; then
+#         last=$3
+#     fi
+# 
+#     if [[ $book =~ "/" ]]; then
+#         IFS=\/ read -r version _ <<< "$book";
+#         mkdir -p "$HOME/.cache/bible/$version"
+#     fi
+# 
+#     env_parallel --env populate_chapter --max-args=1 \
+#         populate_chapter $book ::: $(echo {$chapter..$last})
+# 
+#     cat "$HOME/.cache/bible/$book"{$chapter..$last} | less
+# }
+
+uni() {
+    cd "$HOME/Documents/UNSW/$1"
+}
