@@ -376,7 +376,7 @@ call plug#end()
 let g:sonokai_better_performance = 1
 " let g:sonokai_transparent_background = 1
 let g:everforest_better_performance = 1
-" let g:everforest_transparent_background = 1
+let g:everforest_transparent_background = 1
 set termguicolors
 " colorscheme wal
 " colorscheme sonokai

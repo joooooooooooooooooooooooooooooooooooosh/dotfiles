@@ -7,7 +7,7 @@
 
 # If you come from bash you might have to change your $PATH.
 
-export PATH=$PATH:/opt/homebrew/bin/
+export PATH=/opt/homebrew/bin/:$PATH
 export PATH=$PATH:/opt/atlassian/bin/
 export PATH=$PATH:/usr/local/go/bin/
 
@@ -83,7 +83,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 export FZF_BASE=/usr/bin/fzf
-plugins=(git zsh-autosuggestions colored-man-pages copybuffer)
+plugins=(git autoenv zsh-autosuggestions colored-man-pages copybuffer)
 
 source "$ZSH"/oh-my-zsh.sh
 
@@ -138,3 +138,7 @@ eval "$(mcfly init zsh)"
 # idk why this is still set
 unset ESBUILD_BINARY_PATH
 eval "$(zoxide init zsh)"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

@@ -1,44 +1,118 @@
 # vim: ft=sh
 
-alias ls='exa --group-directories-first'
-alias la='ls -a' # ls -A for regular ls
-alias ll='ls -lh'
-alias l='ls -lah'
-alias sl=ls
-alias ks=ls
-alias rm='rm -I'
-alias cb='xclip -selection clipboard'
-alias pls='sudo $(fc -ln -1)'
-alias cpd='echo $(fc -ln -1) | perl -pe "chomp if eof" | cb' # C-o now does this for current line
+# all aliases are functions in order to work with things like `notify`
+
+unalias ls
+ls() {
+    exa --group-directories-first $@
+}
+
+unalias la
+la() {
+    ls -a $@ # ls -A for regular ls
+}
+
+unalias ll
+ll() {
+    ls -lh $@
+}
+
+unalias l
+l() {
+    ls -lah $@
+}
+
+rm() {
+    /bin/rm -I $@
+}
+
+cb() {
+    xclip -selection clipboard
+}
+
+pls() {
+    sudo $(fc -ln -1)
+}
+
+cpd() {
+    echo $(fc -ln -1) | perl -pe "chomp if eof" | cb # C-o now does this for current line
+}
+
+fzd() {
+    cd ~/Documents; fzc
+}
+
+fzn() {
+    nvim $(fzf) $@
+}
+
+cfzcn() {
+    cd ~/.config; fzcn $@
+}
+
+fns() {
+    fd Session.vim | fzf | xargs nvim -S $@
+}
+
+lsz() {
+    du -sh * | sort -h
+}
+
+laz() {
+    { du -sh .*; du -sh *} 2>/dev/null | sort -h
+}
+
+cupdate() {
+    cargo install $(cargo install --list | sed -En "/:$/{s/ .*//; p}")
+}
+
+cudeps() {
+    cargo +nightly udeps
+}
+
+gsl() {
+    git stash && git pull && git stash pop
+}
+
+gcom() {
+    git checkout $(git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2-) $@
+}
+
+# shellcheck disable=SC2142
+add() {
+    awk "{s+=\$1} END{print s}"
+}
+
+viewdoc() {
+    open ./target/doc/$(basename $PWD)/index.html
+}
+
+tmux() {
+    /opt/homebrew/bin/tmux -f ~/.config/tmux/.tmux.conf $@
+}
+
+# TODO: remember how to get out of priv session
+alias priv=' fc -p'
+alias top=bpytop
+alias binja=binaryninja-demo
+alias ra=ranger
+alias m=tldr
+alias c=cargo
 alias timer=termdown
-alias screenkey='screenkey --scr 1 --opacity 0.1 -s small'
 alias yeah=yes
 alias q=" exit"
 alias v=vr
 alias n=nvim
-alias fzd='cd ~/Documents; fzc'
-alias fzn='nvim $(fzf)'
-alias cfzcn='cd ~/.config; fzcn'
-alias fns='fd Session.vim | fzf | xargs nvim -S'
-alias binja=binaryninja-demo
-alias lsz='du -sh * | sort -h'
-alias laz='{du -sh .*; du -sh *} 2>/dev/null | sort -h'
-alias updot=' ~/Documents/scripts/updatedotfiles.sh'
-alias ranger='TERM=rxvt-unicode-256color ranger'
-alias ra=ranger
-alias m=tldr
-alias c=cargo
-alias cupdate='cargo install $(cargo install --list | sed -En "/:$/{s/ .*//; p}")'
-alias cudeps='cargo +nightly udeps'
-alias top=bpytop
-alias gsl='git stash && git pull && git stash pop'
-alias gcom='git checkout $(git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2-)'
-alias toggle-power-mode='~/Documents/scripts/toggle-power-mode.sh'
-# shellcheck disable=SC2142
-alias add='awk "{s+=\$1} END{print s}"'
-alias viewdoc='firefox ./target/doc/$(basename $PWD)/index.html'
-alias tmux='tmux -f ~/.config/tmux/.tmux.conf'
-alias priv=' fc -p'
+alias sl=ls
+alias ks=ls
+
+
+gon() {
+    rg "url =" $(git rev-parse --show-toplevel)/.git/config | sed -E "s|.*@([^:]+):(.*)|https://\1/\2|" | xargs open
+}
+
+
+## actual functions
 
 np() {
     [ -z "$1" ] && return
@@ -57,23 +131,25 @@ ctfetch() {
 
 notify() {
     if $@; then
-        echo -e "\"$*\"\nSucceeded" | xargs notify-send -t 0
+        title="Succeeded"
     else
-        echo -e "\"$*\"\nFailed" | xargs notify-send -t 0
+        title="Failed"
     fi
+    osascript -e "display notification \"$*\" with title \"${title}\""
 }
 
 gcls() {
     [ $# -lt 2 ] && echo "err: need branch & repo to clone" && return
-    git clone --depth 1 --branch "$1" "$(sed -E 's|.*//(.*).com/|git@\1.com:|; s|/src/.*$||' <<< ${@:2})" &&
-        cd "$(sed -E 's|(.*)\.git/?|\1|; s|.*/(.*)|\1|; s|/src/.*$||' <<< "$2")" || return
+    git clone --depth 1 --branch "$1" "$(sed -E 's|.*//(.*)\.([^./]*)/|git@\1.\2:|; s|/src/.*$||' <<< ${@:2})" &&
+        cd "$(sed -E 's|(.*)\.git/?|\1|; s|/src/.*$||; s|.*/(.*)|\1|' <<< "$2")" || return
 }
 
 unalias gcl
 gcl() {
+    # TODO: handle cding into custom repo name (gcl link repo-name)
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
-    git clone "$(sed -E 's|.*//(.*).com/|git@\1.com:|; s|/src/.*$||' <<< $@)" &&
-        cd "$(sed -E 's|(.*)\.git/?|\1|; s|.*/(.*)|\1|; s|/src/.*$||' <<< "$1")" || return
+    git clone "$(sed -E 's|.*//(.*)\.([^./]*)/|git@\1.\2:|; s|/src/.*$||' <<< $@)" &&
+        cd "$(sed -E 's|(.*)\.git/?|\1|; s|/src/.*$||; s|.*/(.*)|\1|' <<< "$1")" || return
 }
 
 gw() {

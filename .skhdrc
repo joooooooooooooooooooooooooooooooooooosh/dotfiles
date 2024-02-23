@@ -15,6 +15,11 @@ alt + shift - 0x29 : yabai -m window --display prev || yabai -m window --display
 alt - 0x27 : yabai -m display --focus next || yabai -m display --focus first
 alt + shift - 0x27 : yabai -m window --display next || yabai -m window --display first
 
+
+alt + shift - 0x21 : yabai -m window --space prev
+
+alt + shift - 0x1E : yabai -m window --space next
+
 alt - f : yabai -m window --toggle zoom-fullscreen
 alt + shift - f : yabai -m window --toggle float
 
@@ -27,5 +32,6 @@ alt + ctrl - b : yabai -m space --layout bsp
 
 alt - p : skhd -k "alt + shift - up"
 alt - n : skhd -k "alt + shift - down"
+
 
 alt - s : ~/bin/scratchpad
