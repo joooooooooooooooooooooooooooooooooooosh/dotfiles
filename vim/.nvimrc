@@ -324,7 +324,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-sleuth'
-Plug 'akinsho/git-conflict.nvim'
+" Plug 'akinsho/git-conflict.nvim' " ct keymap is annoying
 Plug 'kdheepak/lazygit.nvim'
 
 Plug 'nvim-lua/plenary.nvim'
@@ -347,7 +347,7 @@ Plug 'https://gitlab.com/yorickpeterse/nvim-window.git'
 " Plug 'folke/noice.nvim'
 
 Plug 'folke/todo-comments.nvim'
-" Plug 'folke/which-key.nvim'
+Plug 'folke/which-key.nvim'
 Plug 'folke/zen-mode.nvim'
 Plug 'Cassin01/wf.nvim', { 'tag': '*' }
 Plug 'liuchengxu/vista.vim'
@@ -400,6 +400,7 @@ lua << EOF
 --         update_on_nvim_resize = true,
 --     },
 -- })
+
 require("wf").setup()
 
 --  require("notify").setup({
@@ -475,7 +476,7 @@ require("zen-mode").setup {
     },
 }
 
-local which_key = require("wf.builtin.which_key")
+-- local which_key = require("wf.builtin.which_key")
 local register = require("wf.builtin.register")
 local buffer = require("wf.builtin.buffer")
 local mark = require("wf.builtin.mark")
@@ -503,20 +504,22 @@ vim.keymap.set(
     mark(),
     { noremap = true, silent = true, desc = "[wf.nvim] mark" }
 )
-vim.keymap.set(
-    "n",
-    "'",
-    mark(),
-    { nowait = true, noremap = true, silent = true, desc = "[wf.nvim] mark" }
-)
+-- vim.keymap.set(
+--     "n",
+--     "'",
+--     mark(),
+--     { noremap = true, silent = true, desc = "[wf.nvim] mark" }
+-- )
 
 -- Which Key
-vim.keymap.set(
-    "n",
-    "<Leader>",
-    which_key({ text_insert_in_advance = "" }),
-    { noremap = true, silent = true, desc = "[wf.nvim] which-key" }
-)
+-- vim.keymap.set(
+--     "n",
+--     "<Leader>",
+--     which_key({ text_insert_in_advance = "" }),
+--     { noremap = true, silent = true, desc = "[wf.nvim] which-key" }
+-- )
+
+require("which-key").setup {}
 
 -- require("noice").setup({
 --   lsp = {
@@ -648,14 +651,14 @@ defaults = {
 require("telescope").load_extension('fzf')
 require("telescope").load_extension('coc')
 
-require('git-conflict').setup {
-    default_mappings = true, -- disable buffer local mapping created by this plugin
-    disable_diagnostics = true, -- This will disable the diagnostics in a buffer whilst it is conflicted
-    highlights = { -- They must have background color, otherwise the default color will be used
-        incoming = 'DiffText',
-        current = 'DiffAdd',
-    }
-}
+-- require('git-conflict').setup {
+--     default_mappings = true, -- disable buffer local mapping created by this plugin
+--     disable_diagnostics = true, -- This will disable the diagnostics in a buffer whilst it is conflicted
+--     highlights = { -- They must have background color, otherwise the default color will be used
+--         incoming = 'DiffText',
+--         current = 'DiffAdd',
+--     }
+-- }
 
 -- require("treesitter-context").setup {
 --     mode = 'topline',

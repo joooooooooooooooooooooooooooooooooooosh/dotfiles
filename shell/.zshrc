@@ -79,7 +79,7 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 export FZF_BASE=/usr/bin/fzf
-plugins=(git zsh-autosuggestions autoupdate colored-man-pages copybuffer)
+plugins=(git autoenv zsh-autosuggestions autoupdate colored-man-pages copybuffer)
 
 source "$ZSH"/oh-my-zsh.sh
 

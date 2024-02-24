@@ -1,6 +1,6 @@
 #!/bin/zsh
-BACKLIGHT_PATH="/sys/class/backlight/*"
-MAX_BRIGHTNESS=$(cat ${BACKLIGHT_PATH}/max_brightness)
+BACKLIGHT_PATH="/sys/class/backlight/"
+MAX_BRIGHTNESS=$(cat ${BACKLIGHT_PATH}/*/max_brightness)
 if [ "$1" = "max" ]; then
 	((BRIGHT = MAX_BRIGHTNESS - 1))
 elif [ "$1" = "high" ]; then
@@ -14,9 +14,9 @@ elif [ "$1" = "min" ]; then
 elif [ "$1" = "off" ]; then
 	((BRIGHT = 0))
 elif [ "$1" = "up" ]; then
-	((BRIGHT = `cat ${BACKLIGHT_PATH}/brightness` + MAX_BRIGHTNESS / 25))
+	((BRIGHT = `cat ${BACKLIGHT_PATH}/*/brightness` + MAX_BRIGHTNESS / 25))
 elif [ "$1" = "down" ]; then
-	((BRIGHT = `cat ${BACKLIGHT_PATH}/brightness` - MAX_BRIGHTNESS / 25))
+	((BRIGHT = `cat ${BACKLIGHT_PATH}/*/brightness` - MAX_BRIGHTNESS / 25))
 else
 	a=$1
 	case $a in
@@ -32,7 +32,7 @@ if [ $BRIGHT -gt $MAX_BRIGHTNESS ]; then
 	 BRIGHT=$MAX_BRIGHTNESS
 fi
 
-echo $BRIGHT | sudo tee ${BACKLIGHT_PATH}/brightness
+echo $BRIGHT | sudo tee ${BACKLIGHT_PATH}/*/brightness
 XRANDR_BRIGHTNESS=`bc -l <<< "scale=3; $BRIGHT / $MAX_BRIGHTNESS"`
 if [ $2 -a $2 != "!hdmi" ]; then
 	for output in $(xrandr --listmonitors | sed '1d; s/.* //' | grep -v eDP); do
