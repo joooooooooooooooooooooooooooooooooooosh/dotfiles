@@ -33,6 +33,7 @@ rm -rf "${DOT_DIR}wal-discord/"
 cp -ur ~/wal-discord "${DOT_DIR}wal-discord/"
 cp -u /var/spool/cron/joshh "${DOT_DIR}"
 cp -u /etc/udev/rules.d/80.power.rules "${DOT_DIR}"
+cp -u ~/.config/tmux/.tmux.conf "${DOT_DIR}"
 
 cur_theme=$(grep "^ZSH_THEME" "${DOT_DIR}shell/.zshrc" | cut -d\" -f2)
 [ "$cur_theme" != "random" ] && cp "$HOME/.oh-my-zsh/themes/$cur_theme.zsh-theme" "${DOT_DIR}shell/current.zsh-theme"

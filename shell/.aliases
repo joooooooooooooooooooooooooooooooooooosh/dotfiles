@@ -57,10 +57,16 @@ ctfetch() {
 
 notify() {
     if $@; then
-        echo -e "\"$*\"\nSucceeded" | xargs notify-send -t 0
+        echo -e "Succeeded\n\"$*\"" | xargs notify-send -t 0
     else
-        echo -e "\"$*\"\nFailed" | xargs notify-send -t 0
+        echo -e "Failed\n\"$*\"" | xargs notify-send -t 0
     fi
+}
+
+gon() {
+    rg "url =" $(git rev-parse --show-toplevel)/.git/config \
+        | sed -E "s|.*url = ||; s|.*@([^:]+):(.*)|https://\1/\2|" \
+        | fzf | xargs xdg-open
 }
 
 unalias gcl
