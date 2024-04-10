@@ -2,9 +2,49 @@
 
 # all aliases are functions in order to work with things like `notify`
 
+curlsh() {
+    curl $1 | (sleep 3; cat) | nvim
+}
+
+microsStashGet() {
+  echo "
+  name: "hello"
+  organization: "hello"
+  requiresAsap: true
+  notifications:
+    email: "hello@atlassian.com"
+  " > /tmp/test.sd.yml
+
+  atlas micros service local -e ddev -s $1  -f /tmp/test.sd.yml  | sed -e 's/\\\([^\\]\)/\1/g'
+}
+
+set_service() {
+    >> .in cat <<EOF
+ORIGINAL_SERVICE_NAME=\$SERVICE_NAME
+export SERVICE_NAME=$1
+EOF
+
+    >> .out cat <<EOF
+export SERVICE_NAME=\$ORIGINAL_SERVICE_NAME
+EOF
+
+    source .in
+}
+
+create_venv() {
+    python3 -m venv .venv
+    >> .in cat <<EOF
+source .venv/bin/activate
+EOF
+    >> .out cat <<EOF
+deactivate
+EOF
+    source .in
+}
+
 unalias ls
 ls() {
-    exa --group-directories-first $@
+    eza --group-directories-first $@
 }
 
 unalias la
@@ -27,7 +67,7 @@ rm() {
 }
 
 cb() {
-    xclip -selection clipboard
+    pbcopy $@
 }
 
 pls() {
@@ -59,7 +99,7 @@ lsz() {
 }
 
 laz() {
-    { du -sh .*; du -sh *} 2>/dev/null | sort -h
+    { du -sh .*; du -sh * } 2>/dev/null | sort -h
 }
 
 cupdate() {
@@ -91,8 +131,8 @@ tmux() {
     /opt/homebrew/bin/tmux -f ~/.config/tmux/.tmux.conf $@
 }
 
-# TODO: remember how to get out of priv session
-alias priv=' fc -p'
+alias priv=' BACKUP_HISTFILE=$HISTFILE; fc -p'
+alias unpriv='HISTFILE=$BACKUP_HISTFILE'
 alias top=bpytop
 alias binja=binaryninja-demo
 alias ra=ranger
@@ -108,7 +148,13 @@ alias ks=ls
 
 
 gon() {
-    rg "url =" $(git rev-parse --show-toplevel)/.git/config | sed -E "s|.*@([^:]+):(.*)|https://\1/\2|" | xargs open
+    urls=$(rg "url =" $(git rev-parse --show-toplevel)/.git/config | sed -E "s|.*url = ||; s|.*@([^:]+):(.*)|https://\1/\2|")
+
+    if [ $(wc -l <<< $urls) -ne 1 ]; then
+        urls=$(fzf --header "Select URL:" <<< $urls)
+    fi
+
+    open $urls
 }
 
 
@@ -214,7 +260,7 @@ ns() {
     # to stop sessions with terminals starting in insert mode
     # TODO: modify vim-obsession to do this instead
     if [ -z "$1" ]; then
-        sed -i '/unlet SessionLoad/istopinsert' Session.vim &&
+        gsed -i '/unlet SessionLoad/istopinsert' Session.vim &&
             nvim -S Session.vim
     else
         if [ $(compgen -G "$1*" | wc -l) -ne 1 ]; then
@@ -223,7 +269,7 @@ ns() {
             return 1
         fi
 
-        sed -i '/unlet SessionLoad/istopinsert' "./""$1"*"/Session.vim" &&
+        gsed -i '/unlet SessionLoad/istopinsert' "./""$1"*"/Session.vim" &&
             nvim -S "./""$1""*/Session.vim"
     fi
 }
@@ -285,3 +331,4 @@ mkcd() {
 uni() {
     cd "$HOME/Documents/UNSW/$1"
 }
+

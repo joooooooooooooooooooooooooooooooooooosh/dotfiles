@@ -25,7 +25,7 @@ white = "0xeaeaea"
 yellow = "0xe6c547"
 
 [colors.primary]
-background = "0x000000"
+background = "0x002b36"
 foreground = "0xeaeaea"
 
 [cursor]
@@ -66,7 +66,7 @@ alphabet = "jkl;sdiopwemqavcx"
 command = "open"
 hyperlinks = true
 post_processing = true
-regex = "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)[^\u0000-\u001F\u007F-<>\"\\s{-}\\^⟨⟩`]+"
+regex = "(https:|http:|file:|git:|ssh:|ftp:|docker-desktop:|news:|ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:)[^\u0000-\u001F\u007F-<>\"\\s{-}\\^⟨⟩`]+"
 
 [hints.enabled.binding]
 key = "F"
@@ -75,6 +75,12 @@ mods = "Control|Alt"
 [hints.enabled.mouse]
 enabled = true
 mods = "None"
+
+
+[[keyboard.bindings]]
+chars = "\u000d"
+key = "Enter"
+mods = "Control"
 
 [[keyboard.bindings]]
 chars = "\u001B[104;6u"

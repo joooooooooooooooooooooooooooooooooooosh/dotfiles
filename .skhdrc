@@ -1,13 +1,21 @@
+# NOTE: Keycodes are listed at https://github.com/koekeishiya/skhd/issues/1
+
+# window focusing
+cmd - h : yabai -m window --focus west || yabai -m display --focus prev || yabai -m window --focus last
 alt - h : yabai -m window --focus west || yabai -m display --focus prev || yabai -m window --focus last
-alt - j : yabai -m window --focus stack.next || yabai -m window --focus stack.first || yabai -m window --focus south || yabai -m window --focus north
-alt - k : yabai -m window --focus stack.prev || yabai -m window --focus stack.last || yabai -m window --focus north || yabai -m window --focus south
+alt - j : yabai -m window --focus stack.next || yabai -m window --focus south || yabai -m window --focus stack.first || yabai -m window --focus north
+alt - k : yabai -m window --focus stack.prev || yabai -m window --focus north || yabai -m window --focus stack.last || yabai -m window --focus south
 alt - l : yabai -m window --focus east || yabai -m display --focus next || yabai -m window --focus first
 
+
+# window moving
 alt + shift - h : yabai -m window --swap west
 alt + shift - j : yabai -m window --swap south
 alt + shift - k : yabai -m window --swap north
 alt + shift - l : yabai -m window --swap east
 
+
+# display focusing
 # ;
 alt - 0x29 : yabai -m display --focus prev || yabai -m display --focus last
 alt + shift - 0x29 : yabai -m window --display prev || yabai -m window --display last
@@ -16,22 +24,44 @@ alt - 0x27 : yabai -m display --focus next || yabai -m display --focus first
 alt + shift - 0x27 : yabai -m window --display next || yabai -m window --display first
 
 
+# moving windows between spaces
 alt + shift - 0x21 : yabai -m window --space prev
-
 alt + shift - 0x1E : yabai -m window --space next
 
+
+# zooming windows
+alt + shift - p : yabai -m window --toggle zoom-parent
 alt - f : yabai -m window --toggle zoom-fullscreen
 alt + shift - f : yabai -m window --toggle float
 
-alt - return : open -a alacritty -n
 
+# closing windows
 alt + shift - q : yabai -m window --close
 
-alt + ctrl - s : yabai -m space --layout stack
-alt + ctrl - b : yabai -m space --layout bsp
 
+# changing space layout
+alt + ctrl + shift - s : yabai -m space --layout stack
+alt + ctrl + shift - b : yabai -m space --layout bsp
+
+
+# changing window layout
+alt + ctrl - s : yabai -m window --insert stack
+# <
+alt - 0x2B : yabai -m window --insert south
+# >
+alt - 0x2F : yabai -m window --insert east
+
+
+# applications
+alt - e : open $HOME
+alt - return : open -a alacritty -n
+alt + ctrl - d : open -a slack
+
+
+# slack shortcut shortcuts
 alt - p : skhd -k "alt + shift - up"
 alt - n : skhd -k "alt + shift - down"
 
 
+# custom scratchpad
 alt - s : ~/bin/scratchpad

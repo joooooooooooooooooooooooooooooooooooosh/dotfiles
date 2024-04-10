@@ -9,10 +9,11 @@ yabai -m config left_padding   $padding_size
 yabai -m config right_padding  $padding_size
 yabai -m config window_gap     $padding_size
 
-yabai -m rule --add app="System Settings" manage=off
-yabai -m rule --add app="Calculator" manage=off
-yabai -m rule --add title="Activate Touch ID - Google Chrome" manage=off
-yabai -m rule --add title="Activate Touch ID - Google Chrome (Incognito)" manage=off opacity=0.5
+yabai -m rule --add app="^System Settings$" manage=off
+yabai -m rule --add app="^Calculator$" manage=off
+yabai -m rule --add app="^Google Chrome$" title="Activate Touch ID - Google Chrome" manage=off
+yabai -m rule --add app="^Google Chrome$" title="Activate Touch ID - Google Chrome (Incognito)" manage=off opacity=0.1
+yabai -m rule --add title="Scratchpad" manage=off
 
 yabai -m config window_topmost on
 yabai -m config window_shadow float

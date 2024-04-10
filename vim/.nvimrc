@@ -1,25 +1,29 @@
 " Vim: set fdm=marker fmr={{{,}}} fdl=0 fdls=-1:
 " autocmds {{{
 autocmd TermOpen * startinsert
-autocmd TermOpen * setlocal nonumber norelativenumber nospell
+autocmd TermOpen * setlocal nonumber norelativenumber nospell winfixheight
 
 " enter insert mode only if cursor on same line as last prompt
-autocmd BufWinEnter,WinEnter,TermOpen term://* silent! $/\$/?[$>]?mark z
+autocmd BufEnter term://* silent! $/\$/?[$>]?mark z
     \| if ( line("'z") == line(".") )
         \| startinsert
     \| endif
+
+autocmd BufLeave term://* silent! stopinsert
 
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | silent! checktime | endif
 " TODO: only compile tex once and copy resulting pdf to view.pdf
 autocmd BufWritePost *.tex exec 'Dispatch! cp % view.tex; tectonic view.tex'
 autocmd BufWritePost *.tex exec 'Dispatch! tectonic %'
 " TODO: some kind of autocmd to unload nvimrc in sessions
-" autocmd BufWinLeave ~/.nvimrc exec 'bunload \~\/\.nvimrc | bdelete \~\/\.nvimrc'
+" autocmd WinClosed ~/.nvimrc exec 'bunload \~\/\.nvimrc | bdelete \~\/\.nvimrc'
 
 autocmd FileType markdown,text setlocal spell wrap
 autocmd FileType tex,plaintex setlocal spell wrap
 autocmd FileType text setlocal textwidth=78
-autocmd FileType make set list
+autocmd FileType make setlocal list
+autocmd FileType typescript,javascript,typescriptreact,yaml setlocal tabstop=2 shiftwidth=2
+autocmd FileType sh,bash,zsh setlocal tabstop=8 shiftwidth=8 expandtab list
 
 " autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 
@@ -31,8 +35,13 @@ autocmd BufNewFile day*.rs  0r ~/.vim/skeletons/aoc.rs
 " autocmd BufWritePre *.hs CocCommand editor.action.formatDocument
 " }}}
 
+if !has('gui_running') && &term =~ '^\%(screen\|tmux\)'
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
+
 " common settings {{{
-syntax on " might not be needed because of treesitter
+syntax on
 filetype indent plugin on
 set titlestring=%F
 set noequalalways
@@ -75,12 +84,12 @@ nnoremap <Space>re <C-W>l:r<CR>
 let mapleader=" "
 let NERDTreeMinimalUI=1
 let NERDTreeHijackNetrw=1
-let g:python3_host_prog = '/usr/bin/python'
-let g:netrw_browsex_viewer = "xdg-open"
+let g:python3_host_prog = '/usr/bin/python3'
+let g:netrw_browsex_viewer = "open"
 
 noremap ; :
 "noremap : ;
-nnoremap <Leader>; ;
+" nnoremap <Leader>; ;
 
 " nnoremap <Tab> >>$
 nnoremap <S-Tab> <<_
@@ -260,7 +269,11 @@ nnoremap <Leader>q  <CMD>copen<CR>
 nnoremap <Leader>z  <CMD>let &scrolloff=999-&scrolloff<CR>:ZenMode<CR>zz
 nnoremap <Leader>en <CMD>tabedit ~/.nvimrc<CR>
 nnoremap <Leader>lg <CMD>LazyGit<CR>
-nnoremap <Leader>g  <CMD>Git<CR>
+nnoremap <Leader>gst <CMD>Gitsigns toggle_numhl<CR>
+nnoremap <Leader>gsc <CMD>Gitsigns toggle_signs<CR>
+nnoremap <Leader>gsb <CMD>Gitsigns toggle_current_line_blame<CR>
+nnoremap <Leader>gg  <CMD>Git<CR>
+nnoremap <Leader>gon <CMD>Dispatch! zsh -ic "gon"<CR>
 nnoremap <Leader>G  <CMD>tabnew<CR><CMD>Git<CR>
 nnoremap <Leader>R  <CMD>CocRestart<CR>
 nnoremap <Leader>u  <CMD>UndotreeToggle<CR>
@@ -271,12 +284,13 @@ nnoremap <Leader>fds <cmd>Telescope coc document_symbols<cr>
 nnoremap <Leader>fe  <cmd>Telescope coc diagnostics<cr>
 nnoremap <Leader>fp  <cmd>Telescope coc commands<cr>
 nnoremap <Leader>fws <cmd>Telescope coc workspace_symbols<cr>
+nnoremap <Leader>fwe <cmd>Telescope coc workspace_diagnostics<cr>
 " is there a difference to find_files?
 nnoremap <Leader>ff  <cmd>Telescope fd<cr>
 nnoremap <Leader>fg  <cmd>Telescope live_grep<cr>
 nnoremap <Leader>fl  <cmd>Telescope loclist<cr>
 nnoremap <Leader>fm  <cmd>Telescope man_pages<cr>
-nnoremap <Leader>fr  <cmd>Telescope grep_string<cr>
+nnoremap <Leader>fr  <cmd>Telescope resume<cr>
 nnoremap <Leader>fs  <cmd>Telescope spell_suggest<cr>
 nnoremap <Leader>ft  <cmd>TodoTelescope<cr>
 nnoremap <Leader>fu  <cmd>Telescope grep_string<cr>
@@ -306,12 +320,13 @@ tmap <silent> <C-W><C-Q> <C-\><C-n>:bd!<CR>
 call plug#begin('~/.vim/plugged')
 Plug 'joooooooooooooooooooooooooooooooooooosh/lightline.vim'
 Plug 'joooooooooooooooooooooooooooooooooooosh/zoomwintab.vim'
+Plug '~/misc/vim-proportions'
 
 Plug 'sainnhe/everforest'
 Plug 'sainnhe/sonokai'
 Plug 'dylanaraps/wal.vim'
 
-Plug 'HiPhish/nvim-ts-rainbow2'
+" Plug 'HiPhish/nvim-ts-rainbow2'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -325,8 +340,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-sleuth'
-Plug 'akinsho/git-conflict.nvim'
+" Plug 'akinsho/git-conflict.nvim'
 Plug 'kdheepak/lazygit.nvim'
+Plug 'lewis6991/gitsigns.nvim'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
@@ -357,6 +373,8 @@ Plug 'nvim-tree/nvim-tree.lua'
 Plug 'nvim-tree/nvim-web-devicons'
 Plug 'kevinhwang91/rnvimr'
 Plug 'mbbill/undotree'
+
+Plug 'lukas-reineke/indent-blankline.nvim'
 
 Plug 'kevinhwang91/nvim-ufo'
 Plug 'kevinhwang91/promise-async'
@@ -401,6 +419,14 @@ lua << EOF
 --         update_on_nvim_resize = true,
 --     },
 -- })
+
+require('gitsigns').setup {
+  current_line_blame = true,
+  signcolumn = false,
+  numhl = true,
+}
+
+require("ibl").setup()
 
 require("which-key").setup {}
 
@@ -525,6 +551,7 @@ vim.keymap.set(
 require("nvim-treesitter.configs").setup {
     highlight = {
         enable = true,
+        disable = { "yaml", },
 
         -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
         -- Set to `true` if you depend on 'syntax' being enabled (like for indentation).
@@ -535,22 +562,22 @@ require("nvim-treesitter.configs").setup {
     indent = {
         enable = true,
     },
-    rainbow = {
-        enable = true,
-        -- disable = { 'jsx', 'cpp' },
-        query = {
-            'rainbow-parens',
-            html = 'rainbow-tags',
-        },
-        strategy = require("ts-rainbow").strategy.global,
-        hlgroups = {
-            'Red',
-            'Orange',
-            'Yellow',
-            'Blue',
-            'Purple',
-        },
-    },
+    -- rainbow = {
+    --     enable = true,
+    --     -- disable = { 'jsx', 'cpp' },
+    --     query = {
+    --         'rainbow-parens',
+    --         html = 'rainbow-tags',
+    --     },
+    --     strategy = require("ts-rainbow").strategy.global,
+    --     hlgroups = {
+    --         'Red',
+    --         'Orange',
+    --         'Yellow',
+    --         'Blue',
+    --         'Purple',
+    --     },
+    -- },
 }
 
 require("nvim-autopairs").setup {
@@ -633,14 +660,14 @@ defaults = {
 require("telescope").load_extension('fzf')
 require("telescope").load_extension('coc')
 
-require('git-conflict').setup {
-    default_mappings = true, -- disable buffer local mapping created by this plugin
-    disable_diagnostics = true, -- This will disable the diagnostics in a buffer whilst it is conflicted
-    highlights = { -- They must have background color, otherwise the default color will be used
-        incoming = 'DiffText',
-        current = 'DiffAdd',
-    }
-}
+-- require('git-conflict').setup {
+--     default_mappings = true, -- disable buffer local mapping created by this plugin
+--     disable_diagnostics = true, -- This will disable the diagnostics in a buffer whilst it is conflicted
+--     highlights = { -- They must have background color, otherwise the default color will be used
+--         incoming = 'DiffText',
+--         current = 'DiffAdd',
+--     }
+-- }
 
 -- require("treesitter-context").setup {
 --     mode = 'topline',

@@ -7,7 +7,10 @@
 
 # If you come from bash you might have to change your $PATH.
 
+zmodload zsh/zprof
+
 export PATH=/opt/homebrew/bin/:$PATH
+export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:/opt/atlassian/bin/
 export PATH=$PATH:/usr/local/go/bin/
 
@@ -139,6 +142,9 @@ eval "$(mcfly init zsh)"
 unset ESBUILD_BINARY_PATH
 eval "$(zoxide init zsh)"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+source ~/.afm-git-configrc
+eval "$(pdm --pep582)"
