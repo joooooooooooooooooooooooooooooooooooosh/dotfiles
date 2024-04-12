@@ -375,6 +375,7 @@ Plug 'kevinhwang91/rnvimr'
 Plug 'mbbill/undotree'
 
 Plug 'lukas-reineke/indent-blankline.nvim'
+Plug 'google/vim-searchindex'
 
 Plug 'kevinhwang91/nvim-ufo'
 Plug 'kevinhwang91/promise-async'
