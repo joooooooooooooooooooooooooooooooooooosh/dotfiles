@@ -134,9 +134,8 @@ fi
 export WINEPREFIX=~/.wine
 
 export CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
-export XDG_CONFIG_HOME=~/.config
 
-export MCFLY_FUZZY=10
+export MCFLY_FUZZY=0
 export MCFLY_RESULTS=40
 export MCFLY_RESULTS_SORT=LAST_RUN # options: [LAST_RUN, RANK]
 eval "$(mcfly init zsh)"

@@ -19,7 +19,7 @@
     defaultBranch = main
 
 [diff]
-	external = difft
+    external = difft
 
 [rerere]
     enabled = true
@@ -47,3 +47,6 @@
 [push]
 	autoSetupRemote = true
 	default = current
+[user]
+	name = Josh Harcombe
+	email = jharcombe@atlassian.com

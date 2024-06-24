@@ -11,6 +11,9 @@ autocmd BufEnter term://* silent! $/\$/?[$>]?mark z
 
 autocmd BufLeave term://* silent! stopinsert
 
+" crappy proportion replacement
+autocmd VimResized * wincmd =
+
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | silent! checktime | endif
 " TODO: only compile tex once and copy resulting pdf to view.pdf
 autocmd BufWritePost *.tex exec 'Dispatch! cp % view.tex; tectonic view.tex'
@@ -47,6 +50,7 @@ set titlestring=%F
 set noequalalways
 set nowrap
 set tabstop=4 shiftwidth=4
+set scrolloff=4
 set omnifunc=syntaxcomplete#Complete
 set mouse=a
 set t_Co=256
@@ -55,7 +59,7 @@ set backspace=indent,eol,start
 set timeoutlen=750
 set updatetime=500
 set hidden
-" set spell
+set spell
 set autoindent
 set autoread
 set ruler
@@ -99,9 +103,15 @@ vnoremap > >gv
 vnoremap < <gv
 vnoremap . :normal .<CR>
 nmap <C-n> <CMD>NvimTreeFindFileToggle<CR>
+nnoremap <silent> <Plug>(default-ctrl-e) <C-e>
+nnoremap <silent> <Plug>(default-ctrl-y) <C-y>
 nmap <C-e> $
 imap <C-e> <Esc>A
 imap <C-a> <Esc>^i
+
+nmap <silent> <C-h> <Plug>(default-ctrl-e)
+" nmap <silent> zj <Plug>(default-ctrl-e)
+" nmap <silent> zk <Plug>(default-ctrl-y)
 
 " clear quickfix list
 nmap <Leader>cc <CMD>cexpr []<CR>
@@ -166,9 +176,6 @@ cnoremap <expr> <C-p> wildmenumode() ? "\<c-p>" : "\<up>"
 " nmap <silent> gx :call <SID>Gx()<CR>
 
 nnoremap gp `[v`]
-
-nnoremap zj gjzz
-nnoremap zk gkzz
 
 " enter blank lines
 nnoremap [<space>  :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
@@ -255,13 +262,15 @@ nnoremap <Leader>0  ^
 nnoremap <Leader>a  ^
 nnoremap <silent> <Leader>A <CMD>CocAction<CR>
 nnoremap <Leader>L  <CMD>CocList<CR>
+nnoremap <Leader>cr <CMD>CocRestart<CR>
 nnoremap <Leader>n  <CMD>source ~/.nvimrc<CR>
 nnoremap <Leader>cd <CMD>lcd %:h<CR>
 nnoremap <Leader>j <CMD>cnext<CR>zz
 nnoremap <Leader>k <CMD>cprev<CR>zz
 nnoremap <Leader>d      :Dispatch 
 nnoremap <Leader>D      :Dispatch! 
-nnoremap <Leader>s  <CMD>set spell!<CR>
+nnoremap <Leader>sl  <CMD>set list!<CR>
+nnoremap <Leader>ss  <CMD>set spell!<CR>
 nnoremap <Leader>S  <CMD>let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 " nnoremap <Leader>k  "zyiw:!man <C-R>z<CR>g
 nnoremap <Leader>ww  <CMD>set wrap!<CR>
@@ -343,10 +352,12 @@ Plug 'tpope/vim-sleuth'
 " Plug 'akinsho/git-conflict.nvim'
 Plug 'kdheepak/lazygit.nvim'
 Plug 'lewis6991/gitsigns.nvim'
+Plug 'sitiom/nvim-numbertoggle'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope.nvim'
+Plug 'nvim-telescope/telescope-live-grep-args.nvim'
 
 Plug 'fannheyward/telescope-coc.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -626,6 +637,12 @@ end
 
 remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
 local actions = require('telescope.actions')
+local lga_actions = require("telescope-live-grep-args.actions")
+
+require("telescope").load_extension('fzf')
+require("telescope").load_extension('coc')
+require("telescope").load_extension('live_grep_args')
+
 require("telescope").setup {
 defaults = {
     -- Default configuration for telescope goes here:
@@ -655,11 +672,22 @@ defaults = {
             case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
             -- the default case_mode is "smart_case"
         },
+        live_grep_args = {
+          auto_quoting = true, -- enable/disable auto-quoting
+          -- define mappings, e.g.
+          mappings = { -- extend mappings
+            i = {
+              ["<C-o>"] = lga_actions.quote_prompt(),
+              ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+            },
+          },
+          -- ... also accepts theme settings, for example:
+          -- theme = "dropdown", -- use dropdown theme
+          -- theme = { }, -- use own theme spec
+          -- layout_config = { mirror=true }, -- mirror preview pane
+        }
     },
 }
-
-require("telescope").load_extension('fzf')
-require("telescope").load_extension('coc')
 
 -- require('git-conflict').setup {
 --     default_mappings = true, -- disable buffer local mapping created by this plugin
