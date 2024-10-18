@@ -25,7 +25,12 @@ white = "0xeaeaea"
 yellow = "0xe6c547"
 
 [colors.primary]
-background = "0x002b36"
+# background = "0x290025"
+# background = "0002b40"
+# background = "0x002335"
+# background = "0x202428"
+# background = "0x1D2125"
+background = "0x1E1E2F"
 foreground = "0xeaeaea"
 
 [cursor]

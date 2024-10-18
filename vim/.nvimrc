@@ -1,7 +1,7 @@
 " Vim: set fdm=marker fmr={{{,}}} fdl=0 fdls=-1:
 " autocmds {{{
 autocmd TermOpen * startinsert
-autocmd TermOpen * setlocal nonumber norelativenumber nospell winfixheight
+autocmd TermOpen * setlocal nonumber norelativenumber nospell winfixheight signcolumn=no
 
 " enter insert mode only if cursor on same line as last prompt
 autocmd BufEnter term://* silent! $/\$/?[$>]?mark z
@@ -21,12 +21,16 @@ autocmd BufWritePost *.tex exec 'Dispatch! tectonic %'
 " TODO: some kind of autocmd to unload nvimrc in sessions
 " autocmd WinClosed ~/.nvimrc exec 'bunload \~\/\.nvimrc | bdelete \~\/\.nvimrc'
 
+autocmd FileType qf setlocal winfixheight " quickfix buffers
 autocmd FileType markdown,text setlocal spell wrap
 autocmd FileType tex,plaintex setlocal spell wrap
 autocmd FileType text setlocal textwidth=78
 autocmd FileType make setlocal list
 autocmd FileType typescript,javascript,typescriptreact,yaml setlocal tabstop=2 shiftwidth=2
 autocmd FileType sh,bash,zsh setlocal tabstop=8 shiftwidth=8 expandtab list
+autocmd FileType sql setlocal commentstring=--%s
+
+autocmd BufReadPost .justfile setlocal ft=just
 
 " autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 
@@ -44,7 +48,7 @@ if !has('gui_running') && &term =~ '^\%(screen\|tmux\)'
 endif
 
 " common settings {{{
-syntax on
+" syntax on
 filetype indent plugin on
 set titlestring=%F
 set noequalalways
@@ -59,7 +63,7 @@ set backspace=indent,eol,start
 set timeoutlen=750
 set updatetime=500
 set hidden
-set spell
+" set spell
 set autoindent
 set autoread
 set ruler
@@ -81,9 +85,6 @@ set dir=$HOME/.vim/swapfiles//
 set directory=$HOME/.vim/swapfiles//
 set backupdir=$HOME/.vim/swapfiles//
 " }}}
-
-" 3141 hack
-nnoremap <Space>re <C-W>l:r<CR>
 
 let mapleader=" "
 let NERDTreeMinimalUI=1
@@ -123,14 +124,35 @@ inoremap <C-x><C-x> <c-g>u<Esc>[s1z=`]a<c-g>u
 
 nnoremap / :set hlsearch<CR>/
 imap <C-L> <Right>
-imap <C-S> <Esc><CMD>silent w<CR>
-vmap <C-S> <Esc><CMD>silent w<CR>
-nmap <C-S> <CMD>silent w<CR>
 nnoremap <BS> X
 nmap <F11> <BS>
 nmap <F12> <Delete>
 imap <F11> <BS>
 imap <F12> <Delete>
+
+" saving
+let g:disable_autofmt = 0
+imap <C-S> <Esc><CMD>silent w<CR>
+vmap <C-S> <Esc><CMD>silent w<CR>
+nmap <C-S> <CMD>silent w<CR>
+
+function! FormatSaveToggle()
+    if g:disable_autofmt == 0
+        let g:disable_autofmt = 1
+        imap <C-S> <Esc><CMD>silent noa w<CR>
+        vmap <C-S> <Esc><CMD>silent noa w<CR>
+        nmap <C-S> <CMD>silent noa w<CR>
+    else
+        let g:disable_autofmt = 0
+        imap <C-S> <Esc><CMD>silent w<CR>
+        vmap <C-S> <Esc><CMD>silent w<CR>
+        nmap <C-S> <CMD>silent w<CR>
+    endif
+
+    call lightline#update()
+endfunction
+
+nnoremap <Leader><C-S> <CMD>call FormatSaveToggle()<CR>
 
 " tab navigation
 imap <silent> <C-j> <Esc>:tabprevious<CR>
@@ -236,9 +258,6 @@ function! TermToggle()
         catch
             call termopen($SHELL, {"detach": 0})
             let g:term_buf = bufnr("")
-            set nonumber
-            set norelativenumber
-            set signcolumn=no
         endtry
         startinsert!
         let g:term_win = win_getid()
@@ -277,12 +296,14 @@ nnoremap <Leader>ww  <CMD>set wrap!<CR>
 nnoremap <Leader>q  <CMD>copen<CR>
 nnoremap <Leader>z  <CMD>let &scrolloff=999-&scrolloff<CR>:ZenMode<CR>zz
 nnoremap <Leader>en <CMD>tabedit ~/.nvimrc<CR>
-nnoremap <Leader>lg <CMD>LazyGit<CR>
+nnoremap <Leader>l <CMD>LazyGit<CR>
+nnoremap <Leader>gco :Git checkout 
 nnoremap <Leader>gst <CMD>Gitsigns toggle_numhl<CR>
 nnoremap <Leader>gsc <CMD>Gitsigns toggle_signs<CR>
 nnoremap <Leader>gsb <CMD>Gitsigns toggle_current_line_blame<CR>
 nnoremap <Leader>gg  <CMD>Git<CR>
-nnoremap <Leader>gon <CMD>Dispatch! zsh -ic "gon"<CR>
+nnoremap <Leader>glm <CMD>Dispatch zsh -c "glm"<CR>
+nnoremap <Leader>gon <CMD>Dispatch! zsh -c "gon"<CR>
 nnoremap <Leader>G  <CMD>tabnew<CR><CMD>Git<CR>
 nnoremap <Leader>R  <CMD>CocRestart<CR>
 nnoremap <Leader>u  <CMD>UndotreeToggle<CR>
@@ -296,13 +317,14 @@ nnoremap <Leader>fws <cmd>Telescope coc workspace_symbols<cr>
 nnoremap <Leader>fwe <cmd>Telescope coc workspace_diagnostics<cr>
 " is there a difference to find_files?
 nnoremap <Leader>ff  <cmd>Telescope fd<cr>
-nnoremap <Leader>fg  <cmd>Telescope live_grep<cr>
+nnoremap <Leader>fg  <cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<cr>
 nnoremap <Leader>fl  <cmd>Telescope loclist<cr>
 nnoremap <Leader>fm  <cmd>Telescope man_pages<cr>
 nnoremap <Leader>fr  <cmd>Telescope resume<cr>
 nnoremap <Leader>fs  <cmd>Telescope spell_suggest<cr>
 nnoremap <Leader>ft  <cmd>TodoTelescope<cr>
-nnoremap <Leader>fu  <cmd>Telescope grep_string<cr>
+nnoremap <Leader>fu  <cmd>lua require('telescope-live-grep-args.shortcuts').grep_word_under_cursor()<cr>
+vnoremap <Leader>fv  <cmd>lua require('telescope-live-grep-args.shortcuts').grep_visual_selection()<cr>
 nnoremap <Leader>fq  <cmd>Telescope quickfix<cr>
 " }}}
 
@@ -563,7 +585,7 @@ vim.keymap.set(
 require("nvim-treesitter.configs").setup {
     highlight = {
         enable = true,
-        disable = { "yaml", },
+        -- disable = { "yaml", },
 
         -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
         -- Set to `true` if you depend on 'syntax' being enabled (like for indentation).
@@ -636,58 +658,61 @@ end
 
 
 remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
+local telescope = require('telescope')
 local actions = require('telescope.actions')
 local lga_actions = require("telescope-live-grep-args.actions")
 
-require("telescope").load_extension('fzf')
-require("telescope").load_extension('coc')
-require("telescope").load_extension('live_grep_args')
-
-require("telescope").setup {
-defaults = {
+telescope.setup {
+  defaults = {
     -- Default configuration for telescope goes here:
     -- config_key = value,
     file_ignore_patterns = {
-        "target", -- rust build dir
+      "target", -- rust build dir
     },
     mappings = {
+      i = {
+        -- map actions.which_key to <C-h> (default: <C-/>)
+        -- actions.which_key shows the mappings for your picker,
+        -- e.g. git_{create, delete, ...}_branch for the git_branches picker
+        ["<C-h>"] = "which_key",
+        -- add_to_qflist if we don't want to overwrite existing entries
+        ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+        ["<C-f>"] = actions.send_selected_to_qflist + actions.open_qflist,
+        ["<C-l>"] = actions.smart_add_to_qflist + actions.open_qflist,
+          -- freeze the current list and start a fuzzy search in the frozen list
+        ["<C-b>"] = actions.to_fuzzy_refine,
+        -- ["<Esc>"] = "close",
+      },
+    }
+  },
+  extensions = {
+    fzf = {
+      fuzzy = true,                    -- false will only do exact matching
+      override_generic_sorter = true,  -- override the generic sorter
+      override_file_sorter = true,     -- override the file sorter
+      case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+      -- the default case_mode is "smart_case"
+    },
+    live_grep_args = {
+      auto_quoting = true, -- enable/disable auto-quoting
+      -- define mappings, e.g.
+      mappings = { -- extend mappings
         i = {
-            -- map actions.which_key to <C-h> (default: <C-/>)
-            -- actions.which_key shows the mappings for your picker,
-            -- e.g. git_{create, delete, ...}_branch for the git_branches picker
-            ["<C-h>"] = "which_key",
-            -- add_to_qflist if we don't want to overwrite existing entries
-            ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
-            ["<C-f>"] = actions.send_selected_to_qflist + actions.open_qflist,
-            ["<C-l>"] = actions.smart_add_to_qflist + actions.open_qflist,
-            -- ["<Esc>"] = "close",
-            },
-        }
-    },
-    extensions = {
-        fzf = {
-            fuzzy = true,                    -- false will only do exact matching
-            override_generic_sorter = true,  -- override the generic sorter
-            override_file_sorter = true,     -- override the file sorter
-            case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-            -- the default case_mode is "smart_case"
+          ["<C-o>"] = lga_actions.quote_prompt(),
+          ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
         },
-        live_grep_args = {
-          auto_quoting = true, -- enable/disable auto-quoting
-          -- define mappings, e.g.
-          mappings = { -- extend mappings
-            i = {
-              ["<C-o>"] = lga_actions.quote_prompt(),
-              ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
-            },
-          },
-          -- ... also accepts theme settings, for example:
-          -- theme = "dropdown", -- use dropdown theme
-          -- theme = { }, -- use own theme spec
-          -- layout_config = { mirror=true }, -- mirror preview pane
-        }
-    },
+      },
+      -- ... also accepts theme settings, for example:
+      -- theme = "dropdown", -- use dropdown theme
+      -- theme = { }, -- use own theme spec
+      -- layout_config = { mirror=true }, -- mirror preview pane
+    }
+  },
 }
+
+telescope.load_extension('fzf')
+telescope.load_extension('coc')
+telescope.load_extension('live_grep_args')
 
 -- require('git-conflict').setup {
 --     default_mappings = true, -- disable buffer local mapping created by this plugin

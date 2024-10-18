@@ -1,28 +1,78 @@
-# vim: ft=sh
+# vim: ft=bash
+
+# completion setups
+_compdef () {
+    # avoid compdef errors when sourcing this file for non-login/interactive shells
+    compdef $@ 2>/dev/null
+}
+_unalias () {
+    # avoid unalias errors when sourcing this file for non-login/interactive shells
+    unalias $@ 2>/dev/null
+}
+
+_compdef _gnu_generic pdfgrep
 
 # all aliases are functions in order to work with things like `notify` and `compdef`
-
-_git # NOTE: loads the _git completion system, including subcommands
+_git 2>/dev/null # NOTE: loads the _git completion system, including subcommands
 
 alias undeploy_service='~/.dotfiles/scripts/delete_service.sh'
+alias aliases='$EDITOR ~/.aliases'
+
+function csvcol() {
+    head -1 $2 | tr , '\n' | grep -n "^$1$" -m1 | cut -d: -f1
+}
+
+function waitfor() {
+    notify zsh -ic "while $*; do sleep 60; done"
+}
+
+function tmp() {
+    if [ -n $1 ]; then
+        $EDITOR -c "set ft=$1" =()
+    else
+        $EDITOR $1 =()
+    fi
+}
+
+function js() {
+    tmp javascript
+}
+
+function git_exclude() {
+    >> .git/info/exclude 2>/dev/null cat <<EOF
+.in
+.out
+*.vim
+EOF
+}
+
+function largs() {
+    tr '\n' '\0' | xargs -0 $@
+}
+_compdef _xargs largs
 
 function delete_old_branches() {
     list_old_branches | xargs -r git branch -d
 }
 
 function list_old_branches() {
-    git fetch -p; git branch -vv | grep ': gone]'|  grep -v "\*" | awk '{ print $1; }'
+    git fetch -p && git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | grep ' \[gone\]$' | cut -d' ' -f1 | sed 's|^refs/heads/||'
 }
 
 function gmm() {
     git merge $(git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2-) $@
 }
-compdef _git-merge gmm
+_compdef _git-merge gmm
 
 function glm() {
     gcom && gl
 }
-compdef _git-pull glm
+_compdef _git-pull glm
+
+function gslm() {
+    g stash && glm && g stash pop
+}
+_compdef _git-pull gslm
 
 function downloadrep() {
     curl https://downloadreputation.services.atlassian.com/checkreputation --data '{"finalUrl": "'$1'"}'
@@ -39,7 +89,7 @@ function closewords() {
 function rm() {
     trash $@
 }
-compdef _trash rm
+_compdef _trash rm
 
 function zshman () {
     man zshbuiltins | less -p "^       $1 "
@@ -65,6 +115,14 @@ function blkrd() {
     grep -E ".|^$" $@
 }
 
+function ads-devices() {
+    ads "cn=$1" | env LC_ALL=C sed -n 's/^textEncodedORAddress: //p' | jq -r '.devices[] | .deviceid'
+}
+
+function ads-groups() {
+    ads "cn=$1" | LC_ALL=C sed -En '/^memberOf/s/.*CN=([^,]+),.*/\1/p'
+}
+
 function ads-custom () {
   supplied_url="$1"
   substring="://"
@@ -73,7 +131,7 @@ function ads-custom () {
   else
     ad="ldaps://${supplied_url}"
   fi
-  ldapsearch \
+  { ldapsearch \
     -Q \
     -H "$ad" \
     -LLL \
@@ -83,7 +141,9 @@ function ads-custom () {
     -X dn:cn=$USER,ou=people,dc=office,dc=atlassian,dc=com \
     -Y GSSAPI \
     -O maxssf=0 \
-    ${@:2} | \
+    ${@:2} \
+    || echo "You may need to authenticate with Kerberos. Run \`kinit\`."
+    } | \
     awk '{ if ($0 ~ /::/) { cmd="echo "$2" | base64 -D";cmd| getline x;close(cmd); gsub(/::/, ": ", $1); print $1 x } else print $0 }'
 }
 
@@ -131,7 +191,7 @@ function ads-csv () {
 }
 
 curlsh() {
-    curl $1 | (sleep 3; cat) | nvim
+    curl $@ | (sleep 3; cat) | nvim
 }
 
 microsStashGet() {
@@ -170,22 +230,22 @@ EOF
     source .in
 }
 
-unalias ls
+_unalias ls
 ls() {
     eza --group-directories-first $@
 }
 
-unalias la
+_unalias la
 la() {
     ls -a $@ # ls -A for regular ls
 }
 
-unalias ll
+_unalias ll
 ll() {
     ls -lh $@
 }
 
-unalias l
+_unalias l
 l() {
     ls -lah $@
 }
@@ -234,18 +294,18 @@ cudeps() {
     cargo +nightly udeps
 }
 
-unalias gl
+_unalias gl
 gl() {
     git pull $(git remote) $(git rev-parse --abbrev-ref HEAD) $@
 }
-compdef _git-pull gl
+_compdef _git-pull gl
 
 gsl() {
     git stash && git pull && git stash pop
 }
-compdef _git-pull gsl
+_compdef _git-pull gsl
 
-unalias gco
+_unalias gco
 gco() {
     local branch=$(git rev-parse --abbrev-ref HEAD)
     if [ "${branch}" = "main" ] || [ "$branch" = "master" ]; then
@@ -256,18 +316,18 @@ gco() {
 
     git checkout $@
 }
-compdef _git-checkout gco
+_compdef _git-checkout gco
 
 gcom() {
     git checkout $(git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2-) $@
 }
-compdef _git-checkout gcom
+_compdef _git-checkout gcom
 
 gfm() {
     local branch=$(git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2-)
     git fetch origin ${branch}:${branch} $@
 }
-compdef _git-fetch gfm
+_compdef _git-fetch gfm
 
 # shellcheck disable=SC2142
 add() {
@@ -281,7 +341,7 @@ viewdoc() {
 alias priv=' BACKUP_HISTFILE=$HISTFILE; fc -p'
 alias unpriv='HISTFILE=$BACKUP_HISTFILE'
 alias top=bpytop
-alias binja=binaryninja-demo
+alias binja='/Applications/Binary\ Ninja.app/Contents/MacOS/binaryninja'
 alias ra=ranger
 alias m=tldr
 alias c=cargo
@@ -296,7 +356,7 @@ alias gon=' _gon'
 
 
 _gon() {
-    urls=$(rg "url =" $(git rev-parse --show-toplevel)/.git/config | sed -E "s|.*url = ||; s|.*@([^:]+):(.*)|https://\1/\2|")
+    urls=$(rg "url =" $(git rev-parse --show-toplevel)/.git/config | sed -E "s|.*url = ||; s|.*@([^:]+):(.*)|https://\1/\2|; s|.git$||")
 
     if [ $(wc -l <<< $urls) -ne 1 ]; then
         urls=$(fzf --header "Select URL:" <<< $urls)
@@ -335,33 +395,33 @@ notify() {
 gcls() {
     # TODO: handle cding into custom repo name (gcl link repo-name)
     [ $# -lt 2 ] && echo "err: need branch & repo to clone" && return
-    git clone --depth 1 --branch "$1" "$(sed -E 's|.*//(.*)\.([^./]*)/|git@\1.\2:|; s|/src/.*$||' <<< ${@:2})" &&
-        cd "$(sed -E 's|(.*)\.git/?|\1|; s|/src/.*$||; s|.*/(.*)|\1|' <<< "$2")" || return
+    git clone --depth 1 --branch "$1" "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s|/src/.*$||' <<< ${@:2})" &&
+        cd "$(sed -E 's|(.*)\.git/?|\1|; s|/src/.*$||; s|.*/(.+)|\1|' <<< "$2")" || return
 }
-compdef _git-clone gcls
+_compdef _git-clone gcls
 
 gclb() {
     # TODO: handle cding into custom repo name (gcl link repo-name)
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
-    git clone --bare "$(sed -E 's|.*//(.*)\.([^./]*)/|git@\1.\2:|; s|/src/.*$||' <<< $@)" &&
-        cd "$(sed -E 's|(.*)\.git/?|\1|; s|/src/.*$||; s|.*/(.*)|\1|' <<< "$1")" || return
+    git clone --bare "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s|/src/.*$||' <<< $@)" &&
+        cd "$(sed -E 's|(.*)\.git/?|\1|; s|/src/.*$||; s|.*/(.+)|\1|' <<< "$1")" || return
 }
-compdef _git-clone gclb
+_compdef _git-clone gclb
 
-unalias gcl
+_unalias gcl
 gcl() {
     # TODO: handle cding into custom repo name (gcl link repo-name)
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
-    git clone "$(sed -E 's|.*//(.*)\.([^./]*)/|git@\1.\2:|; s|/src/.*$||' <<< $@)" &&
-        cd "$(sed -E 's|(.*)\.git/?|\1|; s|/src/.*$||; s|.*/(.*)|\1|' <<< "$1")" || return
+    git clone "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s|/src/.*$||' <<< $@)" &&
+        cd "$(sed -E 's|(.*)\.git/?|\1|; s|/src/.*$||; s|.*/(.+)|\1|' <<< "$1")" || return
 }
-compdef _git-clone gcl
+_compdef _git-clone gcl
 
 gw() {
     [ $# -lt 1 ] && 1="HEAD"
     git diff $1^ $1
 }
-compdef _git-diff gw
+_compdef _git-diff gw
 
 cn() {
     cargo new $@ && cd $1
@@ -433,49 +493,3 @@ ns() {
 mkcd() {
     mkdir -p "$1" && cd "$1"
 }
-
-# populate_chapter() {
-#     local book=$1
-#     local chapter=$2
-#     local cache="$HOME/.cache/bible/$book$chapter";
-# 
-#     if [ ! -f "$cache" ]; then
-#         echo -e "[1m$chapter[0m\n" >"$cache"
-# 
-#         curl -s "https://www.biblestudytools.com/$book/$chapter.html" |
-#             grep "x-show=\"verseNumbers\"" -A3 |
-#             sed -E 's/>([[:digit:]]+)<\/a>/\n\1\n/' |
-#             sed -E '/x-show=\"verseNumbers\"/d; /^--/d; s/^\s*//; s/^([[:digit:]]+)$/[1m\1[0m/' |
-#             perl -pe 's/ *?<sup.*?\/sup> *?/ /g; s/ *?<.*?>(.<.*?>)? *?/ /g' |
-#             tr '\n' ' ' |
-#             sed -E 's/  +/ /g; $s/ $/\n/' |
-#             fold -sw 60 >>"$cache"
-# 
-#         echo >>"$cache"
-#     fi
-# }
-# 
-# bible() {
-#     local book="genesis"
-#     local chapter=1
-#     local last=1
-#     if [ $# -ge 2 ]; then
-#         book=$1
-#         chapter=$2
-#         last=$chapter
-#     fi
-# 
-#     if [ $# -ge 3 ]; then
-#         last=$3
-#     fi
-# 
-#     if [[ $book =~ "/" ]]; then
-#         IFS=\/ read -r version _ <<< "$book";
-#         mkdir -p "$HOME/.cache/bible/$version"
-#     fi
-# 
-#     env_parallel --env populate_chapter --max-args=1 \
-#         populate_chapter $book ::: $(echo {$chapter..$last})
-# 
-#     cat "$HOME/.cache/bible/$book"{$chapter..$last} | less
-# }

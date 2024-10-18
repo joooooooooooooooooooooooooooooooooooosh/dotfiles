@@ -1,6 +1,10 @@
 # Vim: set ft=zsh
 # ZSH Theme - Preview: https://gyazo.com/8becc8a7ed5ab54a0262a470555c3eed.png
 local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
+local user_host="%B%(!.%{$fg[red]%}.%{$fg[green]%})%n@%m%{$reset_color%} "
+local user_symbol='%(!.#.$)'
+local current_dir="%B%{$fg[blue]%}%~ %{$reset_color%}"
+local conda_prompt='$(conda_prompt_info)'
 
 if [[ $UID -eq 0 ]]; then
     local user_host='%{$terminfo[bold]$fg[red]%}%n@%m %{$reset_color%}'
@@ -21,7 +25,7 @@ local nohistory='${ZSH_THEME_NOHISTORY_PREFIX}private${ZSH_THEME_NOHISTORY_SUFFI
 
 ZSH_THEME_RVM_PROMPT_OPTIONS="i v g"
 
-# PROMPT="╭─${user_host}${current_dir}${rvm_ruby}${git_branch}${venv_prompt}
+# PROMPT="╭─${conda_prompt}${user_host}${current_dir}${rvm_ruby}${vcs_branch}${venv_prompt}${kube_prompt}
 # ╰─%B${user_symbol}%b "
 PROMPT="╰─%B${user_symbol}%b "
 RPROMPT="%B${return_code}%b"
@@ -41,7 +45,7 @@ ZSH_THEME_NOHISTORY_SUFFIX="› %{$reset_color%}"
 zmodload zsh/datetime
 
 get_prompt_string() {
-  PRE_PROMPT="╭─${user_host}${current_dir}${rvm_ruby}${git_branch}"
+  PRE_PROMPT="╭─${conda_prompt}${user_host}${current_dir}${rvm_ruby}${git_branch}${kube_prompt}"
   which deactivate >/dev/null && PRE_PROMPT="${PRE_PROMPT}${venv_prompt}"
   [ -z $HISTFILE ] && PRE_PROMPT="${PRE_PROMPT}${nohistory}"
 
