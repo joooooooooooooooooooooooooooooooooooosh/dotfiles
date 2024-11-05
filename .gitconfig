@@ -18,8 +18,8 @@
 [init]
     defaultBranch = main
 
-[diff]
-    external = difft
+; [diff]
+;     external = difft
 
 [rerere]
     enabled = true
@@ -50,3 +50,7 @@
 [user]
 	name = Josh Harcombe
 	email = jharcombe@atlassian.com
+
+; TODO: this doesn't work since it errors out if the file doesn't exist
+; [blame]
+; 	ignoreRevsFile = .git-blame-ignore-revs

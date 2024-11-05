@@ -15,18 +15,25 @@ _compdef _gnu_generic pdfgrep
 # all aliases are functions in order to work with things like `notify` and `compdef`
 _git 2>/dev/null # NOTE: loads the _git completion system, including subcommands
 
-alias undeploy_service='~/.dotfiles/scripts/delete_service.sh'
 alias aliases='$EDITOR ~/.aliases'
 
-function csvcol() {
+up() {
+    unzip "$1" && rm "$1"
+}
+
+csvcol() {
     head -1 $2 | tr , '\n' | grep -n "^$1$" -m1 | cut -d: -f1
 }
 
-function waitfor() {
+waitfor() {
     notify zsh -ic "while $*; do sleep 60; done"
 }
 
-function tmp() {
+tmp() {
+    if [ $1 = 'js' ]; then
+        1='javascript'
+    fi
+
     if [ -n $1 ]; then
         $EDITOR -c "set ft=$1" =()
     else
@@ -34,11 +41,11 @@ function tmp() {
     fi
 }
 
-function js() {
+js() {
     tmp javascript
 }
 
-function git_exclude() {
+git_exclude() {
     >> .git/info/exclude 2>/dev/null cat <<EOF
 .in
 .out
@@ -46,39 +53,35 @@ function git_exclude() {
 EOF
 }
 
-function largs() {
+largs() {
     tr '\n' '\0' | xargs -0 $@
 }
 _compdef _xargs largs
 
-function delete_old_branches() {
+delete_old_branches() {
     list_old_branches | xargs -r git branch -d
 }
 
-function list_old_branches() {
+list_old_branches() {
     git fetch -p && git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | grep ' \[gone\]$' | cut -d' ' -f1 | sed 's|^refs/heads/||'
 }
 
-function gmm() {
+gmm() {
     git merge $(git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2-) $@
 }
 _compdef _git-merge gmm
 
-function glm() {
+glm() {
     gcom && gl
 }
 _compdef _git-pull glm
 
-function gslm() {
-    g stash && glm && g stash pop
+gslm() {
+    g stash && glm; g stash pop
 }
 _compdef _git-pull gslm
 
-function downloadrep() {
-    curl https://downloadreputation.services.atlassian.com/checkreputation --data '{"finalUrl": "'$1'"}'
-}
-
-function closewords() {
+closewords() {
     grep -E $(
         for i in $(seq 0 $(($(wc -c <<< "$1") - 2))); do
             sed -E "s/(.{$i}).(.*)/\1.\2/" <<< $1
@@ -86,124 +89,33 @@ function closewords() {
     ) /usr/share/dict/words
 }
 
-function rm() {
+rm() {
     trash $@
 }
 _compdef _trash rm
 
-function zshman () {
+zshman () {
     man zshbuiltins | less -p "^       $1 "
 }
 
-function show_service() {
-    atlas micros service show -s "${1}"
-}
-
-function edittmux() {
+edittmux() {
     nvim ~/.config/tmux/tmux.conf && tmux source ~/.config/tmux/tmux.conf
 }
 
-function python() {
+python() {
     python3 $@
 }
 
-function unpack() {
+unpack() {
     unzip $1 && rm $1
 }
 
-function blkrd() {
+blkrd() {
     grep -E ".|^$" $@
-}
-
-function ads-devices() {
-    ads "cn=$1" | env LC_ALL=C sed -n 's/^textEncodedORAddress: //p' | jq -r '.devices[] | .deviceid'
-}
-
-function ads-groups() {
-    ads "cn=$1" | LC_ALL=C sed -En '/^memberOf/s/.*CN=([^,]+),.*/\1/p'
-}
-
-function ads-custom () {
-  supplied_url="$1"
-  substring="://"
-  if test "${string#*$substring}" != "$string"; then
-    ad=$supplied_url
-  else
-    ad="ldaps://${supplied_url}"
-  fi
-  { ldapsearch \
-    -Q \
-    -H "$ad" \
-    -LLL \
-    -E pr=1000/noprompt \
-    -o ldif-wrap=no \
-    -b "dc=office,dc=atlassian,dc=com" \
-    -X dn:cn=$USER,ou=people,dc=office,dc=atlassian,dc=com \
-    -Y GSSAPI \
-    -O maxssf=0 \
-    ${@:2} \
-    || echo "You may need to authenticate with Kerberos. Run \`kinit\`."
-    } | \
-    awk '{ if ($0 ~ /::/) { cmd="echo "$2" | base64 -D";cmd| getline x;close(cmd); gsub(/::/, ": ", $1); print $1 x } else print $0 }'
-}
-
-function ads-all () {
-  GREPPY='.'
-  while getopts "g:" c
-  do
-    case $c in
-      g) GREPPY=$OPTARG ;;
-    esac
-  done
-
-  shift $((OPTIND-1))
-
-  (
-    dig _ldap._tcp.dc._msdcs.office.atlassian.com SRV +noquestion | \
-      grep "IN SRV" | \
-      sort | \
-      awk '{print $8}' | \
-      sed -e 's/.$//'
-  ) | while read ad; do
-    if ! ads-custom $ad $@ | sed "s/^/${ad}: /" | grep -i -E "$GREPPY"; then
-      echo "${ad}:"
-    fi
-
-  done
-}
-
-function ads-apse1a { ads-custom apse1a-ad01.office.atlassian.com $@; }
-function ads-apse2a { ads-custom apse2a-ad01.office.atlassian.com $@; }
-function ads-euc1a { ads-custom euc1a-ad01.office.atlassian.com $@; }
-function ads-usw2a { ads-custom usw2a-ad01.office.atlassian.com $@; }
-function ads-use1a { ads-custom use1a-ad01.office.atlassian.com $@; }
-
-ads() {
-    ads-apse2a $@
-}
-
-function ads-csv () {
-  ads $@ | \
-    grep -v "^#" | \
-    grep -v "dn:" | \
-    awk -v FS=": " '{print $2}' | \
-    awk -v RS='' '{gsub("\n", ","); print}'
 }
 
 curlsh() {
     curl $@ | (sleep 3; cat) | nvim
-}
-
-microsStashGet() {
-  echo "
-  name: "hello"
-  organization: "hello"
-  requiresAsap: true
-  notifications:
-    email: "hello@atlassian.com"
-  " > /tmp/test.sd.yml
-
-  atlas micros service local -e ddev -s $1  -f /tmp/test.sd.yml  | sed -e 's/\\\([^\\]\)/\1/g'
 }
 
 set_service() {
@@ -287,7 +199,7 @@ fns() {
 # }
 
 cupdate() {
-    cargo install $(cargo install --list | sed -En "/:$/{s/ .*//; p}")
+    cargo install $(cargo install --list | sed -En "/:$/s/ .*//p")
 }
 
 cudeps() {
@@ -301,7 +213,7 @@ gl() {
 _compdef _git-pull gl
 
 gsl() {
-    git stash && git pull && git stash pop
+    git stash && git pull; git stash pop
 }
 _compdef _git-pull gsl
 
@@ -352,7 +264,6 @@ alias v=vr
 alias n=nvim
 alias sl=ls
 alias ks=ls
-alias gon=' _gon'
 
 
 _gon() {
@@ -364,6 +275,7 @@ _gon() {
 
     open $urls
 }
+alias gon=' _gon'
 
 
 ## actual functions
@@ -395,25 +307,21 @@ notify() {
 gcls() {
     # TODO: handle cding into custom repo name (gcl link repo-name)
     [ $# -lt 2 ] && echo "err: need branch & repo to clone" && return
-    git clone --depth 1 --branch "$1" "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s|/src/.*$||' <<< ${@:2})" &&
-        cd "$(sed -E 's|(.*)\.git/?|\1|; s|/src/.*$||; s|.*/(.+)|\1|' <<< "$2")" || return
+    cd $(git clone --depth 1 --branch "$1" "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s|/src/.*$||' <<< ${2})" ${@:3} |& tee $(tty) | sed -En "/Cloning into/s/.*'(.*)'.../\1/p")
 }
 _compdef _git-clone gcls
 
 gclb() {
     # TODO: handle cding into custom repo name (gcl link repo-name)
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
-    git clone --bare "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s|/src/.*$||' <<< $@)" &&
-        cd "$(sed -E 's|(.*)\.git/?|\1|; s|/src/.*$||; s|.*/(.+)|\1|' <<< "$1")" || return
+    cd $(git clone --bare "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s|/src/.*$||' <<< $1)" ${@:2} |& tee $(tty) | sed -En "/Cloning into/s/.*'(.*)'.../\1/p")
 }
 _compdef _git-clone gclb
 
 _unalias gcl
 gcl() {
-    # TODO: handle cding into custom repo name (gcl link repo-name)
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
-    git clone "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s|/src/.*$||' <<< $@)" &&
-        cd "$(sed -E 's|(.*)\.git/?|\1|; s|/src/.*$||; s|.*/(.+)|\1|' <<< "$1")" || return
+    cd $(git clone "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s|/src/.*$||' <<< $1)" ${@:2} |& tee $(tty) | sed -En "/Cloning into/s/.*'(.*)'.../\1/p")
 }
 _compdef _git-clone gcl
 

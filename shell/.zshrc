@@ -116,7 +116,10 @@ source "$ZSH"/oh-my-zsh.sh
 # also cause i need the pre-prompt exec stuff now
 bindkey -s "" " clear"
 
+# Even though these are in ~/.zshenv to be sourced by non-interactive shells,
+# source them again here so that unalias can override aliases introduced earlier in this file.
 source "$HOME/.aliases"
+source "$HOME/.workaliases"
 
 unsetopt share_history
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

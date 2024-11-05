@@ -271,6 +271,9 @@ tnoremap <silent> <C-t> <C-\><C-n>:call TermToggle()<CR>
 
 " strip trailing whitespace
 nnoremap <silent> \ws :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl <Bar> :unlet _s <CR><C-o>
+
+nnoremap \s. <CMD>s/\./\\\\./g<CR>
+
 " leader mappings {{{
 nnoremap <Leader>t  :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
 nnoremap <Leader>T  :tabnew<CR><Esc>:terminal<CR>
@@ -298,10 +301,12 @@ nnoremap <Leader>z  <CMD>let &scrolloff=999-&scrolloff<CR>:ZenMode<CR>zz
 nnoremap <Leader>en <CMD>tabedit ~/.nvimrc<CR>
 nnoremap <Leader>l <CMD>LazyGit<CR>
 nnoremap <Leader>gco :Git checkout 
+nnoremap <Leader>gcm <CMD>Dispatch zsh -c "gcom"<CR>
 nnoremap <Leader>gst <CMD>Gitsigns toggle_numhl<CR>
 nnoremap <Leader>gsc <CMD>Gitsigns toggle_signs<CR>
 nnoremap <Leader>gsb <CMD>Gitsigns toggle_current_line_blame<CR>
 nnoremap <Leader>gg  <CMD>Git<CR>
+nnoremap <Leader>gll <CMD>Git pull<CR>
 nnoremap <Leader>glm <CMD>Dispatch zsh -c "glm"<CR>
 nnoremap <Leader>gon <CMD>Dispatch! zsh -c "gon"<CR>
 nnoremap <Leader>G  <CMD>tabnew<CR><CMD>Git<CR>
@@ -885,8 +890,6 @@ nnoremap <silent> \cc <plug>(coc-codeaction)
 nnoremap <silent> \cs <plug>(coc-codeaction-selected)
 vnoremap <silent> \cs <plug>(coc-codeaction-selected)
 nnoremap <silent> \cr <CMD>CocRestart<CR>
-
-nnoremap \s  :CocCommand clangd.switchSourceHeader<CR>
 
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
