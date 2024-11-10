@@ -1,6 +1,9 @@
-# vim: ft=bash
+# vim: ft=sh tabstop=4 shiftwidth=4 expandtab list
+
+# NOTE: for vipe, sponge etc install moreutils
 
 # completion setups
+# https://zsh.sourceforge.io/Doc/Release/Completion-System.html#Functions-2
 _compdef () {
     # avoid compdef errors when sourcing this file for non-login/interactive shells
     compdef $@ 2>/dev/null
@@ -16,9 +19,16 @@ _compdef _gnu_generic pdfgrep
 _git 2>/dev/null # NOTE: loads the _git completion system, including subcommands
 
 alias aliases='$EDITOR ~/.aliases'
+alias up=unpack
+alias nipe='vipe >/dev/null'
 
-up() {
-    unzip "$1" && rm "$1"
+vipe() {
+    [ -n "$1" -a "$1" != "--suffix" ] && { 2=$1; 1="--suffix" }
+    command vipe $@
+}
+
+portusage() {
+    netstat -anvp tcp | grep LISTEN | awk '{ print $4, $9 }' | while read port pid; do echo "Port $port: $(ps -p $pid -o command= | sed 's/^-//') (PID: $pid)"; done | sort -n | uniq
 }
 
 csvcol() {
@@ -30,7 +40,7 @@ waitfor() {
 }
 
 tmp() {
-    if [ $1 = 'js' ]; then
+    if [ "$1" = 'js' ]; then
         1='javascript'
     fi
 
@@ -109,6 +119,7 @@ python() {
 unpack() {
     unzip $1 && rm $1
 }
+_compdef '_files -g "*.zip"' unpack
 
 blkrd() {
     grep -E ".|^$" $@
@@ -117,6 +128,8 @@ blkrd() {
 curlsh() {
     curl $@ | (sleep 3; cat) | nvim
 }
+# TODO: doesn't work
+# _compdef _curl curlsh
 
 set_service() {
     >> .in cat <<EOF
@@ -241,9 +254,8 @@ gfm() {
 }
 _compdef _git-fetch gfm
 
-# shellcheck disable=SC2142
 add() {
-    awk "{s+=\$1} END{print s}"
+    awk '{s+=$1} END{print s}'
 }
 
 viewdoc() {
@@ -287,13 +299,16 @@ np() {
 }
 
 cl() {
-    curl "$1" -o "$(sed 's/\?.*//' <<< $(basename "$1"))"
+    curl "$@" -o "$(sed 's/\?.*//' <<< $(basename "$1"))"
 }
+# TODO: doesn't work
+# _compdef _curl cl
 
 ctfetch() {
     file=$(basename "$1")
-    wget "$1" && mv "$file" $(sed 's/\?.*//' <<< $file)
+    wget $@ && mv "$file" $(sed 's/\?.*//' <<< $file)
 }
+_compdef _wget ctfetch
 
 notify() {
     if $@; then
@@ -305,23 +320,21 @@ notify() {
 }
 
 gcls() {
-    # TODO: handle cding into custom repo name (gcl link repo-name)
     [ $# -lt 2 ] && echo "err: need branch & repo to clone" && return
-    cd $(git clone --depth 1 --branch "$1" "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s|/src/.*$||' <<< ${2})" ${@:3} |& tee $(tty) | sed -En "/Cloning into/s/.*'(.*)'.../\1/p")
+    cd $(faketty git clone --depth 1 --branch "$1" "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s|/src/.*$||' <<< ${2})" ${@:3} |& tee $(tty) | sed -En "/Cloning into/s/.*'(.*)'...\r/\1/p")
 }
 _compdef _git-clone gcls
 
 gclb() {
-    # TODO: handle cding into custom repo name (gcl link repo-name)
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
-    cd $(git clone --bare "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s|/src/.*$||' <<< $1)" ${@:2} |& tee $(tty) | sed -En "/Cloning into/s/.*'(.*)'.../\1/p")
+    cd $(faketty git clone --bare "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s|/src/.*$||' <<< $1)" ${@:2} |& tee $(tty) | sed -En "/Cloning into/s/.*'(.*)'...\r/\1/p")
 }
 _compdef _git-clone gclb
 
 _unalias gcl
 gcl() {
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
-    cd $(git clone "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s|/src/.*$||' <<< $1)" ${@:2} |& tee $(tty) | sed -En "/Cloning into/s/.*'(.*)'.../\1/p")
+    cd $(faketty git clone "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s|/src/.*$||' <<< $1)" ${@:2} |& tee $(tty) | sed -En "/Cloning into/s/.*'(.*)'...\r/\1/p")
 }
 _compdef _git-clone gcl
 
@@ -336,7 +349,7 @@ cn() {
 }
 
 faketty() {
-    script -qefc "$(printf "%q " "$@")" /dev/null
+    script -qeF /dev/null $(printf "%q " "$@")
 }
 
 cr() {
@@ -358,8 +371,8 @@ clean-none-images() {
 }
 
 tldr() {
-    [ $# -lt 1 ] && { /usr/bin/tldr; return; }
-    /usr/bin/tldr "$@" | less
+    [ $# -lt 1 ] && { command tldr; return; }
+    command tldr "$@" | less
 }
 
 swap() {

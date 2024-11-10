@@ -1,46 +1,4 @@
 " Vim: set fdm=marker fmr={{{,}}} fdl=0 fdls=-1:
-" autocmds {{{
-autocmd TermOpen * startinsert
-autocmd TermOpen * setlocal nonumber norelativenumber nospell winfixheight signcolumn=no
-
-" enter insert mode only if cursor on same line as last prompt
-autocmd BufEnter term://* silent! $/\$/?[$>]?mark z
-    \| if ( line("'z") == line(".") )
-        \| startinsert
-    \| endif
-
-autocmd BufLeave term://* silent! stopinsert
-
-" crappy proportion replacement
-autocmd VimResized * wincmd =
-
-autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | silent! checktime | endif
-" TODO: only compile tex once and copy resulting pdf to view.pdf
-autocmd BufWritePost *.tex exec 'Dispatch! cp % view.tex; tectonic view.tex'
-autocmd BufWritePost *.tex exec 'Dispatch! tectonic %'
-" TODO: some kind of autocmd to unload nvimrc in sessions
-" autocmd WinClosed ~/.nvimrc exec 'bunload \~\/\.nvimrc | bdelete \~\/\.nvimrc'
-
-autocmd FileType qf setlocal winfixheight " quickfix buffers
-autocmd FileType markdown,text setlocal spell wrap
-autocmd FileType tex,plaintex setlocal spell wrap
-autocmd FileType text setlocal textwidth=78
-autocmd FileType make setlocal list
-autocmd FileType typescript,javascript,typescriptreact,yaml setlocal tabstop=2 shiftwidth=2
-autocmd FileType sh,bash,zsh setlocal tabstop=8 shiftwidth=8 expandtab list
-autocmd FileType sql setlocal commentstring=--%s
-
-autocmd BufReadPost .justfile setlocal ft=just
-
-" autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
-
-" TODO: change comment style automatically
-" autocmd BufReadPost,BufNewFile *.c set commentstring=//%s
-autocmd BufReadPre,BufNewFile *.s setlocal tabstop=8 shiftwidth=8 expandtab
-autocmd BufNewFile *.c  0r ~/.vim/skeletons/skeleton.c
-autocmd BufNewFile day*.rs  0r ~/.vim/skeletons/aoc.rs
-" autocmd BufWritePre *.hs CocCommand editor.action.formatDocument
-" }}}
 
 if !has('gui_running') && &term =~ '^\%(screen\|tmux\)'
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -84,6 +42,49 @@ set viewoptions-=options,curdir
 set dir=$HOME/.vim/swapfiles//
 set directory=$HOME/.vim/swapfiles//
 set backupdir=$HOME/.vim/swapfiles//
+" }}}
+
+" autocmds {{{
+autocmd TermOpen * startinsert
+autocmd TermOpen * setlocal nonumber norelativenumber nospell winfixheight signcolumn=no
+
+" enter insert mode only if cursor on same line as last prompt
+autocmd BufEnter term://* silent! $/\$/?[$>]?mark z
+    \| if ( line("'z") == line(".") )
+        \| startinsert
+    \| endif
+
+autocmd BufLeave term://* silent! stopinsert
+
+" crappy proportion replacement
+autocmd VimResized * wincmd =
+
+autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | silent! checktime | endif
+" TODO: only compile tex once and copy resulting pdf to view.pdf
+autocmd BufWritePost *.tex exec 'Dispatch! cp % view.tex; tectonic view.tex'
+autocmd BufWritePost *.tex exec 'Dispatch! tectonic %'
+" TODO: some kind of autocmd to unload nvimrc in sessions
+" autocmd WinClosed ~/.nvimrc exec 'bunload \~\/\.nvimrc | bdelete \~\/\.nvimrc'
+
+autocmd FileType qf setlocal winfixheight " quickfix buffers
+autocmd FileType markdown,text setlocal spell wrap
+autocmd FileType tex,plaintex setlocal spell wrap
+autocmd FileType text setlocal textwidth=78
+autocmd FileType make setlocal list
+autocmd FileType typescript,javascript,typescriptreact,yaml setlocal tabstop=2 shiftwidth=2
+autocmd FileType sh,bash,zsh setlocal tabstop=4 shiftwidth=4 expandtab list
+autocmd FileType sql setlocal commentstring=--%s
+
+autocmd BufReadPost .justfile setlocal ft=just
+
+" autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
+
+" TODO: change comment style automatically
+" autocmd BufReadPost,BufNewFile *.c set commentstring=//%s
+autocmd BufReadPre,BufNewFile *.s setlocal tabstop=8 shiftwidth=8 expandtab
+autocmd BufNewFile *.c  0r ~/.vim/skeletons/skeleton.c
+autocmd BufNewFile day*.rs  0r ~/.vim/skeletons/aoc.rs
+" autocmd BufWritePre *.hs CocCommand editor.action.formatDocument
 " }}}
 
 let mapleader=" "
