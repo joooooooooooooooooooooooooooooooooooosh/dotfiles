@@ -8,21 +8,15 @@
 # If you come from bash you might have to change your $PATH.
 
 # zmodload zsh/zprof
-export VAULT_ADDR="https://vault.data.internal.atlassian.com"
-export PATH=$PATH:/Applications/CyberArk\ EPM.app/Contents/Helpers
 
 export PATH=/opt/homebrew/bin/:$PATH
 export PATH=$PATH:$HOME/.local/bin
-export PATH=$PATH:/opt/atlassian/bin/
 export PATH=$PATH:/usr/local/go/bin/
 
 export PATH=$HOME/bin:/usr/local/bin:$PATH:/root/.gem/ruby/2.7.0/bin:$HOME/.local/share/gem/ruby/3.0.0/bin
 export PATH=$PATH:/opt/gradle/gradle-5.4.1/bin
 export PYTHONPATH="/usr/lib/python3.9/site-packages":$PYTHONPATH
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-
-# NOTE: this probably rarely updates, and no need for a blocking network call during startup
-# atlas --completion-script-zsh > ~/.oh-my-zsh/functions/_atlas
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -114,7 +108,9 @@ source "$ZSH"/oh-my-zsh.sh
 
 # make C-l actually clear to reset the prompt
 # also cause i need the pre-prompt exec stuff now
-bindkey -s "" " clear"
+# _myclear() command clear
+# zle -N _myclear
+# bindkey "^l" _myclear
 
 # Even though these are in ~/.zshenv to be sourced by non-interactive shells,
 # source them again here so that unalias can override aliases introduced earlier in this file.
@@ -142,8 +138,6 @@ if type rg &> /dev/null; then
     export FZF_DEFAULT_COMMAND='rg --files'
 fi
 
-export WINEPREFIX=~/.wine
-
 export CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
 export XDG_CONFIG_HOME=~/.config
 
@@ -160,6 +154,4 @@ eval "$(zoxide init zsh)"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-source ~/.afm-git-configrc
 eval "$(pdm --pep582)"
-export PATH="/opt/atlassian/bin:$PATH"

@@ -1,14 +1,15 @@
-# vim: ft=sh tabstop=4 shiftwidth=4 expandtab list
+# vim: ft=bash tabstop=4 shiftwidth=4 expandtab list
 
 # NOTE: for vipe, sponge etc install moreutils
 
 # completion setups
 # https://zsh.sourceforge.io/Doc/Release/Completion-System.html#Functions-2
-_compdef () {
+_compdef() {
     # avoid compdef errors when sourcing this file for non-login/interactive shells
-    compdef $@ 2>/dev/null
+    type compdef &> /dev/null && compdef $@
 }
-_unalias () {
+
+_unalias() {
     # avoid unalias errors when sourcing this file for non-login/interactive shells
     unalias $@ 2>/dev/null
 }
@@ -16,14 +17,32 @@ _unalias () {
 _compdef _gnu_generic pdfgrep
 
 # all aliases are functions in order to work with things like `notify` and `compdef`
-_git 2>/dev/null # NOTE: loads the _git completion system, including subcommands
+_git &> /dev/null # NOTE: loads the _git completion system, including subcommands
 
 alias aliases='$EDITOR ~/.aliases'
 alias up=unpack
 alias nipe='vipe >/dev/null'
 
+findlock() {
+    ioreg -l -w 0 \
+        | perl -nle 'print $1 if /"kCGSSessionSecureInputPID"=(\d+)/' \
+        | uniq \
+        | xargs -I{} ps -p {} -o comm=
+}
+
+gln() {
+    gl $@ && n
+}
+
+gcln() {
+    gcl $@ && n
+}
+
 vipe() {
-    [ -n "$1" -a "$1" != "--suffix" ] && { 2=$1; 1="--suffix" }
+    if [ -n "$1" -a "$1" != "--suffix" ]; then
+        2=$1
+        1="--suffix"
+    fi
     command vipe $@
 }
 
@@ -56,7 +75,7 @@ js() {
 }
 
 git_exclude() {
-    >> .git/info/exclude 2>/dev/null cat <<EOF
+    >> .git/info/exclude 2> /dev/null cat << EOF
 .in
 .out
 *.vim
@@ -73,7 +92,7 @@ delete_old_branches() {
 }
 
 list_old_branches() {
-    git fetch -p && git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | grep ' \[gone\]$' | cut -d' ' -f1 | sed 's|^refs/heads/||'
+    git fetch -qp && git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | grep ' \[gone\]$' | cut -d' ' -f1 | sed 's|^refs/heads/||'
 }
 
 gmm() {
@@ -87,7 +106,8 @@ glm() {
 _compdef _git-pull glm
 
 gslm() {
-    g stash && glm; g stash pop
+    g stash && glm
+    g stash pop
 }
 _compdef _git-pull gslm
 
@@ -104,7 +124,7 @@ rm() {
 }
 _compdef _trash rm
 
-zshman () {
+zshman() {
     man zshbuiltins | less -p "^       $1 "
 }
 
@@ -126,18 +146,21 @@ blkrd() {
 }
 
 curlsh() {
-    curl $@ | (sleep 3; cat) | nvim
+    curl $@ | (
+        sleep 3
+        cat
+    ) | nvim
 }
 # TODO: doesn't work
 # _compdef _curl curlsh
 
 set_service() {
-    >> .in cat <<EOF
+    >> .in cat << EOF
 ORIGINAL_SERVICE_NAME=\$SERVICE_NAME
 export SERVICE_NAME=$1
 EOF
 
-    >> .out cat <<EOF
+    >> .out cat << EOF
 export SERVICE_NAME=\$ORIGINAL_SERVICE_NAME
 EOF
 
@@ -146,10 +169,10 @@ EOF
 
 create_venv() {
     python3 -m venv .venv
-    >> .in cat <<EOF
+    >> .in cat << EOF
 source .venv/bin/activate
 EOF
-    >> .out cat <<EOF
+    >> .out cat << EOF
 deactivate
 EOF
     source .in
@@ -188,7 +211,8 @@ cpd() {
 }
 
 fzd() {
-    cd ~/Documents; fzc
+    cd ~/Documents
+    fzc
 }
 
 fzn() {
@@ -196,7 +220,8 @@ fzn() {
 }
 
 cfzcn() {
-    cd ~/.config; fzcn $@
+    cd ~/.config
+    fzcn $@
 }
 
 fns() {
@@ -226,7 +251,8 @@ gl() {
 _compdef _git-pull gl
 
 gsl() {
-    git stash && git pull; git stash pop
+    git stash && git pull
+    git stash pop
 }
 _compdef _git-pull gsl
 
@@ -236,12 +262,12 @@ gco() {
     if [ "${branch}" = "main" ] || [ "$branch" = "master" ]; then
         echo -n "Do you want to pull changes first? (y/N) "
         read -rq pull
-        [[ "${pull}" =~ [Yy] ]] && gl
+        [[ ${pull} =~ [Yy] ]] && gl
     fi
 
-    git checkout $@
+    git switch $@
 }
-_compdef _git-checkout gco
+_compdef _git-switch gco
 
 gcom() {
     git checkout $(git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2-) $@
@@ -277,7 +303,6 @@ alias n=nvim
 alias sl=ls
 alias ks=ls
 
-
 _gon() {
     urls=$(rg "url =" $(git rev-parse --show-toplevel)/.git/config | sed -E "s|.*url = ||; s|.*@([^:]+):(.*)|https://\1/\2|; s|.git$||")
 
@@ -288,7 +313,6 @@ _gon() {
     open $urls
 }
 alias gon=' _gon'
-
 
 ## actual functions
 
@@ -358,20 +382,23 @@ cr() {
 }
 
 cman() {
-    apropos "$1" |
-        grep '(3)' |
-        less
+    apropos "$1" \
+        | grep '(3)' \
+        | less
 }
 
 clean-none-images() {
-    docker image ls |
-        grep "^<none>" |
-        awk '{print $3}' |
-        xargs docker image rm
+    docker image ls \
+        | grep "^<none>" \
+        | awk '{print $3}' \
+        | xargs docker image rm
 }
 
 tldr() {
-    [ $# -lt 1 ] && { command tldr; return; }
+    [ $# -lt 1 ] && {
+        command tldr
+        return
+    }
     command tldr "$@" | less
 }
 
@@ -383,12 +410,12 @@ swap() {
 
 fzc() {
     local file=$(fzf)
-    cd $(echo $file | sed 's/\/[^\/]*$//') 2>/dev/null
+    cd $(echo $file | sed 's/\/[^\/]*$//') 2> /dev/null
 }
 
 fzcn() {
     local file=$(fzf)
-    cd $(echo $file | sed 's/\/[^\/]*$//') 2>/dev/null
+    cd $(echo $file | sed 's/\/[^\/]*$//') 2> /dev/null
     nvim "$(echo "$file" | sed 's/.*\///')"
 }
 
@@ -397,8 +424,8 @@ ns() {
     # to stop sessions with terminals starting in insert mode
     # TODO: modify vim-obsession to do this instead
     if [ -z "$1" ]; then
-        gsed -i '/unlet SessionLoad/istopinsert' Session.vim &&
-            nvim -S Session.vim
+        gsed -i '/unlet SessionLoad/istopinsert' Session.vim \
+            && nvim -S Session.vim
     else
         if [ $(compgen -G "$1*" | wc -l) -ne 1 ]; then
             echo "Too many matches for $1:"
@@ -406,8 +433,8 @@ ns() {
             return 1
         fi
 
-        gsed -i '/unlet SessionLoad/istopinsert' "./""$1"*"/Session.vim" &&
-            nvim -S "./""$1""*/Session.vim"
+        gsed -i '/unlet SessionLoad/istopinsert' "./""$1"*"/Session.vim" \
+            && nvim -S "./""$1""*/Session.vim"
     fi
 }
 

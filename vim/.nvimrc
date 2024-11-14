@@ -75,7 +75,8 @@ autocmd FileType typescript,javascript,typescriptreact,yaml setlocal tabstop=2 s
 autocmd FileType sh,bash,zsh setlocal tabstop=4 shiftwidth=4 expandtab list
 autocmd FileType sql setlocal commentstring=--%s
 
-autocmd BufReadPost .justfile setlocal ft=just
+autocmd BufReadPost *.justfile setlocal ft=just
+autocmd BufReadPost *.plist setlocal ft=xml
 
 " autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 
