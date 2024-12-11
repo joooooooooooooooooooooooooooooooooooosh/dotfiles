@@ -107,10 +107,12 @@ source "$ZSH"/oh-my-zsh.sh
 # export ARCHFLAGS="-arch x86_64"
 
 # make C-l actually clear to reset the prompt
-# also cause i need the pre-prompt exec stuff now
-# _myclear() command clear
-# zle -N _myclear
-# bindkey "^l" _myclear
+clear-screen() {
+    echoti clear
+    print -P $PRE_PROMPT
+    zle redisplay
+}
+zle -N clear-screen
 
 # Even though these are in ~/.zshenv to be sourced by non-interactive shells,
 # source them again here so that unalias can override aliases introduced earlier in this file.
@@ -150,8 +152,12 @@ eval "$(mcfly init zsh)"
 unset ESBUILD_BINARY_PATH
 eval "$(zoxide init zsh)"
 
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export NVM_DIR="$HOME/.nvm"
+# This is lazy loaded in ~/.aliases via `npm` and `nvm`
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
+# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
 eval "$(pdm --pep582)"
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"

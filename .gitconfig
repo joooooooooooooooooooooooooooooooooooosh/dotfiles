@@ -54,3 +54,8 @@
 ; TODO: this doesn't work since it errors out if the file doesn't exist
 ; [blame]
 ; 	ignoreRevsFile = .git-blame-ignore-revs
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true

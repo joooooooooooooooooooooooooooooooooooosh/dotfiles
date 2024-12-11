@@ -22,20 +22,23 @@ _git &> /dev/null # NOTE: loads the _git completion system, including subcommand
 alias aliases='$EDITOR ~/.aliases'
 alias up=unpack
 alias nipe='vipe >/dev/null'
+alias fileserver='python3 -m http.server 8080'
+
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+nat() {
+    cat $1 | nipe $2
+}
+
+dump() {
+    objdump -d -Mintel $@ | nipe objdump
+}
 
 findlock() {
     ioreg -l -w 0 \
         | perl -nle 'print $1 if /"kCGSSessionSecureInputPID"=(\d+)/' \
         | uniq \
         | xargs -I{} ps -p {} -o comm=
-}
-
-gln() {
-    gl $@ && n
-}
-
-gcln() {
-    gcl $@ && n
 }
 
 vipe() {
@@ -149,7 +152,7 @@ curlsh() {
     curl $@ | (
         sleep 3
         cat
-    ) | nvim
+    ) | nipe sh
 }
 # TODO: doesn't work
 # _compdef _curl curlsh
@@ -265,14 +268,20 @@ gco() {
         [[ ${pull} =~ [Yy] ]] && gl
     fi
 
-    git switch $@
+    git checkout $@
 }
-_compdef _git-switch gco
+_compdef _git-checkout gco
 
 gcom() {
     git checkout $(git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2-) $@
 }
 _compdef _git-checkout gcom
+
+gsco() {
+    g stash && gco $@
+    g stash pop
+}
+_compdef _git-checkout gsco
 
 gfm() {
     local branch=$(git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2-)
@@ -299,7 +308,6 @@ alias timer=termdown
 alias yeah=yes
 alias q=" exit"
 alias v=vr
-alias n=nvim
 alias sl=ls
 alias ks=ls
 
@@ -315,6 +323,18 @@ _gon() {
 alias gon=' _gon'
 
 ## actual functions
+
+default_nvim() {
+    echo $1 > .default.nvim
+    [ -d .git ] && ! grep -qF .default.nvim .git/info/exclude && echo .default.nvim >> .git/info/exclude
+}
+
+n() {
+    if [ -z "$1" ]; then
+        1=$(cat .default.nvim 2>/dev/null)
+    fi
+    nvim $@
+}
 
 np() {
     [ -z "$1" ] && return
@@ -361,6 +381,14 @@ gcl() {
     cd $(faketty git clone "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s|/src/.*$||' <<< $1)" ${@:2} |& tee $(tty) | sed -En "/Cloning into/s/.*'(.*)'...\r/\1/p")
 }
 _compdef _git-clone gcl
+
+gln() {
+    gl $@ && n
+}
+
+gcln() {
+    gcl $@ && n
+}
 
 gw() {
     [ $# -lt 1 ] && 1="HEAD"
@@ -441,3 +469,28 @@ ns() {
 mkcd() {
     mkdir -p "$1" && cd "$1"
 }
+
+#### nvm setup
+
+_lazy_load_nvm() {
+    unset -f npm node nvm
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+}
+
+npm() {
+    _lazy_load_nvm
+    npm $@
+}
+
+nvm() {
+    _lazy_load_nvm
+    nvm $@
+}
+
+node() {
+    _lazy_load_nvm
+    node $@
+}
+
+####
