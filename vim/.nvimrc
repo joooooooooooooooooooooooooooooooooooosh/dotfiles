@@ -50,10 +50,11 @@ autocmd TermOpen * startinsert
 autocmd TermOpen * setlocal nonumber norelativenumber nospell winfixheight signcolumn=no
 
 " enter insert mode only if cursor on same line as last prompt
-autocmd BufEnter term://* silent! $/\$/?[$>]?mark z
-    \| if ( line("'z") == line(".") )
-        \| startinsert
-    \| endif
+" autocmd BufEnter term://* silent! $/\$/?[$>]?mark z
+"     \| if ( line("'z") == line(".") )
+"         \| startinsert
+"     \| endif
+autocmd BufEnter term://* startinsert
 
 autocmd BufLeave term://* silent! stopinsert
 
@@ -75,6 +76,7 @@ autocmd FileType make setlocal list
 autocmd FileType typescript,javascript,typescriptreact,yaml setlocal tabstop=2 shiftwidth=2
 autocmd FileType sh,bash,zsh setlocal tabstop=4 shiftwidth=4 expandtab list
 autocmd FileType sql setlocal commentstring=--%s
+autocmd FileType svelte setlocal commentstring=//%s
 
 autocmd BufReadPost *.justfile setlocal ft=just
 autocmd BufReadPost *.plist setlocal ft=xml
@@ -231,7 +233,7 @@ nmap \odp "zyiwo<C-R>z<Esc>\dp
 nmap \oep "zyiwo<C-R>z<Esc>\ep
 
 nmap \t iTODO<Esc>gcc==A
-nmap \j \t(joshh)
+nmap \j \t(jharcombe)
 " cc clears auto comments added if this is being performed from a commented line
 nmap \ot o<Esc>cc<Esc>\t: 
 nmap \Ot O<Esc>cc<Esc>\t: 
@@ -871,6 +873,7 @@ map <silent> <C-p> :lua require('nvim-window').pick()<CR>
 nmap <silent> <Leader>; :HopWord<CR>
 
 autocmd FileType c,cpp setlocal commentstring=//%s
+autocmd FileType svelte setlocal commentstring=//%s
 nnoremap \cx :Dispatch! chmod u+x %<CR>
 nnoremap \gpf :Git push --force-with-lease<CR>
 nnoremap \gh :GBrowse<CR>

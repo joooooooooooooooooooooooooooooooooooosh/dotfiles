@@ -13,16 +13,16 @@ if [ -n "${BLUETOOTH_OUTPUT}" ]; then
         && PREFERRED_OUTPUT=(${PREFERRED_BLUETOOTH}) # don't set output if the `blueutil` connect timed out
 fi
 
-for input in ${PREFERRED_INPUT[@]}; do
-    if SwitchAudioSource -a -t input | grep -q "${input}"; then
-        SwitchAudioSource -t input -s "${input}"
+for output in ${PREFERRED_OUTPUT[@]}; do
+    if SwitchAudioSource -a -t output | grep -q "${output}"; then
+        SwitchAudioSource -t output -s "${output}"
         break
     fi
 done
 
-for output in ${PREFERRED_OUTPUT[@]}; do
-    if SwitchAudioSource -a -t output | grep -q "${output}"; then
-        SwitchAudioSource -t output -s "${output}"
+for input in ${PREFERRED_INPUT[@]}; do
+    if SwitchAudioSource -a -t input | grep -q "${input}"; then
+        SwitchAudioSource -t input -s "${input}"
         break
     fi
 done

@@ -23,8 +23,12 @@ alias aliases='$EDITOR ~/.aliases'
 alias up=unpack
 alias nipe='vipe >/dev/null'
 alias fileserver='python3 -m http.server 8080'
+# Used in custom bira.zsh-theme to disable status reporting for large repositories
+alias disable_status='git config prompt.git-status false'
+alias enable_status='git config --unset prompt.git-status'
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
 
 nat() {
     cat $1 | nipe $2
@@ -468,6 +472,11 @@ ns() {
 
 mkcd() {
     mkdir -p "$1" && cd "$1"
+}
+
+zn() {
+    z $@
+    n
 }
 
 #### nvm setup

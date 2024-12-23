@@ -1,5 +1,6 @@
 # Vim: set ft=zsh
 # ZSH Theme - Preview: https://gyazo.com/8becc8a7ed5ab54a0262a470555c3eed.png
+
 local return_code="%(?..%{$fg[red]%}%? ↵%{$reset_color%})"
 local user_host="%B%(!.%{$fg[red]%}.%{$fg[green]%})%n@%m%{$reset_color%} "
 local user_symbol='%(!.#.$)'
@@ -17,7 +18,7 @@ fi
 local current_dir='%{$terminfo[bold]$fg[blue]%}%-0<..<%~ %{$reset_color%}'
 
 # local git_branch='$(git_prompt_info)' # TODO: an omzsh update broke this
-local git_branch='$(git rev-parse --abbrev-ref HEAD 2>/dev/null | xargs -r -I {} echo "${ZSH_THEME_GIT_PROMPT_PREFIX}{}$([ -n "$(git status -suno 2>/dev/null)" ] && echo "*")${ZSH_THEME_GIT_PROMPT_SUFFIX}")'
+local git_branch='$(git rev-parse --abbrev-ref HEAD 2>/dev/null | xargs -r -I {} echo "${ZSH_THEME_GIT_PROMPT_PREFIX}{}$([ -z "$(git config prompt.git-status)" ] && [ -n "$(git status -suno 2>/dev/null)" ] && echo "*")${ZSH_THEME_GIT_PROMPT_SUFFIX}")'
 
 local rvm_ruby='$(ruby_prompt_info)'
 local venv_prompt='${ZSH_THEME_VIRTUALENV_PREFIX}venv${ZSH_THEME_VIRTUALENV_SUFFIX}'
