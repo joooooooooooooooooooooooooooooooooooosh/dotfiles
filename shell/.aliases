@@ -26,9 +26,13 @@ alias fileserver='python3 -m http.server 8080'
 # Used in custom bira.zsh-theme to disable status reporting for large repositories
 alias disable_status='git config prompt.git-status false'
 alias enable_status='git config --unset prompt.git-status'
+alias espanso=/opt/homebrew/bin/espanso
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
+watch() {
+    while :; do clear; date; echo; $@; sleep 2; done
+}
 
 nat() {
     cat $1 | nipe $2
@@ -113,8 +117,8 @@ glm() {
 _compdef _git-pull glm
 
 gslm() {
-    g stash && glm
-    g stash pop
+    git stash && glm
+    git stash pop
 }
 _compdef _git-pull gslm
 
@@ -369,20 +373,20 @@ notify() {
 
 gcls() {
     [ $# -lt 2 ] && echo "err: need branch & repo to clone" && return
-    cd $(faketty git clone --depth 1 --branch "$1" "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s|/src/.*$||' <<< ${2})" ${@:3} |& tee $(tty) | sed -En "/Cloning into/s/.*'(.*)'...\r/\1/p")
+    cd $(faketty git clone --depth 1 --branch "$1" "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s_/(src|tree)/.*$__' <<< ${2})" ${@:3} |& tee $(tty) | sed -En "/Cloning into/s/.*'(.*)'...\r/\1/p")
 }
 _compdef _git-clone gcls
 
 gclb() {
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
-    cd $(faketty git clone --bare "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s|/src/.*$||' <<< $1)" ${@:2} |& tee $(tty) | sed -En "/Cloning into/s/.*'(.*)'...\r/\1/p")
+    cd $(faketty git clone --bare "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s_/(src|tree)/.*$__' <<< $1)" ${@:2} |& tee $(tty) | sed -En "/Cloning into/s/.*'(.*)'...\r/\1/p")
 }
 _compdef _git-clone gclb
 
 _unalias gcl
 gcl() {
     [ $# -lt 1 ] && echo "err: need repo to clone" && return
-    cd $(faketty git clone "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s|/src/.*$||' <<< $1)" ${@:2} |& tee $(tty) | sed -En "/Cloning into/s/.*'(.*)'...\r/\1/p")
+    cd $(faketty git clone "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s_/(src|tree)/.*$__' <<< $1)" ${@:2} |& tee $(tty) | sed -En "/Cloning into/s/.*'(.*)'...\r/\1/p")
 }
 _compdef _git-clone gcl
 
@@ -503,3 +507,32 @@ node() {
 }
 
 ####
+
+tz () {
+        local from="Australia/Sydney"
+        case "${2}" in
+                (m) from="America/San_Francisco"  ;;
+                (ny) from="America/New_York"  ;;
+                (u) from="UTC"  ;;
+                (i) from="Asia/Kolkata"  ;;
+                (j) from="Asia/Tokyo"  ;;
+                (a) from="Australia/Sydney"  ;;
+                (nz) from="Pacific/Auckland"  ;;
+        esac
+        local time="${1:-$(date +"%H%M")}"
+        convert_time "${time}" "${from}" Australia/Sydney
+        convert_time "${time}" "${from}" America/Los_Angeles
+        convert_time "${time}" "${from}" America/New_York
+        convert_time "${time}" "${from}" UTC
+        convert_time "${time}" "${from}" Asia/Kolkata
+        convert_time "${time}" "${from}" Asia/Tokyo
+        convert_time "${time}" "${from}" Pacific/Auckland
+}
+
+convert_time () {
+        local hours="${1%??}"
+        local minutes="${1: -2}"
+        local from="${2}"
+        local to="${3}"
+        TZ="${to}" date -jf "%H:%M%z" "${hours}:${minutes}$(TZ="${from}" date +"%z")" +"%H:%M %Z (%z)"
+}

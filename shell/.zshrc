@@ -7,6 +7,7 @@
 
 # If you come from bash you might have to change your $PATH.
 
+# NOTE: uncomment to profile shell startup. `zprof` to view results
 # zmodload zsh/zprof
 
 export PATH=/opt/homebrew/bin/:$PATH
@@ -122,6 +123,7 @@ source "$HOME/.workaliases"
 unsetopt share_history
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export EDITOR="nvim"
+export VISUAL="nvim"
 PATH="$HOME/.cargo/bin:$HOME/perl5/bin${PATH:+:${PATH}}"
 export PATH
 PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
@@ -149,7 +151,7 @@ export MCFLY_RESULTS_SORT=RANK # options: [LAST_RUN, RANK]
 eval "$(mcfly init zsh)"
 
 # idk why this is still set
-unset ESBUILD_BINARY_PATH
+# unset ESBUILD_BINARY_PATH
 eval "$(zoxide init zsh)"
 
 export NVM_DIR="$HOME/.nvm"

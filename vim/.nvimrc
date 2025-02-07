@@ -313,6 +313,7 @@ nnoremap <Leader>gsb <CMD>Gitsigns toggle_current_line_blame<CR>
 nnoremap <Leader>gg  <CMD>Git<CR>
 nnoremap <Leader>gll <CMD>Git pull<CR>
 nnoremap <Leader>gsl <CMD>Dispatch zsh -c "gsl"<CR>
+nnoremap <Leader>gsm <CMD>Dispatch zsh -c "gslm"<CR>
 nnoremap <Leader>glm <CMD>Dispatch zsh -c "glm"<CR>
 nnoremap <Leader>gon <CMD>Dispatch! zsh -c "gon"<CR>
 nnoremap <Leader>G  <CMD>tabnew<CR><CMD>Git<CR>
