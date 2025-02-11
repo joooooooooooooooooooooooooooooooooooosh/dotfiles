@@ -37,7 +37,7 @@ sketchybar --default "${default[@]}"
 sketchybar --add event aerospace_workspace_change
 
 # TODO: add entry when switching to an empty space
-for sid in $(aerospace list-workspaces --monitor focused --empty no); do
+for sid in $(aerospace list-monitors | cut -d' ' -f1 | xargs aerospace list-workspaces --empty no --monitor); do
     sketchybar --add item space.$sid left \
         --subscribe space.$sid aerospace_workspace_change \
         --set space.$sid \
@@ -82,6 +82,8 @@ sketchybar --add item clock right \
            --add item battery right \
            --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
            --subscribe battery system_woke power_source_change
+
+sketchybar --add alias "MeetingBar,Item-0" right
 
 ##### Force all scripts to run the first time (never do this in a script) #####
 sketchybar --update

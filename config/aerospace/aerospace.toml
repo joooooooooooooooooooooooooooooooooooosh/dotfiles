@@ -31,7 +31,7 @@ inner.vertical = 5
 [mode.main.binding]
 
 alt-ctrl-shift-s = 'layout v_accordion'
-alt-ctrl-shift-t = 'layout v_accordion'
+alt-ctrl-shift-t = 'layout h_accordion'
 alt-ctrl-shift-b = 'layout tiles'
 alt-comma = 'split vertical'
 alt-period = 'split horizontal'
@@ -56,6 +56,8 @@ alt-leftSquareBracket = 'exec-and-forget aerospace list-workspaces --monitor foc
 alt-rightSquareBracket = 'exec-and-forget aerospace list-workspaces --monitor focused --empty no | aerospace workspace --wrap-around next'
 alt-semicolon = 'focus-monitor --wrap-around left'
 alt-quote = 'focus-monitor --wrap-around right'
+alt-shift-semicolon = 'move-node-to-monitor --wrap-around left'
+alt-shift-quote = 'move-node-to-monitor --wrap-around right'
 
 alt-backtick = 'workspace 1'
 alt-1 = 'workspace 2'
@@ -89,17 +91,18 @@ alt-f = 'fullscreen --no-outer-gaps'
 alt-shift-f = 'layout tiling floating'
 alt-shift-q = 'close'
 
-alt-shift-semicolon = 'mode service'
+alt-shift-s = 'mode service'
 alt-r = 'mode resize'
 
 alt-enter = 'exec-and-forget open -a alacritty -n'
 alt-e = 'exec-and-forget open $HOME'
 alt-ctrl-d = 'exec-and-forget open -a slack'
-alt-s = 'exec-and-forget ~/scripts/scratchpad.sh'
+# alt-s = 'exec-and-forget ~/scripts/scratchpad.sh'
+alt-s = 'exec-and-forget open -a "System Settings"'
 alt-ctrl-o = 'exec-and-forget ~/scripts/switchmic.sh'
 alt-p = 'exec-and-forget skhd -k "alt + shift - up"'
 alt-n = 'exec-and-forget skhd -k "alt + shift - down"'
-alt-b = 'exec-and-forget sketchybar --reload'
+alt-b = 'exec-and-forget pgrep sketchybar && sketchybar --reload || sketchybar'
 alt-shift-c = 'reload-config'
 
 
