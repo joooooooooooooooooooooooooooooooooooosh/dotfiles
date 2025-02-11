@@ -11,6 +11,7 @@ cp ~/.aliases "${DOT_DIR}shell"
 cp ~/.gitconfig "$DOT_DIR"
 cp ~/.gdbinit "$DOT_DIR"
 cp ~/.config/alacritty/alacritty.toml "${CONFIG_DIR}alacritty/"
+cp ~/.config/aerospace/aerospace.toml "${CONFIG_DIR}aerospace/"
 rm -rf "${CONFIG_DIR}ranger/"
 cp -r ~/.config/ranger "${CONFIG_DIR}ranger/"
 rm -r "${DOT_DIR}vim/skeletons/"
@@ -22,7 +23,10 @@ cur_theme=$(grep "^ZSH_THEME" "${DOT_DIR}shell/.zshrc" | cut -d\" -f2)
 [ "$cur_theme" != "random" ] && cp "$HOME/.oh-my-zsh/themes/$cur_theme.zsh-theme" "${DOT_DIR}shell/current.zsh-theme"
 
 if ! { [ $# -ge 1 ] && [ "$1" == "-n" ]; }; then
-    cd "$DOT_DIR" || { echo "cd ${DOT_DIR} failed"; exit 1; }
+    cd "$DOT_DIR" || {
+        echo "cd ${DOT_DIR} failed"
+        exit 1
+    }
     if [ "$1" == "-d" ]; then
         git diff
     else

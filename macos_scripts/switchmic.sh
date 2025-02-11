@@ -1,4 +1,5 @@
 #!/usr/bin/env zsh
+# NOTE: if running this script using Aerospace, Aerospace needs access to Bluetooth in order to use blueutil
 
 PREFERRED_INPUT=("Razer Seiren Mini" "MacBook Pro Microphone")
 PREFERRED_OUTPUT=("External Headphones" "USB Audio CODEC " "MacBook Pro Speakers")
