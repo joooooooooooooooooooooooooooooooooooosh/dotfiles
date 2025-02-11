@@ -3,18 +3,17 @@ start-at-login = true
 # on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 on-focus-changed = ['move-mouse window-lazy-center']
 
-# after-startup-command = ['exec-and-forget sketchybar']
-# exec-on-workspace-change = [
-#   '/bin/bash',
-#   '-c',
-#   'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE',
-# ]
+exec-on-workspace-change = [
+  '/bin/bash',
+  '-c',
+  'sketchybar --trigger aerospace_workspace_change FOCUSED_WORKSPACE=$AEROSPACE_FOCUSED_WORKSPACE',
+]
 
 after-startup-command = [
   # https://github.com/FelixKratz/JankyBorders
-  'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0x00494d64 width=5.0 hidpi=on'
-  # run sketchybar
-  # 'exec-and-forget sketchybar'
+  'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0x00494d64 width=5.0 hidpi=on',
+  # https://github.com/FelixKratz/SketchyBar
+  'exec-and-forget sketchybar'
 ]
 
 enable-normalization-flatten-containers = false 
@@ -23,7 +22,7 @@ accordion-padding = 0
 
 [gaps]
 outer.left = 5
-# outer.top = [ { monitor."built-in" = 10 }, 35 ]
+outer.top = [ { monitor."built-in" = 10 }, 27 ]
 outer.right = 5
 outer.bottom = 5
 inner.horizontal = 5
@@ -100,6 +99,8 @@ alt-s = 'exec-and-forget ~/scripts/scratchpad.sh'
 alt-ctrl-o = 'exec-and-forget ~/scripts/switchmic.sh'
 alt-p = 'exec-and-forget skhd -k "alt + shift - up"'
 alt-n = 'exec-and-forget skhd -k "alt + shift - down"'
+alt-b = 'exec-and-forget sketchybar --reload'
+alt-shift-c = 'reload-config'
 
 
 [mode.resize.binding]
