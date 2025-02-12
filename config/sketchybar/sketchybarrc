@@ -37,7 +37,7 @@ sketchybar --default "${default[@]}"
 sketchybar --add event aerospace_workspace_change
 
 # TODO: add entry when switching to an empty space
-for sid in $(aerospace list-monitors | cut -d' ' -f1 | xargs aerospace list-workspaces --empty no --monitor); do
+for sid in $(aerospace list-monitors | cut -d' ' -f1 | xargs aerospace list-workspaces --empty no --monitor | grep -v ^scratchpad$); do
     sketchybar --add item space.$sid left \
         --subscribe space.$sid aerospace_workspace_change \
         --set space.$sid \
