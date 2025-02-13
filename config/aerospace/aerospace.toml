@@ -21,10 +21,10 @@ default-root-container-layout = 'tiles'
 accordion-padding = 0
 
 [gaps]
-outer.left = 5
-outer.top = [ { monitor."built-in" = 10 }, 27 ]
-outer.right = 5
-outer.bottom = 5
+# outer.left = 5
+outer.top = [ { monitor."built-in" = 0 }, 30 ]
+# outer.right = 5
+# outer.bottom = 5
 inner.horizontal = 5
 inner.vertical = 5
 

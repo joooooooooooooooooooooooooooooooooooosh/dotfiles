@@ -30,8 +30,12 @@ alias espanso=/opt/homebrew/bin/espanso
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
+psgrep() {
+    ps aux | grep "$@" | grep -v "grep .*$*"
+}
+
 watch() {
-    while :; do clear; date; echo; $@; sleep 2; done
+    while :; do clear; date; echo; "$@"; sleep 2; done
 }
 
 nat() {
@@ -39,7 +43,7 @@ nat() {
 }
 
 dump() {
-    objdump -d -Mintel $@ | nipe objdump
+    objdump -d -Mintel "$@" | nipe objdump
 }
 
 findlock() {
@@ -54,7 +58,7 @@ vipe() {
         2=$1
         1="--suffix"
     fi
-    command vipe $@
+    command vipe "$@"
 }
 
 portusage() {
@@ -94,7 +98,7 @@ EOF
 }
 
 largs() {
-    tr '\n' '\0' | xargs -0 $@
+    tr '\n' '\0' | xargs -0 "$@"
 }
 _compdef _xargs largs
 
@@ -107,7 +111,7 @@ list_old_branches() {
 }
 
 gmm() {
-    git merge $(git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2-) $@
+    git merge $(git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2-) "$@"
 }
 _compdef _git-merge gmm
 
@@ -131,7 +135,7 @@ closewords() {
 }
 
 rm() {
-    trash $@
+    trash "$@"
 }
 _compdef _trash rm
 
@@ -144,7 +148,7 @@ edittmux() {
 }
 
 python() {
-    python3 $@
+    python3 "$@"
 }
 
 unpack() {
@@ -153,11 +157,11 @@ unpack() {
 _compdef '_files -g "*.zip"' unpack
 
 blkrd() {
-    grep -E ".|^$" $@
+    grep -E ".|^$" "$@"
 }
 
 curlsh() {
-    curl $@ | (
+    curl "$@" | (
         sleep 3
         cat
     ) | nipe sh
@@ -191,26 +195,26 @@ EOF
 
 _unalias ls
 ls() {
-    eza --group-directories-first $@
+    eza --group-directories-first "$@"
 }
 
 _unalias la
 la() {
-    ls -a $@ # ls -A for regular ls
+    ls -a "$@" # ls -A for regular ls
 }
 
 _unalias ll
 ll() {
-    ls -lh $@
+    ls -lh "$@"
 }
 
 _unalias l
 l() {
-    ls -lah $@
+    ls -lah "$@"
 }
 
 cb() {
-    pbcopy $@
+    pbcopy "$@"
 }
 
 pls() {
@@ -227,16 +231,16 @@ fzd() {
 }
 
 fzn() {
-    nvim $(fzf) $@
+    nvim $(fzf) "$@"
 }
 
 cfzcn() {
     cd ~/.config
-    fzcn $@
+    fzcn "$@"
 }
 
 fns() {
-    fd Session.vim | fzf | xargs nvim -S $@
+    fd Session.vim | fzf | xargs nvim -S "$@"
 }
 
 # lsz() {
@@ -257,7 +261,7 @@ cudeps() {
 
 _unalias gl
 gl() {
-    git pull $(git remote) $(git rev-parse --abbrev-ref HEAD) $@
+    git pull $(git remote) $(git rev-parse --abbrev-ref HEAD) "$@"
 }
 _compdef _git-pull gl
 
@@ -276,24 +280,24 @@ gco() {
         [[ ${pull} =~ [Yy] ]] && gl
     fi
 
-    git checkout $@
+    git checkout "$@"
 }
 _compdef _git-checkout gco
 
 gcom() {
-    git checkout $(git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2-) $@
+    git checkout $(git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2-) "$@"
 }
 _compdef _git-checkout gcom
 
 gsco() {
-    g stash && gco $@
+    g stash && gco "$@"
     g stash pop
 }
 _compdef _git-checkout gsco
 
 gfm() {
     local branch=$(git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2-)
-    git fetch origin ${branch}:${branch} $@
+    git fetch origin ${branch}:${branch} "$@"
 }
 _compdef _git-fetch gfm
 
@@ -341,7 +345,7 @@ n() {
     if [ -z "$1" ]; then
         1=$(cat .default.nvim 2>/dev/null)
     fi
-    nvim $@
+    nvim "$@"
 }
 
 np() {
@@ -358,12 +362,12 @@ cl() {
 
 ctfetch() {
     file=$(basename "$1")
-    wget $@ && mv "$file" $(sed 's/\?.*//' <<< $file)
+    wget "$@" && mv "$file" $(sed 's/\?.*//' <<< $file)
 }
 _compdef _wget ctfetch
 
 notify() {
-    if $@; then
+    if "$@"; then
         title="Succeeded"
     else
         title="Failed"
@@ -391,11 +395,11 @@ gcl() {
 _compdef _git-clone gcl
 
 gln() {
-    gl $@ && n
+    gl "$@" && n
 }
 
 gcln() {
-    gcl $@ && n
+    gcl "$@" && n
 }
 
 gw() {
@@ -405,7 +409,7 @@ gw() {
 _compdef _git-diff gw
 
 cn() {
-    cargo new $@ && cd $1
+    cargo new "$@" && cd $1
 }
 
 faketty() {
@@ -479,7 +483,7 @@ mkcd() {
 }
 
 zn() {
-    z $@
+    z "$@"
     n
 }
 
@@ -493,17 +497,17 @@ _lazy_load_nvm() {
 
 npm() {
     _lazy_load_nvm
-    npm $@
+    npm "$@"
 }
 
 nvm() {
     _lazy_load_nvm
-    nvm $@
+    nvm "$@"
 }
 
 node() {
     _lazy_load_nvm
-    node $@
+    node "$@"
 }
 
 ####
