@@ -32,6 +32,8 @@ inner.vertical = 5
 
 alt-ctrl-shift-s = 'layout v_accordion'
 alt-ctrl-shift-t = 'layout h_accordion'
+alt-ctrl-s = 'layout v_accordion'
+alt-ctrl-t = 'layout h_accordion'
 alt-ctrl-shift-b = 'layout tiles'
 alt-comma = 'split vertical'
 alt-period = 'split horizontal'

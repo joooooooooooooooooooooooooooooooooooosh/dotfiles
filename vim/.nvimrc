@@ -31,7 +31,7 @@ set relativenumber
 set signcolumn=number
 set ignorecase smartcase
 set expandtab
-set clipboard=unnamedplus
+" set clipboard=unnamedplus " removing in favour of Leader shortcuts
 set laststatus=3
 set incsearch nohlsearch
 set undofile
@@ -80,6 +80,7 @@ autocmd FileType svelte setlocal commentstring=//%s
 
 autocmd BufReadPost *.justfile setlocal ft=just
 autocmd BufReadPost *.plist setlocal ft=xml
+autocmd BufReadPost *.jsonl setlocal ft=json
 
 " autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 
@@ -280,6 +281,8 @@ nnoremap <silent> \ws :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl
 nnoremap \s. <CMD>s/\./\\\\./g<CR>
 
 " leader mappings {{{
+noremap <Leader>y "+y
+noremap <Leader>p "+p
 nnoremap <Leader>t  :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
 nnoremap <Leader>T  :tabnew<CR><Esc>:terminal<CR>
 nnoremap <Leader>/  :set hlsearch!<CR>
@@ -399,7 +402,7 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'DNLHC/glance.nvim' " doesn't seem to work
 " Plug 'rmagatti/goto-preview'
 
-Plug 'phaazon/hop.nvim'
+Plug 'smoka7/hop.nvim'
 Plug 'https://gitlab.com/yorickpeterse/nvim-window.git'
 " Plug 'drzel/vim-in-proportion'
 
@@ -689,10 +692,16 @@ telescope.setup {
         ["<C-h>"] = "which_key",
         -- add_to_qflist if we don't want to overwrite existing entries
         ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
-        ["<C-f>"] = actions.send_selected_to_qflist + actions.open_qflist,
+        -- ["<C-f>"] = actions.send_selected_to_qflist + actions.open_qflist,
         ["<C-l>"] = actions.smart_add_to_qflist + actions.open_qflist,
-          -- freeze the current list and start a fuzzy search in the frozen list
-        ["<C-b>"] = actions.to_fuzzy_refine,
+        -- freeze the current list and start a fuzzy search in the frozen list
+        ["<C-f>"] = actions.to_fuzzy_refine,
+        ["<C-b>"] = function(prompt_bufnr)
+          require("telescope.actions.generate").refine(prompt_bufnr, {
+            prompt_to_prefix = true,
+            sorter = false,
+          })
+        end,
         -- ["<Esc>"] = "close",
       },
     }
@@ -705,20 +714,20 @@ telescope.setup {
       case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
       -- the default case_mode is "smart_case"
     },
-    live_grep_args = {
-      auto_quoting = true, -- enable/disable auto-quoting
-      -- define mappings, e.g.
-      mappings = { -- extend mappings
-        i = {
-          ["<C-o>"] = lga_actions.quote_prompt(),
-          ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
-        },
-      },
-      -- ... also accepts theme settings, for example:
-      -- theme = "dropdown", -- use dropdown theme
-      -- theme = { }, -- use own theme spec
-      -- layout_config = { mirror=true }, -- mirror preview pane
-    }
+    -- live_grep_args = {
+    --   auto_quoting = true, -- enable/disable auto-quoting
+    --   -- define mappings, e.g.
+    --   mappings = { -- extend mappings
+    --     i = {
+    --       ["<C-o>"] = lga_actions.quote_prompt(),
+    --       ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+    --     },
+    --   },
+    --  -- ... also accepts theme settings, for example:
+    --  -- theme = "dropdown", -- use dropdown theme
+    --  -- theme = { }, -- use own theme spec
+    --  -- layout_config = { mirror=true }, -- mirror preview pane
+    -- }
   },
 }
 
@@ -871,7 +880,8 @@ let g:nvim_tree_window_picker_chars = "asdfkjlqweruiop"
 
 " plugin key mappings {{{
 map <silent> <C-p> :lua require('nvim-window').pick()<CR>
-nmap <silent> <Leader>; :HopWord<CR>
+map <silent> <Leader>; <CMD>HopWord<CR>
+map <silent> <Leader>. <CMD>HopAnywhere<CR>
 
 autocmd FileType c,cpp setlocal commentstring=//%s
 autocmd FileType svelte setlocal commentstring=//%s

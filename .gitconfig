@@ -54,10 +54,10 @@
 ; TODO: this doesn't work since it errors out if the file doesn't exist
 ; [blame]
 ; 	ignoreRevsFile = .git-blame-ignore-revs
-[filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
 [safe]
 	bareRepository = explicit
+[trace2]
+	eventTarget = af_unix:/Users/jharcombe/.gittrace/trace.sock
+	eventBrief = true
+	eventNesting = 1
+	configparams = custom.metacommands

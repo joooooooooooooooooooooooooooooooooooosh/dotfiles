@@ -37,7 +37,13 @@ sketchybar --default "${default[@]}"
 sketchybar --add event aerospace_workspace_change
 
 # TODO: add entry when switching to an empty space
-for sid in $(aerospace list-monitors | cut -d' ' -f1 | xargs aerospace list-workspaces --empty no --monitor | grep -v ^scratchpad$); do
+# https://github.com/FelixKratz/SketchyBar/issues/607
+for sid in $(seq 1 $(aerospace list-workspaces --monitor focused --empty no | grep -v scratchpad | tail -1)); do
+# for sid in $(aerospace list-monitors | cut -d' ' -f1 | xargs aerospace list-workspaces --empty no --monitor | grep -v ^scratchpad$); do
+    # show="off"
+    # if [ $(aerospace list-windows --workspace $sid --count) -ne 0 ]; then
+    #     show="on"
+    # fi
     sketchybar --add item space.$sid left \
         --subscribe space.$sid aerospace_workspace_change \
         --set space.$sid \
@@ -51,6 +57,7 @@ for sid in $(aerospace list-monitors | cut -d' ' -f1 | xargs aerospace list-work
         label.drawing=off \
         click_script="aerospace workspace $sid" \
         script="$PLUGIN_DIR/aerospace.sh $sid"
+        # icon.drawing=$show \
 done
 
 ##### Adding Left Items #####

@@ -98,8 +98,18 @@ git_exclude() {
 EOF
 }
 
+zargs() {
+    xargs -I{} "$@" {}
+}
+_compdef _xargs largs
+
 largs() {
     tr '\n' '\0' | xargs -0 "$@"
+}
+_compdef _xargs largs
+
+lzargs() {
+    tr '\n' '\0' | zargs -0 "$@"
 }
 _compdef _xargs largs
 
@@ -344,7 +354,10 @@ default_nvim() {
 
 n() {
     if [ -z "$1" ]; then
-        1=$(cat .default.nvim 2>/dev/null)
+        1=$(cat .default.nvim 2>/dev/null) || {
+            1='-c'
+            2='Telescope find_files'
+        }
     fi
     nvim "$@"
 }
@@ -409,10 +422,6 @@ gw() {
 }
 _compdef _git-diff gw
 
-cn() {
-    cargo new "$@" && cd $1
-}
-
 faketty() {
     script -qeF /dev/null $(printf "%q " "$@")
 }
@@ -455,9 +464,13 @@ fzc() {
 }
 
 fzcn() {
-    local file=$(fzf)
-    cd $(echo $file | sed 's/\/[^\/]*$//') 2> /dev/null
-    nvim "$(echo "$file" | sed 's/.*\///')"
+    local file=$(fzf -q "$@")
+    cn $file
+}
+
+cn() {
+    cd $(echo "$1" | sed 's/\/[^\/]*$//') 2> /dev/null
+    nvim "$(echo "$1" | sed 's/.*\///')"
 }
 
 ns() {
@@ -485,6 +498,11 @@ mkcd() {
 
 zn() {
     z "$@"
+    n
+}
+
+zin() {
+    zi "$@"
     n
 }
 
