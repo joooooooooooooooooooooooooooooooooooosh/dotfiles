@@ -20,6 +20,7 @@ rm -r "${DOT_DIR}vim/skeletons/"
 cp -r ~/.vim/skeletons "${DOT_DIR}vim/"
 rm -r "${DOT_DIR}macos_scripts"
 cp -r ~/scripts "${DOT_DIR}macos_scripts"
+cp -r ~/Library/Application\ Support/espanso "${DOT_DIR}espanso"
 
 cur_theme=$(grep "^ZSH_THEME" "${DOT_DIR}shell/.zshrc" | cut -d\" -f2)
 [ "$cur_theme" != "random" ] && cp "$HOME/.oh-my-zsh/themes/$cur_theme.zsh-theme" "${DOT_DIR}shell/current.zsh-theme"

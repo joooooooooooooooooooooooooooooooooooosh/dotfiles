@@ -1,0 +1,97 @@
+# espanso match file
+
+# For a complete introduction, visit the official docs at: https://espanso.org/docs/
+
+# You can use this file to define the base matches (aka snippets)
+# that will be available in every application when using espanso.
+
+# Matches are substitution rules: when you type the "trigger" string
+# it gets replaced by the "replace" string.
+matches:
+  # Simple text replacement
+  - trigger: ";go/"
+    replace: "https://go.atlassian.com/"
+  - trigger: ";cargo/"
+    replace: "/Users/jharcombe/.cargo/bin/"
+  - trigger: ";corpsec-"
+    replace: "https://asecurityteam.atlassian.net/browse/CORPSEC-"
+  - trigger: ";cs-"
+    replace: "https://asecurityteam.atlassian.net/browse/CS-"
+  - trigger: ";plspls"
+    replace: ":pleading::point_right::point_left:"
+  - trigger: ";falconcid"
+    replace: "9efe65d0808e439685fe44278b94cd3e"
+  - trigger: ";tableflip"
+    replace: "(╯°□°)╯彡▔▔▏"
+  - trigger: ";bigtableflip"
+    replace: ":tableflip-1::tableflip-2::tableflip-3::tableflip-4::tableflip-5::tableflip-6::tableflip-7::tableflip-8:"
+  - trigger: ";getadmin"
+    replace: "Please follow the instructions at go/getadminprivs"
+  - trigger: ";perms"
+    replace: "Did you follow all of the instructions at go/yubikeyperms?"
+  - trigger: ";ss"
+    replace: "Software Signing"
+  - trigger: ";epm"
+    replace: '"/Applications/CyberArk EPM.app/Contents/Helpers/CyberArkEPM"'
+  - trigger: ";policies"
+    replace: '"/Applications/CyberArk EPM.app/Contents/Helpers/CyberArkEPM" -requestPolicies'
+
+  # code
+  - trigger: ";interact"
+    replace: "__import__('code').interact(local=dict(globals(), **locals()))"
+  - trigger: ";addadmin"
+    replace: "sudo dseditgroup -o edit -a $(users) -t user admin"
+  - trigger: ";removeadmin"
+    replace: "sudo dseditgroup -o edit -d $(users) -t user admin"
+  - trigger: ";waitforelm"
+    replace: |
+      function waitForElm(selector) {
+        return new Promise((resolve) => {
+          if (document.querySelector(selector)) {
+            return resolve(document.querySelectorAll(selector));
+          }
+
+          const observer = new MutationObserver((_mutations) => {
+            if (document.querySelector(selector)) {
+              observer.disconnect();
+              resolve(document.querySelectorAll(selector));
+            }
+          });
+
+          // If you get "parameter 1 is not of type 'Node'" error, see https://stackoverflow.com/a/77855838/492336
+          observer.observe(document.body, {
+            childList: true,
+            subtree: true,
+          });
+        });
+      }
+
+  # Canned responses
+  - trigger: ";csextensionblock"
+    replace: "Unfortunately we don't approve extensions to access sensitive data on browsers unless they are from an approved supplier at Atlassian who has gone through our supplier review process for security as an SBCR request, or internally developed by Atlassian. This is because we cannot trust unknown third party developers who may access our data and content and this impacts our compliance requirements and customer trust."
+  - trigger: ";installapps"
+    replace: "You shouldn't need to request admin rights to install an app, because CyberArk EPM can do it for you - try the steps at go/installapps"
+
+  # NOTE: espanso uses YAML to define matches, so pay attention to the indentation!
+
+  # But matches can also be dynamic:
+
+  # Print the current date
+  # - trigger: ";date"
+  #   replace: "{{mydate}}"
+  #   vars:
+  #     - name: mydate
+  #       type: date
+  #       params:
+  #         format: "%m/%d/%Y"
+
+  # Print the output of a shell command
+  # - trigger: ";shell"
+  #   replace: "{{output}}"
+  #   vars:
+  #     - name: output
+  #       type: shell
+  #       params:
+  #         cmd: "echo 'Hello from your shell'"
+
+  # And much more! For more information, visit the docs: https://espanso.org/docs/
