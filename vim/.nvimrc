@@ -112,7 +112,7 @@ vnoremap . :normal .<CR>
 nmap <C-n> <CMD>NvimTreeFindFileToggle<CR>
 nnoremap <silent> <Plug>(default-ctrl-e) <C-e>
 nnoremap <silent> <Plug>(default-ctrl-y) <C-y>
-nmap <C-e> $
+map <C-e> $
 imap <C-e> <Esc>A
 imap <C-a> <Esc>^i
 
@@ -303,7 +303,7 @@ nnoremap <Leader>sl  <CMD>set list!<CR>
 nnoremap <Leader>ss  <CMD>set spell!<CR>
 nnoremap <Leader>S  <CMD>let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 " nnoremap <Leader>k  "zyiw:!man <C-R>z<CR>g
-nnoremap <Leader>ww  <CMD>set wrap!<CR>
+noremap <Leader>ww  <CMD>set wrap!<CR>
 nnoremap <Leader>q  <CMD>copen<CR>
 nnoremap <Leader>z  <CMD>let &scrolloff=999-&scrolloff<CR>:ZenMode<CR>zz
 nnoremap <Leader>en <CMD>tabedit ~/.nvimrc<CR>

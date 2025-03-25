@@ -165,3 +165,4 @@ export PYENV_ROOT="$HOME/.pyenv"
 eval "$(pyenv init -)"
 
 export PATH="/Users/jharcombe/.orbit/bin:$PATH"
+export HOMEBREW_NO_AUTO_UPDATE=1
