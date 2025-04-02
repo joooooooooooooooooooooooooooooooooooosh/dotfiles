@@ -81,6 +81,7 @@ autocmd FileType svelte setlocal commentstring=//%s
 autocmd BufReadPost *.justfile setlocal ft=just
 autocmd BufReadPost *.plist setlocal ft=xml
 autocmd BufReadPost *.jsonl setlocal ft=json
+autocmd BufReadPost README setlocal ft=markdown
 
 " autocmd VimEnter * call vista#RunForNearestMethodOrFunction()
 

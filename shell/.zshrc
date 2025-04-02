@@ -10,7 +10,7 @@
 # NOTE: uncomment to profile shell startup. `zprof` to view results
 # zmodload zsh/zprof
 
-export PATH=/opt/homebrew/bin/:$PATH
+export PATH=/opt/homebrew/bin:$PATH
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:/usr/local/go/bin/
 
@@ -165,4 +165,5 @@ export PYENV_ROOT="$HOME/.pyenv"
 eval "$(pyenv init -)"
 
 export PATH="/Users/jharcombe/.orbit/bin:$PATH"
+export PATH="$PATH:/Users/jharcombe/.nvm/versions/node/v20.15.1/bin"
 export HOMEBREW_NO_AUTO_UPDATE=1

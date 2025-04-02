@@ -20,7 +20,7 @@ matches:
 
   # mac
   - trigger: ";isadmin"
-    replace: |
+    replace: |-
       dscl . read /groups/admin | grep ^GroupMembership | grep -E " $(users)( |\$)"
   - trigger: ";addadmin"
     replace: "sudo dseditgroup -o edit -a $(users) -t user admin"
@@ -30,6 +30,12 @@ matches:
   # code
   - trigger: ";interact"
     replace: "__import__('code').interact(local=dict(globals(), **locals()))"
+  - trigger: ";ds"
+    replace: |-
+      document.querySelector("$|$")
+  - trigger: ";we"
+    replace: |-
+      waitForElm("$|$").then(([elm]) =>
   - trigger: ";waitforelm"
     replace: |
       function waitForElm(selector) {

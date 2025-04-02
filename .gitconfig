@@ -11,6 +11,7 @@
         --abbrev-commit
     lol  = log --graph --decorate --pretty=oneline --abbrev-commit
     lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+    m    = merge
     ph   = push
     pl   = "pull --rebase"
     s    = status

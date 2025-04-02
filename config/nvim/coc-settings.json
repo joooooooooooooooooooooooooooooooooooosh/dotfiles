@@ -1,0 +1,48 @@
+{
+  "diagnostic-languageserver.formatFiletypes": {
+    "sh": "shfmt",
+    "bash": "shfmt",
+    "zsh": "shfmt"
+  },
+  "diagnostic-languageserver.formatters": {
+    "shfmt": {
+      "command": "/opt/homebrew/bin/shfmt",
+      "args": ["-i", "4", "-bn", "-ci", "-sr", "-s"]
+    }
+  },
+  "diagnostic.errorSign": "✖",
+  "diagnostic.warningSign": "⚑",
+  "diagnostic.infoSign": "⚑",
+  "diagnostic.hintSign": "⚑",
+  "coc.preferences.formatOnSaveFiletypes": [
+    "css",
+    "html",
+    "svelte",
+    "js",
+    "javascript",
+    "javascript.jsx",
+    "json",
+    "java",
+    "kotlin",
+    "typescript",
+    "typescript.tsx",
+    "typescriptreact",
+    "python",
+    "rust",
+    "go",
+    "sh",
+    "bash",
+    "zsh",
+    "sql",
+    "yaml",
+    "zig"
+  ],
+  "tsserver.formatOnType": false,
+  "sql.formatOptions": {
+    "language": "plsql"
+  },
+  "svelte.enable-ts-plugin": true,
+  "ruff.format.args": ["--line-length", "89"],
+  "zig.path": "/opt/homebrew/bin/zls",
+  "java.import.gradle.java.home": "/Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home"
+}

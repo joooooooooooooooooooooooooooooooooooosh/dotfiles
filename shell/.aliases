@@ -24,6 +24,7 @@ alias up=unpack
 alias nipe='vipe >/dev/null'
 alias tipe='tee $(tty) | nipe'
 alias fileserver='python3 -m http.server 8080'
+alias ssl='local-ssl-proxy --cert ~/.misc/localhost.pem --key ~/.misc/localhost-key.pem --source 3000 --target 8080'
 # Used in custom bira.zsh-theme to disable status reporting for large repositories
 alias disable_status='git config prompt.git-status false'
 alias enable_status='git config --unset prompt.git-status'
@@ -346,6 +347,12 @@ _gon() {
     open $urls
 }
 alias gon=' _gon'
+
+_gonc() {
+    gon
+    exit
+}
+alias gonc=' _gonc'
 
 ## actual functions
 
