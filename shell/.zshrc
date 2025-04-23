@@ -145,10 +145,11 @@ fi
 export CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
 export XDG_CONFIG_HOME=~/.config
 
-export MCFLY_FUZZY=10
-export MCFLY_RESULTS=40
-export MCFLY_RESULTS_SORT=RANK # options: [LAST_RUN, RANK]
-eval "$(mcfly init zsh)"
+# export MCFLY_FUZZY=10
+# export MCFLY_RESULTS=40
+# export MCFLY_RESULTS_SORT=RANK # options: [LAST_RUN, RANK]
+# eval "$(mcfly init zsh)"
+source <(fzf --zsh)
 
 # idk why this is still set
 # unset ESBUILD_BINARY_PATH

@@ -1,5 +1,7 @@
 from ranger.api.commands import Command
 
+import re
+
 
 class mkcd(Command):
     def execute(self):

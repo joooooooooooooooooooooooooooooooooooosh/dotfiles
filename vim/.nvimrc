@@ -143,6 +143,14 @@ imap <C-S> <Esc><CMD>silent w<CR>
 vmap <C-S> <Esc><CMD>silent w<CR>
 nmap <C-S> <CMD>silent w<CR>
 
+function! YankShift()
+  for i in range(9, 1, -1)
+    call setreg(i, getreg(i - 1))
+  endfor
+endfunction
+
+au TextYankPost * if v:event.operator == 'y' | call YankShift() | endif
+
 function! FormatSaveToggle()
     if g:disable_autofmt == 0
         let g:disable_autofmt = 1

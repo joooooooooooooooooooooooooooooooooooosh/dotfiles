@@ -9,6 +9,10 @@
 # it gets replaced by the "replace" string.
 matches:
   # Simple text replacement
+  - trigger: ";tr"
+    replace: |-
+      - trigger: ""
+        replace: |-
   - trigger: ";cargo/"
     replace: "/Users/jharcombe/.cargo/bin/"
   - trigger: ";plspls"
@@ -26,6 +30,8 @@ matches:
     replace: "sudo dseditgroup -o edit -a $(users) -t user admin"
   - trigger: ";removeadmin"
     replace: "sudo dseditgroup -o edit -d $(users) -t user admin"
+  - trigger: ";psgrep"
+    replace: 'ps aux | grep $|$ | grep -v "grep .*$*"'
 
   # code
   - trigger: ";interact"
@@ -36,6 +42,9 @@ matches:
   - trigger: ";we"
     replace: |-
       waitForElm("$|$").then(([elm]) =>
+  - trigger: ";nav"
+    replace: |-
+      navigation.addEventListener("navigate", $|$);
   - trigger: ";waitforelm"
     replace: |
       function waitForElm(selector) {
@@ -82,3 +91,21 @@ matches:
   #         cmd: "echo 'Hello from your shell'"
 
   # And much more! For more information, visit the docs: https://espanso.org/docs/
+
+  # - trigger: ":file"
+  #   replace: "{{form1.file}}"
+  #   vars:
+  #     - name: files
+  #       type: shell
+  #       params:
+  #         cmd: "find ~/Documents -maxdepth 1"
+  #     - name: form1
+  #       type: form
+  #       params:
+  #         layout: |
+  #           Select file:
+  #           [[file]]
+  #         fields:
+  #           file:
+  #             type: list
+  #             values: "{{files}}"

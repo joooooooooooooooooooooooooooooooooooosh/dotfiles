@@ -20,6 +20,8 @@ _compdef _gnu_generic pdfgrep
 _git &> /dev/null # NOTE: loads the _git completion system, including subcommands
 
 alias aliases='$EDITOR ~/.aliases'
+alias bookmarks='$EDITOR ~/.bookmarks'
+alias bm='print -z "$(fzf < ~/.bookmarks)"'
 alias up=unpack
 alias nipe='vipe >/dev/null'
 alias tipe='tee $(tty) | nipe'
@@ -29,6 +31,7 @@ alias ssl='local-ssl-proxy --cert ~/.misc/localhost.pem --key ~/.misc/localhost-
 alias disable_status='git config prompt.git-status false'
 alias enable_status='git config --unset prompt.git-status'
 alias espanso=/opt/homebrew/bin/espanso
+alias sn='sudo $(which nvim)'
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
@@ -64,7 +67,7 @@ vipe() {
 }
 
 portusage() {
-    netstat -anvp tcp | grep LISTEN | awk '{ print $4, $9 }' | while read port pid; do echo "Port $port: $(ps -p $pid -o command= | sed 's/^-//') (PID: $pid)"; done | sort -n | uniq
+    netstat -anvp tcp | grep LISTEN | awk '{ print $4, $11 }' | while read port pid; do echo "Port $port: $(ps -p $pid -o command= | sed 's/^-//') (PID: $pid)"; done | sort -n | uniq
 }
 
 csvcol() {
@@ -395,7 +398,7 @@ notify() {
     else
         title="Failed"
     fi
-    osascript -e "display notification \"$*\" with title \"${title}\""
+    osascript -e "display notification \"$(sed 's/\\/\\\\/g; s/"/\\"/g' <<< $*)\" with title \"${title}\" sound name \"\""
 }
 
 gcls() {
