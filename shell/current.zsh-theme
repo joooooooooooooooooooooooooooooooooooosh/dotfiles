@@ -19,6 +19,7 @@ local current_dir='%{$terminfo[bold]$fg[blue]%}%-0<..<%~ %{$reset_color%}'
 
 # local git_branch='$(git_prompt_info)' # TODO: an omzsh update broke this
 local git_branch='$(git rev-parse --abbrev-ref HEAD 2>/dev/null | xargs -r -I {} echo "${ZSH_THEME_GIT_PROMPT_PREFIX}{}$([ -z "$(git config prompt.git-status)" ] && [ -n "$(git status -suno 2>/dev/null)" ] && echo "*")${ZSH_THEME_GIT_PROMPT_SUFFIX}")'
+local unibuild='${BLUE_PROMPT_PREFIX}build${PROMPT_SUFFIX}'
 
 local rvm_ruby='$(ruby_prompt_info)'
 local venv_prompt='${ZSH_THEME_VIRTUALENV_PREFIX}venv${ZSH_THEME_VIRTUALENV_SUFFIX}'
@@ -30,6 +31,9 @@ ZSH_THEME_RVM_PROMPT_OPTIONS="i v g"
 # ╰─%B${user_symbol}%b "
 PROMPT="╰─%B${user_symbol}%b "
 RPROMPT="%B${return_code}%b"
+
+BLUE_PROMPT_PREFIX="%{$fg[blue]%}‹"
+PROMPT_SUFFIX="› %{$reset_color%}"
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[yellow]%}‹"
 ZSH_THEME_GIT_PROMPT_SUFFIX="› %{$reset_color%}"
@@ -47,8 +51,9 @@ zmodload zsh/datetime
 
 get_prompt_string() {
   PRE_PROMPT="╭─${conda_prompt}${user_host}${current_dir}${rvm_ruby}${git_branch}${kube_prompt}"
-  which deactivate >/dev/null && PRE_PROMPT="${PRE_PROMPT}${venv_prompt}"
-  [ -z $HISTFILE ] && PRE_PROMPT="${PRE_PROMPT}${nohistory}"
+  [ -r .unibuild.sh ] && PRE_PROMPT+="${unibuild}"
+  which deactivate >/dev/null && PRE_PROMPT+="${venv_prompt}"
+  [ -z $HISTFILE ] && PRE_PROMPT+="${nohistory}"
 
   local zero='%([BSUbfksu]|([FK]|){*})'
   REAL_LENGTH=${#${(S%%)PRE_PROMPT//$~zero/}} 

@@ -339,6 +339,10 @@ nnoremap <Leader>fe  <cmd>Telescope coc diagnostics<cr>
 nnoremap <Leader>fp  <cmd>Telescope coc commands<cr>
 nnoremap <Leader>fws <cmd>Telescope coc workspace_symbols<cr>
 nnoremap <Leader>fwe <cmd>Telescope coc workspace_diagnostics<cr>
+
+nnoremap <Leader>fwt :Telescope git_worktree 
+nnoremap <Leader>fwc <cmd>Telescope git_worktree create_git_worktree<CR>
+nnoremap <Leader>fwl <cmd>Telescope git_worktree git_worktrees<CR>
 " is there a difference to find_files?
 nnoremap <Leader>ff  <cmd>Telescope fd<cr>
 nnoremap <Leader>fg  <cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<cr>
@@ -399,6 +403,8 @@ Plug 'tpope/vim-sleuth'
 Plug 'kdheepak/lazygit.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'sitiom/nvim-numbertoggle'
+
+Plug 'ThePrimeagen/git-worktree.nvim'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
@@ -743,6 +749,16 @@ telescope.setup {
 telescope.load_extension('fzf')
 telescope.load_extension('coc')
 telescope.load_extension('live_grep_args')
+
+require("git-worktree").setup({
+  -- change_directory_command = <str> -- default: "cd",
+  -- update_on_change = <boolean> -- default: true,
+  -- update_on_change_command = <str> -- default: "e .",
+  -- clearjumps_on_change = <boolean> -- default: true,
+  -- autopush = <boolean> -- default: false,
+})
+telescope.load_extension("git_worktree")
+
 
 -- require('git-conflict').setup {
 --     default_mappings = true, -- disable buffer local mapping created by this plugin

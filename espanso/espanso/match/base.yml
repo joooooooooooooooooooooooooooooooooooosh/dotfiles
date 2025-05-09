@@ -21,6 +21,14 @@ matches:
     replace: "(╯°□°)╯彡▔▔▏"
   - trigger: ";bigtableflip"
     replace: ":tableflip-1::tableflip-2::tableflip-3::tableflip-4::tableflip-5::tableflip-6::tableflip-7::tableflip-8:"
+  - trigger: ";nbsp"
+    replace: " "
+  - trigger: ";zwsp"
+    replace: "​"
+
+  # chrome
+  - trigger: ";bm"
+    replace: "@bookmarks"
 
   # mac
   - trigger: ";isadmin"
@@ -32,6 +40,9 @@ matches:
     replace: "sudo dseditgroup -o edit -d $(users) -t user admin"
   - trigger: ";psgrep"
     replace: 'ps aux | grep $|$ | grep -v "grep .*$*"'
+  - trigger: ";~"
+    replace: |-
+      /Users/$(users)/
 
   # code
   - trigger: ";interact"

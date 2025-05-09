@@ -1,0 +1,56 @@
+{
+  "keyMappings": "# Insert your preferred key mappings here.\n\nmap <c-w> removeTab\nmap <c-a> firstTab\nmap <c-e> lastTab\nmap <c-f> scrollFullPageDown\nmap <c-b> scrollFullPageUp\nmap ' Marks.activateGotoMode\nmap \" Marks.activateGotoMode",
+  "linkHintCharacters": "asdfjkl;weruioqp",
+  "regexFindMode": true,
+  "settingsVersion": "2.0.6",
+  "exclusionRules": [
+    {
+      "passKeys": "jk",
+      "pattern": "https?://calendar.google.com/*"
+    },
+    {
+      "passKeys": "ds",
+      "pattern": "https?://drive.google.com/*"
+    },
+    {
+      "passKeys": "?",
+      "pattern": "https?://trello.com/*"
+    },
+    {
+      "passKeys": "d",
+      "pattern": "https?://atlassian.myabsorb.com/*"
+    },
+    {
+      "passKeys": "[",
+      "pattern": "https?://bitbucket.org/*"
+    },
+    {
+      "passKeys": "",
+      "pattern": "https?://monkeytype.com/*"
+    },
+    {
+      "passKeys": "ds",
+      "pattern": "https?://www.youtube.com/*"
+    },
+    {
+      "passKeys": "[",
+      "pattern": "https?://atlassian-procurement.atlassian.net/*"
+    },
+    {
+      "passKeys": "[",
+      "pattern": "https?://hello.jira.atlassian.cloud/*"
+    },
+    {
+      "passKeys": "[",
+      "pattern": "https?://asecurityteam.atlassian.net/*"
+    },
+    {
+      "passKeys": "[",
+      "pattern": "https?://hello.atlassian.net/*"
+    },
+    {
+      "passKeys": "[",
+      "pattern": "https?://home.atlassian.com/*"
+    }
+  ]
+}

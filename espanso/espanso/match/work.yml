@@ -1,0 +1,72 @@
+matches:
+  - trigger: ";go/"
+    replace: "https://go.atlassian.com/"
+  - trigger: ";corpsec-"
+    replace: "https://asecurityteam.atlassian.net/browse/CORPSEC-"
+  - trigger: ";cs-"
+    replace: "https://asecurityteam.atlassian.net/browse/CS-"
+  - trigger: ";falconcid"
+    replace: "9efe65d0808e439685fe44278b94cd3e"
+  - trigger: ";serial"
+    replace: "{{output}}"
+    vars:
+      - name: output
+        type: shell
+        params:
+          cmd: |-
+            ioreg -l | sed -En '/IOPlatformSerialNumber/{s/.+"([^"]+)"$/\1/p; q;}'
+  - trigger: ";gap"
+    replace: "Please follow the instructions at go/getadminprivs"
+  - trigger: ";apgap"
+    replace: "Please follow the instructions at go/getadminprivs to receive temporary admin privileges. These tickets are meant for long term exemptions based on your role."
+  - trigger: ";perms"
+    replace: "Did you follow all of the instructions at go/yubikeyperms?"
+  - trigger: ";ss"
+    replace: "Software Signing"
+  - trigger: ";forceupdate"
+    replace: |-
+      https://hello.atlassian.net/wiki/spaces/CORPSEC/pages/3728677811/Force+Updating+the+Extension
+
+  - trigger: ";e="
+    replace: "earliest=-"
+
+  - trigger: ";zc"
+    replace: "zone_corpsec_prod."
+
+  - trigger: ";>"
+    replace: " >/tmp/rtr_log 2>&1 & disown"
+  - trigger: ";ykman"
+    replace: '"/Applications/YubiKey Manager.app/Contents/MacOS/ykman"'
+  - trigger: ";epm"
+    replace: '"/Applications/CyberArk EPM.app/Contents/Helpers/CyberArkEPM"'
+  - trigger: ";policies"
+    replace: '"/Applications/CyberArk EPM.app/Contents/Helpers/CyberArkEPM" -requestPolicies'
+
+  # Canned responses
+  - trigger: ";csextensionblock"
+    replace: "Unfortunately we don't approve extensions to access sensitive data on browsers unless they are from an approved supplier at Atlassian who has gone through our supplier review process for security as an SBCR request, or internally developed by Atlassian. This is because we cannot trust unknown third party developers who may access our data and content and this impacts our compliance requirements and customer trust."
+  - trigger: ";installapps"
+    replace: "You shouldn't need to request admin rights to install an app, because CyberArk EPM can do it for you - try the steps at go/installapps"
+  - trigger: ";pac"
+    replace: "Please forward emails to phishing@atlassian.com instead of sending Slack messages. phishing@atlassian.com is our centralised phishing hub."
+
+  # Commands
+  - trigger: ";repairepm"
+    replace: |-
+      chflags nouchg /Applications/CyberArk\ EPM.app
+      rm -r /Applications/CyberArk\ EPM.app
+
+      # reinstall EPM
+      /usr/local/bin/jamf recon; /usr/local/bin/jamf policy -event cyberarkepm-install
+  - trigger: ";getlogs"
+    replace: |-
+      _log_filename=/tmp/$(users)_$(date +%Y_%m_%dT%H:%M)_system_logs; echo ${_log_filename}; sudo /usr/bin/log show --info --debug --style compact --last 1h --predicate '(sender CONTAINS "CyberArkEPM")' > ${_log_filename} & disown
+  - trigger: ";archivelogs"
+    replace: |-
+      _log_filename=/tmp/$(users)_$(date +%Y_%m_%dT%H:%M)_system_logs; /usr/bin/log collect --output ${_log_filename}.logarchive --last 1h && /usr/bin/log show ${_log_filename}.logarchive --info --debug --style compact --predicate '(sender CONTAINS "CyberArkEPM")' > ${_log_filename}
+  - trigger: ";supportinfo"
+    replace: |-
+      "/Applications/CyberArk EPM.app/Contents/Helpers/CyberArkEPM" -supportInfo /Users/$(users)/Downloads & disown
+  - trigger: ";falconlogs"
+    replace: |-
+      sudo fs_usage -w -f diskio -f network -f exec -t 120 $(pgrep -U root -f com.crowdstrike.falcon.Agent.systemextension) > $(users)_$(date +%Y_%m_%dT%H:%M)_falcon_logs

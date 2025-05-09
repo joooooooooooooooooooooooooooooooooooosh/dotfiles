@@ -17,7 +17,8 @@ _unalias() {
 _compdef _gnu_generic pdfgrep
 
 # all aliases are functions in order to work with things like `notify` and `compdef`
-_git &> /dev/null # NOTE: loads the _git completion system, including subcommands
+{ type _git-pull || _git } &> /dev/null # NOTE: loads the _git completion system, including subcommands
+
 
 alias aliases='$EDITOR ~/.aliases'
 alias bookmarks='$EDITOR ~/.bookmarks'
@@ -25,7 +26,6 @@ alias bm='print -z "$(fzf < ~/.bookmarks)"'
 alias up=unpack
 alias nipe='vipe >/dev/null'
 alias tipe='tee $(tty) | nipe'
-alias fileserver='python3 -m http.server 8080'
 alias ssl='local-ssl-proxy --cert ~/.misc/localhost.pem --key ~/.misc/localhost-key.pem --source 3000 --target 8080'
 # Used in custom bira.zsh-theme to disable status reporting for large repositories
 alias disable_status='git config prompt.git-status false'
@@ -33,7 +33,21 @@ alias enable_status='git config --unset prompt.git-status'
 alias espanso=/opt/homebrew/bin/espanso
 alias sn='sudo $(which nvim)'
 
+
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+
+alias b=' source .unibuild.sh'
+alias nb=' notify source .unibuild.sh'
+setb() {
+    echo "$@" > .unibuild.sh
+    [ -d .git ] && ! grep -qF .unibuild.sh .git/info/exclude && echo .unibuild.sh >> .git/info/exclude
+}
+
+fileserver() {
+    [ -z $1 ] && 1=8080
+    python3 -m http.server $1
+}
 
 psgrep() {
     ps aux | grep "$@" | grep -v "grep .*$*"
