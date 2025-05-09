@@ -18,34 +18,29 @@ fi
 local current_dir='%{$terminfo[bold]$fg[blue]%}%-0<..<%~ %{$reset_color%}'
 
 # local git_branch='$(git_prompt_info)' # TODO: an omzsh update broke this
-local git_branch='$(git rev-parse --abbrev-ref HEAD 2>/dev/null | xargs -r -I {} echo "${ZSH_THEME_GIT_PROMPT_PREFIX}{}$([ -z "$(git config prompt.git-status)" ] && [ -n "$(git status -suno 2>/dev/null)" ] && echo "*")${ZSH_THEME_GIT_PROMPT_SUFFIX}")'
-local unibuild='${BLUE_PROMPT_PREFIX}build${PROMPT_SUFFIX}'
+local git_branch='$(git rev-parse --abbrev-ref HEAD 2>/dev/null | xargs -r -I {} echo "${YELLOW_PREFIX}{}$([ -z "$(git config prompt.git-status)" ] && [ -n "$(git status -suno 2>/dev/null)" ] && echo "*")${PROMPT_SUFFIX}")'
+local unibuild='${BLUE_PREFIX}build${PROMPT_SUFFIX}'
 
 local rvm_ruby='$(ruby_prompt_info)'
-local venv_prompt='${ZSH_THEME_VIRTUALENV_PREFIX}venv${ZSH_THEME_VIRTUALENV_SUFFIX}'
-local nohistory='${ZSH_THEME_NOHISTORY_PREFIX}private${ZSH_THEME_NOHISTORY_SUFFIX}'
+local venv_prompt='${GREEN_PREFIX}venv${PROMPT_SUFFIX}'
+local nohistory='${MAGENTA_PREFIX}private${PROMPT_SUFFIX}'
+local notify='${MAGENTA_PREFIX}notify${PROMPT_SUFFIX}'
 
 ZSH_THEME_RVM_PROMPT_OPTIONS="i v g"
 
-# PROMPT="╭─${conda_prompt}${user_host}${current_dir}${rvm_ruby}${vcs_branch}${venv_prompt}${kube_prompt}
-# ╰─%B${user_symbol}%b "
 PROMPT="╰─%B${user_symbol}%b "
 RPROMPT="%B${return_code}%b"
 
-BLUE_PROMPT_PREFIX="%{$fg[blue]%}‹"
+BLUE_PREFIX="%{$fg[blue]%}‹"
+GREEN_PREFIX="%{$fg[green]%}‹"
+YELLOW_PREFIX="%{$fg[yellow]%}‹"
+MAGENTA_PREFIX="%{$fg[magenta]%}‹"
 PROMPT_SUFFIX="› %{$reset_color%}"
 
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[yellow]%}‹"
-ZSH_THEME_GIT_PROMPT_SUFFIX="› %{$reset_color%}"
 
 ZSH_THEME_RUBY_PROMPT_PREFIX="%{$fg[red]%}‹"
 ZSH_THEME_RUBY_PROMPT_SUFFIX="› %{$reset_color%}"
 
-ZSH_THEME_VIRTUALENV_PREFIX="%{$fg[green]%}‹"
-ZSH_THEME_VIRTUALENV_SUFFIX="› %{$reset_color%}"
-
-ZSH_THEME_NOHISTORY_PREFIX="%{$fg[magenta]%}‹"
-ZSH_THEME_NOHISTORY_SUFFIX="› %{$reset_color%}"
 
 zmodload zsh/datetime
 
@@ -54,6 +49,7 @@ get_prompt_string() {
   [ -r .unibuild.sh ] && PRE_PROMPT+="${unibuild}"
   which deactivate >/dev/null && PRE_PROMPT+="${venv_prompt}"
   [ -z $HISTFILE ] && PRE_PROMPT+="${nohistory}"
+  [ -n "${ZSH_NOTIFY}" ] && PRE_PROMPT+="${notify}"
 
   local zero='%([BSUbfksu]|([FK]|){*})'
   REAL_LENGTH=${#${(S%%)PRE_PROMPT//$~zero/}} 
@@ -87,6 +83,7 @@ prompt_precmd() {
     local -ri elapsed_s=${elapsed_realtime}
     local -ri m=$(( (elapsed_s/60)%60 ))
     local -ri h=$(( elapsed_s/3600 ))
+
     if (( h > 0 )); then
       printf -v prompt_elapsed_time '%ih%im' ${h} ${m}
     elif (( m > 0 )); then
@@ -100,6 +97,10 @@ prompt_precmd() {
       unset prompt_elapsed_time
     fi
     unset prompt_prexec_realtime
+
+    if [ -n "${prompt_elapsed_time}" ] && [ -n "${ZSH_NOTIFY}" ]; then
+      osascript -e "display notification \"Took ${prompt_elapsed_time}\" with title \"Completed\" sound name \"\""
+    fi
   else
     # Clear previous result when hitting ENTER with no command to execute
     unset prompt_elapsed_time
