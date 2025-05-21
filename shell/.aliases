@@ -22,16 +22,17 @@ _compdef _gnu_generic pdfgrep
 
 alias aliases='$EDITOR ~/.aliases'
 alias bookmarks='$EDITOR ~/.bookmarks'
-alias bm='print -z "$(fzf < ~/.bookmarks)"'
+alias bm=' print -z "$(fzf < ~/.bookmarks)"'
 alias up=unpack
-alias nipe='vipe >/dev/null'
-alias tipe='tee $(tty) | nipe'
+alias nipe=' vipe >/dev/null'
+alias tipe=' tee $(tty) | nipe'
 alias ssl='local-ssl-proxy --cert ~/.misc/localhost.pem --key ~/.misc/localhost-key.pem --source 3000 --target 8080'
 # Used in custom bira.zsh-theme to disable status reporting for large repositories
 alias disable_status='git config prompt.git-status false'
 alias enable_status='git config --unset prompt.git-status'
-alias espanso=/opt/homebrew/bin/espanso
 alias sn='sudo $(which nvim)'
+alias t=' tmux a'
+alias jwt='tr . "\n" | while read input; do echo $input | base64 -d; echo "}"; done | jq'
 
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
@@ -500,8 +501,7 @@ cn() {
 }
 
 ns() {
-    # very hacky workaround
-    # to stop sessions with terminals starting in insert mode
+    # very hacky workaround to stop sessions with terminals starting in insert mode
     # TODO: modify vim-obsession to do this instead
     if [ -z "$1" ]; then
         gsed -i '/unlet SessionLoad/istopinsert' Session.vim \

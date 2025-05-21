@@ -10,6 +10,9 @@
 # NOTE: uncomment to profile shell startup. `zprof` to view results
 # zmodload zsh/zprof
 
+if [ -x /usr/libexec/path_helper ]; then
+    eval $(/usr/libexec/path_helper -s)
+fi
 export PATH=/opt/homebrew/bin:$PATH
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:/usr/local/go/bin/
@@ -125,7 +128,6 @@ source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export EDITOR="nvim"
 export VISUAL="nvim"
 PATH="$HOME/.cargo/bin:$HOME/perl5/bin${PATH:+:${PATH}}"
-export PATH
 PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
 export PERL5LIB
 PERL_LOCAL_LIB_ROOT="$HOME/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"

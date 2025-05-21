@@ -4,35 +4,61 @@ working_directory = "None"
 [colors]
 draw_bold_text_with_bright_colors = true
 
-[colors.bright]
-black = "0x666666"
-blue = "0x7aa6da"
-cyan = "0x54ced6"
-green = "0x9ec400"
-magenta = "0xb77ee0"
-red = "0xff3334"
-white = "0xffffff"
-yellow = "0xe7c547"
+# [colors.bright]
+# black = "0x666666"
+# blue = "0x7aa6da"
+# cyan = "0x54ced6"
+# green = "0x9ec400"
+# magenta = "0xb77ee0"
+# red = "0xff3334"
+# white = "0xffffff"
+# yellow = "0xe7c547"
+
+# [colors.normal]
+# black = "0x000000"
+# blue = "0x7aa6da"
+# cyan = "0x70c0ba"
+# green = "0xb9ca4a"
+# magenta = "0xc397d8"
+# red = "0xd54e53"
+# white = "0xeaeaea"
+# yellow = "0xe6c547"
+
+# [colors.primary]
+# # background = "0x002b40"
+# # background = "0x002335"
+# # background = "0x202428"
+# background = "0x1D2125"
+# # background = "0x1E1E2F"
+# # background = "0x271e2f"
+# # background = "0x30203c"
+# foreground = "0xeaeaea"
+
+# Colors (Gruvbox Material Dark Medium)
+[colors.primary]
+# background = '0x282828'
+background = "0x1D2125"
+foreground = '0xd4be98'
 
 [colors.normal]
-black = "0x000000"
-blue = "0x7aa6da"
-cyan = "0x70c0ba"
-green = "0xb9ca4a"
-magenta = "0xc397d8"
-red = "0xd54e53"
-white = "0xeaeaea"
-yellow = "0xe6c547"
+black   = '0x3c3836'
+red     = '0xea6962'
+green   = '0xa9b665'
+yellow  = '0xd8a657'
+blue    = '0x7daea3'
+magenta = '0xd3869b'
+cyan    = '0x89b482'
+white   = '0xd4be98'
 
-[colors.primary]
-# background = "0x002b40"
-# background = "0x002335"
-# background = "0x202428"
-# background = "0x1D2125"
-background = "0x1E1E2F"
-# background = "0x271e2f"
-# background = "0x30203c"
-foreground = "0xeaeaea"
+[colors.bright]
+black   = '0x928374'
+red     = '0xea6962'
+green   = '0xa9b665'
+yellow  = '0xe3a84e'
+blue    = '0x7daea3'
+magenta = '0xd3869b'
+cyan    = '0x89b482'
+white   = '0xdfbf8e'
 
 [cursor]
 style = "Block"
@@ -81,6 +107,11 @@ mods = "Control|Alt"
 [hints.enabled.mouse]
 enabled = true
 mods = "None"
+
+[[keyboard.bindings]]
+chars = "\u001f"
+key = "Slash"
+mods = "Control"
 
 
 [[keyboard.bindings]]

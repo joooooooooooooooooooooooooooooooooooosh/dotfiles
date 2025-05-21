@@ -99,6 +99,15 @@ let NERDTreeHijackNetrw=1
 let g:python3_host_prog = '/usr/bin/python3'
 let g:netrw_browsex_viewer = "open"
 
+nmap ycc yygccp
+
+nnoremap <silent> J  :<c-u>set operatorfunc=JoinOperator<CR>g@
+onoremap J  j
+
+function! JoinOperator(mode)
+  '[,']join
+endfunction
+
 noremap ; :
 "noremap : ;
 " nnoremap <Leader>; ;
@@ -369,11 +378,11 @@ tmap <silent> <C-Q> <C-\><C-n>:bd!<CR>
 tmap <silent> <C-W><C-Q> <C-\><C-n>:bd!<CR>
 " }}}
 
-" augroup remember_folds
-"     autocmd!
-"     autocmd BufWinLeave ?* silent! mkview | filetype detect
-"     autocmd BufWinEnter ?* silent! loadview | filetype detect
-" augroup END
+augroup remember_folds
+    autocmd!
+    autocmd BufWinLeave ?* silent! mkview | filetype detect
+    autocmd BufWinEnter ?* silent! loadview | filetype detect
+augroup END
 
 " plugins {{{
 call plug#begin('~/.vim/plugged')
@@ -381,6 +390,8 @@ Plug 'joooooooooooooooooooooooooooooooooooosh/lightline.vim'
 Plug 'joooooooooooooooooooooooooooooooooooosh/zoomwintab.vim'
 Plug '~/misc/vim-proportions'
 
+Plug 'sainnhe/gruvbox-material'
+Plug 'sainnhe/edge'
 Plug 'sainnhe/everforest'
 Plug 'sainnhe/sonokai'
 Plug 'dylanaraps/wal.vim'
@@ -455,16 +466,27 @@ call plug#end()
 " nmap <Leader>v <cmd>Vista!!<cr>
 " nmap <Leader>fv <cmd>Vista finder! coc<cr>
 
+let g:edge_better_performance = 1
 let g:sonokai_better_performance = 1
-" let g:sonokai_transparent_background = 1
 let g:everforest_better_performance = 1
+let g:gruvbox_material_better_performance = 1
+let g:edge_transparent_background = 1
+let g:sonokai_transparent_background = 1
 let g:everforest_transparent_background = 1
-set termguicolors
+let g:gruvbox_material_transparent_background = 1
+if has('termguicolors')
+    set termguicolors
+endif
 " colorscheme wal
 " colorscheme sonokai
-colorscheme everforest
+" colorscheme everforest
+colorscheme gruvbox-material
+let g:gruvbox_material_background = 'medium' " soft, medium, hard
+let g:gruvbox_material_statusline_style = 'mix' " default, mix, original
+" colorscheme edge
+" let g:edge_style = 'default' " default, aura, neon
 " set background=light
-let g:lightline = {'colorscheme' : 'everforest'}
+let g:lightline = {'colorscheme' : 'gruvbox_material'}
 " highlight DiffAdd  guibg=#145214
 highlight DiffText guibg=#004d66
 

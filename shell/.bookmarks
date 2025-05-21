@@ -1,1 +1,2 @@
 sysctl kern.boottime # uptime
+sudo wdutil dump; sudo cat /private/var/root/Library/Group\ Containers/group.com.apple.wifi.logs/com.apple.wifi.recent-networks.json | jq 'to_entries[] | {ssid: (.value.SSID | @base64d), bss: (.value.BSSList//[] | .[] | {bssid: .BSSID, latitude: (.LocationLatitude//.Location.LocationLatitude//null), longitude: (.LocationLongitude//.Location.LocationLongitude//null)})}' # Wifi locations

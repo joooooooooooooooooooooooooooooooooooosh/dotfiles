@@ -11,7 +11,7 @@ exec-on-workspace-change = [
 
 after-startup-command = [
   # https://github.com/FelixKratz/JankyBorders
-  'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0x00494d64 width=5.0 hidpi=on',
+  'exec-and-forget borders active_color=0xffd4be98 inactive_color=0x00494d64 width=4.0 hidpi=on',
   # https://github.com/FelixKratz/SketchyBar
   'exec-and-forget sketchybar'
 ]
@@ -99,6 +99,7 @@ alt-r = 'mode resize'
 alt-enter = 'exec-and-forget open -a alacritty -n'
 alt-e = 'exec-and-forget open $HOME'
 alt-ctrl-d = 'exec-and-forget open -a slack'
+alt-ctrl-p = 'exec-and-forget open -a spotify'
 alt-s = 'exec-and-forget ~/scripts/scratchpad.sh'
 alt-shift-s = 'exec-and-forget open -a "System Settings"'
 alt-ctrl-o = 'exec-and-forget ~/scripts/switchmic.sh'

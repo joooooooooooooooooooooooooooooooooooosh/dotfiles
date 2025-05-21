@@ -44,6 +44,11 @@ matches:
     replace: |-
       /Users/$(users)/
 
+  # misc
+  - trigger: ";downloads"
+    replace: |-
+      (await chrome.downloads.search({limit: 0})).sort((a,b) => Date.parse(b.endTime) - Date.parse(a.endTime))
+
   # code
   - trigger: ";interact"
     replace: "__import__('code').interact(local=dict(globals(), **locals()))"
