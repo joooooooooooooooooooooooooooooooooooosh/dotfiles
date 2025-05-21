@@ -410,10 +410,12 @@ _compdef _wget ctfetch
 notify() {
     if "$@"; then
         title="Succeeded"
+        sound="Funk"
     else
         title="Failed"
+        sound="Basso"
     fi
-    osascript -e "display notification \"$(sed 's/\\/\\\\/g; s/"/\\"/g' <<< $*)\" with title \"${title}\" sound name \"\""
+    osascript -e "display notification \"$(sed 's/\\/\\\\/g; s/"/\\"/g' <<< $*)\" with title \"${title}\" sound name \"${sound}\""
 }
 
 gcls() {

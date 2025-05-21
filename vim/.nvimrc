@@ -308,6 +308,8 @@ nnoremap <Leader>,  :tabmove -1<CR>
 nnoremap <Leader>.  :tabmove +1<CR>
 nnoremap <Leader>0  ^
 nnoremap <Leader>a  ^
+nnoremap <Leader>b <CMD>Dispatch! zsh -c "b"<CR>
+nnoremap <Leader>B <CMD>Dispatch! zsh -c "nb"<CR>
 nnoremap <silent> <Leader>A <CMD>CocAction<CR>
 nnoremap <Leader>L  <CMD>CocList<CR>
 nnoremap <Leader>cr <CMD>CocRestart<CR>
@@ -378,11 +380,12 @@ tmap <silent> <C-Q> <C-\><C-n>:bd!<CR>
 tmap <silent> <C-W><C-Q> <C-\><C-n>:bd!<CR>
 " }}}
 
-augroup remember_folds
-    autocmd!
-    autocmd BufWinLeave ?* silent! mkview | filetype detect
-    autocmd BufWinEnter ?* silent! loadview | filetype detect
-augroup END
+" FIXME: the folds are often broken after making changes/git checkout/etc
+" augroup remember_folds
+"     autocmd!
+"     autocmd BufWinLeave ?* silent! mkview | filetype detect
+"     autocmd BufWinEnter ?* silent! loadview | filetype detect
+" augroup END
 
 " plugins {{{
 call plug#begin('~/.vim/plugged')
