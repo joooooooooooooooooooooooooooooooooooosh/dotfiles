@@ -1,4 +1,6 @@
+[general]
 live_config_reload = true
+
 working_directory = "None"
 
 [colors]
@@ -675,7 +677,7 @@ multiplier = 3
 save_to_clipboard = false
 semantic_escape_chars = ",│`|:\"' ()[]{}<>"
 
-[shell]
+[terminal.shell]
 program = "/bin/zsh"
 
 [window]

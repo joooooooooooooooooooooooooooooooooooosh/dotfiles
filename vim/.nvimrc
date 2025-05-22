@@ -315,8 +315,8 @@ nnoremap <Leader>L  <CMD>CocList<CR>
 nnoremap <Leader>cr <CMD>CocRestart<CR>
 nnoremap <Leader>n  <CMD>source ~/.nvimrc<CR>
 nnoremap <Leader>cd <CMD>lcd %:h<CR>
-nnoremap <Leader>j <CMD>cnext<CR>zz
-nnoremap <Leader>k <CMD>cprev<CR>zz
+" nnoremap <Leader>j <CMD>cnext<CR>zz " ]q
+" nnoremap <Leader>k <CMD>cprev<CR>zz " [q
 nnoremap <Leader>d      :Dispatch 
 nnoremap <Leader>D      :Dispatch! 
 nnoremap <Leader>sl  <CMD>set list!<CR>
@@ -428,6 +428,8 @@ Plug 'nvim-telescope/telescope-live-grep-args.nvim'
 Plug 'fannheyward/telescope-coc.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
+Plug 'miroshQa/debugmaster.nvim'
+
 " Plug 'DNLHC/glance.nvim' " doesn't seem to work
 " Plug 'rmagatti/goto-preview'
 
@@ -486,6 +488,10 @@ endif
 colorscheme gruvbox-material
 let g:gruvbox_material_background = 'medium' " soft, medium, hard
 let g:gruvbox_material_statusline_style = 'mix' " default, mix, original
+let g:gruvbox_material_diagnostic_line_highlight = 0 " 0, 1
+let g:gruvbox_material_diagnostic_virtual_text = 'colored' " grey, colored, highlighted
+let g:gruvbox_material_inlay_hints_background = 'dimmed' " none, dimmed
+let g:gruvbox_material_dim_inactive_windows = 1
 " colorscheme edge
 " let g:edge_style = 'default' " default, aura, neon
 " set background=light
