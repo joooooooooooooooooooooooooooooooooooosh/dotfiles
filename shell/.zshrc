@@ -13,14 +13,12 @@
 if [ -x /usr/libexec/path_helper ]; then
     eval $(/usr/libexec/path_helper -s)
 fi
+
 export PATH=/opt/homebrew/bin:$PATH
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:/usr/local/go/bin/
 
-export PATH=$HOME/bin:/usr/local/bin:$PATH:/root/.gem/ruby/2.7.0/bin:$HOME/.local/share/gem/ruby/3.0.0/bin
-export PATH=$PATH:/opt/gradle/gradle-5.4.1/bin
-export PYTHONPATH="/usr/lib/python3.9/site-packages":$PYTHONPATH
-export VIRTUAL_ENV_DISABLE_PROMPT=1
+# export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -44,7 +42,7 @@ setopt HIST_IGNORE_SPACE
 HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="true"
 
 # Uncomment the following line to automatically update without prompting.
 # DISABLE_UPDATE_PROMPT="true"
@@ -92,6 +90,7 @@ export FZF_BASE=/usr/bin/fzf
 plugins=(git autoenv zsh-autosuggestions colored-man-pages copybuffer)
 
 source "$ZSH"/oh-my-zsh.sh
+# source "$ZSH"/themes/bira.zsh-theme
 
 # User configuration
 
@@ -124,9 +123,12 @@ source "$HOME/.aliases"
 source "$HOME/.workaliases"
 
 unsetopt share_history
+
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 export EDITOR="nvim"
 export VISUAL="nvim"
+
 PATH="$HOME/.cargo/bin:$HOME/perl5/bin${PATH:+:${PATH}}"
 PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
 export PERL5LIB
@@ -136,6 +138,7 @@ PERL_MB_OPT="--install_base \"$HOME/perl5\""
 export PERL_MB_OPT
 PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"
 export PERL_MM_OPT
+
 # . `which env_parallel.zsh`
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -157,16 +160,16 @@ source <(fzf --zsh)
 # unset ESBUILD_BINARY_PATH
 eval "$(zoxide init zsh)"
 
-export NVM_DIR="$HOME/.nvm"
-# This is lazy loaded in ~/.aliases via `npm` and `nvm`
+# This is lazy loaded in ~/.aliases via `node`, `npm` and `nvm`
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
 
-eval "$(pdm --pep582)"
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+# This is lazy loaded in ~/.alises via `pyenv`
+# eval "$(pdm --pep582)"
+# export PYENV_ROOT="$HOME/.pyenv"
+# [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+# eval "$(pyenv init -)"
 
-export PATH="/Users/jharcombe/.orbit/bin:$PATH"
-export PATH="$PATH:/Users/jharcombe/.nvm/versions/node/v20.15.1/bin"
+# export PATH="/Users/jharcombe/.orbit/bin:$PATH"
+# export PATH="$PATH:/Users/jharcombe/.nvm/versions/node/v20.15.1/bin"
 export HOMEBREW_NO_AUTO_UPDATE=1

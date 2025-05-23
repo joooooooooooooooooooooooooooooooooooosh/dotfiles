@@ -223,10 +223,6 @@ cnoremap <expr> <C-p> wildmenumode() ? "\<c-p>" : "\<up>"
 
 nnoremap gp `[v`]
 
-" enter blank lines
-nnoremap [<space>  :<c-u>put! =repeat(nr2char(10), v:count1)<cr>'[
-nnoremap ]<space>  :<c-u>put =repeat(nr2char(10), v:count1)<cr>
-
 " edit macros
 " use "q<Leader>m
 nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
@@ -264,7 +260,7 @@ nmap \gd ?(<CR>Bgd
 
 nmap \f :%!rustfmt<CR>
 
-nnoremap <expr> \z foldclosed('.') != -1 ? 'zO' : 'zC'
+nnoremap \z  <CMD>let &scrolloff=999-&scrolloff<CR>:ZenMode<CR>zz
 
 " Terminal Function
 let g:term_height = 12
@@ -325,7 +321,6 @@ nnoremap <Leader>S  <CMD>let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 " nnoremap <Leader>k  "zyiw:!man <C-R>z<CR>g
 noremap <Leader>ww  <CMD>set wrap!<CR>
 nnoremap <Leader>q  <CMD>copen<CR>
-nnoremap <Leader>z  <CMD>let &scrolloff=999-&scrolloff<CR>:ZenMode<CR>zz
 nnoremap <Leader>en <CMD>tabedit ~/.nvimrc<CR>
 nnoremap <Leader>l <CMD>LazyGit<CR>
 nnoremap <Leader>gco :Git checkout 
@@ -365,6 +360,7 @@ nnoremap <Leader>ft  <cmd>TodoTelescope<cr>
 nnoremap <Leader>fu  <cmd>lua require('telescope-live-grep-args.shortcuts').grep_word_under_cursor()<cr>
 vnoremap <Leader>fv  <cmd>lua require('telescope-live-grep-args.shortcuts').grep_visual_selection()<cr>
 nnoremap <Leader>fq  <cmd>Telescope quickfix<cr>
+nnoremap <expr> <Leader>z foldclosed('.') != -1 ? 'zO' : 'zC'
 " }}}
 
 set splitbelow
@@ -457,7 +453,7 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'google/vim-searchindex'
 
 Plug 'kevinhwang91/nvim-ufo'
-Plug 'kevinhwang91/promise-async'
+    Plug 'kevinhwang91/promise-async' " dependency for nvim-ufo
 
 Plug 'fidian/hexmode'
 " Plug 'samodostal/image.nvim'
@@ -501,6 +497,11 @@ highlight DiffText guibg=#004d66
 
 " lua configuration {{{
 lua << EOF
+
+vim.diagnostic.config({
+    virtual_lines = true
+})
+
 -- require("image").setup({
 --     render = {
 --         min_padding = 5,
@@ -819,39 +820,49 @@ require("nvim-treesitter.configs").setup {
         ["ac"] = "@class.outer",
         -- you can optionally set descriptions to the mappings (used in the desc parameter of nvim_buf_set_keymap
         ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+        ["an"] = "@assignment.outer",
+        ["in"] = "@assignment.inner",
+        ["ai"] = "@conditional.outer",
+        ["ii"] = "@conditional.inner",
       },
       -- You can choose the select mode (default is charwise 'v')
       selection_modes = {
         ['@parameter.outer'] = 'v', -- charwise
         ['@function.outer'] = 'V', -- linewise
-        ['@class.outer'] = '<c-v>', -- blockwise
+        -- ['@class.outer'] = '<c-v>', -- blockwise
       },
       -- If you set this to `true` (default is `false`) then any textobject is
       -- extended to include preceding xor succeeding whitespace. Succeeding
       -- whitespace has priority in order to act similarly to eg the built-in
       -- `ap`.
-      include_surrounding_whitespace = true,
+      -- include_surrounding_whitespace = true,
     },
     move = {
       enable = true,
       set_jumps = true, -- whether to set jumps in the jumplist
       goto_next_start = {
         ["]m"] = "@function.outer",
-        ["]]"] = "@class.outer",
-        ["]n"] = "@name",
+        ["]c"] = "@class.outer",
+        ["]]"] = "@block.outer",
+        ["]n"] = "@assignment.outer",
+        ["]i"] = "@conditional.outer",
       },
       goto_next_end = {
         ["]M"] = "@function.outer",
-        ["]["] = "@class.outer",
+        ["]C"] = "@class.outer",
+        ["]I"] = "@conditional.outer",
       },
       goto_previous_start = {
         ["[m"] = "@function.outer",
-        ["[["] = "@class.outer",
-        ["[n"] = "@name",
+        ["[c"] = "@class.outer",
+        ["[["] = "@block.outer",
+        ["[n"] = "@assignment.outer",
+        ["[i"] = "@conditional.outer",
       },
       goto_previous_end = {
         ["[M"] = "@function.outer",
-        ["[]"] = "@class.outer",
+        ["[C"] = "@class.outer",
+        ["[I"] = "@conditional.outer",
       },
     },
   },
@@ -859,7 +870,7 @@ require("nvim-treesitter.configs").setup {
 
 local handler = function(virtText, lnum, endLnum, width, truncate)
     local newVirtText = {}
-    local suffix = (' ...  %d '):format(endLnum - lnum)
+    local suffix = (' ... %d '):format(endLnum - lnum)
     local sufWidth = vim.fn.strdisplaywidth(suffix)
     local targetWidth = width - sufWidth
     local curWidth = 0
@@ -1006,10 +1017,10 @@ endfunction
 " Highlight the symbol and its references when holding the cursor.
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
-highlight CocErrorSign ctermfg=4
-highlight CocErrorVirtualText ctermfg=4
-highlight CocWarningSign ctermfg=6
-highlight CocWarningVirtualText ctermfg=6
+" highlight CocErrorSign ctermfg=4
+" highlight CocErrorVirtualText ctermfg=4
+" highlight CocWarningSign ctermfg=6
+" highlight CocWarningVirtualText ctermfg=6
 " }}}
 
 " lightline {{{;
@@ -1049,6 +1060,7 @@ endif
 " compatible.
 " The ! means the package won't be loaded right away but when plugins are
 " loaded during initialization.
+" e.g va%
 if has('syntax') && has('eval')
   packadd! matchit
 endif

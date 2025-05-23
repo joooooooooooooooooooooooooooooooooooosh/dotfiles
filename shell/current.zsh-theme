@@ -45,7 +45,7 @@ ZSH_THEME_RUBY_PROMPT_SUFFIX="› %{$reset_color%}"
 zmodload zsh/datetime
 
 get_prompt_string() {
-  PRE_PROMPT="╭─${conda_prompt}${user_host}${current_dir}${rvm_ruby}${git_branch}${kube_prompt}"
+  PRE_PROMPT="╭─${user_host}${current_dir}${git_branch}${kube_prompt}"
   [ -r .unibuild.sh ] && PRE_PROMPT+="${unibuild}"
   which deactivate >/dev/null && PRE_PROMPT+="${venv_prompt}"
   [ -z $HISTFILE ] && PRE_PROMPT+="${nohistory}"

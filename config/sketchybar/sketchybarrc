@@ -93,7 +93,12 @@ sketchybar --add item clock right \
            --set bluetooth \
             icon=B \
             label.drawing=off \
-            click_script="$PLUGIN_DIR/bluetooth.sh"
+            click_script="$PLUGIN_DIR/bluetooth.sh" \
+           --add item stack right \
+           --set stack \
+            icon=↓ \
+            label.drawing=off \
+            click_script="/opt/homebrew/bin/aerospace focus --boundaries-action wrap-around-the-workspace down"
 
 sketchybar --add alias "MeetingBar,Item-0" right
 

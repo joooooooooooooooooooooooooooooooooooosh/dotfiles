@@ -534,8 +534,9 @@ zin() {
     n
 }
 
-#### nvm setup
+#### lazy load setup
 
+export NVM_DIR="$HOME/.nvm"
 _lazy_load_nvm() {
     unset -f npm node nvm
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
@@ -555,6 +556,16 @@ nvm() {
 node() {
     _lazy_load_nvm
     node "$@"
+}
+
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+pyenv() {
+    unset -f pyenv
+    eval "$(pyenv init -)"
+
+    pyenv "$@"
 }
 
 ####
