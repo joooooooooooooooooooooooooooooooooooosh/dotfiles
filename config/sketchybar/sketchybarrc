@@ -66,6 +66,14 @@ done
 
 sketchybar --add item chevron left \
            --set chevron icon= label.drawing=off \
+           --add event aerospace_mode_change \
+           --add item aerospace_mode left \
+           --set aerospace_mode icon.drawing=off script="$PLUGIN_DIR/aerospace-mode.sh" \
+                background.color=0x40ffffff \
+                background.corner_radius=5 \
+                background.height=25 \
+                background.drawing=off \
+           --subscribe aerospace_mode aerospace_mode_change \
            --add item front_app left \
            --set front_app icon.drawing=off script="$PLUGIN_DIR/front_app.sh" \
            --subscribe front_app front_app_switched
