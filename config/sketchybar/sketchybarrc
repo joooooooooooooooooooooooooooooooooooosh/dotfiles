@@ -44,8 +44,9 @@ for sid in $(seq 1 $(aerospace list-workspaces --monitor focused --empty no | gr
     # if [ $(aerospace list-windows --workspace $sid --count) -ne 0 ]; then
     #     show="on"
     # fi
+    # icon.drawing=$show \
     sketchybar --add item space.$sid left \
-        --subscribe space.$sid aerospace_workspace_change \
+        --subscribe space.$sid aerospace_workspace_change mouse.scrolled \
         --set space.$sid \
         icon="$sid" \
         icon.padding_left=7 \
@@ -57,26 +58,25 @@ for sid in $(seq 1 $(aerospace list-workspaces --monitor focused --empty no | gr
         label.drawing=off \
         click_script="aerospace workspace $sid" \
         script="$PLUGIN_DIR/aerospace.sh $sid"
-        # icon.drawing=$show \
 done
+sketchybar --subscribe space.1 mouse.scrolled.global
 
 ##### Adding Left Items #####
 # We add some regular items to the left side of the bar, where
 # only the properties deviating from the current defaults need to be set
 
-sketchybar --add item chevron left \
-           --set chevron icon= label.drawing=off \
-           --add event aerospace_mode_change \
-           --add item aerospace_mode left \
-           --set aerospace_mode icon.drawing=off script="$PLUGIN_DIR/aerospace-mode.sh" \
-                background.color=0x40ffffff \
-                background.corner_radius=5 \
-                background.height=25 \
-                background.drawing=off \
-           --subscribe aerospace_mode aerospace_mode_change \
-           --add item front_app left \
-           --set front_app icon.drawing=off script="$PLUGIN_DIR/front_app.sh" \
-           --subscribe front_app front_app_switched
+sketchybar \
+    --add event aerospace_mode_change \
+    --add item aerospace_mode left \
+    --set aerospace_mode icon.drawing=off script="$PLUGIN_DIR/aerospace-mode.sh" \
+        background.color=0x40ffffff \
+        background.corner_radius=5 \
+        background.height=25 \
+        background.drawing=off \
+    --subscribe aerospace_mode aerospace_mode_change \
+    --add item front_app left \
+    --set front_app icon.drawing=off script="$PLUGIN_DIR/front_app.sh" \
+    --subscribe front_app front_app_switched
 
 ##### Adding Right Items #####
 # In the same way as the left items we can add items to the right side.
@@ -93,7 +93,8 @@ sketchybar --add item clock right \
            --set clock update_freq=10 icon=  script="$PLUGIN_DIR/clock.sh" \
            --add item volume right \
            --set volume script="$PLUGIN_DIR/volume.sh" \
-           --subscribe volume volume_change \
+            click_script="env ACTION=toggle-mute $PLUGIN_DIR/volume.sh" \
+           --subscribe volume volume_change mouse.scrolled \
            --add item battery right \
            --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
            --subscribe battery system_woke power_source_change \
@@ -106,7 +107,9 @@ sketchybar --add item clock right \
            --set stack \
             icon=↓ \
             label.drawing=off \
-            click_script="/opt/homebrew/bin/aerospace focus --boundaries-action wrap-around-the-workspace down"
+            click_script="env SENDER=mouse.scrolled SCROLL_DELTA=- $PLUGIN_DIR/aerospace_stack.sh" \
+            script="$PLUGIN_DIR/aerospace_stack.sh" \
+            --subscribe stack mouse.scrolled
 
 sketchybar --add alias "MeetingBar,Item-0" right
 

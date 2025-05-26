@@ -93,7 +93,7 @@ alt-f = 'fullscreen'
 alt-shift-f = 'layout tiling floating'
 alt-shift-q = 'close'
 
-ctrl-shift-s = ['mode service', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=service']
+alt-shift-s = ['mode service', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=service']
 alt-r = ['mode resize', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=resize']
 
 alt-enter = 'exec-and-forget open -a alacritty -n'
@@ -101,7 +101,7 @@ alt-e = 'exec-and-forget open $HOME'
 alt-ctrl-d = 'exec-and-forget open -a slack'
 alt-ctrl-p = 'exec-and-forget open -a spotify'
 alt-s = 'exec-and-forget ~/scripts/scratchpad.sh'
-alt-shift-s = 'exec-and-forget open -a "System Settings"'
+# alt-shift-s = 'exec-and-forget open -a "System Settings"'
 alt-ctrl-o = 'exec-and-forget ~/scripts/switchmic.sh'
 alt-p = 'exec-and-forget skhd -k "alt + shift - up"'
 alt-n = 'exec-and-forget skhd -k "alt + shift - down"'

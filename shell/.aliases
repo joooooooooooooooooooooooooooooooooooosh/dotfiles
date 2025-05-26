@@ -31,7 +31,7 @@ alias ssl='local-ssl-proxy --cert ~/.misc/localhost.pem --key ~/.misc/localhost-
 alias disable_status='git config prompt.git-status false'
 alias enable_status='git config --unset prompt.git-status'
 alias sn='sudo $(which nvim)'
-alias t=' tmux a'
+alias t=' tmux a &>/dev/null || tmux'
 alias jwt='tr . "\n" | while read input; do echo $input | base64 -d; echo "}"; done | jq'
 
 
