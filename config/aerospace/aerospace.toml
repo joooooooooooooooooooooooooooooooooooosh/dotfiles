@@ -60,6 +60,8 @@ alt-semicolon = 'focus-monitor --wrap-around left'
 alt-quote = 'focus-monitor --wrap-around right'
 alt-shift-semicolon = 'move-node-to-monitor --wrap-around left'
 alt-shift-quote = 'move-node-to-monitor --wrap-around right'
+alt-ctrl-semicolon = 'move-workspace-to-monitor --wrap-around left'
+alt-ctrl-quote = 'move-workspace-to-monitor --wrap-around right'
 
 alt-backtick = 'workspace 1'
 alt-1 = 'workspace 2'
@@ -143,10 +145,8 @@ if.app-id = 'com.tinyspeck.slackmacgap'
 run = 'move-node-to-workspace 5'
 
 [workspace-to-monitor-force-assignment]
-4 = 'secondary'
 5 = 'secondary'
-9 = 'secondary'
-10 = 'secondary'
+6 = 'secondary'
 
 [mode.service.binding]
 esc = ['reload-config', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=']

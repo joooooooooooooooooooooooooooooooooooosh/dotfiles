@@ -112,6 +112,7 @@ sketchybar --add item clock right \
             --subscribe stack mouse.scrolled
 
 sketchybar --add alias "MeetingBar,Item-0" right
+sketchybar --set "MeetingBar,Item-0" click_script="osascript -e 'tell application \"System Events\" to tell process \"MeetingBar\" to click menu bar item 1 of menu bar 2'"
 
 ##### Force all scripts to run the first time (never do this in a script) #####
 sketchybar --update
