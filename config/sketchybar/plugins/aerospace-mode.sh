@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 
-sketchybar --set "$NAME" label="$INFO"
-
 if [ -n "$INFO" ]; then
-    sketchybar --set $NAME background.drawing=on
+    sketchybar --set "$NAME" label="$INFO"
+    sketchybar --set "$NAME" background.drawing=on
 else
-    sketchybar --set $NAME background.drawing=off
+    sketchybar --set "$NAME" background.drawing=off
+    sketchybar --set "$NAME" label=""
 fi

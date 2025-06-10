@@ -102,6 +102,13 @@ hyperlinks = true
 post_processing = true
 regex = "(https:|http:|file:|git:|ssh:|ftp:|docker-desktop:|news:|ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:)[^\u0000-\u001F\u007F-<>\"\\s{-}\\^⟨⟩`]+"
 
+# can only seem to have one at a time
+# [[hints.enabled]]
+# command = "/usr/local/bin/opengo"
+# hyperlinks = true
+# post_processing = true
+# regex = "(go/)[^\u0000-\u001F\u007F-<>\"\\s{-}\\^⟨⟩`]+"
+
 [hints.enabled.binding]
 key = "F"
 mods = "Control|Alt"

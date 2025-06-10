@@ -20,26 +20,25 @@ sketchybar --bar position=top height=30 blur_radius=25 color=0x40000000
 # https://felixkratz.github.io/SketchyBar/config/items
 
 default=(
-  padding_left=5
-  padding_right=5
-  icon.font="Hack Nerd Font:Bold:17.0"
-  label.font="Hack Nerd Font:Bold:14.0"
-  icon.color=0xffffffff
-  label.color=0xffffffff
-  icon.padding_left=4
-  icon.padding_right=4
-  label.padding_left=4
-  label.padding_right=4
+    padding_left=5
+    padding_right=5
+    icon.font="Hack Nerd Font:Bold:17.0"
+    label.font="Hack Nerd Font:Bold:14.0"
+    icon.color=0xffffffff
+    label.color=0xffffffff
+    icon.padding_left=4
+    icon.padding_right=4
+    label.padding_left=4
+    label.padding_right=4
 )
 sketchybar --default "${default[@]}"
-
 
 sketchybar --add event aerospace_workspace_change
 
 # TODO: add entry when switching to an empty space
 # https://github.com/FelixKratz/SketchyBar/issues/607
 for sid in $(seq 1 $(aerospace list-workspaces --monitor focused --empty no | grep -v scratchpad | tail -1)); do
-# for sid in $(aerospace list-monitors | cut -d' ' -f1 | xargs aerospace list-workspaces --empty no --monitor | grep -v ^scratchpad$); do
+    # for sid in $(aerospace list-monitors | cut -d' ' -f1 | xargs aerospace list-workspaces --empty no --monitor | grep -v ^scratchpad$); do
     # show="off"
     # if [ $(aerospace list-windows --workspace $sid --count) -ne 0 ]; then
     #     show="on"
@@ -69,10 +68,10 @@ sketchybar \
     --add event aerospace_mode_change \
     --add item aerospace_mode left \
     --set aerospace_mode icon.drawing=off script="$PLUGIN_DIR/aerospace-mode.sh" \
-        background.color=0x40ffffff \
-        background.corner_radius=5 \
-        background.height=25 \
-        background.drawing=off \
+    background.color=0x40ffffff \
+    background.corner_radius=5 \
+    background.height=25 \
+    background.drawing=off \
     --subscribe aerospace_mode aerospace_mode_change \
     --add item front_app left \
     --set front_app icon.drawing=off script="$PLUGIN_DIR/front_app.sh" \
@@ -90,26 +89,26 @@ sketchybar \
 # https://felixkratz.github.io/SketchyBar/config/events
 
 sketchybar --add item clock right \
-           --set clock update_freq=10 icon=  script="$PLUGIN_DIR/clock.sh" \
-           --add item volume right \
-           --set volume script="$PLUGIN_DIR/volume.sh" \
-            click_script="env ACTION=toggle-mute $PLUGIN_DIR/volume.sh" \
-           --subscribe volume volume_change mouse.scrolled \
-           --add item battery right \
-           --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
-           --subscribe battery system_woke power_source_change \
-           --add item bluetooth right \
-           --set bluetooth \
-            icon=B \
-            label.drawing=off \
-            click_script="$PLUGIN_DIR/bluetooth.sh" \
-           --add item stack right \
-           --set stack \
-            icon=↓ \
-            label.drawing=off \
-            click_script="env SENDER=mouse.scrolled SCROLL_DELTA=- $PLUGIN_DIR/aerospace_stack.sh" \
-            script="$PLUGIN_DIR/aerospace_stack.sh" \
-            --subscribe stack mouse.scrolled
+    --set clock update_freq=10 icon= script="$PLUGIN_DIR/clock.sh" \
+    --add item volume right \
+    --set volume script="$PLUGIN_DIR/volume.sh" \
+    click_script="env ACTION=toggle-mute $PLUGIN_DIR/volume.sh" \
+    --subscribe volume volume_change mouse.scrolled \
+    --add item battery right \
+    --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
+    --subscribe battery system_woke power_source_change \
+    --add item bluetooth right \
+    --set bluetooth \
+    icon=B \
+    label.drawing=off \
+    click_script="$PLUGIN_DIR/bluetooth.sh" \
+    --add item stack right \
+    --set stack \
+    icon=↓ \
+    label.drawing=off \
+    click_script="env SENDER=mouse.scrolled SCROLL_DELTA=- $PLUGIN_DIR/aerospace_stack.sh" \
+    script="$PLUGIN_DIR/aerospace_stack.sh" \
+    --subscribe stack mouse.scrolled
 
 sketchybar --add alias "MeetingBar,Item-0" right
 sketchybar --set "MeetingBar,Item-0" click_script="osascript -e 'tell application \"System Events\" to tell process \"MeetingBar\" to click menu bar item 1 of menu bar 2'"

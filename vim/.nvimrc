@@ -311,8 +311,8 @@ nnoremap <Leader>L  <CMD>CocList<CR>
 nnoremap <Leader>cr <CMD>CocRestart<CR>
 nnoremap <Leader>n  <CMD>source ~/.nvimrc<CR>
 nnoremap <Leader>cd <CMD>lcd %:h<CR>
-" nnoremap <Leader>j <CMD>cnext<CR>zz " ]q
-" nnoremap <Leader>k <CMD>cprev<CR>zz " [q
+nnoremap <Leader>j <CMD>cnext<CR>zz " ]q
+nnoremap <Leader>k <CMD>cprev<CR>zz " [q
 nnoremap <Leader>d      :Dispatch 
 nnoremap <Leader>D      :Dispatch! 
 nnoremap <Leader>sl  <CMD>set list!<CR>

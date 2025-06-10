@@ -33,6 +33,8 @@ alias enable_status='git config --unset prompt.git-status'
 alias sn='sudo $(which nvim)'
 alias t=' tmux a &>/dev/null || tmux'
 alias jwt='tr . "\n" | while read input; do echo $input | base64 -d; echo "}"; done | jq'
+alias sudo='sudo -A'
+alias fd='fd --ignore-file <(echo /System/Volumes)'
 
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
@@ -90,7 +92,11 @@ csvcol() {
 }
 
 waitfor() {
-    notify zsh -ic "while $*; do sleep 60; done"
+    notify zsh -ic "while ""$@""; do sleep 60; done"
+}
+
+alertfor() {
+    alert zsh -ic "while ""$@""; do sleep 60; done"
 }
 
 tmp() {
@@ -418,6 +424,15 @@ notify() {
     osascript -e "display notification \"$(sed 's/\\/\\\\/g; s/"/\\"/g' <<< $*)\" with title \"${title}\" sound name \"${sound}\""
 }
 
+alert() {
+    if "$@"; then
+        title="Succeeded"
+    else
+        title="Failed"
+    fi
+    osascript -e "display alert \"${title}: $(sed 's/\\/\\\\/g; s/"/\\"/g' <<< $*)\""
+}
+
 gcls() {
     [ $# -lt 2 ] && echo "err: need branch & repo to clone" && return
     cd $(faketty git clone --depth 1 --branch "$1" "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s_/(src|tree)/.*$__' <<< ${2})" ${@:3} |& tee $(tty) | sed -En "/Cloning into/s/.*'(.*)'...\r/\1/p")
@@ -446,10 +461,9 @@ gcln() {
 }
 
 gw() {
-    [ $# -lt 1 ] && 1="HEAD"
-    git diff $1^ $1
+    git show "$@"
 }
-_compdef _git-diff gw
+_compdef _git-show gw
 
 faketty() {
     script -qeF /dev/null $(printf "%q " "$@")
