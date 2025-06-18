@@ -31,6 +31,9 @@ matches:
     replace: "@bookmarks"
 
   # mac
+  - trigger: ";users"
+    replace: |-
+      /bin/ls -l /dev/console | /usr/bin/awk '{ print $3 }'
   - trigger: ";isadmin"
     replace: |-
       dscl . read /groups/admin | grep ^GroupMembership | grep -E " $(users)( |\$)"
