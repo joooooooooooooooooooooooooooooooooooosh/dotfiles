@@ -21,6 +21,9 @@ matches:
     replace: "(╯°□°)╯彡▔▔▏"
   - trigger: ";bigtableflip"
     replace: ":tableflip-1::tableflip-2::tableflip-3::tableflip-4::tableflip-5::tableflip-6::tableflip-7::tableflip-8:"
+  - trigger: ";removed"
+    replace: |-
+      :removed1::removed2::removed3::removed4::removed5::removed6::removed7:
   - trigger: ";nbsp"
     replace: " "
   - trigger: ";zwsp"
@@ -33,7 +36,7 @@ matches:
   # mac
   - trigger: ";users"
     replace: |-
-      /bin/ls -l /dev/console | /usr/bin/awk '{ print $3 }'
+      /usr/bin/stat -f "%Su" /dev/console
   - trigger: ";isadmin"
     replace: |-
       dscl . read /groups/admin | grep ^GroupMembership | grep -E " $(users)( |\$)"

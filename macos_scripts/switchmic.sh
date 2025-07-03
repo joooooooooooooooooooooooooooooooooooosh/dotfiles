@@ -9,7 +9,7 @@ BLUETOOTH_OUTPUT=$(blueutil --paired 2> /dev/null | grep "name: \"${PREFERRED_BL
 if [ -n "${BLUETOOTH_OUTPUT}" ]; then
     if ! grep "connected$" <<< "${BLUETOOTH_OUTPUT}"; then
         BLUETOOTH_OUTPUT=$(cut -d, -f1 <<< "${BLUETOOTH_OUTPUT}")
-        timeout 5 blueutil --connect "${BLUETOOTH_OUTPUT}"
+        timeout 1 blueutil --connect "${BLUETOOTH_OUTPUT}"
     fi \
         && PREFERRED_OUTPUT=(${PREFERRED_BLUETOOTH}) # don't set output if the `blueutil` connect timed out
 fi
@@ -17,6 +17,7 @@ fi
 for output in ${PREFERRED_OUTPUT[@]}; do
     if SwitchAudioSource -a -t output | grep -q "${output}"; then
         SwitchAudioSource -t output -s "${output}"
+        used_output="${output}"
         break
     fi
 done
@@ -24,6 +25,9 @@ done
 for input in ${PREFERRED_INPUT[@]}; do
     if SwitchAudioSource -a -t input | grep -q "${input}"; then
         SwitchAudioSource -t input -s "${input}"
+        used_input="${input}"
         break
     fi
 done
+
+osascript -e "display notification \"Input: ${used_input}\nOutput: ${used_output}\" with title \"Audio Settings\""

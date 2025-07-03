@@ -26,6 +26,7 @@ local venv_prompt='${GREEN_PREFIX}venv${PROMPT_SUFFIX}'
 local nohistory='${MAGENTA_PREFIX}private${PROMPT_SUFFIX}'
 local notify='${MAGENTA_PREFIX}notify${PROMPT_SUFFIX}'
 
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 ZSH_THEME_RVM_PROMPT_OPTIONS="i v g"
 
 PROMPT="╰─%B${user_symbol}%b "

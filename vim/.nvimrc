@@ -361,6 +361,7 @@ nnoremap <Leader>fu  <cmd>lua require('telescope-live-grep-args.shortcuts').grep
 vnoremap <Leader>fv  <cmd>lua require('telescope-live-grep-args.shortcuts').grep_visual_selection()<cr>
 nnoremap <Leader>fq  <cmd>Telescope quickfix<cr>
 nnoremap <expr> <Leader>z foldclosed('.') != -1 ? 'zO' : 'zC'
+nnoremap <Leader><C-g> <cmd>let @+ = expand("%")<cr>
 " }}}
 
 set splitbelow

@@ -31,10 +31,10 @@ alias ssl='local-ssl-proxy --cert ~/.misc/localhost.pem --key ~/.misc/localhost-
 alias disable_status='git config prompt.git-status false'
 alias enable_status='git config --unset prompt.git-status'
 alias sn='sudo $(which nvim)'
-alias t=' tmux a &>/dev/null || tmux'
+alias t=' watchman version &>/dev/null; tmux a &>/dev/null || tmux'
 alias jwt='tr . "\n" | while read input; do echo $input | base64 -d; echo "}"; done | jq'
-alias sudo='sudo -A'
 alias fd='fd --ignore-file <(echo /System/Volumes)'
+alias python3="/opt/homebrew/bin/python3"
 
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
@@ -279,13 +279,13 @@ fns() {
     fd Session.vim | fzf | xargs nvim -S "$@"
 }
 
-# lsz() {
-#     du -sh * | sort -h
-# }
+lsz() {
+    du -sh * | sort -h
+}
 
-# laz() {
-#     { du -sh .*; du -sh * } 2>/dev/null | sort -h
-# }
+laz() {
+    { du -sh .*; du -sh * } 2>/dev/null | sort -h
+}
 
 cupdate() {
     cargo install $(cargo install --list | sed -En "/:$/s/ .*//p")
