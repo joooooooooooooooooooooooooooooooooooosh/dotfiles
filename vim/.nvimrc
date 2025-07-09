@@ -310,7 +310,7 @@ Plug 'sainnhe/everforest'
 Plug 'sainnhe/sonokai'
 Plug 'dylanaraps/wal.vim'
 
-Plug 'HiPhish/nvim-ts-rainbow2'
+Plug 'https://gitlab.com/HiPhish/rainbow-delimiters.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-context'
 " Plug 'nvim-treesitter/nvim-treesitter-textobjects'
@@ -553,22 +553,23 @@ require("nvim-treesitter.configs").setup {
     indent = {
         enable = true,
     },
-    rainbow = {
-        enable = true,
-        -- disable = { 'jsx', 'cpp' },
-        query = {
-            'rainbow-parens',
-            html = 'rainbow-tags',
-        },
-        strategy = require("ts-rainbow").strategy.global,
-        hlgroups = {
-            'Red',
-            'Orange',
-            'Yellow',
-            'Blue',
-            'Purple',
-        },
-    },
+    -- Replaced by rainbow-delimiters.nvim
+    -- rainbow = {
+    --     enable = true,
+    --     -- disable = { 'jsx', 'cpp' },
+    --     query = {
+    --         'rainbow-parens',
+    --         html = 'rainbow-tags',
+    --     },
+    --     strategy = require("ts-rainbow").strategy.global,
+    --     hlgroups = {
+    --         'Red',
+    --         'Orange',
+    --         'Yellow',
+    --         'Blue',
+    --         'Purple',
+    --     },
+    -- },
 }
 
 require("nvim-autopairs").setup {

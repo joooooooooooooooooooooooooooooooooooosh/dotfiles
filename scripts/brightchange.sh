@@ -38,6 +38,7 @@ if [ $2 -a $2 != "!hdmi" ]; then
 	for output in $(xrandr --listmonitors | sed '1d; s/.* //' | grep -v eDP); do
 		xrandr --output $output --brightness $XRANDR_BRIGHTNESS
 	done
+	# TODO: something like `ddccontrol -p -r 0x10 -w 100` for backlight control
 fi
 
 # polybar-msg action "#brightness.hook.0"

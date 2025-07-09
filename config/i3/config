@@ -20,6 +20,7 @@ exec sleep 2; killall plasmashell
 for_window [class="kcalc"] floating enable
 for_window [title="Desktop — Plasma"] kill; floating enable; border none
 for_window [class="plasmashell"] kill; floating enable;
+for_window [class="Blueman-applet"] kill;
 for_window [class="Plasma"] floating enable; border none
 for_window [title="plasma-desktop"] floating enable; border none
 for_window [title="win7"] floating enable; border none
@@ -336,7 +337,7 @@ bindsym $mod+Shift+p move scratchpad
 bindsym $mod+p       scratchpad show
 
 # shortcuts for common system configuration tasks
-bindsym $mod+s exec systemsettings5 kcm_pulseaudio
+bindsym $mod+s exec systemsettings kcm_pulseaudio
 
 mode "discord" {
         bindsym --release k exec xdotool key alt+Up  

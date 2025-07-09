@@ -1,17 +1,104 @@
 # vim: ft=sh
 
-alias ls='exa --group-directories-first'
-alias la='ls -a' # ls -A for regular ls
-alias ll='ls -lh'
-alias l='ls -lah'
+# all aliases are functions in order to work with things like `notify`
+
+unalias ls
+ls() {
+    exa --group-directories-first $@
+}
+
+unalias la
+la() {
+    ls -a $@ # ls -A for regular ls
+}
+
+unalias ll
+ll() {
+    ls -lh $@
+}
+
+unalias l
+l() {
+    ls -lah $@
+}
+
+rm() {
+    /bin/rm -I $@
+}
+
+cb() {
+    xclip -selection clipboard
+}
+
+pls() {
+    sudo $(fc -ln -1)
+}
+
+cpd() {
+    echo $(fc -ln -1) | perl -pe "chomp if eof" | cb # C-o now does this for current line
+}
+
+fzd() {
+    cd ~/Documents; fzc
+}
+
+fzn() {
+    nvim $(fzf) $@
+}
+
+cfzcn() {
+    cd ~/.config; fzcn $@
+}
+
+fns() {
+    fd Session.vim | fzf | xargs nvim -S $@
+}
+
+lsz() {
+    du -sh * | sort -h
+}
+
+laz() {
+    { du -sh .*; du -sh * } 2>/dev/null | sort -h
+}
+
+cupdate() {
+    cargo install $(cargo install --list | sed -En "/:$/{s/ .*//; p}")
+}
+
+cudeps() {
+    cargo +nightly udeps
+}
+
+gsl() {
+    git stash && git pull && git stash pop
+}
+
+gcom() {
+    git checkout $(git rev-parse --abbrev-ref origin/HEAD | cut -d/ -f2-) $@
+}
+
+# shellcheck disable=SC2142
+add() {
+    awk "{s+=\$1} END{print s}"
+}
+
+viewdoc() {
+    open ./target/doc/$(basename $PWD)/index.html
+}
+
+tmux() {
+    /usr/bin/tmux -f ~/.config/tmux/.tmux.conf $@
+}
+
+screenkey() {
+    screenkey --scr 1 --opacity 0.1 -s small $@
+}
+
+
 alias sl=ls
 alias ks=ls
-alias rm='rm -I'
-alias cb='xclip -selection clipboard'
-alias pls='sudo $(fc -ln -1)'
-alias cpd='echo $(fc -ln -1) | perl -pe "chomp if eof" | cb' # C-o now does this for current line
 alias timer=termdown
-alias screenkey='screenkey --scr 1 --opacity 0.1 -s small'
 alias yeah=yes
 alias q=" exit"
 alias v=vr

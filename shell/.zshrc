@@ -109,6 +109,7 @@ source "$HOME/.aliases"
 unsetopt share_history
 source $ZSH_CUSTOM/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 export EDITOR="nvim"
+export VISUAL="nvim"
 PATH="/home/joshh/.cargo/bin:/home/joshh/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="/home/joshh/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;
 PERL_LOCAL_LIB_ROOT="/home/joshh/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"; export PERL_LOCAL_LIB_ROOT;
@@ -126,7 +127,7 @@ export WINEPREFIX=~/.wine
 
 export CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
 
-export MCFLY_FUZZY=3
+export MCFLY_FUZZY=0
 export MCFLY_RESULTS=40
 export MCFLY_RESULTS_SORT=LAST_RUN # options: [LAST_RUN, RANK]
 eval "$(mcfly init zsh)"
