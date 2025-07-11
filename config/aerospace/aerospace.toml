@@ -11,7 +11,7 @@ exec-on-workspace-change = [
 
 after-startup-command = [
   # https://github.com/FelixKratz/JankyBorders
-  'exec-and-forget borders active_color=0xffd4be98 inactive_color=0x00494d64 width=4.0 hidpi=on',
+  # 'exec-and-forget borders active_color=0xffd4be98 inactive_color=0x00494d64 width=4.0 hidpi=off',
   # https://github.com/FelixKratz/SketchyBar
   'exec-and-forget sketchybar'
 ]
@@ -103,6 +103,7 @@ alt-e = 'exec-and-forget open $HOME'
 alt-ctrl-z = 'exec-and-forget open -a zoom.us'
 alt-ctrl-d = 'exec-and-forget open -a slack'
 alt-ctrl-p = 'exec-and-forget open -a spotify'
+alt-ctrl-n = 'exec-and-forget open -a "Trello (Beta)"'
 alt-s = 'exec-and-forget ~/scripts/scratchpad.sh'
 # alt-shift-s = 'exec-and-forget open -a "System Settings"'
 alt-ctrl-o = 'exec-and-forget ~/scripts/switchmic.sh'
@@ -145,9 +146,13 @@ run = 'move-node-to-workspace 5'
 if.app-id = 'com.tinyspeck.slackmacgap'
 run = 'move-node-to-workspace 5'
 
+[[on-window-detected]]
+if.app-id = 'us.zoom.xos'
+run = 'move-node-to-workspace 6'
+
 [workspace-to-monitor-force-assignment]
-5 = 'secondary'
 6 = 'secondary'
+7 = 'secondary'
 
 [mode.service.binding]
 esc = ['reload-config', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=']

@@ -334,12 +334,13 @@ nnoremap <Leader>gsl <CMD>Dispatch zsh -c "gsl"<CR>
 nnoremap <Leader>gsm <CMD>Dispatch zsh -c "gslm"<CR>
 nnoremap <Leader>glm <CMD>Dispatch zsh -c "glm"<CR>
 nnoremap <Leader>gon <CMD>Dispatch! zsh -c "gon"<CR>
+nnoremap <Leader>gfc <CMD>Telescope conflicts<CR>
 nnoremap <Leader>G  <CMD>tabnew<CR><CMD>Git<CR>
 nnoremap <Leader>R  <CMD>CocRestart<CR>
 nnoremap <Leader>u  <CMD>UndotreeToggle<CR>
 
 nnoremap <Leader>fb  <cmd>Telescope buffers<cr>
-nnoremap <Leader>fc      :Telescope coc 
+nnoremap <Leader>fc  <cmd>Telescope coc coc<cr>
 nnoremap <Leader>fds <cmd>Telescope coc document_symbols<cr>
 nnoremap <Leader>fe  <cmd>Telescope coc diagnostics<cr>
 nnoremap <Leader>fp  <cmd>Telescope coc commands<cr>
@@ -362,6 +363,11 @@ vnoremap <Leader>fv  <cmd>lua require('telescope-live-grep-args.shortcuts').grep
 nnoremap <Leader>fq  <cmd>Telescope quickfix<cr>
 nnoremap <expr> <Leader>z foldclosed('.') != -1 ? 'zO' : 'zC'
 nnoremap <Leader><C-g> <cmd>let @+ = expand("%")<cr>
+
+nnoremap <Leader>co <Plug>(git-conflict-ours)
+nnoremap <Leader>ct <Plug>(git-conflict-theirs)
+nnoremap <Leader>cb <Plug>(git-conflict-both)
+nnoremap <Leader>c0 <Plug>(git-conflict-none)
 " }}}
 
 set splitbelow
@@ -410,7 +416,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-sleuth'
-" Plug 'akinsho/git-conflict.nvim'
+Plug 'akinsho/git-conflict.nvim'
 Plug 'kdheepak/lazygit.nvim'
 Plug 'lewis6991/gitsigns.nvim'
 Plug 'sitiom/nvim-numbertoggle'
@@ -421,6 +427,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-live-grep-args.nvim'
+Plug 'Snikimonkd/telescope-git-conflicts.nvim'
 
 Plug 'fannheyward/telescope-coc.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -782,6 +789,7 @@ telescope.setup {
 telescope.load_extension('fzf')
 telescope.load_extension('coc')
 telescope.load_extension('live_grep_args')
+telescope.load_extension('conflicts')
 
 require("git-worktree").setup({
   -- change_directory_command = <str> -- default: "cd",
@@ -793,14 +801,14 @@ require("git-worktree").setup({
 telescope.load_extension("git_worktree")
 
 
--- require('git-conflict').setup {
---     default_mappings = true, -- disable buffer local mapping created by this plugin
---     disable_diagnostics = true, -- This will disable the diagnostics in a buffer whilst it is conflicted
---     highlights = { -- They must have background color, otherwise the default color will be used
---         incoming = 'DiffText',
---         current = 'DiffAdd',
---     }
--- }
+require('git-conflict').setup {
+    default_mappings = true, -- disable buffer local mapping created by this plugin
+    disable_diagnostics = true, -- This will disable the diagnostics in a buffer whilst it is conflicted
+    highlights = { -- They must have background color, otherwise the default color will be used
+        incoming = 'DiffText',
+        current = 'DiffAdd',
+    }
+}
 
 -- require("treesitter-context").setup {
 --     mode = 'topline',

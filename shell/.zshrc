@@ -8,7 +8,7 @@
 # If you come from bash you might have to change your $PATH.
 
 # NOTE: uncomment to profile shell startup. `zprof` to view results
-zmodload zsh/zprof
+# zmodload zsh/zprof
 
 if [ -x /usr/libexec/path_helper ]; then
     eval $(/usr/libexec/path_helper -s)
@@ -173,3 +173,4 @@ eval "$(zoxide init zsh)"
 # export PATH="/Users/jharcombe/.orbit/bin:$PATH"
 # export PATH="$PATH:/Users/jharcombe/.nvm/versions/node/v20.15.1/bin"
 export HOMEBREW_NO_AUTO_UPDATE=1
+unset _OLD_VIRTUAL_PS1 # starting a new shell from a venv sets this, causing PS1 to break once you deactivate
