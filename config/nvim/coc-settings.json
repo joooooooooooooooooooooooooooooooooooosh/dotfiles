@@ -45,7 +45,6 @@
     "language": "mysql"
   },
   "svelte.enable-ts-plugin": true,
-  "ruff.format.args": ["--line-length", "79"],
   "zig.path": "/opt/homebrew/bin/zls",
   "java.import.gradle.java.home": "/Library/Java/JavaVirtualMachines/amazon-corretto-17.jdk/Contents/Home"
 }

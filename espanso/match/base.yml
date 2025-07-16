@@ -36,21 +36,21 @@ matches:
   # mac
   - trigger: ";users"
     replace: |-
-      /usr/bin/stat -f "%Su" /dev/console
+      /usr/bin/stat -f '%Su' /dev/console
   - trigger: ";isadmin"
     replace: |-
-      dscl . read /groups/admin | grep ^GroupMembership | grep -E ' $(/usr/bin/stat -f "%Su" /dev/console")( |\$)'
+      dscl . read /groups/admin GroupMembership | grep -E " $(/usr/bin/stat -f '%Su' /dev/console)( |\$)"
   - trigger: ";addadmin"
     replace: |-
-      sudo dseditgroup -o edit -a $(/usr/bin/stat -f "%Su" /dev/console") -t user admin
+      sudo dseditgroup -o edit -a $(/usr/bin/stat -f '%Su' /dev/console) -t user admin
   - trigger: ";removeadmin"
     replace: |-
-      sudo dseditgroup -o edit -d $(/usr/bin/stat -f "%Su" /dev/console") -t user admin
+      sudo dseditgroup -o edit -d $(/usr/bin/stat -f '%Su' /dev/console) -t user admin
   - trigger: ";psgrep"
     replace: 'ps aux | grep $|$ | grep -v "grep .*$*"'
   - trigger: ";~"
     replace: |-
-      /Users/$(/usr/bin/stat -f "%Su" /dev/console)/
+      /Users/$(/usr/bin/stat -f '%Su' /dev/console)/
 
   # misc
   - trigger: ";downloads"
