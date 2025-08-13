@@ -28,11 +28,5 @@ elif [ "$SENDER" = "mouse.scrolled" ]; then
 
   /usr/bin/osascript -e "set volume output volume (output volume of (get volume settings) ${DIRECTION} 5)"
 elif [ "$ACTION" = "toggle-mute" ]; then
-  muted=$(/usr/bin/osascript -e 'output muted of (get volume settings)')
-  action="with"
-  if [ "$muted" = "true" ]; then
-    action="without"
-  fi
-
-  /usr/bin/osascript -e "set volume ${action} output muted"
+  /usr/bin/osascript -e "set volume output muted not (output muted of (get volume settings))"
 fi

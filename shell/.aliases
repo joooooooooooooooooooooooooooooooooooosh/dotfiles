@@ -114,14 +114,6 @@ js() {
     tmp javascript
 }
 
-git_exclude() {
-    >> .git/info/exclude 2> /dev/null cat << EOF
-.in
-.out
-*.vim
-EOF
-}
-
 zargs() {
     xargs -I{} "$@" {}
 }
@@ -192,7 +184,9 @@ blkrd() {
 }
 
 curlsh() {
-    curl "$@" | (
+    curl \
+        -H "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36" \
+        "$@" | (
         sleep 3
         cat
     ) | nipe sh
@@ -207,7 +201,7 @@ trust_autoenv() {
 }
 
 set_service() {
-    cat << EOF >> .out
+    cat << EOF >> .in
 ORIGINAL_SERVICE_NAME=\$SERVICE_NAME
 export SERVICE_NAME=$1
 EOF
@@ -322,6 +316,16 @@ gsl() {
 }
 _compdef _git-pull gsl
 
+gs() {
+    git stash "$@"
+}
+_compdef _git-stash gs
+
+gsp() {
+    git stash pop "$@"
+}
+_compdef _git-stash gsp
+
 _unalias gco
 gco() {
     if [ "${1}" = "-b" ]; then
@@ -333,6 +337,10 @@ gco() {
     git checkout "$@"
 }
 _compdef _git-checkout gco
+
+gfco() {
+    git fetch origin "${1}:${1}" && gco "${1}"
+}
 
 gcom() {
     git checkout $(gshm) "$@"

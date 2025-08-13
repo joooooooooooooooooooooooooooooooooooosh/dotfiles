@@ -39,7 +39,7 @@ matches:
       /usr/bin/stat -f '%Su' /dev/console
   - trigger: ";isadmin"
     replace: |-
-      dscl . read /groups/admin GroupMembership | grep -E " $(/usr/bin/stat -f '%Su' /dev/console)( |\$)"
+      dseditgroup -o checkmember -m $(/usr/bin/stat -f '%Su' /dev/console) admin
   - trigger: ";addadmin"
     replace: |-
       sudo dseditgroup -o edit -a $(/usr/bin/stat -f '%Su' /dev/console) -t user admin

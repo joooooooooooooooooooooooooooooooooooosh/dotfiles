@@ -62,3 +62,5 @@
 	eventBrief = true
 	eventNesting = 1
 	configparams = custom.metacommands
+[core]
+	excludesFile = /Users/jharcombe/.gitignore
