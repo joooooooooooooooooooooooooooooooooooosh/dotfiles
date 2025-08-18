@@ -14,8 +14,6 @@ _unalias() {
     unalias $@ 2>/dev/null
 }
 
-_compdef _gnu_generic pdfgrep
-
 # all aliases are functions in order to work with things like `notify` and `compdef`
 { type _git-pull || _git } &> /dev/null # NOTE: loads the _git completion system, including subcommands
 
@@ -31,7 +29,8 @@ alias ssl='local-ssl-proxy --cert ~/.misc/localhost.pem --key ~/.misc/localhost-
 alias disable_status='git config prompt.git-status false'
 alias enable_status='git config --unset prompt.git-status'
 alias sn='sudo $(which nvim)'
-alias t=' watchman version &>/dev/null; tmux a &>/dev/null || tmux'
+# alias t=' watchman version &>/dev/null; tmux a &>/dev/null || tmux'
+alias t=' tmux a &>/dev/null || tmux'
 alias jwt='tr . "\n" | while read input; do echo $input | base64 -d; echo "}"; done | jq'
 alias fd='fd --ignore-file <(echo /System/Volumes)'
 
@@ -631,3 +630,5 @@ convert_time () {
         local to="${3}"
         TZ="${to}" date -jf "%H:%M%z" "${hours}:${minutes}$(TZ="${from}" date +"%z")" +"%H:%M %Z (%z)"
 }
+
+_compdef _gnu_generic pdfgrep
