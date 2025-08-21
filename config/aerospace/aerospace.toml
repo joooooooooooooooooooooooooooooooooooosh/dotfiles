@@ -4,6 +4,8 @@ on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 # on-focus-changed = ['move-mouse window-lazy-center']
 
 # TODO: make a fast workspace element with aerospace IPC and sketchybar mach_helper
+# TODO: can we subscribe to window moves via IPC?
+# Need to generate a sketchybar workspace when a window is sent to a previously empty space
 exec-on-workspace-change = [
   '/bin/bash',
   '-c',

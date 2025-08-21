@@ -14,9 +14,10 @@ else
         clone_space=$({
             aerospace list-workspaces --monitor all --empty no
             echo "${FOCUSED_WORKSPACE}"
-        } | grep -xv scratchpad | sort -n | grep -B1 "${FOCUSED_WORKSPACE}" | sed '$d')
+        } | grep -xv scratchpad | sort -n | grep -x -B1 -m1 "${FOCUSED_WORKSPACE}" | sed '$d')
 
         if [ -z "${clone_space}" ]; then
+            # New space is the first in the list
             clone_space=$(aerospace list-workspaces --monitor all --empty no | head -1)
             direction="before"
         fi
@@ -28,7 +29,8 @@ else
             --set "space.${FOCUSED_WORKSPACE}" \
             icon="${FOCUSED_WORKSPACE}" \
             click_script="aerospace workspace ${FOCUSED_WORKSPACE}" \
-            script="plugins/aerospace.sh ${FOCUSED_WORKSPACE}"
+            script="plugins/aerospace.sh ${FOCUSED_WORKSPACE}" \
+            background.drawing=on
     fi
     sketchybar --set "${NAME}" background.drawing=off
 fi
