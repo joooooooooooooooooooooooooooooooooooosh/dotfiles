@@ -51,6 +51,14 @@ matches:
   - trigger: ";~"
     replace: |-
       ~$(/usr/bin/stat -f '%Su' /dev/console)/
+  - trigger: ";serial"
+    replace: "{{output}}"
+    vars:
+      - name: output
+        type: shell
+        params:
+          cmd: |-
+            ioreg -l | sed -En '/IOPlatformSerialNumber/{s/.+"([^"]+)"$/\1/p; q;}'
 
   # misc
   - trigger: ";downloads"
