@@ -3,6 +3,7 @@ start-at-login = true
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 # on-focus-changed = ['move-mouse window-lazy-center']
 
+# TODO: make a fast workspace element with aerospace IPC and sketchybar mach_helper
 exec-on-workspace-change = [
   '/bin/bash',
   '-c',

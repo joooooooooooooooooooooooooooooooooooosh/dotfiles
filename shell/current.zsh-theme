@@ -38,7 +38,6 @@ YELLOW_PREFIX="%{$fg[yellow]%}‹"
 MAGENTA_PREFIX="%{$fg[magenta]%}‹"
 PROMPT_SUFFIX="› %{$reset_color%}"
 
-
 ZSH_THEME_RUBY_PROMPT_PREFIX="%{$fg[red]%}‹"
 ZSH_THEME_RUBY_PROMPT_SUFFIX="› %{$reset_color%}"
 
