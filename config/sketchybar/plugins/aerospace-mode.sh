@@ -7,7 +7,7 @@ if [ "${SENDER}" = "mouse.scrolled.global" ]; then
     else
         aerospace list-workspaces --monitor focused --empty no | grep -v scratchpad | aerospace workspace --wrap-around next
     fi
-else
+elif [ "${SENDER}" = "aerospace_mode_change" ] || [ "${SENDER}" = "forced" ]; then
     if [ -n "$INFO" ]; then
         sketchybar --set "$NAME" label="$INFO"
         sketchybar --set "$NAME" background.drawing=on

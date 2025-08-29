@@ -7,7 +7,7 @@ if [ "${SENDER}" = "mouse.scrolled" ]; then
     else
         aerospace list-workspaces --monitor focused --empty no | grep -v scratchpad | aerospace workspace --wrap-around next
     fi
-else
+elif [ "${SENDER}" = "aerospace_workspace_change_${1}" ]; then
     if [ "${1}" = "${FOCUSED_WORKSPACE}" ]; then
         sketchybar --set "${NAME}" background.drawing=on
     else
@@ -16,17 +16,18 @@ else
             sketchybar --remove "${NAME}" event "aerospace_workspace_change_${1}"
         fi
 
+        echo this is "$1" checking "${FOCUSED_WORKSPACE}" >>/tmp/aerospace_logs
         # Check if the new space has an element on the bar yet
         if ! sketchybar --query "space.${FOCUSED_WORKSPACE}" >/dev/null 2>&1; then
             direction="after"
             clone_space=$({
-                aerospace list-workspaces --monitor all --empty no
-                echo "${FOCUSED_WORKSPACE}"
-            } | grep -xv scratchpad | sort -n | grep -x -B1 -m1 "${FOCUSED_WORKSPACE}" | sed '$d')
+                sketchybar --query bar | jq -r '.items[]' | sed -n 's/^space\.//p'
+                echo "${FOCUSED_WORKSPACE}" # see where it fits in the sorted list
+            } | sort -n | grep -x -B1 -m1 "${FOCUSED_WORKSPACE}" | sed '$d')
 
             if [ -z "${clone_space}" ]; then
                 # New space is the first in the list
-                clone_space=$(aerospace list-workspaces --monitor all --empty no | head -1)
+                clone_space=$(sketchybar --query bar | jq -r '.items[]' | sed -n 's/^space\.//p' | head -1)
                 direction="before"
             fi
 

@@ -7,7 +7,14 @@
   "diagnostic-languageserver.formatters": {
     "shfmt": {
       "command": "/opt/homebrew/bin/shfmt",
-      "args": ["-i", "4", "-bn", "-ci", "-sr", "-s"]
+      "args": [
+        "--indent",
+        "0",
+        "--binary-next-line",
+        "--case-indent",
+        "--space-redirects",
+        "--simplify"
+      ]
     }
   },
   "diagnostic.errorSign": "✖",

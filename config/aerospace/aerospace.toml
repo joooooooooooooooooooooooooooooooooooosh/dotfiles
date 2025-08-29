@@ -78,6 +78,9 @@ alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
 alt-0 = 'workspace 10'
 
+alt-ctrl-a = 'exec-and-forget aerospace workspace $(aerospace list-workspaces --monitor focused --empty no | grep -xv scratchpad | head -1)'
+alt-ctrl-e = 'exec-and-forget aerospace workspace $(aerospace list-workspaces --monitor focused --empty no | grep -xv scratchpad | tail -1)'
+
 alt-shift-leftSquareBracket = 'move-node-to-workspace prev'
 alt-shift-rightSquareBracket = 'move-node-to-workspace next'
 alt-shift-backtick = 'move-node-to-workspace 0'
