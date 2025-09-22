@@ -16,7 +16,6 @@ elif [ "${SENDER}" = "aerospace_workspace_change_${1}" ]; then
             sketchybar --remove "${NAME}" event "aerospace_workspace_change_${1}"
         fi
 
-        echo this is "$1" checking "${FOCUSED_WORKSPACE}" >>/tmp/aerospace_logs
         # Check if the new space has an element on the bar yet
         if ! sketchybar --query "space.${FOCUSED_WORKSPACE}" >/dev/null 2>&1; then
             direction="after"

@@ -108,7 +108,7 @@ alt-enter = 'exec-and-forget open -a alacritty -n'
 alt-e = 'exec-and-forget open $HOME'
 alt-ctrl-m = 'exec-and-forget open -a zoom.us'
 alt-ctrl-d = 'exec-and-forget open -a slack'
-alt-ctrl-p = 'exec-and-forget open -a spotify'
+alt-ctrl-p = 'exec-and-forget open -a tidal'
 alt-ctrl-n = 'exec-and-forget open -a "Trello (Beta)"'
 alt-ctrl-g = 'exec-and-forget open https://calendar.google.com'
 alt-s = 'exec-and-forget ~/scripts/scratchpad.sh'
@@ -155,6 +155,10 @@ if.app-id = 'com.spotify.client'
 run = 'move-node-to-workspace 4'
 
 [[on-window-detected]]
+if.app-id = 'com.tidal.desktop'
+run = 'move-node-to-workspace 4'
+
+[[on-window-detected]]
 if.app-id = 'com.friendlyfoxes.paws-beta' # Trello Desktop
 run = 'move-node-to-workspace 4'
 
@@ -166,9 +170,10 @@ run = 'move-node-to-workspace 4'
 if.app-id = 'us.zoom.xos'
 run = 'move-node-to-workspace 5'
 
-[workspace-to-monitor-force-assignment]
-5 = 'secondary'
-6 = 'secondary'
+# why is there no default-but-not-forced assignment
+# [workspace-to-monitor-force-assignment]
+# 5 = 'secondary'
+# 6 = 'secondary'
 
 [mode.service.binding]
 esc = ['reload-config', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=']

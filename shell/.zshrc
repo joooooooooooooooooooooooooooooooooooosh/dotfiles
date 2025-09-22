@@ -11,7 +11,7 @@
 # zmodload zsh/zprof
 
 if [ -x /usr/libexec/path_helper ]; then
-    eval $(/usr/libexec/path_helper -s)
+	eval $(/usr/libexec/path_helper -s)
 fi
 
 export PATH=$PATH:$HOME/.local/bin
@@ -110,9 +110,9 @@ source "$ZSH"/oh-my-zsh.sh
 
 # make C-l actually clear to reset the prompt
 clear-screen() {
-    echoti clear
-    print -P $PRE_PROMPT
-    zle redisplay
+	echoti clear
+	print -P $PRE_PROMPT
+	zle redisplay
 }
 zle -N clear-screen
 
@@ -144,7 +144,7 @@ export PERL_MM_OPT
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 if type rg &> /dev/null; then
-    export FZF_DEFAULT_COMMAND='rg --files'
+	export FZF_DEFAULT_COMMAND='rg --files'
 fi
 
 export CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
