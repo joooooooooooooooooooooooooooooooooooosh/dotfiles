@@ -116,7 +116,7 @@ autoload -Uz add-zsh-hook
 add-zsh-hook preexec prompt_preexec
 add-zsh-hook precmd prompt_precmd
 
-RPS1='%F{cyan}${prompt_elapsed_time}%F{none} '$RPROMPT
+RPS1='%1(j. %{$fg[black]%}[%j] .)%F{cyan}${prompt_elapsed_time}%F{none}'$RPROMPT
 
 ### OSC 133 (prompt start/end)
 

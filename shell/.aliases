@@ -82,7 +82,12 @@ vipe() {
 }
 
 portusage() {
-    netstat -anvp tcp | grep LISTEN | awk '{ print $4, $11 }' | while read port pid; do echo "Port $port: $(ps -p $pid -o command= | sed 's/^-//') (PID: $pid)"; done | sort -n | uniq
+    netstat -anvp tcp \
+        | grep LISTEN \
+        | awk '{ print $4, $11 }' \
+        | while read port pid; do
+            echo "$port\t$(ps -p $pid -o command= | sed 's/^-//') (PID: $pid)"
+        done | sort -n | uniq
 }
 
 csvcol() {
@@ -98,10 +103,6 @@ alertfor() {
 }
 
 tmp() {
-    if [ "$1" = 'js' ]; then
-        1='javascript'
-    fi
-
     if [ -n $1 ]; then
         $EDITOR -c "set ft=$1" =()
     else

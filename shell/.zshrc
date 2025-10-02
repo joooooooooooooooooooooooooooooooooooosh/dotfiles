@@ -174,3 +174,13 @@ eval "$(zoxide init zsh)"
 # export PATH="$PATH:/Users/jharcombe/.nvm/versions/node/v20.15.1/bin"
 export HOMEBREW_NO_AUTO_UPDATE=1
 unset _OLD_VIRTUAL_PS1 # starting a new shell from a venv sets this, causing PS1 to break once you deactivate
+
+# Chromium tools
+export PATH="$PATH:/Users/jharcombe/atlassian/google/depot_tools"
+
+# bun completions
+[ -s "/Users/jharcombe/.bun/_bun" ] && source "/Users/jharcombe/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

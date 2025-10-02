@@ -68,6 +68,9 @@ autocmd BufWritePost *.tex exec 'Dispatch! tectonic %'
 " TODO: some kind of autocmd to unload nvimrc in sessions
 " autocmd WinClosed ~/.nvimrc exec 'bunload \~\/\.nvimrc | bdelete \~\/\.nvimrc'
 
+autocmd FileType js setlocal filetype=javascript
+autocmd FileType md setlocal filetype=markdown
+
 autocmd FileType qf setlocal winfixheight " quickfix buffers
 autocmd FileType markdown,text setlocal spell wrap
 autocmd FileType tex,plaintex setlocal spell wrap
