@@ -59,6 +59,9 @@ matches:
         params:
           cmd: |-
             ioreg -l | sed -En '/IOPlatformSerialNumber/{s/.+"([^"]+)"$/\1/p; q;}'
+  - trigger: ";password"
+    replace: |-
+      $(read -s "?Password: " p; echo $p)
 
   # misc
   - trigger: ";downloads"
