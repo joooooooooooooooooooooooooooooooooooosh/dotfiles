@@ -31,7 +31,7 @@ alias enable_status='git config --unset prompt.git-status'
 alias sn='sudo $(which nvim)'
 # alias t=' watchman version &>/dev/null; tmux a &>/dev/null || tmux'
 alias t=' tmux a &>/dev/null || tmux'
-alias jwt='tr . "\n" | while read input; do echo $input | base64 -d; echo "}"; done | jq'
+alias jwt="cut -d. -f2 | base64 -d | sed 's/$/}/' | jq"
 alias fd='fd --ignore-file <(echo /System/Volumes)'
 
 
@@ -108,10 +108,6 @@ tmp() {
     else
         $EDITOR $1 =()
     fi
-}
-
-js() {
-    tmp javascript
 }
 
 zargs() {
@@ -630,6 +626,11 @@ convert_time () {
         local from="${2}"
         local to="${3}"
         TZ="${to}" date -jf "%H:%M%z" "${hours}:${minutes}$(TZ="${from}" date +"%z")" +"%H:%M %Z (%z)"
+}
+
+ntdate () {
+    # Active Directory timestamp conversion
+    date -r $((($1 / 10000000) - 11644473600))
 }
 
 _compdef _gnu_generic pdfgrep

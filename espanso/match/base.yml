@@ -51,6 +51,14 @@ matches:
   - trigger: ";~"
     replace: |-
       ~$(/usr/bin/stat -f '%Su' /dev/console)/
+  - trigger: ";isme"
+    replace: "assignee={{output}}"
+    vars:
+      - name: output
+        type: shell
+        params:
+          cmd: |-
+            /usr/bin/stat -f '%Su' /dev/console
   - trigger: ";serial"
     replace: "{{output}}"
     vars:
