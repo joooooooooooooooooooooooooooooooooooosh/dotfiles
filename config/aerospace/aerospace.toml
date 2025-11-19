@@ -103,19 +103,19 @@ alt-shift-q = 'close'
 
 alt-shift-s = ['mode service', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=service']
 alt-r = ['mode resize', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=resize']
+# alt-ctrl-d = ['mode slack', 'exec-and-forget open -a slack', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=slack']
+alt-ctrl-d = 'exec-and-forget open -a slack'
 
 alt-enter = 'exec-and-forget open -a alacritty -n'
 alt-e = 'exec-and-forget open $HOME'
 alt-ctrl-m = 'exec-and-forget open -a zoom.us'
-alt-ctrl-d = 'exec-and-forget open -a slack'
 alt-ctrl-p = 'exec-and-forget open -a spotify'
 alt-ctrl-n = 'exec-and-forget open -a "Trello (Beta)"'
 alt-ctrl-g = 'exec-and-forget open https://calendar.google.com'
+# alt-p = 'exec-and-forget ~/scripts/scratchpad.sh'
 alt-s = 'exec-and-forget ~/scripts/scratchpad.sh'
 # alt-shift-s = 'exec-and-forget open -a "System Settings"'
 alt-ctrl-o = 'exec-and-forget ~/scripts/switchmic.sh'
-alt-p = 'exec-and-forget skhd -k "alt + shift - up"'
-alt-n = 'exec-and-forget skhd -k "alt + shift - down"'
 alt-b = 'exec-and-forget pgrep sketchybar && sketchybar --reload || brew services start sketchybar' # NOTE: `brew services start sketchybar` needed to get screen recording perms
 alt-shift-c = 'reload-config'
 
@@ -123,6 +123,13 @@ alt-shift-c = 'reload-config'
 f10 = 'exec-and-forget /usr/bin/osascript -e "set volume output muted not (output muted of (get volume settings))"'
 f11 = 'exec-and-forget /usr/bin/osascript -e "set volume output volume (output volume of (get volume settings) - 5)"'
 f12 = 'exec-and-forget /usr/bin/osascript -e "set volume output volume (output volume of (get volume settings) + 5)"'
+
+# [mode.slack.binding]
+alt-p = 'exec-and-forget skhd -k "alt + shift - up"'
+alt-n = 'exec-and-forget skhd -k "alt + shift - down"'
+
+# alt-ctrl-d = ['mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=']
+# esc = ['mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=']
 
 
 [mode.resize.binding]
@@ -134,6 +141,7 @@ shift-h = 'resize width -5'
 shift-j = 'resize height +5'
 shift-k = 'resize height -5'
 shift-l = 'resize width +5'
+
 enter = ['mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=']
 esc = ['mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=']
 alt-r = ['mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=']

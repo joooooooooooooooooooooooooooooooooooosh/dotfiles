@@ -633,4 +633,8 @@ ntdate () {
     date -r $((($1 / 10000000) - 11644473600))
 }
 
+jsdate() {
+    node -e "console.log(new Date($1))"
+}
+
 _compdef _gnu_generic pdfgrep
