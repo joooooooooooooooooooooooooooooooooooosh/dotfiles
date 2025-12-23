@@ -18,8 +18,8 @@ _unalias() {
 { type _git-pull || _git } &> /dev/null # NOTE: loads the _git completion system, including subcommands
 
 
-alias aliases='$EDITOR ~/.aliases'
-alias bookmarks='$EDITOR ~/.bookmarks'
+alias aliases='n ~/.aliases'
+alias bookmarks='n ~/.bookmarks'
 alias bm=' print -z "$(fzf < ~/.bookmarks | sed s/\\\\/\\\\\\\\/g)"'
 alias up=unpack
 alias nipe='vipe >/dev/null'
@@ -104,9 +104,9 @@ alertfor() {
 
 tmp() {
     if [ -n $1 ]; then
-        $EDITOR -c "set ft=$1" =()
+        n -c "set ft=$1" =()
     else
-        $EDITOR $1 =()
+        n $1 =()
     fi
 }
 
@@ -167,7 +167,7 @@ zshman() {
 }
 
 edittmux() {
-    nvim ~/.config/tmux/tmux.conf && tmux source ~/.config/tmux/tmux.conf
+    n ~/.config/tmux/tmux.conf && tmux source ~/.config/tmux/tmux.conf
 }
 
 unpack() {
@@ -268,7 +268,7 @@ fzd() {
 }
 
 fzn() {
-    nvim $(fzf) "$@"
+    n $(fzf) "$@"
 }
 
 cfzcn() {
@@ -407,8 +407,15 @@ n() {
             2='Telescope find_files'
         }
     fi
-    nvim "$@"
+
+    # node invocation via nvm takes a long time if you don't specify the path explicitly
+    if [ -z $COC_NODE_PATH ]; then
+        COC_NODE_PATH=/Users/jharcombe/.nvm/versions/node/v25.2.1/bin/node nvim "$@"
+    else
+        nvim "$@"
+    fi
 }
+export COC_NODE_PATH=/Users/jharcombe/.nvm/versions/node/v25.2.1/bin/node
 
 np() {
     [ -z "$1" ] && return
@@ -570,6 +577,8 @@ _lazy_load_nvm() {
     unset -f npm node nvm
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+    export COC_NODE_PATH=$(which node)
 }
 
 npm() {
@@ -586,7 +595,6 @@ node() {
     _lazy_load_nvm
     node "$@"
 }
-
 
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"

@@ -12,7 +12,10 @@ for bluetooth in ${PREFERRED_BLUETOOTH[@]}; do
 			BLUETOOTH_OUTPUT=$(cut -d, -f1 <<< "${BLUETOOTH_OUTPUT}")
 			timeout 1 blueutil --connect "${BLUETOOTH_OUTPUT}"
 		fi \
-			&& PREFERRED_OUTPUT=(${bluetooth}) # don't set output if the `blueutil` connect timed out
+			&& {
+				PREFERRED_OUTPUT=(${bluetooth}) # don't set output if the `blueutil` connect timed out
+				break
+			}
 	fi
 done
 

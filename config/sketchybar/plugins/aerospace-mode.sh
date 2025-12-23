@@ -3,9 +3,9 @@
 # Use this for mouse.scolled.global because individual spaces might not always exist on the bar
 if [ "${SENDER}" = "mouse.scrolled.global" ]; then
     if echo "${SCROLL_DELTA}" | grep -q '-'; then
-        aerospace list-workspaces --monitor focused --empty no | grep -v scratchpad | aerospace workspace --wrap-around prev
+        aerospace list-workspaces --monitor focused --empty no | grep -v scratchpad | aerospace workspace --wrap-around prev --stdin
     else
-        aerospace list-workspaces --monitor focused --empty no | grep -v scratchpad | aerospace workspace --wrap-around next
+        aerospace list-workspaces --monitor focused --empty no | grep -v scratchpad | aerospace workspace --wrap-around next --stdin
     fi
 elif [ "${SENDER}" = "aerospace_mode_change" ] || [ "${SENDER}" = "forced" ]; then
     if [ -n "$INFO" ]; then

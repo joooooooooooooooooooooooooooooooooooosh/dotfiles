@@ -897,7 +897,7 @@ require("nvim-treesitter.configs").setup {
 
 local handler = function(virtText, lnum, endLnum, width, truncate)
     local newVirtText = {}
-    local suffix = (' ... %d '):format(endLnum - lnum)
+    local suffix = ('  󰁂 %d'):format(endLnum - lnum)
     local sufWidth = vim.fn.strdisplaywidth(suffix)
     local targetWidth = width - sufWidth
     local curWidth = 0
@@ -932,7 +932,10 @@ vim.keymap.set('n', 'zM', require('ufo').closeAllFolds)
 
 -- global handler
 require('ufo').setup({
-    fold_virt_text_handler = handler
+    fold_virt_text_handler = handler,
+    provider_selector = function(bufnr, filetype, buftype)
+        return {'treesitter', 'indent'}
+    end
 })
 
 -- buffer scope handler
@@ -1028,6 +1031,7 @@ imap <silent><C-_> <Esc>gccA
 nmap \cg <cmd>CellularAutomaton game_of_life<cr>
 nmap \cm <cmd>CellularAutomaton make_it_rain<cr>
 
+" nnoremap <silent> K <CMD>lua require('ufo').peekFoldedLinesUnderCursor()<CR>
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
 
