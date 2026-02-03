@@ -2,6 +2,11 @@
 DOT_DIR="$HOME/.dotfiles/"
 CONFIG_DIR=$DOT_DIR"config/"
 
+sync_dir() {
+    rm -r "${CONFIG_DIR:?}/${2}/"
+    cp -r "${1}/${2}" "${CONFIG_DIR}/${2}/"
+}
+
 cp ~/.nvimrc "${DOT_DIR}vim/"
 cp ~/.zshrc "${DOT_DIR}shell"
 cp ~/.zshenv "${DOT_DIR}shell"
@@ -11,14 +16,14 @@ cp ~/.bookmarks "${DOT_DIR}shell"
 cp ~/.gitconfig "$DOT_DIR"
 cp ~/.gitignore "$DOT_DIR"
 cp ~/.gdbinit "$DOT_DIR"
-cp ~/.config/alacritty/alacritty.toml "${CONFIG_DIR}alacritty/"
-rm -r "${CONFIG_DIR}nvim/"
-cp -r ~/.config/nvim "${CONFIG_DIR}nvim/"
-rm -rf "${CONFIG_DIR}ranger/"
-cp -r ~/.config/ranger "${CONFIG_DIR}ranger/"
-rm -r "${CONFIG_DIR}sketchybar/"
-cp -r ~/.config/sketchybar "${CONFIG_DIR}sketchybar/"
-cp -r ~/.config/aerospace/ "${CONFIG_DIR}aerospace/"
+
+sync_dir ~/.config alacritty
+sync_dir ~/.config nvim
+sync_dir ~/.config ranger
+sync_dir ~/.config sketchybar
+sync_dir ~/.config aerospace
+sync_dir ~/.config helix
+
 rm -r "${DOT_DIR}vim/skeletons/"
 cp -r ~/.vim/skeletons "${DOT_DIR}vim/"
 rm -r "${DOT_DIR}macos_scripts"

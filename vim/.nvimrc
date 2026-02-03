@@ -322,6 +322,7 @@ nnoremap <Leader>d      :Dispatch
 nnoremap <Leader>D      :Dispatch! 
 nnoremap <Leader>sl  <CMD>set list!<CR>
 nnoremap <Leader>ss  <CMD>set spell!<CR>
+nnoremap <Leader>sb  <CMD>set scrollbind!<CR>
 nnoremap <Leader>S  <CMD>let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 " nnoremap <Leader>k  "zyiw:!man <C-R>z<CR>g
 noremap <Leader>ww  <CMD>set wrap!<CR>

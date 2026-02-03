@@ -1,0 +1,9 @@
+theme = "base16_transparent"
+
+[keys.normal]
+C-g = [
+    ":write-all",
+    ":insert-output lazygit >/dev/tty",
+    ":redraw",
+    ":reload-all"
+]

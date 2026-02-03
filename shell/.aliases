@@ -534,7 +534,7 @@ fzcn() {
 }
 
 cn() {
-    cd $(echo "$1" | sed 's/\/[^\/]*$//') 2> /dev/null
+    cd "$(echo "$1" | sed 's/\/[^\/]*$//')" 2> /dev/null
     nvim "$(echo "$1" | sed 's/.*\///')"
 }
 

@@ -13,6 +13,9 @@ matches:
     replace: |-
       - trigger: ""
         replace: |-
+  - trigger: ";js"
+    replace: |-
+      javascript
   - trigger: ";cargo/"
     replace: "/Users/jharcombe/.cargo/bin/"
   - trigger: ";plspls"
@@ -70,6 +73,9 @@ matches:
   - trigger: ";password"
     replace: |-
       $(read -s "?Password: " p; echo $p)
+  - trigger: ";sum"
+    replace: |-
+      sed '$!s/$/+\\/' | bc
 
   # misc
   - trigger: ";downloads"
