@@ -39,6 +39,7 @@ inherits = "base16_transparent"
 
 "comment" = "gray"
 "markup.heading" = { fg = "red", modifiers = ["bold"] }
+"markup.link.url" = { fg = "blue", underline = { style = "line" }}
 "variable" = "white"
 "variable.other.member" = "blue"
 
