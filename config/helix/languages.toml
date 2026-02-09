@@ -1,0 +1,7 @@
+[[language]]
+name = "markdown"
+file-types = ["md", "MD"]
+
+[[language]]
+name = "python"
+language-servers = ["pyright"]

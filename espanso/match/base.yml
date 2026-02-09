@@ -9,10 +9,10 @@
 # it gets replaced by the "replace" string.
 matches:
   # Simple text replacement
-  - trigger: ";tr"
-    replace: |-
-      - trigger: ""
-        replace: |-
+  # - trigger: ";tr"
+  #   replace: |-
+  #     - trigger: ""
+  #       replace: |-
   - trigger: ";js"
     replace: |-
       javascript

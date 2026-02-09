@@ -1,4 +1,39 @@
-theme = "base16_transparent"
+theme = "custom_base16_transparent"
+
+[editor]
+color-modes = true
+line-number = "relative"
+soft-wrap.enable = true
+shell = ['zsh', '-c']
+jump-label-alphabet = "regkjloifdps;nmcx"
+popup-border = "all"
+
+# end-of-line-diagnostics = "hint"
+[editor.inline-diagnostics]
+cursor-line = "hint"
+# other-lines = "error"
+
+# [editor.whitespace.render]
+# tab = "all"
+# nbsp = "all"
+# nnbsp = "all"
+
+[editor.statusline]
+right = [
+    "version-control",
+    "spacer",
+    "file-type",
+    # defaults
+    "diagnostics", "selections", "register", "position", "file-encoding"
+]
+
+[editor.cursor-shape]
+insert = "bar"
+select = "underline"
+
+[editor.lsp]
+display-inlay-hints = true
+
 
 [keys.normal]
 C-g = [
@@ -7,3 +42,77 @@ C-g = [
     ":redraw",
     ":reload-all"
 ]
+
+C-s = ":write"
+
+# ";" = "command_mode"
+# ":" = "collapse_selection"
+
+[keys.normal.space]
+t.w = ":toggle-option soft-wrap.enable"
+"," = "remove_primary_selection"
+
+[keys.normal.space.space]
+b = ":sh echo \"%sh{git show --no-patch --format='%%h (%%an: %%ar): %%s' $(git blame -p %{buffer_name} -L%{cursor_line},+1 | head -1 | cut -d' ' -f1)}\""
+s = "save_selection"
+
+# [keys.normal."\\"]
+# "`" = "switch_to_uppercase"
+# ";" = "flip_selections"
+# "K" = "remove_selections"
+
+[keys.insert]
+C-s = [
+    "normal_mode",
+    ":write"
+]
+C-l = "move_char_right"
+
+
+
+
+### Generated replacements for all Alt- bindings
+# TODO: unsupported remaps
+# https://docs.helix-editor.com/keymap.html#signature-help-popup
+# https://docs.helix-editor.com/keymap.html#picker
+[keys.normal."\\"]
+"." = "repeat_last_motion"
+"`" = "switch_to_uppercase"
+"u" = "earlier"
+"U" = "later"
+"d" = "delete_selection_noyank"
+"c" = "change_selection_noyank"
+"|" = "shell_pipe_to"
+"!" = "shell_append_output"
+"s" = "split_selection_on_newline"
+"minus" = "merge_selections"
+"_" = "merge_consecutive_selections"
+";" = "flip_selections"
+":" = "ensure_selections_forward"
+"," = "remove_primary_selection"
+"C" = "copy_selection_on_prev_line"
+"(" = "rotate_selection_contents_backward"
+")" = "rotate_selection_contents_forward"
+"x" = "shrink_to_line_bounds"
+"J" = "join_selections_space"
+"K" = "remove_selections"
+"o" = "expand_selection"
+"up" = "expand_selection"
+"i" = "shrink_selection"
+"down" = "shrink_selection"
+"p" = "select_prev_sibling"
+"left" = "select_prev_sibling"
+"n" = "select_next_sibling"
+"right" = "select_next_sibling"
+"a" = "select_all_siblings"
+"I" = "select_all_children"
+# "shift" = {"down" = "select_all_children"}
+"e" = "move_parent_node_end"
+"b" = "move_parent_node_start"
+"*" = "search_selection"
+
+[keys.normal.space."\\"]
+"c" = "toggle_line_comments"
+
+[keys.insert."\\"]
+"d" = "delete_word_forward"

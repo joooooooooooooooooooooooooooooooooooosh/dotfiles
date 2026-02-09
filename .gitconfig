@@ -15,6 +15,10 @@
     ph   = push
     pl   = "pull --rebase"
     s    = status
+	clean-branches = !git branch  --no-contains $(git rev-parse --quiet origin/$(git remote show origin | grep \"HEAD branch\" | cut -d\" \" -f5)) | sed \"s/^ *origin\\///\" | tr \"\\n\" \"\\0\" | xargs -0 -I{} git branch d origin/{}
+	clean-merged = !git branch --merged | grep -v \"\\*\" | grep -v \"main\" | grep -v \"master\" | xargs -n 1 git branch -d
+	alias = ! git config --get-regexp ^alias\\. | sed -e s/^alias\\.// -e s/\\ /\\ =\\ /
+	edit-alias = ! vi ~/.gitconfig
 
 [init]
     defaultBranch = main

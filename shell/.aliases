@@ -31,7 +31,6 @@ alias enable_status='git config --unset prompt.git-status'
 alias sn='sudo $(which nvim)'
 # alias t=' watchman version &>/dev/null; tmux a &>/dev/null || tmux'
 alias t=' tmux a &>/dev/null || tmux'
-alias jwt="cut -d. -f2 | base64 -d | sed 's/$/}/' | jq"
 alias fd='fd --ignore-file <(echo /System/Volumes)'
 
 
@@ -43,6 +42,10 @@ alias nb=' notify source .unibuild.sh'
 setb() {
     echo "$@" > .unibuild.sh
     [ -d .git ] && ! grep -qF .unibuild.sh .git/info/exclude && echo .unibuild.sh >> .git/info/exclude
+}
+
+jwt() {
+    cut -d. -f2 | sed 's/$/===/' | base64 -d | jq
 }
 
 fileserver() {
@@ -355,6 +358,7 @@ gfm() {
 _compdef _git-fetch gfm
 
 add() {
+    # sed '$!s/$/+\\/' | bc
     awk '{s+=$1} END{print s}'
 }
 
@@ -398,6 +402,19 @@ alias gonc=' _gonc'
 default_nvim() {
     echo $1 > .default.nvim
     [ -d .git ] && ! grep -qF .default.nvim .git/info/exclude && echo .default.nvim >> .git/info/exclude
+}
+
+hx() {
+    if [ -z "$1" ]; then
+        1=$(cat .default.nvim 2>/dev/null)
+    fi
+
+    # node invocation via nvm takes a long time if you don't specify the path explicitly
+    if ! grep \.nvm <<< $PATH; then
+        PATH="$PATH:/Users/jharcombe/.nvm/versions/node/v20.15.1/bin" command hx "$@"
+    else
+        command hx "$@"
+    fi
 }
 
 n() {

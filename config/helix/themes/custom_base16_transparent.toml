@@ -1,0 +1,53 @@
+inherits = "base16_transparent"
+
+# "ui.background" = { fg = "white"}
+# "ui.background.separator" = { fg = "gray" }
+
+# "diagnostic" = { bg = "black" }
+# "diagnostic.hint" = { bg = "black" }
+# "diagnostic.info" = { bg = "black" }
+# "diagnostic.error" = { bg = "black" }
+# "diagnostic.warning" = { bg = "black" }
+
+# "hint" = { bg = "black" }
+# "info" = { bg = "black" }
+# "error" = { bg = "black", fg = "red" }
+# "warning" = { bg = "black", fg = "yellow" }
+
+"ui.virtual.inlay-hint" = "gray"
+"ui.virtual.inlay-hint.type" = "gray"
+"ui.virtual.inlay-hint.parameter" = "gray"
+# "ui.virtual.whitespace" = { bg = "black" }
+# "ui.text.inactive" = { fg = "gray" }
+
+"ui.text.focus" = "red"
+
+# Don't need these now that editor.popup-border = "all"
+# "ui.popup" = { bg = "black" }
+# "ui.popup.info" = { bg = "black" }
+# "ui.menu" = { bg = "black" }
+
+# "ui.picker.header" = {fg = "red"}
+"ui.statusline" = { fg = "gray", bg = "black" }
+
+# "ui.cursor.select" = { bg = "red" }
+"ui.selection" = { modifiers = ["dim", "reversed"] }
+"ui.selection.primary" = { modifiers = ["bold", "reversed"] }
+
+
+"special" = "yellow"
+
+"comment" = "gray"
+"markup.heading" = { fg = "red", modifiers = ["bold"] }
+"variable" = "white"
+"variable.other.member" = "blue"
+
+# "constant" = { fg = "yellow", modifiers = ["bold"] }
+# "constant.numeric" = { fg = "yellow", modifiers = ["bold"] }
+"type" = { fg = "yellow", modifiers = ["dim"] }
+# "type" = { fg = "yellow" }
+"constant.builtin" = "magenta"
+"keyword" = "red"
+"function" = "green"
+# "constant.builtin" = { fg = "red", modifiers = ["dim"] }
+"constant.character.escape" = { fg = "cyan", modifiers = ["dim"] }

@@ -10,7 +10,12 @@ endif
 filetype indent plugin on
 set titlestring=%F
 set noequalalways
-set nowrap
+
+set wrap
+set breakindent
+set breakindentopt=shift:1
+let &showbreak='↪ '
+
 set nowrapscan
 set tabstop=4 shiftwidth=0 " 0 matches value of tabstop
 set scrolloff=4
@@ -743,6 +748,11 @@ telescope.setup {
   defaults = {
     -- Default configuration for telescope goes here:
     -- config_key = value,
+    dynamic_preview_title = true,
+    path_display = {
+        -- "filename_first"
+      "smart"
+    },
     file_ignore_patterns = {
       "target", -- rust build dir
     },
