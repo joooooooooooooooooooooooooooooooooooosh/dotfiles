@@ -170,7 +170,7 @@ zshman() {
 }
 
 edittmux() {
-    n ~/.config/tmux/tmux.conf && tmux source ~/.config/tmux/tmux.conf
+    $EDITOR ~/.config/tmux/tmux.conf && tmux source ~/.config/tmux/tmux.conf
 }
 
 unpack() {
@@ -271,7 +271,7 @@ fzd() {
 }
 
 fzn() {
-    n $(fzf) "$@"
+    $EDITOR $(fzf) "$@"
 }
 
 cfzcn() {
@@ -404,16 +404,17 @@ default_nvim() {
     [ -d .git ] && ! grep -qF .default.nvim .git/info/exclude && echo .default.nvim >> .git/info/exclude
 }
 
-hx() {
-    if [ -z "$1" ]; then
+h() {
+    # Don't set $1 if input is being piped in
+    if [ -t 0 -a -z "$1" ]; then
         1=$(cat .default.nvim 2>/dev/null)
     fi
 
     # node invocation via nvm takes a long time if you don't specify the path explicitly
-    if ! grep \.nvm <<< $PATH; then
-        PATH="$PATH:/Users/jharcombe/.nvm/versions/node/v20.15.1/bin" command hx "$@"
+    if ! grep \.nvm <<< $PATH >/dev/null; then
+        PATH="$PATH:/Users/jharcombe/.nvm/versions/node/v20.15.1/bin" <&0 command hx "$@"
     else
-        command hx "$@"
+        <&0 command hx "$@"
     fi
 }
 
@@ -579,12 +580,12 @@ mkcd() {
 
 zn() {
     z "$@" &&
-    n
+    $EDITOR
 }
 
 zin() {
     zi "$@" &&
-    n
+    $EDITOR
 }
 
 #### lazy load setup

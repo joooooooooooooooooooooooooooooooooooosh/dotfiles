@@ -20,11 +20,15 @@ cursor-line = "hint"
 
 [editor.statusline]
 right = [
-    "version-control",
-    "spacer",
-    "file-type",
-    # defaults
-    "diagnostics", "selections", "register", "position", "file-encoding"
+  "version-control",
+  "spacer",
+  "file-type",
+  # defaults
+  "diagnostics",
+  "selections",
+  "register",
+  "position",
+  "file-encoding",
 ]
 
 [editor.cursor-shape]
@@ -37,10 +41,10 @@ display-inlay-hints = true
 
 [keys.normal]
 C-g = [
-    ":write-all",
-    ":insert-output lazygit >/dev/tty",
-    ":redraw",
-    ":reload-all"
+  ":write-all",
+  ":insert-output lazygit >/dev/tty",
+  ":redraw",
+  ":reload-all",
 ]
 
 C-s = ":write"
@@ -55,6 +59,7 @@ s = ["select_mode", "goto_first_nonwhitespace", "normal_mode"]
 # ":" = "collapse_selection"
 
 [keys.normal.space]
+C-s = ":toggle-option auto-format"
 t.w = ":toggle-option soft-wrap.enable"
 "," = "remove_primary_selection"
 
@@ -68,14 +73,9 @@ s = "save_selection"
 # "K" = "remove_selections"
 
 [keys.insert]
-C-s = [
-    "normal_mode",
-    ":write"
-]
+C-s = ["normal_mode", ":write"]
 C-l = "move_char_right"
 C-e = "goto_line_end_newline"
-
-
 
 
 ### Generated replacements for all Alt- bindings

@@ -17,17 +17,20 @@ inherits = "base16_transparent"
 "ui.virtual.inlay-hint" = "gray"
 "ui.virtual.inlay-hint.type" = "gray"
 "ui.virtual.inlay-hint.parameter" = "gray"
+
+"ui.virtual.jump-label" = { modifiers = ["bold", "reversed"] }
 # "ui.virtual.whitespace" = { bg = "black" }
 # "ui.text.inactive" = { fg = "gray" }
 
 "ui.text.focus" = "red"
+"ui.text.directory" = "gray"
 
 # Don't need these now that editor.popup-border = "all"
 # "ui.popup" = { bg = "black" }
 # "ui.popup.info" = { bg = "black" }
 # "ui.menu" = { bg = "black" }
 
-# "ui.picker.header" = {fg = "red"}
+"ui.picker.header" = { fg = "gray", modifiers = ["bold"] }
 "ui.statusline" = { fg = "gray", bg = "black" }
 
 # "ui.cursor.select" = { bg = "red" }
@@ -37,9 +40,10 @@ inherits = "base16_transparent"
 
 "special" = "yellow"
 
+"string" = "#93b878"
 "comment" = "gray"
 "markup.heading" = { fg = "red", modifiers = ["bold"] }
-"markup.link.url" = { fg = "blue", underline = { style = "line" }}
+"markup.link.url" = { fg = "blue", underline = { style = "line" } }
 "variable" = "white"
 "variable.other.member" = "blue"
 

@@ -27,6 +27,8 @@ if [ "$(SwitchAudioSource -c -t output)" != "${PREFERRED_BLUETOOTH[1]}" ]; then
 			break
 		fi
 	done
+else
+	used_output="${PREFERRED_BLUETOOTH[1]}"
 fi
 
 for input in ${PREFERRED_INPUT[@]}; do

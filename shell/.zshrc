@@ -125,8 +125,8 @@ unsetopt share_history
 
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-export EDITOR="nvim"
-export VISUAL="nvim"
+export EDITOR="h"
+export VISUAL="h"
 
 PATH="$PATH:/opt/homebrew/bin"
 PATH="$HOME/.cargo/bin:$HOME/perl5/bin${PATH:+:${PATH}}"

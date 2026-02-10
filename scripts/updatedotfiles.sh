@@ -1,18 +1,21 @@
 #!/bin/bash
 DOT_DIR="$HOME/.dotfiles/"
-CONFIG_DIR=$DOT_DIR"config/"
+CONFIG_DIR="${DOT_DIR}/config/"
+
+# brew list --formulae --versions | grep -f <(brew list --installed-on-request | sed 's/^/^/') >"${DOT_DIR}brew/formulae"
+# brew list --casks --versions >"${DOT_DIR}brew/casks"
 
 sync_dir() {
     rm -r "${CONFIG_DIR:?}/${2}/"
     cp -r "${1}/${2}" "${CONFIG_DIR}/${2}/"
 }
 
-cp ~/.nvimrc "${DOT_DIR}vim/"
-cp ~/.zshrc "${DOT_DIR}shell"
-cp ~/.zshenv "${DOT_DIR}shell"
-cp ~/.bashrc "${DOT_DIR}shell"
-cp ~/.aliases "${DOT_DIR}shell"
-cp ~/.bookmarks "${DOT_DIR}shell"
+cp ~/.nvimrc "${DOT_DIR}/vim/"
+cp ~/.zshrc "${DOT_DIR}/shell"
+cp ~/.zshenv "${DOT_DIR}/shell"
+cp ~/.bashrc "${DOT_DIR}/shell"
+cp ~/.aliases "${DOT_DIR}/shell"
+cp ~/.bookmarks "${DOT_DIR}/shell"
 cp ~/.gitconfig "$DOT_DIR"
 cp ~/.gitignore "$DOT_DIR"
 cp ~/.gdbinit "$DOT_DIR"
@@ -23,18 +26,22 @@ sync_dir ~/.config ranger
 sync_dir ~/.config sketchybar
 sync_dir ~/.config aerospace
 sync_dir ~/.config helix
+sync_dir ~/.config yamlfmt
 
-rm -r "${DOT_DIR}vim/skeletons/"
-cp -r ~/.vim/skeletons "${DOT_DIR}vim/"
-rm -r "${DOT_DIR}macos_scripts"
-cp -r ~/scripts "${DOT_DIR}macos_scripts"
-rm -r "${DOT_DIR}espanso"
-cp -r ~/Library/Application\ Support/espanso "${DOT_DIR}espanso/"
-rm -r "${DOT_DIR}keybindings"
-cp -r ~/Library/KeyBindings "${DOT_DIR}keybindings/"
+rm -r "${DOT_DIR}/vim/skeletons/"
+cp -r ~/.vim/skeletons "${DOT_DIR}/vim/"
+rm -r "${DOT_DIR}/macos_scripts"
+cp -r ~/scripts "${DOT_DIR}/macos_scripts"
+rm -r "${DOT_DIR}/espanso"
+cp -r ~/Library/Application\ Support/espanso "${DOT_DIR}/espanso/"
+rm -r "${DOT_DIR}/keybindings"
+cp -r ~/Library/KeyBindings "${DOT_DIR}/keybindings/"
 
-cur_theme=$(grep "^ZSH_THEME" "${DOT_DIR}shell/.zshrc" | cut -d\" -f2)
-[ "$cur_theme" != "random" ] && cp "$HOME/.oh-my-zsh/themes/$cur_theme.zsh-theme" "${DOT_DIR}shell/current.zsh-theme"
+# customised to work with aliases as $EDITOR
+cp /opt/homebrew/Cellar/moreutils/0.70/libexec/bin/vipe "${DOT_DIR}/tools/"
+
+cur_theme=$(grep "^ZSH_THEME" "${DOT_DIR}/shell/.zshrc" | cut -d\" -f2)
+[ "$cur_theme" != "random" ] && cp "$HOME/.oh-my-zsh/themes/$cur_theme.zsh-theme" "${DOT_DIR}/shell/current.zsh-theme"
 
 if ! { [ $# -ge 1 ] && [ "$1" == "-n" ]; }; then
     cd "$DOT_DIR" || {
