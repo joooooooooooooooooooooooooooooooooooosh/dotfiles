@@ -2,12 +2,12 @@
 DOT_DIR="$HOME/.dotfiles/"
 CONFIG_DIR="${DOT_DIR}/config/"
 
-# brew list --formulae --versions | grep -f <(brew list --installed-on-request | sed 's/^/^/') >"${DOT_DIR}brew/formulae"
+# brew list --formulae --versions | grep -f <(brew list --installed-on-request | sed 's/^/^/; s/$/ /') >"${DOT_DIR}brew/formulae"
 # brew list --casks --versions >"${DOT_DIR}brew/casks"
 
 sync_dir() {
-    rm -r "${CONFIG_DIR:?}/${2}/"
-    cp -r "${1}/${2}" "${CONFIG_DIR}/${2}/"
+	rm -r "${CONFIG_DIR:?}/${2}/"
+	cp -r "${1}/${2}" "${CONFIG_DIR}/${2}/"
 }
 
 cp ~/.nvimrc "${DOT_DIR}/vim/"
@@ -44,16 +44,16 @@ cur_theme=$(grep "^ZSH_THEME" "${DOT_DIR}/shell/.zshrc" | cut -d\" -f2)
 [ "$cur_theme" != "random" ] && cp "$HOME/.oh-my-zsh/themes/$cur_theme.zsh-theme" "${DOT_DIR}/shell/current.zsh-theme"
 
 if ! { [ $# -ge 1 ] && [ "$1" == "-n" ]; }; then
-    cd "$DOT_DIR" || {
-        echo "cd ${DOT_DIR} failed"
-        exit 1
-    }
-    if [ "$1" == "-d" ]; then
-        git diff
-    else
-        git add -i
-        read -rp "Commit message: " msg
-        git commit -m "$msg"
-        git push
-    fi
+	cd "$DOT_DIR" || {
+		echo "cd ${DOT_DIR} failed"
+		exit 1
+	}
+	if [ "$1" == "-d" ]; then
+		git diff
+	else
+		git add -i
+		read -rp "Commit message: " msg
+		git commit -m "$msg"
+		git push
+	fi
 fi

@@ -1,4 +1,12 @@
 [[language]]
+name = "scheme"
+file-types = [
+  "scm",
+  "scheme",
+  "sb",     # sandbox-exec configs
+]
+
+[[language]]
 name = "markdown"
 file-types = ["md", "MD"]
 
@@ -22,10 +30,12 @@ auto-format = true
 
 [[language]]
 name = "javascript"
+formatter = { command = "prettier", args = ["--parser", "typescript"] }
 auto-format = true
 
 [[language]]
 name = "typescript"
+formatter = { command = "prettier", args = ["--parser", "typescript"] }
 auto-format = true
 
 [[language]]
@@ -41,4 +51,16 @@ auto-format = true
 name = "toml"
 # https://github.com/tamasfe/taplo/issues/580#issuecomment-2004174721
 roots = ["."]
+auto-format = true
+
+[[language]]
+name = "bash"
+formatter = { command = "shfmt", args = [
+  "--indent",
+  "0",
+  "--binary-next-line",
+  "--case-indent",
+  "--space-redirects",
+  "--simplify",
+] }
 auto-format = true

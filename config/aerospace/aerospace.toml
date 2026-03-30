@@ -16,16 +16,16 @@ after-startup-command = [
   # https://github.com/FelixKratz/JankyBorders
   # 'exec-and-forget borders active_color=0xffd4be98 inactive_color=0x00494d64 width=4.0 hidpi=off',
   # https://github.com/FelixKratz/SketchyBar
-  'exec-and-forget sketchybar'
+  'exec-and-forget sketchybar',
 ]
 
-enable-normalization-flatten-containers = false 
+enable-normalization-flatten-containers = false
 default-root-container-layout = 'tiles'
 accordion-padding = 0
 
 [gaps]
 # outer.left = 5
-outer.top = [ { monitor."built-in" = 0 }, 30 ]
+outer.top = [{ monitor."built-in" = 0 }, 30]
 # outer.right = 5
 # outer.bottom = 5
 inner.horizontal = 5
@@ -101,8 +101,14 @@ alt-f = 'fullscreen'
 alt-shift-f = 'layout tiling floating'
 alt-shift-q = 'close'
 
-alt-shift-s = ['mode service', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=service']
-alt-r = ['mode resize', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=resize']
+alt-shift-s = [
+  'mode service',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=service',
+]
+alt-r = [
+  'mode resize',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=resize',
+]
 # alt-ctrl-d = ['mode slack', 'exec-and-forget open -a slack', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=slack']
 alt-ctrl-d = 'exec-and-forget open -a slack'
 
@@ -111,6 +117,7 @@ alt-e = 'exec-and-forget open $HOME'
 alt-ctrl-m = 'exec-and-forget open -a zoom.us'
 alt-ctrl-p = 'exec-and-forget open -a spotify'
 alt-ctrl-n = 'exec-and-forget open -a "Trello (Beta)"'
+alt-ctrl-w = 'exec-and-forget open -b $(plutil -convert json -o - "$HOME/Library/Preferences/com.apple.LaunchServices/com.apple.launchservices.secure.plist" | jq -r ".LSHandlers[] | select( .LSHandlerURLScheme==\"https\" ) | .LSHandlerRoleAll")'
 alt-ctrl-g = 'exec-and-forget open https://calendar.google.com'
 # alt-p = 'exec-and-forget ~/scripts/scratchpad.sh'
 alt-s = 'exec-and-forget ~/scripts/scratchpad.sh'
@@ -142,9 +149,18 @@ shift-j = 'resize height +5'
 shift-k = 'resize height -5'
 shift-l = 'resize width +5'
 
-enter = ['mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=']
-esc = ['mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=']
-alt-r = ['mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=']
+enter = [
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=',
+]
+esc = [
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=',
+]
+alt-r = [
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=',
+]
 
 [[on-window-detected]]
 if.app-id = 'com.apple.ActivityMonitor'
@@ -184,19 +200,51 @@ run = 'move-node-to-workspace 5'
 # 6 = 'secondary'
 
 [mode.service.binding]
-esc = ['reload-config', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=']
-r = ['flatten-workspace-tree', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO='] # reset layout
-f = ['layout floating tiling', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO='] # Toggle between floating and tiling layout
+esc = [
+  'reload-config',
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=',
+]
+r = [
+  'flatten-workspace-tree',
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=',
+] # reset layout
+f = [
+  'layout floating tiling',
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=',
+] # Toggle between floating and tiling layout
 # backspace = ['close-all-windows-but-current', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=']
 
 # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
 #s = ['layout sticky tiling', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=']
 
-alt-shift-h = ['join-with left', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=']
-alt-shift-j = ['join-with down', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=']
-alt-shift-k = ['join-with up', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=']
-alt-shift-l = ['join-with right', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=']
+alt-shift-h = [
+  'join-with left',
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=',
+]
+alt-shift-j = [
+  'join-with down',
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=',
+]
+alt-shift-k = [
+  'join-with up',
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=',
+]
+alt-shift-l = [
+  'join-with right',
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=',
+]
 
 down = 'volume down'
 up = 'volume up'
-shift-down = ['volume set 0', 'mode main', 'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=']
+shift-down = [
+  'volume set 0',
+  'mode main',
+  'exec-and-forget sketchybar --trigger aerospace_mode_change INFO=',
+]

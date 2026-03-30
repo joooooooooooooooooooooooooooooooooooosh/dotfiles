@@ -14,9 +14,9 @@ inherits = "base16_transparent"
 # "error" = { bg = "black", fg = "red" }
 # "warning" = { bg = "black", fg = "yellow" }
 
-"ui.virtual.inlay-hint" = "gray"
-"ui.virtual.inlay-hint.type" = "gray"
-"ui.virtual.inlay-hint.parameter" = "gray"
+"ui.virtual.inlay-hint" = { fg = "gray", modifiers = ["dim"] }
+"ui.virtual.inlay-hint.type" = { fg = "gray", modifiers = ["dim"] }
+"ui.virtual.inlay-hint.parameter" = { fg = "gray", modifiers = ["dim"] }
 
 "ui.virtual.jump-label" = { modifiers = ["bold", "reversed"] }
 # "ui.virtual.whitespace" = { bg = "black" }
@@ -32,6 +32,7 @@ inherits = "base16_transparent"
 
 "ui.picker.header" = { fg = "gray", modifiers = ["bold"] }
 "ui.statusline" = { fg = "gray", bg = "black" }
+"ui.statusline.inactive" = { fg = "gray", bg = "black" }
 
 # "ui.cursor.select" = { bg = "red" }
 "ui.selection" = { modifiers = ["dim", "reversed"] }

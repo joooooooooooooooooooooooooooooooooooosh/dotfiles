@@ -1,5 +1,7 @@
 theme = "custom_base16_transparent"
 
+# map = "@j" to reuse keybindings
+
 [editor]
 color-modes = true
 line-number = "relative"
@@ -7,6 +9,10 @@ soft-wrap.enable = true
 shell = ['zsh', '-c']
 jump-label-alphabet = "regkjloifdps;nmcx"
 popup-border = "all"
+
+# [editor.inline-blame]
+# show = "cursor-line"
+# auto-fetch = true
 
 # end-of-line-diagnostics = "hint"
 [editor.inline-diagnostics]
@@ -40,14 +46,16 @@ display-inlay-hints = true
 
 
 [keys.normal]
-C-g = [
-  ":write-all",
-  ":insert-output lazygit >/dev/tty",
-  ":redraw",
-  ":reload-all",
-]
+# C-g = [
+#   ":write-all",
+#   ":insert-output lazygit >/dev/tty",
+#   ":redraw",
+#   ":reload-all",
+# ]
 
 C-s = ":write"
+# don't make `a` select
+a = ["move_char_right", "insert_mode"]
 
 # make g[lhs] select instead of move
 [keys.normal.g]
@@ -60,12 +68,31 @@ s = ["select_mode", "goto_first_nonwhitespace", "normal_mode"]
 
 [keys.normal.space]
 C-s = ":toggle-option auto-format"
-t.w = ":toggle-option soft-wrap.enable"
+u = [
+  "move_prev_word_start",
+  "collapse_selection",
+  "move_next_word_end",
+  "search_selection_detect_word_boundaries",
+  "global_search",
+]
 "," = "remove_primary_selection"
 
+[keys.normal.space.t]
+w = ":toggle-option soft-wrap.enable"
+h = ":toggle-option lsp.display-inlay-hints"
+i = ":toggle-option file-picker.git-ignore"
+
 [keys.normal.space.space]
-b = ":sh echo \"%sh{git show --no-patch --format='%%h (%%an: %%ar): %%s' $(git blame -p %{buffer_name} -L%{cursor_line},+1 | head -1 | cut -d' ' -f1)}\""
+b = ":sh echo \"%sh{git show --no-patch --format='%%h (%%an: %%ar): %%s' $(git blame -p %{buffer_name} -L%{cursor_line},+1 | head -1 | cut -d' ' -f1) || echo Not committed yet}\""
 s = "save_selection"
+# S = "signature_help" # not sure what this does
+"o" = "@miW\"oy;:! open http://go.atlassian.com/j/"
+
+[keys.normal.space.space.g]
+o = { n = ':sh gon >/dev/null' }
+# TODO: figure out how to make :sh a blocking call for the :reload
+s = { l = ':sh gsl', m = [':sh gslm', ':reload'] }
+# d = [':sh-blocking sleep 3; echo a', ':toggle-option soft-wrap.enable']
 
 # [keys.normal."\\"]
 # "`" = "switch_to_uppercase"

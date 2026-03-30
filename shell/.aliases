@@ -18,9 +18,9 @@ _unalias() {
 { type _git-pull || _git } &> /dev/null # NOTE: loads the _git completion system, including subcommands
 
 
-alias aliases='n ~/.aliases'
-alias bookmarks='n ~/.bookmarks'
-alias bm=' print -z "$(fzf < ~/.bookmarks | sed s/\\\\/\\\\\\\\/g)"'
+alias aliases=' n ~/.aliases'
+alias bookmarks=' n ~/.bookmarks'
+alias bm=' print -z "$(fzf < <(rg -v ^\# ~/.bookmarks) | sed s/\\\\/\\\\\\\\/g)"'
 alias up=unpack
 alias nipe='vipe >/dev/null'
 alias tipe='tee $(tty) | nipe'
@@ -32,6 +32,8 @@ alias sn='sudo $(which nvim)'
 # alias t=' watchman version &>/dev/null; tmux a &>/dev/null || tmux'
 alias t=' tmux a &>/dev/null || tmux'
 alias fd='fd --ignore-file <(echo /System/Volumes)'
+alias espanso='EDITOR=hx espanso'
+alias gg=' n -c "Git" -c "only"'
 
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
@@ -105,13 +107,14 @@ alertfor() {
     alert zsh -ic "while ""$@""; do sleep 60; done"
 }
 
-tmp() {
-    if [ -n $1 ]; then
-        n -c "set ft=$1" =()
-    else
-        n $1 =()
-    fi
-}
+alias tmp='nipe'
+# tmp() {
+#     if [ -n $1 ]; then
+#         n -c "set ft=$1" =()
+#     else
+#         n $1 =()
+#     fi
+# }
 
 zargs() {
     xargs -I{} "$@" {}
@@ -387,7 +390,11 @@ _gon() {
         urls=$(fzf --header "Select URL:" <<< $urls)
     fi
 
-    open $urls
+    if grep bitbucket\.org <<< $urls >/dev/null; then
+        urls="${urls}/pull-requests"
+    fi
+
+    open "${urls}"
 }
 alias gon=' _gon'
 
@@ -438,7 +445,7 @@ export COC_NODE_PATH=/Users/jharcombe/.nvm/versions/node/v25.2.1/bin/node
 np() {
     [ -z "$1" ] && return
     mkdir -p "$(basename "$1")" \
-        && nvim "$1"
+        && $EDITOR "$1"
 }
 
 cl() {
@@ -553,7 +560,7 @@ fzcn() {
 
 cn() {
     cd "$(echo "$1" | sed 's/\/[^\/]*$//')" 2> /dev/null
-    nvim "$(echo "$1" | sed 's/.*\///')"
+    $EDITOR "$(echo "$1" | sed 's/.*\///')"
 }
 
 ns() {

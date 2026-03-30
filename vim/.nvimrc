@@ -11,6 +11,9 @@ filetype indent plugin on
 set titlestring=%F
 set noequalalways
 
+" set cursorline
+" set cursorcolumn
+
 set wrap
 set breakindent
 set breakindentopt=shift:1
@@ -85,6 +88,8 @@ autocmd FileType typescript,javascript,typescriptreact,yaml setlocal tabstop=2 s
 autocmd FileType sh,bash,zsh setlocal tabstop=4 shiftwidth=4 expandtab list
 autocmd FileType sql setlocal commentstring=--%s
 autocmd FileType svelte setlocal commentstring=//%s
+
+autocmd FileType asm,bash,c,c_sharp,cpp,css,csv,diff,disassembly,dockerfile,editorconfig,git_config,git_rebase,gitattributes,gitcommit,gitignore,go,gomod,gosum,graphql,haskell,html,http,java,javadoc,javascript,jq,jsdoc,json,json5,kotlin,latex,llvm,lua,luadoc,make,markdown,nu,objdump,passwd,perl,php,powershell,python,readline,regex,robots_txt,rust,scheme,sql,ssh_config,svelte,swift,tcl,tmux,toml,tsv,typescript,vim,vimdoc,xml,yaml,zig,zsh lua vim.treesitter.start()
 
 autocmd BufReadPost *.epmp setlocal ft=json
 autocmd BufReadPost *.justfile setlocal ft=just
@@ -205,8 +210,6 @@ nnoremap <leader>0 10gt
 nnoremap <leader><C-a> :tabfirst<CR>
 nnoremap <leader><C-e> :tablast<CR>
 
-" imap <Leader>c <Esc>:set list!<CR>i
-" nmap <Leader>c :set list!<CR>
 " nmap <Leader>x :Dispatch latexmk -pvc -pdf %<CR>
 
 " consistent N/n search directions
@@ -233,8 +236,8 @@ cnoremap <expr> <C-p> wildmenumode() ? "\<c-p>" : "\<up>"
 nnoremap gp `[v`]
 
 " edit macros
-" use "q<Leader>m
-nnoremap <leader>m  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
+" use "q<Leader>em
+nnoremap <leader>em  :<c-u><c-r><c-r>='let @'. v:register .' = '. string(getreg(v:register))<cr><c-f><left>
 
 cnoreabbrev <expr> tn getcmdtype() == ":" && getcmdline() == 'tn' ? 'tabnew' : 'tn'
 cnoreabbrev <expr> th getcmdtype() == ":" && getcmdline() == 'th' ? 'tabp' : 'th'
@@ -305,32 +308,35 @@ nnoremap <silent> \ws :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl
 nnoremap \s. <CMD>s/\./\\\\./g<CR>
 
 " leader mappings {{{
+" toggles
+noremap <Leader>tl <CMD>set list!<CR>
+noremap <Leader>ts <CMD>set spell!<CR>
+noremap <Leader>tb <CMD>set scrollbind!<CR>
+noremap <Leader>tw <CMD>set wrap!<CR>
+noremap <Leader>t/ <CMD>set hlsearch!<CR>
+noremap <Leader>th <CMD>CocCommand document.toggleInlayHint<CR>
+
 noremap <Leader>y "+y
 noremap <Leader>p "+p
-nnoremap <Leader>t  :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
+" nnoremap <Leader>t  :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
 nnoremap <Leader>T  :tabnew<CR><Esc>:terminal<CR>
-nnoremap <Leader>/  :set hlsearch!<CR>
 nnoremap <Leader>,  :tabmove -1<CR>
 nnoremap <Leader>.  :tabmove +1<CR>
 nnoremap <Leader>0  ^
-nnoremap <Leader>a  ^
-nnoremap <Leader>b <CMD>Dispatch! zsh -c "b"<CR>
-nnoremap <Leader>B <CMD>Dispatch! zsh -c "nb"<CR>
+" nnoremap <Leader>a  ^
+nnoremap \b <CMD>Dispatch! zsh -c "b"<CR>
+nnoremap \B <CMD>Dispatch! zsh -c "nb"<CR>
 nnoremap <silent> <Leader>A <CMD>CocAction<CR>
 nnoremap <Leader>L  <CMD>CocList<CR>
 nnoremap <Leader>cr <CMD>CocRestart<CR>
 nnoremap <Leader>n  <CMD>source ~/.nvimrc<CR>
 nnoremap <Leader>cd <CMD>lcd %:h<CR>
-nnoremap <Leader>j <CMD>cnext<CR>zz " ]q
-nnoremap <Leader>k <CMD>cprev<CR>zz " [q
+nnoremap <Leader>cj <CMD>cnext<CR>zz " ]q
+nnoremap <Leader>ck <CMD>cprev<CR>zz " [q
 nnoremap <Leader>d      :Dispatch 
 nnoremap <Leader>D      :Dispatch! 
-nnoremap <Leader>sl  <CMD>set list!<CR>
-nnoremap <Leader>ss  <CMD>set spell!<CR>
-nnoremap <Leader>sb  <CMD>set scrollbind!<CR>
 nnoremap <Leader>S  <CMD>let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 " nnoremap <Leader>k  "zyiw:!man <C-R>z<CR>g
-noremap <Leader>ww  <CMD>set wrap!<CR>
 nnoremap <Leader>q  <CMD>copen<CR>
 nnoremap <Leader>en <CMD>tabedit ~/.nvimrc<CR>
 nnoremap <Leader>l <CMD>LazyGit<CR>
@@ -358,12 +364,23 @@ nnoremap <Leader>fp  <cmd>Telescope coc commands<cr>
 nnoremap <Leader>fws <cmd>Telescope coc workspace_symbols<cr>
 nnoremap <Leader>fwe <cmd>Telescope coc workspace_diagnostics<cr>
 
+" helix
+nnoremap <Leader>s <CMD>Telescope coc document_symbols<CR>
+nnoremap <Leader>S <CMD>Telescope coc workspace_symbols<CR>
+nnoremap <Leader>d <CMD>Telescope coc diagnostics<CR>
+nnoremap <Leader>D <CMD>Telescope coc workspace_diagnostics<CR>
+nnoremap <Leader>j <CMD>Telescope jumplist<CR>
+nnoremap <Leader>b <CMD>Telescope buffers<CR>
+nnoremap <Leader>g <CMD>Telescope git_status<CR>
+nnoremap <Leader>' <CMD>Telescope resume<CR>
+
 nnoremap <Leader>fwt :Telescope git_worktree 
 nnoremap <Leader>fwc <cmd>Telescope git_worktree create_git_worktree<CR>
 nnoremap <Leader>fwl <cmd>Telescope git_worktree git_worktrees<CR>
 " is there a difference to find_files?
 nnoremap <Leader>ff  <cmd>Telescope fd<cr>
 nnoremap <Leader>fg  <cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<cr>
+nnoremap <Leader>/  <cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<cr>
 nnoremap <Leader>fl  <cmd>Telescope loclist<cr>
 nnoremap <Leader>fm  <cmd>Telescope man_pages<cr>
 nnoremap <Leader>fr  <cmd>Telescope resume<cr>
@@ -413,13 +430,17 @@ Plug 'sainnhe/everforest'
 Plug 'sainnhe/sonokai'
 Plug 'dylanaraps/wal.vim'
 
+Plug 'zion-off/mole.nvim'
+    Plug 'MunifTanjim/nui.nvim' " requirement for mole.nvim
+
 " Plug 'HiPhish/nvim-ts-rainbow2'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/nvim-treesitter-context'
 Plug 'nvim-treesitter/nvim-treesitter-textobjects'
-Plug 'nvim-treesitter/playground'
+" Plug 'nvim-treesitter/playground'
 Plug 'windwp/nvim-autopairs'
 Plug 'machakann/vim-sandwich'
+Plug 'powerman/vim-plugin-AnsiEsc'
 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
@@ -469,7 +490,7 @@ Plug 'nvim-tree/nvim-web-devicons'
 Plug 'kevinhwang91/rnvimr'
 Plug 'mbbill/undotree'
 
-Plug 'lukas-reineke/indent-blankline.nvim'
+" Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'google/vim-searchindex'
 
 Plug 'kevinhwang91/nvim-ufo'
@@ -518,6 +539,10 @@ highlight DiffText guibg=#004d66
 " lua configuration {{{
 lua << EOF
 
+require("mole").setup({
+    virtual_text = true,
+})
+
 vim.diagnostic.config({
     virtual_lines = true
 })
@@ -542,7 +567,7 @@ require('gitsigns').setup {
   numhl = true,
 }
 
-require("ibl").setup()
+-- require("ibl").setup()
 
 require("which-key").setup {}
 
@@ -664,7 +689,14 @@ vim.keymap.set(
 --     { noremap = true, silent = true, desc = "[wf.nvim] which-key" }
 -- )
 
-require("nvim-treesitter.configs").setup {
+-- require("nvim-treesitter.parsers").csv = {
+--     install_info = {
+--         path = "~/misc/rainbow-csv-tree-sitter",
+--         generate = true
+--     }
+-- }
+
+require("nvim-treesitter").setup {
     highlight = {
         enable = true,
         -- disable = { "yaml", },
@@ -843,8 +875,7 @@ require("treesitter-context").setup {
     on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
 }
 
-require("nvim-treesitter.configs").setup {
-  textobjects = {
+require("nvim-treesitter-textobjects").setup {
     select = {
       enable = true,
 
@@ -903,7 +934,6 @@ require("nvim-treesitter.configs").setup {
         ["[I"] = "@conditional.outer",
       },
     },
-  },
 }
 
 local handler = function(virtText, lnum, endLnum, width, truncate)
@@ -988,6 +1018,8 @@ let g:nvim_tree_window_picker_chars = "asdfkjlqweruiop"
 
 " plugin key mappings {{{
 map <silent> <C-p> :lua require('nvim-window').pick()<CR>
+
+map <silent> gw <CMD>HopWord<CR>
 map <silent> <Leader>; <CMD>HopWord<CR>
 map <silent> <Leader>. <CMD>HopAnywhere<CR>
 
@@ -1010,6 +1042,7 @@ nnoremap <expr> <C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
 nnoremap <expr> <C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
 inoremap <expr> <C-d> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-d>"
 inoremap <expr> <C-u> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-u>"
+nnoremap <silent> <Leader>a <plug>(coc-codeaction-cursor)
 nnoremap <silent> \ca <plug>(coc-codeaction-cursor)
 nnoremap <silent> \cl <plug>(coc-codeaction-line)
 nnoremap <silent> \cc <plug>(coc-codeaction)
@@ -1020,6 +1053,8 @@ nnoremap <silent> \cr <CMD>CocRestart<CR>
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> [d <Plug>(coc-diagnostic-prev)
+nmap <silent> ]d <Plug>(coc-diagnostic-next)
 
 nmap <leader>rn <Plug>(coc-rename)
 xmap <leader>=  <Plug>(coc-format-selected)

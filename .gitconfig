@@ -26,8 +26,12 @@
 ; [diff]
 ;     external = difft
 
+[rebase]
+    updateRefs = true
+
 [rerere]
     enabled = true
+    autoUpdate = true
 
 [delta]
     features     = decorations
@@ -56,9 +60,9 @@
 	name = Josh Harcombe
 	email = jharcombe@atlassian.com
 
-; TODO: this doesn't work since it errors out if the file doesn't exist
+; TODO: this doesn't work since it errors out if the file doesn't exist - :(optional) requires v2.53.0
 ; [blame]
-; 	ignoreRevsFile = .git-blame-ignore-revs
+; 	ignoreRevsFile = :(optional).git-blame-ignore-revs
 [safe]
 	bareRepository = explicit
 [trace2]
@@ -68,3 +72,4 @@
 	configparams = custom.metacommands
 [core]
 	excludesFile = /Users/jharcombe/.gitignore
+	editor = hx

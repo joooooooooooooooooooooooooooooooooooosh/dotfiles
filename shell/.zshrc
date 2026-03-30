@@ -8,7 +8,7 @@
 # If you come from bash you might have to change your $PATH.
 
 # NOTE: uncomment to profile shell startup. `zprof` to view results
-# zmodload zsh/zprof
+zmodload zsh/zprof
 
 if [ -x /usr/libexec/path_helper ]; then
 	eval "$(/usr/libexec/path_helper -s)"
