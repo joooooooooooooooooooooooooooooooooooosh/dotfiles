@@ -19,6 +19,7 @@ cp ~/.bookmarks "${DOT_DIR}/shell"
 cp ~/.gitconfig "$DOT_DIR"
 cp ~/.gitignore "$DOT_DIR"
 cp ~/.gdbinit "$DOT_DIR"
+cp ~/.sqliterc "$DOT_DIR"
 
 sync_dir ~/.config alacritty
 sync_dir ~/.config nvim

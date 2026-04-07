@@ -780,13 +780,18 @@ telescope.setup {
   defaults = {
     -- Default configuration for telescope goes here:
     -- config_key = value,
+    layout_strategy = 'vertical',
     dynamic_preview_title = true,
     path_display = {
-        -- "filename_first"
+      "filename_first",
       "smart"
     },
     file_ignore_patterns = {
-      "target", -- rust build dir
+      -- "target", -- rust build dir
+      "/go/pkg/mod/",
+      "/opt/homebrew/Cellar/",
+      -- "/coc/extensions/",
+      -- "node_modules/",
     },
     mappings = {
       i = {

@@ -86,7 +86,7 @@ i = ":toggle-option file-picker.git-ignore"
 b = ":sh echo \"%sh{git show --no-patch --format='%%h (%%an: %%ar): %%s' $(git blame -p %{buffer_name} -L%{cursor_line},+1 | head -1 | cut -d' ' -f1) || echo Not committed yet}\""
 s = "save_selection"
 # S = "signature_help" # not sure what this does
-"o" = "@miW\"oy;:! open http://go.atlassian.com/j/"
+"o" = "@miW\"oy;:! open http://go.atlassian.com/j/<C-r>o<ret>"
 
 [keys.normal.space.space.g]
 o = { n = ':sh gon >/dev/null' }
