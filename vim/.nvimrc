@@ -373,6 +373,8 @@ nnoremap <Leader>j <CMD>Telescope jumplist<CR>
 nnoremap <Leader>b <CMD>Telescope buffers<CR>
 nnoremap <Leader>g <CMD>Telescope git_status<CR>
 nnoremap <Leader>' <CMD>Telescope resume<CR>
+nnoremap <Leader><Leader>o "oyiW:Dispatch! open http://go.atlassian.com/j/<C-r>o<CR>
+nnoremap <Leader><Leader>f "oyiW:Dispatch! open <C-r>o<CR>
 
 nnoremap <Leader>fwt :Telescope git_worktree 
 nnoremap <Leader>fwc <cmd>Telescope git_worktree create_git_worktree<CR>
@@ -1078,6 +1080,9 @@ nmap <Leader>cs :setlocal commentstring=
 nmap <silent><C-_> gcc
 vmap <silent><C-_> gc
 imap <silent><C-_> <Esc>gccA
+nmap <silent><C-c> gcc
+vmap <silent><C-c> gc
+imap <silent><C-c> <Esc>gccA
 
 nmap \cg <cmd>CellularAutomaton game_of_life<cr>
 nmap \cm <cmd>CellularAutomaton make_it_rain<cr>
