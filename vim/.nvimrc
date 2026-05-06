@@ -16,7 +16,7 @@ set noequalalways
 
 set wrap
 set breakindent
-set breakindentopt=shift:1
+set breakindentopt=shift:0
 let &showbreak='↪ '
 
 set nowrapscan

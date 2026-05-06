@@ -72,4 +72,4 @@
 	configparams = custom.metacommands
 [core]
 	excludesFile = /Users/jharcombe/.gitignore
-	editor = hx
+	editor = nvim

@@ -150,8 +150,11 @@ glm() {
 _compdef _git-pull glm
 
 gslm() {
-    git stash && glm
-    git stash pop
+    stash=$(git stash)
+    if [ $? -eq 0 ] ; then stash_success=1; fi
+    if (( stash_success )) && [ $stash != "No local changes to save" ]; then has_stash=1; fi
+    (( stash_success )) && glm
+    (( has_stash )) && git stash pop
 }
 _compdef _git-pull gslm
 
@@ -313,8 +316,11 @@ gl() {
 _compdef _git-pull gl
 
 gsl() {
-    git stash && git pull
-    git stash pop
+    stash=$(git stash)
+    if [ $? -eq 0 ] ; then stash_success=1; fi
+    if (( stash_success )) && [ $stash != "No local changes to save" ]; then has_stash=1; fi
+    (( stash_success )) && git pull
+    (( has_stash )) && git stash pop
 }
 _compdef _git-pull gsl
 
@@ -343,6 +349,7 @@ _compdef _git-checkout gco
 gfco() {
     git fetch origin "${1}:${1}" && gco "${1}"
 }
+_compdef _git-checkout gfco
 
 gcom() {
     git checkout $(gshm) "$@"
@@ -384,7 +391,7 @@ alias sl=ls
 alias ks=ls
 
 _gon() {
-    urls=$(rg "url =" $(git rev-parse --show-toplevel)/.git/config | sed -E "s|.*url = ||; s|.*@([^:]+):(.*)|https://\1/\2|; s|.git$||")
+    urls=$(rg "url =" $(git rev-parse --path-format=absolute --git-common-dir)/config | sed -E "s|.*url = ||; s|.*@([^:]+):(.*)|https://\1/\2|; s|.git$||")
 
     if [ $(wc -l <<< $urls) -ne 1 ]; then
         urls=$(fzf --header "Select URL:" <<< $urls)

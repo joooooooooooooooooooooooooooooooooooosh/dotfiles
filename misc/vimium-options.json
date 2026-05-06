@@ -1,8 +1,8 @@
 {
-  "keyMappings": "# Insert your preferred key mappings here.\n\nmap <c-w> removeTab\nmap <c-a> firstTab\nmap <c-e> lastTab\nmap <c-f> scrollFullPageDown\nmap <c-b> scrollFullPageUp\nmap ' Marks.activateGotoMode\nmap \" Marks.activateGotoMode",
+  "keyMappings": "# Insert your preferred key mappings here.\n\nmap J nextTab\nmap K previousTab\nmap gf LinkHints.activateModeWithQueue\nmap <c-w> removeTab\nmap <c-a> firstTab\nmap <c-e> lastTab\nmap <c-f> scrollFullPageDown\nmap <c-b> scrollFullPageUp\nmap ' Marks.activateGotoMode\nmap \" Marks.activateGotoMode",
   "linkHintCharacters": "asdfjkl;weruioqp",
   "regexFindMode": true,
-  "settingsVersion": "2.0.6",
+  "settingsVersion": "2.3.1",
   "exclusionRules": [
     {
       "passKeys": "jk",
