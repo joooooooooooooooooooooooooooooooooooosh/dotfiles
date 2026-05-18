@@ -34,6 +34,7 @@ alias t=' tmux a &>/dev/null || tmux'
 alias fd='fd --ignore-file <(echo /System/Volumes)'
 alias espanso='EDITOR=hx espanso'
 alias gg=' n -c "Git" -c "only"'
+alias cdiff='git diff --no-index --word-diff=color --word-diff-regex=.'
 
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
@@ -319,7 +320,7 @@ gsl() {
     stash=$(git stash)
     if [ $? -eq 0 ] ; then stash_success=1; fi
     if (( stash_success )) && [ $stash != "No local changes to save" ]; then has_stash=1; fi
-    (( stash_success )) && git pull
+    (( stash_success )) && gl
     (( has_stash )) && git stash pop
 }
 _compdef _git-pull gsl
@@ -606,7 +607,7 @@ zin() {
 
 export NVM_DIR="$HOME/.nvm"
 _lazy_load_nvm() {
-    unset -f npm node nvm
+    unset -f npm node nvm mmdc
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
@@ -626,6 +627,11 @@ nvm() {
 node() {
     _lazy_load_nvm
     node "$@"
+}
+
+mmdc() {
+    _lazy_load_nvm
+    mmdc "$@"
 }
 
 export PYENV_ROOT="$HOME/.pyenv"

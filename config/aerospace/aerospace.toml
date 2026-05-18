@@ -111,7 +111,7 @@ alt-ctrl-d = 'exec-and-forget open -a slack'
 
 alt-enter = 'exec-and-forget open -a alacritty -n'
 alt-e = 'exec-and-forget open $HOME'
-alt-ctrl-m = 'exec-and-forget open -a zoom.us'
+alt-ctrl-m = 'exec-and-forget aerospace list-windows --all | grep -q "| Zoom Meeting$" && ( aerospace list-windows --focused | grep -q "zoom.us | Zoom Meeting$" || open -a zoom.us )'
 alt-ctrl-p = 'exec-and-forget open -a spotify'
 alt-ctrl-n = 'exec-and-forget open -a "Trello (Beta)"'
 alt-ctrl-w = 'exec-and-forget open -b $(plutil -convert json -o - "$HOME/Library/Preferences/com.apple.LaunchServices/com.apple.launchservices.secure.plist" | jq -r ".LSHandlers[] | select( .LSHandlerURLScheme==\"https\" ) | .LSHandlerRoleAll")'

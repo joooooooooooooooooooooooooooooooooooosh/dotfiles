@@ -193,10 +193,8 @@ endfunction
 nnoremap <Leader><C-S> <CMD>call FormatSaveToggle()<CR>
 
 " tab navigation
-imap <silent> <C-j> <Esc>:tabprevious<CR>
-imap <silent> <C-k> <Esc>:tabnext<CR>
-nmap <silent> <C-j> :tabprevious<CR>
-nmap <silent> <C-k> :tabnext<CR>
+nmap <silent> <Leader>cj :tabprevious<CR>
+nmap <silent> <Leader>ck :tabnext<CR>
 nnoremap <leader>1 1gt
 nnoremap <leader>2 2gt
 nnoremap <leader>3 3gt
@@ -307,6 +305,10 @@ nnoremap <silent> \ws :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl
 
 nnoremap \s. <CMD>s/\./\\\\./g<CR>
 
+" Quickfix
+nnoremap <C-j> <CMD>cnext<CR>zz " ]q
+nnoremap <C-k> <CMD>cprev<CR>zz " [q
+
 " leader mappings {{{
 " toggles
 noremap <Leader>tl <CMD>set list!<CR>
@@ -331,8 +333,6 @@ nnoremap <Leader>L  <CMD>CocList<CR>
 nnoremap <Leader>cr <CMD>CocRestart<CR>
 nnoremap <Leader>n  <CMD>source ~/.nvimrc<CR>
 nnoremap <Leader>cd <CMD>lcd %:h<CR>
-nnoremap <Leader>cj <CMD>cnext<CR>zz " ]q
-nnoremap <Leader>ck <CMD>cprev<CR>zz " [q
 nnoremap <Leader>d      :Dispatch 
 nnoremap <Leader>D      :Dispatch! 
 nnoremap <Leader>S  <CMD>let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
@@ -365,13 +365,14 @@ nnoremap <Leader>fws <cmd>Telescope coc workspace_symbols<cr>
 nnoremap <Leader>fwe <cmd>Telescope coc workspace_diagnostics<cr>
 
 " helix
+" TODO: nunmap <Leader>swp
 nnoremap <Leader>s <CMD>Telescope coc document_symbols<CR>
 nnoremap <Leader>S <CMD>Telescope coc workspace_symbols<CR>
 nnoremap <Leader>d <CMD>Telescope coc diagnostics<CR>
 nnoremap <Leader>D <CMD>Telescope coc workspace_diagnostics<CR>
 nnoremap <Leader>j <CMD>Telescope jumplist<CR>
 nnoremap <Leader>b <CMD>Telescope buffers<CR>
-nnoremap <Leader>g <CMD>Telescope git_status<CR>
+nnoremap <Leader>fg <CMD>Telescope git_status<CR>
 nnoremap <Leader>' <CMD>Telescope resume<CR>
 nnoremap <Leader><Leader>o "oyiW:Dispatch! open http://go.atlassian.com/j/<C-r>o<CR>
 nnoremap <Leader><Leader>f "oyiW:Dispatch! open <C-r>o<CR>
@@ -381,7 +382,7 @@ nnoremap <Leader>fwc <cmd>Telescope git_worktree create_git_worktree<CR>
 nnoremap <Leader>fwl <cmd>Telescope git_worktree git_worktrees<CR>
 " is there a difference to find_files?
 nnoremap <Leader>ff  <cmd>Telescope fd<cr>
-nnoremap <Leader>fg  <cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<cr>
+" nnoremap <Leader>fg  <cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<cr>
 nnoremap <Leader>/  <cmd>lua require('telescope').extensions.live_grep_args.live_grep_args()<cr>
 nnoremap <Leader>fl  <cmd>Telescope loclist<cr>
 nnoremap <Leader>fm  <cmd>Telescope man_pages<cr>
@@ -533,7 +534,7 @@ let g:gruvbox_material_inlay_hints_background = 'dimmed' " none, dimmed
 let g:gruvbox_material_dim_inactive_windows = 1
 " colorscheme edge
 " let g:edge_style = 'default' " default, aura, neon
-" set background=light
+set background=light
 let g:lightline = {'colorscheme' : 'gruvbox_material'}
 " highlight DiffAdd  guibg=#145214
 highlight DiffText guibg=#004d66
@@ -1097,7 +1098,7 @@ function! s:show_documentation()
   elseif (coc#rpc#ready())
     silent call CocActionAsync('doHover')
   else
-    execute '!' . &keywordprg . " " . expand('<cword>')
+    execute &keywordprg . " " . expand('<cword>')
   endif
 endfunction
 

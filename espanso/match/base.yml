@@ -31,6 +31,8 @@ matches:
     replace: " "
   - trigger: ";zwsp"
     replace: "​"
+  - trigger: ";-"
+    replace: —
 
   # chrome
   - trigger: ";bm"
@@ -117,44 +119,44 @@ matches:
         });
       }
 
-  # NOTE: espanso uses YAML to define matches, so pay attention to the indentation!
+# NOTE: espanso uses YAML to define matches, so pay attention to the indentation!
 
-  # But matches can also be dynamic:
+# But matches can also be dynamic:
 
-  # Print the current date
-  # - trigger: ";date"
-  #   replace: "{{mydate}}"
-  #   vars:
-  #     - name: mydate
-  #       type: date
-  #       params:
-  #         format: "%m/%d/%Y"
+# Print the current date
+# - trigger: ";date"
+#   replace: "{{mydate}}"
+#   vars:
+#     - name: mydate
+#       type: date
+#       params:
+#         format: "%m/%d/%Y"
 
-  # Print the output of a shell command
-  # - trigger: ";shell"
-  #   replace: "{{output}}"
-  #   vars:
-  #     - name: output
-  #       type: shell
-  #       params:
-  #         cmd: "echo 'Hello from your shell'"
+# Print the output of a shell command
+# - trigger: ";shell"
+#   replace: "{{output}}"
+#   vars:
+#     - name: output
+#       type: shell
+#       params:
+#         cmd: "echo 'Hello from your shell'"
 
-  # And much more! For more information, visit the docs: https://espanso.org/docs/
+# And much more! For more information, visit the docs: https://espanso.org/docs/
 
-  # - trigger: ":file"
-  #   replace: "{{form1.file}}"
-  #   vars:
-  #     - name: files
-  #       type: shell
-  #       params:
-  #         cmd: "find ~/Documents -maxdepth 1"
-  #     - name: form1
-  #       type: form
-  #       params:
-  #         layout: |
-  #           Select file:
-  #           [[file]]
-  #         fields:
-  #           file:
-  #             type: list
-  #             values: "{{files}}"
+# - trigger: ":file"
+#   replace: "{{form1.file}}"
+#   vars:
+#     - name: files
+#       type: shell
+#       params:
+#         cmd: "find ~/Documents -maxdepth 1"
+#     - name: form1
+#       type: form
+#       params:
+#         layout: |
+#           Select file:
+#           [[file]]
+#         fields:
+#           file:
+#             type: list
+#             values: "{{files}}"
