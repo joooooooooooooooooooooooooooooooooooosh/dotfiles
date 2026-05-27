@@ -9,6 +9,6 @@ else
         # Centre window using Rectangle shortcut
         osascript -e 'tell application "System Events" to keystroke "c" using {command down, option down}'
     else
-        aerospace move-node-to-workspace --window-id "${scratchpad_id}" scratchpad
+        aerospace move-node-to-workspace --window-id "${scratchpad_id}" s
     fi
 fi

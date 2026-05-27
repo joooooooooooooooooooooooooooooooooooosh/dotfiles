@@ -20,7 +20,7 @@ _unalias() {
 
 alias aliases=' n ~/.aliases'
 alias bookmarks=' n ~/.bookmarks'
-alias bm=' print -z "$(fzf < <(rg -v ^\# ~/.bookmarks) | sed s/\\\\/\\\\\\\\/g)"'
+alias bm=' _bm'
 alias up=unpack
 alias nipe='vipe >/dev/null'
 alias tipe='tee $(tty) | nipe'
@@ -39,6 +39,21 @@ alias cdiff='git diff --no-index --word-diff=color --word-diff-regex=.'
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
+_bm() {
+ print -z "$(fzf < <(
+    sed -n '/^#/{ h; d; }; /^$/d;
+    :a
+    $!{
+    N
+    /\n[[:space:]]*$/!ba
+    }
+    s/\n[[:space:]]*/ /g
+    G
+    s/\n/  /
+    p
+    ' ~/.bookmarks
+ ) | sed s/\\\\/\\\\\\\\/g)"
+}
 
 alias b=' source .unibuild.sh'
 alias nb=' notify source .unibuild.sh'
@@ -362,6 +377,16 @@ gsco() {
     g stash pop
 }
 _compdef _git-checkout gsco
+
+gwtco() {
+    local ROOT="$(git rev-parse --path-format=absolute --git-common-dir)/.."
+    local LOCATION="${ROOT}/.worktrees/$1"
+    gwt add "$LOCATION" "$1" && {
+     cp "${ROOT}/.unibuild.sh" "$LOCATION/"
+     cd "$LOCATION"
+    }
+}
+_compdef _git-branch gwtco
 
 gfm() {
     git fetch origin $(gshm):$(gshm) "$@"

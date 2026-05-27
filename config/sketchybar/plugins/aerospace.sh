@@ -3,9 +3,9 @@
 # Leave mouse.scrolled.global to the aerospace-mode module
 if [ "${SENDER}" = "mouse.scrolled" ]; then
     if echo "${SCROLL_DELTA}" | grep -q '-'; then
-        aerospace list-workspaces --monitor focused --empty no | grep -v scratchpad | aerospace workspace --wrap-around prev --stdin
+        aerospace list-workspaces --monitor focused --empty no | grep -v s | aerospace workspace --wrap-around prev --stdin
     else
-        aerospace list-workspaces --monitor focused --empty no | grep -v scratchpad | aerospace workspace --wrap-around next --stdin
+        aerospace list-workspaces --monitor focused --empty no | grep -v s | aerospace workspace --wrap-around next --stdin
     fi
 elif [ "${SENDER}" = "aerospace_workspace_change_${1}" ]; then
     if [ "${1}" = "${FOCUSED_WORKSPACE}" ]; then

@@ -1,7 +1,27 @@
 # vim: set ft=bash formatoptions= :
-sysctl kern.boottime # uptime
-sudo wdutil dump; sudo cat /private/var/root/Library/Group\ Containers/group.com.apple.wifi.logs/com.apple.wifi.recent-networks.json | jq 'to_entries[] | {ssid: (.value.SSID | @base64d), bss: (.value.BSSList//[] | .[] | {bssid: .BSSID, latitude: (.LocationLatitude//.Location.LocationLatitude//null), longitude: (.LocationLongitude//.Location.LocationLongitude//null)})}' # Wifi locations
-borders active_color=0xffd4be98 inactive_color=0x00494d64 width=4.0 hidpi=off & disown # window borders
-IFS=$'\n' OSASCRIPT_ENV_LIST="${my_array[*]}" osascript -e 'choose from list (paragraphs of (system attribute "OSASCRIPT_ENV_LIST")) with prompt "Choose Item:"' # select option from bash array in gui
-head -3 extensions | largs -I{} bash -c "echo -n '{}: '; curl -sL https://chromewebstore.google.com/detail/{} | sed -En 's/.+<h1 [^>]+>([^<]+)<.+/\1/p'; echo" # chrome extension names
-aerospace list-windows --all --format "%{window-title}|%{window-id}|%{workspace}" | grep -vE '\|scratchpad$' | grep -E '^\|' | cut -d\| -f2 | xargs -I{} aerospace move-node-to-workspace --window-id {} scratchpad # clean up ghost windows
+
+# uptime
+sysctl kern.boottime
+
+# Wifi locations
+sudo wdutil dump &&
+    sudo cat /private/var/root/Library/Group\ Containers/group.com.apple.wifi.logs/com.apple.wifi.recent-networks.json |
+    jq 'to_entries[] | {ssid: (.value.SSID | @base64d), bss: (.value.BSSList//[] | .[] | {bssid: .BSSID, latitude: (.LocationLatitude//.Location.LocationLatitude//null), longitude: (.LocationLongitude//.Location.LocationLongitude//null)})}'
+
+# window borders
+borders active_color=0xffd4be98 inactive_color=0x00494d64 width=4.0 hidpi=off & disown
+
+# select option from bash array in gui
+IFS=$'\n' OSASCRIPT_ENV_LIST="${my_array[*]}" osascript -e 'choose from list (paragraphs of (system attribute "OSASCRIPT_ENV_LIST")) with prompt "Choose Item:"'
+
+# chrome extension names
+head -3 extensions | largs -I{} bash -c "echo -n '{}: '; curl -sL https://chromewebstore.google.com/detail/{} | sed -En 's/.+<h1 [^>]+>([^<]+)<.+/\1/p'; echo"
+
+# revoke slack token
+curl slack.com/api/auth.revoke -X POST --data "token=TOKEN"
+
+# clean up ghost windows
+aerospace list-windows --all --format "%{window-title}|%{window-id}|%{workspace}" | grep -vE '\|s$' | grep -E '^\|' | cut -d\| -f2 | xargs -I{} aerospace move-node-to-workspace --window-id {} s
+
+# get all window information
+aerospace list-windows --all --format "%{window-id}%{window-is-fullscreen}%{window-title}%{window-layout}%{window-parent-container-layout}%{workspace}%{workspace-is-focused}%{workspace-is-visible}%{workspace-root-container-layout}%{monitor-id}%{monitor-appkit-nsscreen-screens-id}%{monitor-name}%{monitor-is-main}%{app-bundle-id}%{app-name}%{app-pid}%{app-exec-path}%{app-bundle-path}" --json | nipe json

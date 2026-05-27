@@ -5,3 +5,4 @@ Session.vim
 .unibuild.sh
 .jj
 .worktrees/
+.default.nvim

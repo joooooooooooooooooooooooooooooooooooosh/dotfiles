@@ -36,9 +36,9 @@ sketchybar --default "${default[@]}"
 
 # TODO: add entry when switching to an empty space
 # https://github.com/FelixKratz/SketchyBar/issues/607
-# for sid in $(seq 0 $(aerospace list-workspaces --monitor focused --empty no | grep -v scratchpad | tail -1)); do
-for sid in $(aerospace list-workspaces --monitor all --empty no | grep -v scratchpad); do
-	# for sid in $(aerospace list-monitors | cut -d' ' -f1 | xargs aerospace list-workspaces --empty no --monitor | grep -v ^scratchpad$); do
+# for sid in $(seq 0 $(aerospace list-workspaces --monitor focused --empty no | grep -xv s | tail -1)); do
+for sid in $(aerospace list-workspaces --monitor all --empty no | grep -xv s); do
+	# for sid in $(aerospace list-monitors | cut -d' ' -f1 | xargs aerospace list-workspaces --empty no --monitor | grep -xv s); do
 	# show="off"
 	# if [ $(aerospace list-windows --workspace $sid --count) -ne 0 ]; then
 	#     show="on"
