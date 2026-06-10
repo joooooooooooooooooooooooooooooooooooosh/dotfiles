@@ -305,9 +305,12 @@ nnoremap <silent> \ws :let _s=@/ <Bar> :%s/\s\+$//e <Bar> :let @/=_s <Bar> :nohl
 
 nnoremap \s. <CMD>s/\./\\\\./g<CR>
 
-" Quickfix
-nnoremap <C-j> <CMD>cnext<CR>zz " ]q
-nnoremap <C-k> <CMD>cprev<CR>zz " [q
+" loclist
+nnoremap <C-j> <CMD>lnext<CR>zz " ]q
+nnoremap <C-k> <CMD>lprev<CR>zz " [q
+
+nnoremap <C-g><C-j> <CMD>Gitsigns nav_hunk next<CR>
+nnoremap <C-g><C-k> <CMD>Gitsigns nav_hunk prev<CR>
 
 " leader mappings {{{
 " toggles
@@ -345,14 +348,17 @@ nnoremap <Leader>gcm <CMD>Dispatch zsh -c "gcom"<CR>
 nnoremap <Leader>gst <CMD>Gitsigns toggle_numhl<CR>
 nnoremap <Leader>gsc <CMD>Gitsigns toggle_signs<CR>
 nnoremap <Leader>gsb <CMD>Gitsigns toggle_current_line_blame<CR>
-nnoremap <Leader>gg  <CMD>Git<CR>
+nnoremap <Leader>gb  <CMD>Gitsigns blame<CR>
 nnoremap <Leader>gll <CMD>Git pull<CR>
 nnoremap <Leader>gsl <CMD>Dispatch zsh -c "gsl"<CR>
 nnoremap <Leader>gsm <CMD>Dispatch zsh -c "gslm"<CR>
 nnoremap <Leader>glm <CMD>Dispatch zsh -c "glm"<CR>
 nnoremap <Leader>gon <CMD>Dispatch! zsh -c "gon"<CR>
 nnoremap <Leader>gfc <CMD>Telescope conflicts<CR>
-nnoremap <Leader>G  <CMD>tabnew<CR><CMD>Git<CR>
+nnoremap <Leader>gfs <CMD>Telescope git_signs<CR>
+nnoremap <Leader>gg  <CMD>Git<CR>
+nnoremap <Leader>G   <CMD>tabnew<CR><CMD>Git<CR>
+
 nnoremap <Leader>R  <CMD>CocRestart<CR>
 nnoremap <Leader>u  <CMD>UndotreeToggle<CR>
 
@@ -363,6 +369,7 @@ nnoremap <Leader>fe  <cmd>Telescope coc diagnostics<cr>
 nnoremap <Leader>fp  <cmd>Telescope coc commands<cr>
 nnoremap <Leader>fws <cmd>Telescope coc workspace_symbols<cr>
 nnoremap <Leader>fwe <cmd>Telescope coc workspace_diagnostics<cr>
+nnoremap <Leader>fdg <cmd>Telescope git_signs<cr>
 
 " helix
 " TODO: nunmap <Leader>swp
@@ -423,6 +430,8 @@ tmap <silent> <C-W><C-Q> <C-\><C-n>:bd!<CR>
 
 " plugins {{{
 call plug#begin('~/.vim/plugged')
+Plug 'dstein64/vim-startuptime'
+
 Plug 'joooooooooooooooooooooooooooooooooooosh/lightline.vim'
 Plug 'joooooooooooooooooooooooooooooooooooosh/zoomwintab.vim'
 Plug '~/misc/vim-proportions'
@@ -453,7 +462,6 @@ Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-sleuth'
 Plug 'akinsho/git-conflict.nvim'
 Plug 'kdheepak/lazygit.nvim'
-Plug 'lewis6991/gitsigns.nvim'
 Plug 'sitiom/nvim-numbertoggle'
 
 Plug 'ThePrimeagen/git-worktree.nvim'
@@ -464,6 +472,9 @@ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-live-grep-args.nvim'
 Plug 'Snikimonkd/telescope-git-conflicts.nvim'
+
+Plug 'lewis6991/gitsigns.nvim'
+Plug 'radyz/telescope-gitsigns'
 
 Plug 'fannheyward/telescope-coc.nvim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -564,11 +575,6 @@ vim.diagnostic.config({
 --     },
 -- })
 
-require('gitsigns').setup {
-  current_line_blame = true,
-  signcolumn = false,
-  numhl = true,
-}
 
 -- require("ibl").setup()
 
@@ -802,10 +808,10 @@ telescope.setup {
         -- actions.which_key shows the mappings for your picker,
         -- e.g. git_{create, delete, ...}_branch for the git_branches picker
         ["<C-h>"] = "which_key",
-        -- add_to_qflist if we don't want to overwrite existing entries
-        ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
-        -- ["<C-f>"] = actions.send_selected_to_qflist + actions.open_qflist,
-        ["<C-l>"] = actions.smart_add_to_qflist + actions.open_qflist,
+        -- add_to_loclist if we don't want to overwrite existing entries
+        ["<C-q>"] = actions.send_to_loclist + actions.open_loclist,
+        -- ["<C-f>"] = actions.send_selected_to_loclist + actions.open_loclist,
+        ["<C-l>"] = actions.smart_add_to_loclist + actions.open_loclist,
         -- freeze the current list and start a fuzzy search in the frozen list
         ["<C-f>"] = actions.to_fuzzy_refine,
         ["<C-b>"] = function(prompt_bufnr)
@@ -829,7 +835,7 @@ telescope.setup {
     -- live_grep_args = {
     --   auto_quoting = true, -- enable/disable auto-quoting
     --   -- define mappings, e.g.
-    --   mappings = { -- extend mappings
+   --   mappings = { -- extend mappings
     --     i = {
     --       ["<C-o>"] = lga_actions.quote_prompt(),
     --       ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
@@ -847,6 +853,13 @@ telescope.load_extension('fzf')
 telescope.load_extension('coc')
 telescope.load_extension('live_grep_args')
 telescope.load_extension('conflicts')
+
+require('gitsigns').setup {
+  current_line_blame = true,
+  signcolumn = false,
+  numhl = true,
+}
+telescope.load_extension('git_signs')
 
 require("git-worktree").setup({
   -- change_directory_command = <str> -- default: "cd",

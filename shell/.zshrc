@@ -127,8 +127,8 @@ source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # export EDITOR="h"
 # export VISUAL="h"
-export EDITOR=n
-export VISUAL=n
+export EDITOR=nvim
+export VISUAL=nvim
 
 PATH="$PATH:/opt/homebrew/bin"
 PATH="$HOME/.cargo/bin:$HOME/perl5/bin${PATH:+:${PATH}}"

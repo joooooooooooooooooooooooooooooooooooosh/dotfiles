@@ -19,8 +19,6 @@ _unalias() {
 
 
 alias aliases=' n ~/.aliases'
-alias bookmarks=' n ~/.bookmarks'
-alias bm=' _bm'
 alias up=unpack
 alias nipe='vipe >/dev/null'
 alias tipe='tee $(tty) | nipe'
@@ -32,28 +30,49 @@ alias sn='sudo $(which nvim)'
 # alias t=' watchman version &>/dev/null; tmux a &>/dev/null || tmux'
 alias t=' tmux a &>/dev/null || tmux'
 alias fd='fd --ignore-file <(echo /System/Volumes)'
-alias espanso='EDITOR=hx espanso'
 alias gg=' n -c "Git" -c "only"'
 alias cdiff='git diff --no-index --word-diff=color --word-diff-regex=.'
 
 
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
-_bm() {
- print -z "$(fzf < <(
-    sed -n '/^#/{ h; d; }; /^$/d;
-    :a
-    $!{
-    N
-    /\n[[:space:]]*$/!ba
-    }
-    s/\n[[:space:]]*/ /g
-    G
-    s/\n/  /
-    p
-    ' ~/.bookmarks
- ) | sed s/\\\\/\\\\\\\\/g)"
+
+e() {
+    case "$EDITOR" in
+        nvim)
+            n "$@"
+            ;;
+        hx)
+            h "$@"
+            ;;
+        *)
+            $EDITOR "$@"
+            ;;
+    esac
 }
+
+_bm() {
+    print -z "$(
+        < ~/.bookmarks sed -n '/^#/{ h; d; }; /^$/d;
+            :a
+            $!{
+            N
+            /\n[[:space:]]*$/!ba
+            }
+            s/\n[[:space:]]*/ /g
+            G
+            s/\n/  /
+            p
+        ' \
+            | tac \
+        | fzf --tmux 70% --preview-window=up,wrap --preview \
+            "<<< {} sed -E 's/(.*)(#[^#]*$)/\2\n\1/' | bat -l zsh --color=always --decorations=never --theme=auto:system" \
+        | sed s/\\\\/\\\\\\\\/g \
+        | sed 's/[::space::]*#[^#]*$//'
+    )"
+}
+alias bm=' _bm'
+alias bookmarks=' e ~/.bookmarks'
 
 alias b=' source .unibuild.sh'
 alias nb=' notify source .unibuild.sh'
@@ -192,7 +211,7 @@ zshman() {
 }
 
 edittmux() {
-    $EDITOR ~/.config/tmux/tmux.conf && tmux source ~/.config/tmux/tmux.conf
+    e ~/.config/tmux/tmux.conf && tmux source ~/.config/tmux/tmux.conf
 }
 
 unpack() {
@@ -217,7 +236,9 @@ curlsh() {
 
 trust_autoenv() {
     for file in "$@"; do
-        echo "$(pwd)/${file}:$(sha1sum "${file}")" >> ~/.autoenv_authorized
+        [[ "$file" != /* ]] && file="$(pwd)/${file}"
+        file="$(realpath "$file")"
+        echo "${file}:$(sha1sum "${file}" | cut -d' ' -f1)" >> ~/.autoenv_authorized
     done
 }
 
@@ -293,7 +314,7 @@ fzd() {
 }
 
 fzn() {
-    $EDITOR $(fzf) "$@"
+    e $(fzf) "$@"
 }
 
 cfzcn() {
@@ -302,7 +323,7 @@ cfzcn() {
 }
 
 fns() {
-    fd Session.vim | fzf | xargs nvim -S "$@"
+    fd Session.vim | fzf -1 -0 | xargs nvim -S "$@"
 }
 
 lsz() {
@@ -319,6 +340,10 @@ cupdate() {
 
 cudeps() {
     cargo +nightly udeps
+}
+
+gwrt() {
+    echo "$(git rev-parse --path-format=absolute --git-common-dir)/.."
 }
 
 gshm() {
@@ -379,10 +404,11 @@ gsco() {
 _compdef _git-checkout gsco
 
 gwtco() {
-    local ROOT="$(git rev-parse --path-format=absolute --git-common-dir)/.."
-    local LOCATION="${ROOT}/.worktrees/$1"
-    gwt add "$LOCATION" "$1" && {
-     cp "${ROOT}/.unibuild.sh" "$LOCATION/"
+    local ROOT="$(gwrt)"
+    local LOCATION="${ROOT}/.worktrees/${@: -1}"
+    gwt add "$LOCATION" "$@" && {
+     cp "${ROOT}/.unibuild.sh" "${ROOT}/.default.nvim" "${ROOT}/.in" "${ROOT}/.out" "$LOCATION/" 2>/dev/null
+     trust_autoenv "$LOCATION/.in" "$LOCATION/.out"
      cd "$LOCATION"
     }
 }
@@ -417,11 +443,11 @@ alias sl=ls
 alias ks=ls
 
 _gon() {
-    urls=$(rg "url =" $(git rev-parse --path-format=absolute --git-common-dir)/config | sed -E "s|.*url = ||; s|.*@([^:]+):(.*)|https://\1/\2|; s|.git$||")
-
-    if [ $(wc -l <<< $urls) -ne 1 ]; then
-        urls=$(fzf --header "Select URL:" <<< $urls)
-    fi
+    urls=$(
+        rg "url =" "$(gwrt)/.git/config" \
+            | sed -E "s|.*url = ||; s|.*@([^:]+):(.*)|https://\1/\2|; s|.git$||" \
+            | fzf --tmux -0 -1 --header "Select URL:"
+    )
 
     if grep bitbucket\.org <<< $urls >/dev/null; then
         urls="${urls}/pull-requests"
@@ -478,7 +504,7 @@ export COC_NODE_PATH=/Users/jharcombe/.nvm/versions/node/v25.2.1/bin/node
 np() {
     [ -z "$1" ] && return
     mkdir -p "$(basename "$1")" \
-        && $EDITOR "$1"
+        && e "$1"
 }
 
 cl() {
@@ -593,7 +619,7 @@ fzcn() {
 
 cn() {
     cd "$(echo "$1" | sed 's/\/[^\/]*$//')" 2> /dev/null
-    $EDITOR "$(echo "$1" | sed 's/.*\///')"
+    e "$(echo "$1" | sed 's/.*\///')"
 }
 
 ns() {
@@ -620,23 +646,33 @@ mkcd() {
 
 zn() {
     z "$@" &&
-    $EDITOR
+        e
 }
 
 zin() {
     zi "$@" &&
-    $EDITOR
+        e
+}
+
+zigc() {
+    zi "$@" &&
+        gonc
 }
 
 #### lazy load setup
 
 export NVM_DIR="$HOME/.nvm"
 _lazy_load_nvm() {
-    unset -f npm node nvm mmdc
+    unset -f npm node nvm mmdc pnpm
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
     [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
     export COC_NODE_PATH=$(which node)
+}
+
+pnpm() {
+    _lazy_load_nvm
+    pnpm "$@"
 }
 
 npm() {
