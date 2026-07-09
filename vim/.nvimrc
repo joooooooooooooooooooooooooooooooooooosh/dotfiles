@@ -70,6 +70,9 @@ autocmd BufLeave term://* silent! stopinsert
 autocmd VimResized * wincmd =
 
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | silent! checktime | endif
+
+autocmd FileType csv,tsv CsvViewEnable display_mode=border
+
 " TODO: only compile tex once and copy resulting pdf to view.pdf
 autocmd BufWritePost *.tex exec 'Dispatch! cp % view.tex; tectonic view.tex'
 autocmd BufWritePost *.tex exec 'Dispatch! tectonic %'
@@ -510,6 +513,7 @@ Plug 'google/vim-searchindex'
 Plug 'kevinhwang91/nvim-ufo'
     Plug 'kevinhwang91/promise-async' " dependency for nvim-ufo
 
+Plug 'hat0uma/csvview.nvim'
 Plug 'fidian/hexmode'
 " Plug 'samodostal/image.nvim'
 " Plug 'm00qek/baleia.nvim', { 'tag': 'v1.3.0' } " color support for image.nvim
@@ -548,10 +552,12 @@ let g:gruvbox_material_dim_inactive_windows = 1
 set background=light
 let g:lightline = {'colorscheme' : 'gruvbox_material'}
 " highlight DiffAdd  guibg=#145214
-highlight DiffText guibg=#004d66
+" highlight DiffText guibg=#004d66
 
 " lua configuration {{{
 lua << EOF
+
+require("csvview").setup()
 
 require("mole").setup({
     virtual_text = true,
@@ -884,9 +890,9 @@ require("treesitter-context").setup {
     enable = true,
     multiwindow = false, -- Enable multiwindow support.
     max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
-    min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+    min_window_height = 20, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
     line_numbers = true,
-    multiline_threshold = 20, -- Maximum number of lines to show for a single context
+    multiline_threshold = 2, -- Maximum number of lines to show for a single context
     trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
     mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
     -- Separator between context and content. Should be a single character string, like '-'.

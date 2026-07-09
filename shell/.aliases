@@ -68,7 +68,7 @@ _bm() {
         | fzf --tmux 70% --preview-window=up,wrap --preview \
             "<<< {} sed -E 's/(.*)(#[^#]*$)/\2\n\1/' | bat -l zsh --color=always --decorations=never --theme=auto:system" \
         | sed s/\\\\/\\\\\\\\/g \
-        | sed 's/[::space::]*#[^#]*$//'
+        | sed 's/[[:space:]]*#[^#]*$//'
     )"
 }
 alias bm=' _bm'
@@ -237,6 +237,7 @@ curlsh() {
 trust_autoenv() {
     for file in "$@"; do
         [[ "$file" != /* ]] && file="$(pwd)/${file}"
+        ! [ -e "$file" ] && continue
         file="$(realpath "$file")"
         echo "${file}:$(sha1sum "${file}" | cut -d' ' -f1)" >> ~/.autoenv_authorized
     done
@@ -745,3 +746,7 @@ jsdate() {
 }
 
 _compdef _gnu_generic pdfgrep
+
+urldecode() {
+    <<< $1 python3 -c "import sys, urllib.parse; print(urllib.parse.unquote_plus(sys.stdin.read().strip()))"
+}

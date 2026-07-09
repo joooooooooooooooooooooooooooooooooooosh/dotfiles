@@ -18,7 +18,7 @@ fi
 local current_dir='%{$terminfo[bold]$fg[blue]%}%-0<..<%~ %{$reset_color%}'
 
 # local git_branch='$(git_prompt_info)' # TODO: an omzsh update broke this
-local git_branch='$(git rev-parse --abbrev-ref HEAD 2>/dev/null | xargs -r -I {} echo "${YELLOW_PREFIX}{}$([ -z "$(git config prompt.git-status)" ] && [ -n "$(git status -suno 2>/dev/null)" ] && echo "*")${PROMPT_SUFFIX}")'
+local git_branch='$(git rev-parse --abbrev-ref HEAD 2>/dev/null | sed "s/^/${YELLOW_PREFIX}$([ -z "$(git config prompt.git-status)" ] && [ -n "$(git status -suno 2>/dev/null)" ] && echo "*")/; s/$/${PROMPT_SUFFIX}/")'
 local unibuild='${BLUE_PREFIX}build${PROMPT_SUFFIX}'
 
 local rvm_ruby='$(ruby_prompt_info)'
