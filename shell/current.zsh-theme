@@ -14,8 +14,6 @@ else
 	local user_symbol='$'
 fi
 
-local current_dir_replacement='…'
-
 # local git_branch='$(git_prompt_info)' # TODO: an omzsh update broke this
 local unibuild=' ${BLUE_PREFIX}b${PROMPT_SUFFIX}'
 
@@ -53,7 +51,6 @@ prompt_top_width() {
 	local rendered="$(print -P -r -- "$PROMPT")"
 	local -a lines=("${(@f)rendered}")
 	local top="${lines[1]}"
-	top=${top//$'\e']*$'\a'/}
 	top=${top//$'\e'\[[0-9\;]##[[:alpha:]]/}
 
 	print -r -- ${#top}
@@ -82,7 +79,7 @@ prompt_set_prompt() {
 	[[ -z ${HISTFILE-} ]] && suffix+=" ${MAGENTA_PREFIX}private${PROMPT_SUFFIX}"
 	[ -n "${ZSH_NOTIFY}" ] && suffix+=" ${MAGENTA_PREFIX}notify${PROMPT_SUFFIX}"
 
-	local current_dir=" %{$terminfo[bold]$fg[blue]%}%-0<${current_dir_replacement}<%~%{$reset_color%}"
+	local current_dir=" %{$terminfo[bold]$fg[blue]%}%-0<...<%~%{$reset_color%}"
 	local pre_prompt="╭─${user_host}${current_dir}${suffix}%<<"
 
 	PROMPT="${pre_prompt}"$'\n'"╰─%B${user_symbol}%b "
