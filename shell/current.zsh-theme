@@ -14,7 +14,6 @@ else
 	local user_symbol='$'
 fi
 
-# local git_branch='$(git_prompt_info)' # TODO: an omzsh update broke this
 local unibuild=' ${BLUE_PREFIX}b${PROMPT_SUFFIX}'
 
 local rvm_ruby='$(ruby_prompt_info)'
@@ -56,23 +55,35 @@ prompt_top_width() {
 	print -r -- ${#top}
 }
 
+prompt_vcs_branch() {
+  # TODO: bold the shortest prefix
+  info=$(
+   jj_prompt_template 'if(!empty, "*") ++ self.change_id().shortest(3)' \
+      || prompt_git_branch
+  ) || return
+
+  echo "${YELLOW_PREFIX}${info}${PROMPT_SUFFIX}"
+}
+
 prompt_git_branch() {
 	local branch dirty
 
 	branch=$(command git rev-parse --abbrev-ref HEAD 2> /dev/null) || return
 	[[ -z ${branch} ]] && return
 
-	if [[ -z $(command git config prompt.git-status 2> /dev/null) ]] && [[ -n $(command git status -suno 2> /dev/null) ]]; then
-		dirty='*'
+	if [[ -z $(command git config prompt.git-status 2> /dev/null) ]]; then
+   [[ -n $(command git status -suno 2> /dev/null) ]] && dirty='*'
+  else
+    dirty='?'
 	fi
 
 	branch=${branch//\%/%%}
-	print -r -- "${YELLOW_PREFIX}${dirty}${branch}${PROMPT_SUFFIX}"
+  echo "${dirty}${branch}"
 }
 
 prompt_set_prompt() {
-	local git_branch="$(prompt_git_branch)"
-	local suffix=" ${git_branch}"
+	local vcs_branch="$(prompt_vcs_branch)"
+	local suffix=" ${vcs_branch}"
 
 	[ -r .unibuild.sh ] && suffix+=" ${BLUE_PREFIX}build${PROMPT_SUFFIX}"
 	which deactivate > /dev/null && suffix+=" ${GREEN_PREFIX}venv${PROMPT_SUFFIX}"
