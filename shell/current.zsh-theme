@@ -14,17 +14,9 @@ else
 	local user_symbol='$'
 fi
 
-local unibuild=' ${BLUE_PREFIX}b${PROMPT_SUFFIX}'
-
-local rvm_ruby='$(ruby_prompt_info)'
-local venv_prompt='${GREEN_PREFIX}venv${PROMPT_SUFFIX}'
-local nohistory='${MAGENTA_PREFIX}private${PROMPT_SUFFIX}'
-local notify='${MAGENTA_PREFIX}notify${PROMPT_SUFFIX}'
-
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 ZSH_THEME_RVM_PROMPT_OPTIONS="i v g"
 
-PROMPT="╰─%B${user_symbol}%b "
 RPROMPT="%B${return_code}%b"
 
 BLUE_PREFIX="%{$fg[blue]%}‹"
@@ -32,9 +24,6 @@ GREEN_PREFIX="%{$fg[green]%}‹"
 YELLOW_PREFIX="%{$fg[yellow]%}‹"
 MAGENTA_PREFIX="%{$fg[magenta]%}‹"
 PROMPT_SUFFIX="›%{$reset_color%}"
-
-ZSH_THEME_RUBY_PROMPT_PREFIX="%{$fg[red]%}‹"
-ZSH_THEME_RUBY_PROMPT_SUFFIX="›%{$reset_color%}"
 
 zmodload zsh/datetime
 
@@ -56,13 +45,12 @@ prompt_top_width() {
 }
 
 prompt_vcs_branch() {
-  # TODO: bold the shortest prefix
-  info=$(
-   jj_prompt_template 'if(!empty, "*") ++ self.change_id().shortest(3)' \
-      || prompt_git_branch
-  ) || return
+	info=$(
+		jj_prompt_template_raw "if(!empty, '*') ++ '%B' ++ self.change_id().shortest(3).prefix() ++ '%b%{$fg[yellow]%}' ++ self.change_id().shortest(3).rest()" \
+			|| prompt_git_branch
+	) || return
 
-  echo "${YELLOW_PREFIX}${info}${PROMPT_SUFFIX}"
+	echo "${YELLOW_PREFIX}${info}${PROMPT_SUFFIX}"
 }
 
 prompt_git_branch() {
@@ -72,18 +60,17 @@ prompt_git_branch() {
 	[[ -z ${branch} ]] && return
 
 	if [[ -z $(command git config prompt.git-status 2> /dev/null) ]]; then
-   [[ -n $(command git status -suno 2> /dev/null) ]] && dirty='*'
-  else
-    dirty='?'
+		[[ -n $(command git status -suno 2> /dev/null) ]] && dirty='*'
+	else
+		dirty='?'
 	fi
 
 	branch=${branch//\%/%%}
-  echo "${dirty}${branch}"
+	echo "${dirty}${branch}"
 }
 
 prompt_set_prompt() {
-	local vcs_branch="$(prompt_vcs_branch)"
-	local suffix=" ${vcs_branch}"
+  local suffix=" $(prompt_vcs_branch)"
 
 	[ -r .unibuild.sh ] && suffix+=" ${BLUE_PREFIX}build${PROMPT_SUFFIX}"
 	which deactivate > /dev/null && suffix+=" ${GREEN_PREFIX}venv${PROMPT_SUFFIX}"
@@ -100,7 +87,7 @@ TRAPWINCH() {
 	zle 2> /dev/null || return 0
 	local extra_rows=0
 
-	if (( ${prompt_last_top_width:-0} > ${COLUMNS:-0} && ${COLUMNS:-0} > 0 )); then
+	if ((${prompt_last_top_width:-0} > ${COLUMNS:-0} && ${COLUMNS:-0} > 0)); then
 		extra_rows=$(((prompt_last_top_width - 1) / COLUMNS))
 	fi
 
@@ -175,6 +162,7 @@ function __prompt_precmd() {
 	printf "\033]133;A;cl=m;aid=%s\007" "$$"
 	_prompt_executing=0
 }
+
 function __prompt_preexec() {
 	PS1="$_PROMPT_SAVE_PS1"
 	PS2="$_PROMPT_SAVE_PS2"
