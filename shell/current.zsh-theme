@@ -27,30 +27,15 @@ PROMPT_SUFFIX="›%{$reset_color%}"
 
 zmodload zsh/datetime
 
-prompt_top_width() {
-	emulate -L zsh
-	setopt extended_glob
-
-	if (( ${COLUMNS:-0} <= 0 )); then
-		print -r -- 0
-		return
-	fi
-
-	local rendered="$(print -P -r -- "$PROMPT")"
-	local -a lines=("${(@f)rendered}")
-	local top="${lines[1]}"
-	top=${top//$'\e'\[[0-9\;]##[[:alpha:]]/}
-
-	print -r -- ${#top}
-}
-
 prompt_vcs_branch() {
 	info=$(
-		jj_prompt_template_raw "if(!empty, '*') ++ '%B' ++ self.change_id().shortest(3).prefix() ++ '%b%{$fg[yellow]%}' ++ self.change_id().shortest(3).rest()" \
-			|| prompt_git_branch
+    {
+      jj_prompt_template_raw "if(!empty, '*') ++ '%B' ++ self.change_id().shortest(3).prefix() ++ '%b%{$fg[yellow]%}' ++ self.change_id().shortest(3).rest()"
+      jj log --no-pager --no-graph -r "heads(::@ & (bookmarks() | remote_bookmarks()))" -T "' %b%{$fg[magenta]%}' ++ bookmarks.first().name() ++ '%b%{$fg[yellow]%}'" 2>/dev/null
+    } || prompt_git_branch
 	) || return
 
-	echo "${YELLOW_PREFIX}${info}${PROMPT_SUFFIX}"
+	echo " ${YELLOW_PREFIX}${info}${PROMPT_SUFFIX}"
 }
 
 prompt_git_branch() {
@@ -70,7 +55,7 @@ prompt_git_branch() {
 }
 
 prompt_set_prompt() {
-  local suffix=" $(prompt_vcs_branch)"
+  local suffix="$(prompt_vcs_branch)"
 
 	[ -r .unibuild.sh ] && suffix+=" ${BLUE_PREFIX}build${PROMPT_SUFFIX}"
 	which deactivate > /dev/null && suffix+=" ${GREEN_PREFIX}venv${PROMPT_SUFFIX}"
@@ -81,6 +66,23 @@ prompt_set_prompt() {
 	local pre_prompt="╭─${user_host}${current_dir}${suffix}%<<"
 
 	PROMPT="${pre_prompt}"$'\n'"╰─%B${user_symbol}%b "
+}
+
+prompt_top_width() {
+	emulate -L zsh
+	setopt extended_glob
+
+	if (( ${COLUMNS:-0} <= 0 )); then
+		print -r -- 0
+		return
+	fi
+
+	local rendered="$(print -P -r -- "$PROMPT")"
+	local -a lines=("${(@f)rendered}")
+	local top="${lines[1]}"
+	top=${top//$'\e'\[[0-9\;]##[[:alpha:]]/}
+
+	print -r -- ${#top}
 }
 
 TRAPWINCH() {

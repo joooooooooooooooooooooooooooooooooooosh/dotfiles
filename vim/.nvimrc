@@ -457,6 +457,8 @@ Plug 'windwp/nvim-autopairs'
 Plug 'machakann/vim-sandwich'
 Plug 'powerman/vim-plugin-AnsiEsc'
 
+Plug 'NicolasGB/jj.nvim'
+
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-fugitive'
@@ -556,6 +558,17 @@ let g:lightline = {'colorscheme' : 'gruvbox_material'}
 
 " lua configuration {{{
 lua << EOF
+
+require("jj").setup({
+    cmd = {
+        keymaps = {
+            log = {
+                -- TODO: doesn't work
+                commit = "c",
+            },
+        },
+    },
+})
 
 require("csvview").setup()
 
