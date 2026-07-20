@@ -1144,30 +1144,30 @@ autocmd CursorHold * silent call CocActionAsync('highlight')
 " }}}
 
 " lightline {{{;
-autocmd VimEnter * call SetupLightlineColors()
-function SetupLightlineColors() abort
-  let l:pallete = lightline#palette()
-  " let l:pallete.normal.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  " let l:pallete.normal.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  " let l:pallete.normal.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  " let l:pallete.visual.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  " let l:pallete.visual.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  " let l:pallete.visual.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  " let l:pallete.replace.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  " let l:pallete.replace.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  " let l:pallete.replace.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  " let l:pallete.insert.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  " let l:pallete.insert.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  " let l:pallete.insert.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  " let l:pallete.inactive.left = [ [ 'NONE', 'NONE', '10', '8' ] ]
-  " let l:pallete.inactive.right = [ [ 'NONE', 'NONE', '10', '8' ] ]
-  " let l:pallete.inactive.middle = [ [ 'NONE', 'NONE', '10', '8' ] ]
-  let l:pallete.tabline.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  let l:pallete.tabline.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  let l:pallete.tabline.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
-  " let l:pallete.tabline.tabsel = [ [ '#f39660', 'NONE', 'NONE', '10' ] ]
-  call lightline#colorscheme()
-endfunction
+" autocmd VimEnter * call SetupLightlineColors()
+" function SetupLightlineColors() abort
+"   let l:pallete = lightline#palette()
+"   " let l:pallete.normal.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+"   " let l:pallete.normal.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+"   " let l:pallete.normal.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+"   " let l:pallete.visual.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+"   " let l:pallete.visual.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+"   " let l:pallete.visual.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+"   " let l:pallete.replace.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+"   " let l:pallete.replace.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+"   " let l:pallete.replace.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+"   " let l:pallete.insert.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+"   " let l:pallete.insert.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+"   " let l:pallete.insert.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+"   " let l:pallete.inactive.left = [ [ 'NONE', 'NONE', '10', '8' ] ]
+"   " let l:pallete.inactive.right = [ [ 'NONE', 'NONE', '10', '8' ] ]
+"   " let l:pallete.inactive.middle = [ [ 'NONE', 'NONE', '10', '8' ] ]
+"   let l:pallete.tabline.left = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+"   let l:pallete.tabline.right = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+"   let l:pallete.tabline.middle = [ [ 'NONE', 'NONE', 'NONE', 'NONE' ] ]
+"   " let l:pallete.tabline.tabsel = [ [ '#f39660', 'NONE', 'NONE', '10' ] ]
+"   call lightline#colorscheme()
+" endfunction
 " }}}
 
 if v:progname =~? "evim"

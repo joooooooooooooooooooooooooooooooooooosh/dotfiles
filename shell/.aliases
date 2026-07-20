@@ -1,4 +1,4 @@
-# vim: ft=bash tabstop=4 shiftwidth=4 expandtab list
+# vim: ft=bash tabstop=4 shiftwidth=4 expandtab list fdm=marker fmr={{{,}}} fdl=0 fdls=-1
 
 # NOTE: for vipe, sponge etc install moreutils
 
@@ -47,6 +47,17 @@ e() {
             ;;
         *)
             $EDITOR "$@"
+            ;;
+    esac
+}
+
+eg() {
+    case "$EDITOR" in
+        nvim)
+            n -c "lua require('telescope').extensions.live_grep_args.live_grep_args()"
+            ;;
+        *)
+            e "$@"
             ;;
     esac
 }
@@ -165,33 +176,6 @@ lzargs() {
     tr '\n' '\0' | zargs -0 "$@"
 }
 _compdef _xargs lzargs
-
-delete_old_branches() {
-    list_old_branches | xargs -r git branch -d
-}
-
-list_old_branches() {
-    git fetch -qp && git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | grep ' \[gone\]$' | cut -d' ' -f1 | sed 's|^refs/heads/||'
-}
-
-gmm() {
-    git merge $(gshm) "$@"
-}
-_compdef _git-merge gmm
-
-glm() {
-    gcom && gl
-}
-_compdef _git-pull glm
-
-gslm() {
-    stash=$(git stash)
-    if [ $? -eq 0 ] ; then stash_success=1; fi
-    if (( stash_success )) && [ $stash != "No local changes to save" ]; then has_stash=1; fi
-    (( stash_success )) && glm
-    (( has_stash )) && git stash pop
-}
-_compdef _git-pull gslm
 
 closewords() {
     grep -E $(
@@ -343,6 +327,130 @@ cudeps() {
     cargo +nightly udeps
 }
 
+add() {
+    # sed '$!s/$/+\\/' | bc
+    awk '{s+=$1} END{print s}'
+}
+
+viewdoc() {
+    open ./target/doc/$(basename $PWD)/index.html
+}
+
+alias priv=' BACKUP_HISTFILE=$HISTFILE; fc -p'
+alias unpriv='HISTFILE=$BACKUP_HISTFILE'
+alias top=bpytop
+alias binja='/Applications/Binary\ Ninja.app/Contents/MacOS/binaryninja'
+alias ra=ranger
+alias m=tldr
+alias c=cargo
+alias timer=termdown
+alias yeah=yes
+alias q=" exit"
+alias v=vr
+alias sl=ls
+alias ks=ls
+
+# editor {{{
+
+default_nvim() {
+    echo $1 > .default.nvim
+    [ -d .git ] && ! grep -qF .default.nvim .git/info/exclude && echo .default.nvim >> .git/info/exclude
+}
+
+h() {
+    # Don't set $1 if input is being piped in
+    if [ -t 0 -a -z "$1" ]; then
+        1=$(cat .default.nvim 2>/dev/null)
+    fi
+
+    # node invocation via nvm takes a long time if you don't specify the path explicitly
+    if ! grep \.nvm <<< $PATH >/dev/null; then
+        PATH="$PATH:/Users/jharcombe/.nvm/versions/node/v20.15.1/bin" <&0 command hx "$@"
+    else
+        <&0 command hx "$@"
+    fi
+}
+
+n() {
+    if [ -z "$1" ]; then
+        1=$(cat .default.nvim 2>/dev/null) || {
+            1='-c'
+            2='Telescope find_files'
+        }
+    fi
+
+    # node invocation via nvm takes a long time if you don't specify the path explicitly
+    if [ -z $COC_NODE_PATH ]; then
+        COC_NODE_PATH=/Users/jharcombe/.nvm/versions/node/v25.2.1/bin/node nvim "$@"
+    else
+        nvim "$@"
+    fi
+}
+export COC_NODE_PATH=/Users/jharcombe/.nvm/versions/node/v25.2.1/bin/node
+
+np() {
+    [ -z "$1" ] && return
+    mkdir -p "$(basename "$1")" \
+        && e "$1"
+}
+
+# }}}
+
+cl() {
+    curl "$@" -o "$(sed 's/\?.*//' <<< $(basename "$1"))"
+}
+# TODO: doesn't work
+# _compdef _curl cl
+
+ctfetch() {
+    file=$(basename "$1")
+    wget "$@" && mv "$file" $(sed 's/\?.*//' <<< $file)
+}
+_compdef _wget ctfetch
+
+notify() {
+    if "$@"; then
+        title="Succeeded"
+        sound="Funk"
+    else
+        title="Failed"
+        sound="Basso"
+    fi
+    osascript -e "display notification \"$(sed 's/\\/\\\\/g; s/"/\\"/g' <<< $*)\" with title \"${title}\" sound name \"${sound}\""
+}
+
+alert() {
+    if "$@"; then
+        title="Succeeded"
+    else
+        title="Failed"
+    fi
+    osascript -e "display alert \"${title}: $(sed 's/\\/\\\\/g; s/"/\\"/g' <<< $*)\""
+}
+
+# git {{{
+
+_gon() {
+    urls=$(
+        rg "url =" "$(gwrt)/.git/config" \
+            | sed -E "s|.*url = ||; s|.*@([^:]+):(.*)|https://\1/\2|; s|.git$||" \
+            | fzf --tmux -0 -1 --header "Select URL:"
+    )
+
+    if grep bitbucket\.org <<< $urls >/dev/null; then
+        urls="${urls}/pull-requests"
+    fi
+
+    open "${urls}"
+}
+alias gon=' _gon'
+
+_gonc() {
+    gon
+    exit
+}
+alias gonc=' _gonc'
+
 gwrt() {
     echo "$(git rev-parse --path-format=absolute --git-common-dir)/.."
 }
@@ -420,125 +528,33 @@ gfm() {
 }
 _compdef _git-fetch gfm
 
-add() {
-    # sed '$!s/$/+\\/' | bc
-    awk '{s+=$1} END{print s}'
+delete_old_branches() {
+    list_old_branches | xargs -r git branch -d
 }
 
-viewdoc() {
-    open ./target/doc/$(basename $PWD)/index.html
+list_old_branches() {
+    git fetch -qp && git for-each-ref --format '%(refname) %(upstream:track)' refs/heads | grep ' \[gone\]$' | cut -d' ' -f1 | sed 's|^refs/heads/||'
 }
 
-alias priv=' BACKUP_HISTFILE=$HISTFILE; fc -p'
-alias unpriv='HISTFILE=$BACKUP_HISTFILE'
-alias top=bpytop
-alias binja='/Applications/Binary\ Ninja.app/Contents/MacOS/binaryninja'
-alias ra=ranger
-alias m=tldr
-alias c=cargo
-alias timer=termdown
-alias yeah=yes
-alias q=" exit"
-alias v=vr
-alias sl=ls
-alias ks=ls
-
-_gon() {
-    urls=$(
-        rg "url =" "$(gwrt)/.git/config" \
-            | sed -E "s|.*url = ||; s|.*@([^:]+):(.*)|https://\1/\2|; s|.git$||" \
-            | fzf --tmux -0 -1 --header "Select URL:"
-    )
-
-    if grep bitbucket\.org <<< $urls >/dev/null; then
-        urls="${urls}/pull-requests"
-    fi
-
-    open "${urls}"
+gmm() {
+    git merge $(gshm) "$@"
 }
-alias gon=' _gon'
+_compdef _git-merge gmm
 
-_gonc() {
-    gon
-    exit
+glm() {
+    gcom && gl
 }
-alias gonc=' _gonc'
+_compdef _git-pull glm
 
-## actual functions
-
-default_nvim() {
-    echo $1 > .default.nvim
-    [ -d .git ] && ! grep -qF .default.nvim .git/info/exclude && echo .default.nvim >> .git/info/exclude
+gslm() {
+    stash=$(git stash)
+    if [ $? -eq 0 ] ; then stash_success=1; fi
+    if (( stash_success )) && [ $stash != "No local changes to save" ]; then has_stash=1; fi
+    (( stash_success )) && glm
+    (( has_stash )) && git stash pop
 }
+_compdef _git-pull gslm
 
-h() {
-    # Don't set $1 if input is being piped in
-    if [ -t 0 -a -z "$1" ]; then
-        1=$(cat .default.nvim 2>/dev/null)
-    fi
-
-    # node invocation via nvm takes a long time if you don't specify the path explicitly
-    if ! grep \.nvm <<< $PATH >/dev/null; then
-        PATH="$PATH:/Users/jharcombe/.nvm/versions/node/v20.15.1/bin" <&0 command hx "$@"
-    else
-        <&0 command hx "$@"
-    fi
-}
-
-n() {
-    if [ -z "$1" ]; then
-        1=$(cat .default.nvim 2>/dev/null) || {
-            1='-c'
-            2='Telescope find_files'
-        }
-    fi
-
-    # node invocation via nvm takes a long time if you don't specify the path explicitly
-    if [ -z $COC_NODE_PATH ]; then
-        COC_NODE_PATH=/Users/jharcombe/.nvm/versions/node/v25.2.1/bin/node nvim "$@"
-    else
-        nvim "$@"
-    fi
-}
-export COC_NODE_PATH=/Users/jharcombe/.nvm/versions/node/v25.2.1/bin/node
-
-np() {
-    [ -z "$1" ] && return
-    mkdir -p "$(basename "$1")" \
-        && e "$1"
-}
-
-cl() {
-    curl "$@" -o "$(sed 's/\?.*//' <<< $(basename "$1"))"
-}
-# TODO: doesn't work
-# _compdef _curl cl
-
-ctfetch() {
-    file=$(basename "$1")
-    wget "$@" && mv "$file" $(sed 's/\?.*//' <<< $file)
-}
-_compdef _wget ctfetch
-
-notify() {
-    if "$@"; then
-        title="Succeeded"
-        sound="Funk"
-    else
-        title="Failed"
-        sound="Basso"
-    fi
-    osascript -e "display notification \"$(sed 's/\\/\\\\/g; s/"/\\"/g' <<< $*)\" with title \"${title}\" sound name \"${sound}\""
-}
-
-alert() {
-    if "$@"; then
-        title="Succeeded"
-    else
-        title="Failed"
-    fi
-    osascript -e "display alert \"${title}: $(sed 's/\\/\\\\/g; s/"/\\"/g' <<< $*)\""
-}
 
 gcls() {
     [ $# -lt 2 ] && echo "err: need branch & repo to clone" && return
@@ -559,6 +575,32 @@ gcl() {
 }
 _compdef _git-clone gcl
 
+# jcl() {
+#     [ $# -lt 1 ] && echo "err: need repo to clone" && return
+#     cd $(faketty jj git clone "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s_/(src|tree)/.*$__' <<< $1)" ${@:2} |& tee $(tty) | sed -En "/Fetching into/s/.*"(.*)".*/\1/p")
+# }
+
+jjj() {
+    cmd="${1:-show}"
+    shift
+
+    selected=$(
+      jj log -r 'all()' -T builtin_log_oneline --color=always \
+        | fzf \
+            --tmux 70% \
+            --min-height=15 \
+            --cycle \
+            --ansi \
+            --preview 'echo {} | awk "{for(i=1;i<=NF;i++) if(length(\$i)>=7){print \$i; exit}}" | xargs jj show --color=always ' \
+            --preview-window=up:60% \
+            --prompt "jj $cmd> "
+    ) || exit 0
+
+    rev=$(echo "$selected" | awk '{for(i=1;i<=NF;i++) if(length($i)>=7){print $i; exit}}')
+
+    jj "$cmd" -r "$rev" "$@"
+}
+
 gln() {
     gl "$@" && n
 }
@@ -571,6 +613,8 @@ gw() {
     git show "$@"
 }
 _compdef _git-show gw
+
+# git }}}
 
 faketty() {
     script -qeF /dev/null $(printf "%q " "$@")
@@ -650,9 +694,19 @@ zn() {
         e
 }
 
+zg() {
+    z "$@" &&
+        eg
+}
+
 zin() {
     zi "$@" &&
         e
+}
+
+zieg() {
+    zi "$@" &&
+        eg
 }
 
 zigc() {
@@ -660,7 +714,7 @@ zigc() {
         gonc
 }
 
-#### lazy load setup
+# lazy load nvm setup {{{
 
 export NVM_DIR="$HOME/.nvm"
 _lazy_load_nvm() {
@@ -696,6 +750,8 @@ mmdc() {
     mmdc "$@"
 }
 
+# npm }}}
+
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 pyenv() {
@@ -705,7 +761,7 @@ pyenv() {
     pyenv "$@"
 }
 
-####
+# timezones {{{
 
 tz () {
         local from="Australia/Sydney"
@@ -744,6 +800,8 @@ ntdate () {
 jsdate() {
     node -e "console.log(new Date($1))"
 }
+
+# timezones }}}
 
 _compdef _gnu_generic pdfgrep
 

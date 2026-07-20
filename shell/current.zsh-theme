@@ -31,7 +31,7 @@ prompt_vcs_branch() {
 	info=$(
     {
       jj_prompt_template_raw "if(!empty, '*') ++ '%B' ++ self.change_id().shortest(3).prefix() ++ '%b%{$fg[yellow]%}' ++ self.change_id().shortest(3).rest()"
-      jj log --no-pager --no-graph -r "heads(::@ & (bookmarks() | remote_bookmarks()))" -T "' %b%{$fg[magenta]%}' ++ bookmarks.first().name() ++ '%b%{$fg[yellow]%}'" 2>/dev/null
+      jj log --no-pager --no-graph -r "heads(::@ & (bookmarks() | remote_bookmarks()))" -T "' %{$fg[magenta]%}' ++ bookmarks.first().name() ++ '%b%{$fg[yellow]%}'" 2>/dev/null
     } || prompt_git_branch
 	) || return
 
