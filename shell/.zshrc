@@ -29,7 +29,7 @@ export ZSH=$HOME/.oh-my-zsh
 # ZSH_THEME="refined"
 # ZSH_THEME="random"
 # ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
-ZSH_THEME="bira"
+ZSH_THEME="jira"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
