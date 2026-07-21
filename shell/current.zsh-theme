@@ -8,10 +8,12 @@ if [[ $UID -eq 0 ]]; then
 	# local user_host='%{$terminfo[bold]$fg[red]%}%n@%m%{$reset_color%}'
 	local user_host='%{$terminfo[bold]$fg[red]%}%n%{$reset_color%}'
 	local user_symbol='#'
+  local transient_symbol='#'
 else
 	# local user_host='%{$terminfo[bold]$fg[green]%}%n@%m%{$reset_color%}'
 	local user_host='%{$terminfo[bold]$fg[green]%}%n%{$reset_color%}'
 	local user_symbol='$'
+	local transient_symbol=';;'
 fi
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -66,6 +68,23 @@ prompt_set_prompt() {
 	local pre_prompt="╭─${user_host}${current_dir}${suffix}%<<"
 
 	PROMPT="${pre_prompt}"$'\n'"╰─%B${user_symbol}%b "
+}
+
+prompt_transient_prompt() {
+	emulate -L zsh
+
+	[[ -n ${BUFFER//[[:space:]]/} ]] || return 0
+
+	local saved_prompt="${PROMPT}"
+	local saved_rprompt="${RPROMPT}"
+
+	PROMPT="${JIRA_TRANSIENT_PROMPT:-"%{$terminfo[bold]$fg[yellow]%}${transient_symbol}%b" }"
+	RPROMPT=''
+
+	zle reset-prompt 2> /dev/null && zle -R
+
+	PROMPT="${saved_prompt}"
+	RPROMPT="${saved_rprompt}"
 }
 
 prompt_top_width() {
@@ -144,6 +163,11 @@ setopt nopromptbang prompt{cr,percent,sp,subst}
 autoload -Uz add-zsh-hook
 add-zsh-hook preexec prompt_preexec
 add-zsh-hook precmd prompt_precmd
+
+autoload -Uz add-zle-hook-widget
+if [[ -o zle ]]; then
+	add-zle-hook-widget zle-line-finish prompt_transient_prompt
+fi
 
 RPS1='%1(j. %{$fg[black]%}[%j] .)%F{cyan}${prompt_elapsed_time}%F{none}'$RPROMPT
 
