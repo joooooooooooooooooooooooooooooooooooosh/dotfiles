@@ -37,58 +37,58 @@ draw_bold_text_with_bright_colors = true
 # foreground = "0xeaeaea"
 
 # # Colors (Gruvbox Material Dark Medium)
-[colors.primary]
-# background = '0x282828'
-background = "0x1D2125"
-foreground = '0xd4be98'
-
-[colors.normal]
-black   = '0x3c3836'
-red     = '0xea6962'
-green   = '0xa9b665'
-yellow  = '0xd8a657'
-blue    = '0x7daea3'
-magenta = '0xd3869b'
-cyan    = '0x89b482'
-white   = '0xd4be98'
-
-[colors.bright]
-black   = '0x928374'
-red     = '0xea6962'
-green   = '0xa9b665'
-yellow  = '0xe3a84e'
-blue    = '0x7daea3'
-magenta = '0xd3869b'
-cyan    = '0x89b482'
-white   = '0xdfbf8e'
-
-# Colors (Gruvbox Material Light Medium)
 # [colors.primary]
-# background = "0xffffff"
-# # background = "0xfbf1c7"
-# # background = "0xeaddb4"
-# foreground = '0x654735'
+# # background = '0x282828'
+# background = "0x1D2125"
+# foreground = '0xd4be98'
 
 # [colors.normal]
-# black   = '0xe2d5ac'
-# red     = '0xc14a4a'
-# green   = '0x6c782e'
-# yellow  = '0xb47109'
-# blue    = '0x45707a'
-# magenta = '0x945e80'
-# cyan    = '0x4c7a5d'
-# white   = '0x654735'
+# black   = '0x3c3836'
+# red     = '0xea6962'
+# green   = '0xa9b665'
+# yellow  = '0xd8a657'
+# blue    = '0x7daea3'
+# magenta = '0xd3869b'
+# cyan    = '0x89b482'
+# white   = '0xd4be98'
 
 # [colors.bright]
-# # TODO: better variations for these
-# black   = '0xe2d5ac'
-# red     = '0xc14a4a'
-# green   = '0x6c782e'
-# yellow  = '0xb47109'
-# blue    = '0x45707a'
-# magenta = '0x945e80'
-# cyan    = '0x4c7a5d'
-# white   = '0x654735'
+# black   = '0x928374'
+# red     = '0xea6962'
+# green   = '0xa9b665'
+# yellow  = '0xe3a84e'
+# blue    = '0x7daea3'
+# magenta = '0xd3869b'
+# cyan    = '0x89b482'
+# white   = '0xdfbf8e'
+
+# Colors (Gruvbox Material Light Medium)
+[colors.primary]
+background = "0xffffff"
+# background = "0xfbf1c7"
+# background = "0xeaddb4"
+foreground = '0x654735'
+
+[colors.normal]
+black   = '0xe2d5ac'
+red     = '0xc14a4a'
+green   = '0x6c782e'
+yellow  = '0xb47109'
+blue    = '0x45707a'
+magenta = '0x945e80'
+cyan    = '0x4c7a5d'
+white   = '0x654735'
+
+[colors.bright]
+# TODO: better variations for these
+black   = '0xe2d5ac'
+red     = '0xc14a4a'
+green   = '0x6c782e'
+yellow  = '0xb47109'
+blue    = '0x45707a'
+magenta = '0x945e80'
+cyan    = '0x4c7a5d'
+white   = '0x654735'
 
 
 [cursor]

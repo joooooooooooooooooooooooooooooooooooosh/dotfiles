@@ -8,12 +8,12 @@ if [[ $UID -eq 0 ]]; then
 	# local user_host='%{$terminfo[bold]$fg[red]%}%n@%m%{$reset_color%}'
 	local user_host='%{$terminfo[bold]$fg[red]%}%n%{$reset_color%}'
 	local user_symbol='#'
-  local transient_symbol='#'
+  local transient_symbol='%{$fg[red]%}#'
 else
 	# local user_host='%{$terminfo[bold]$fg[green]%}%n@%m%{$reset_color%}'
 	local user_host='%{$terminfo[bold]$fg[green]%}%n%{$reset_color%}'
 	local user_symbol='$'
-	local transient_symbol=';;'
+	local transient_symbol=':;'
 fi
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -32,8 +32,12 @@ zmodload zsh/datetime
 prompt_vcs_branch() {
 	info=$(
     {
-      jj_prompt_template_raw "if(!empty, '*') ++ '%B' ++ self.change_id().shortest(3).prefix() ++ '%b%{$fg[yellow]%}' ++ self.change_id().shortest(3).rest()"
-      jj log --no-pager --no-graph -r "heads(::@ & (bookmarks() | remote_bookmarks()))" -T "' %{$fg[magenta]%}' ++ bookmarks.first().name() ++ '%b%{$fg[yellow]%}'" 2>/dev/null
+      jj_prompt_template_raw \
+        "if(!empty, '*') ++ '%B' ++ self.change_id().shortest(3).prefix() ++ '%b%{$fg[yellow]%}' ++ self.change_id().shortest(3).rest()"
+      jj log --no-pager --no-graph \
+        -r "heads(::@ & (bookmarks() | remote_bookmarks()))" \
+        -T "' %{$fg[magenta]%}' ++ bookmarks.first().name() ++ '%b%{$fg[yellow]%}'" \
+        2>/dev/null
     } || prompt_git_branch
 	) || return
 

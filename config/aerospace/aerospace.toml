@@ -99,7 +99,7 @@ alt-shift-8 = 'move-node-to-workspace 8'
 alt-shift-9 = 'move-node-to-workspace 9'
 alt-shift-0 = 'move-node-to-workspace 10'
 
-alt-shift-m = 'macos-native-minimize'
+# alt-shift-m = 'macos-native-minimize'
 alt-shift-n = 'fullscreen --no-outer-gaps'
 alt-f = 'fullscreen'
 alt-shift-f = 'layout tiling floating'

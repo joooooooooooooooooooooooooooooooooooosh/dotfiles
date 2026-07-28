@@ -551,7 +551,7 @@ let g:gruvbox_material_inlay_hints_background = 'dimmed' " none, dimmed
 let g:gruvbox_material_dim_inactive_windows = 1
 " colorscheme edge
 " let g:edge_style = 'default' " default, aura, neon
-set background=dark
+set background=light
 let g:lightline = {'colorscheme' : 'gruvbox_material'}
 " highlight DiffAdd  guibg=#145214
 " highlight DiffText guibg=#004d66
