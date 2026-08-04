@@ -108,6 +108,7 @@ autocmd BufReadPre,BufNewFile *.s setlocal tabstop=8 shiftwidth=8 expandtab
 autocmd BufNewFile *.c  0r ~/.vim/skeletons/skeleton.c
 autocmd BufNewFile day*.rs  0r ~/.vim/skeletons/aoc.rs
 " autocmd BufWritePre *.hs CocCommand editor.action.formatDocument
+" autocmd BufWritePre *.tf CocCommand editor.action.formatDocument
 " }}}
 
 let mapleader=" "
@@ -357,7 +358,7 @@ nnoremap <Leader>gsl <CMD>Dispatch zsh -c "gsl"<CR>
 nnoremap <Leader>gsm <CMD>Dispatch zsh -c "gslm"<CR>
 nnoremap <Leader>glm <CMD>Dispatch zsh -c "glm"<CR>
 nnoremap <Leader>gon <CMD>Dispatch! zsh -c "gon"<CR>
-nnoremap <Leader>gfc <CMD>Telescope conflicts<CR>
+" nnoremap <Leader>gfc <CMD>Telescope conflicts<CR>
 nnoremap <Leader>gfs <CMD>Telescope git_signs<CR>
 nnoremap <Leader>gg  <CMD>Git<CR>
 nnoremap <Leader>G   <CMD>tabnew<CR><CMD>Git<CR>
@@ -382,7 +383,7 @@ nnoremap <Leader>d <CMD>Telescope coc diagnostics<CR>
 nnoremap <Leader>D <CMD>Telescope coc workspace_diagnostics<CR>
 nnoremap <Leader>j <CMD>Telescope jumplist<CR>
 nnoremap <Leader>b <CMD>Telescope buffers<CR>
-nnoremap <Leader>fg <CMD>Telescope git_status<CR>
+" nnoremap <Leader>fg <CMD>Telescope git_status<CR>
 nnoremap <Leader>' <CMD>Telescope resume<CR>
 nnoremap <Leader><Leader>o "oyiW:Dispatch! open http://go.atlassian.com/j/<C-r>o<CR>
 nnoremap <Leader><Leader>f "oyiW:Dispatch! open <C-r>o<CR>
@@ -458,6 +459,7 @@ Plug 'machakann/vim-sandwich'
 Plug 'powerman/vim-plugin-AnsiEsc'
 
 Plug 'NicolasGB/jj.nvim'
+Plug 'zschreur/telescope-jj.nvim'
 
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
@@ -801,6 +803,7 @@ end
 
 remap('i' , '<CR>','v:lua.MUtils.completion_confirm()', {expr = true , noremap = true})
 local telescope = require('telescope')
+local builtin = require('telescope.builtin')
 local actions = require('telescope.actions')
 local lga_actions = require("telescope-live-grep-args.actions")
 
@@ -872,6 +875,33 @@ telescope.load_extension('fzf')
 telescope.load_extension('coc')
 telescope.load_extension('live_grep_args')
 telescope.load_extension('conflicts')
+telescope.load_extension('jj')
+
+local vcs_diff_picker = function(opts)
+    local jj_pick_status, jj_res = pcall(telescope.extensions.jj.diff, opts)
+    if jj_pick_status then
+        return
+    end
+
+    local git_files_status, git_res = pcall(builtin.git_status, opts)
+    if not git_files_status then
+        error("Could not launch jj/git status: \n" .. jj_res .. "\n" .. git_res)
+    end
+end
+vim.keymap.set("n", "<Leader>fg", vcs_diff_picker, {})
+
+local vcs_conflicts_picker = function(opts)
+    local jj_pick_status, jj_res = pcall(telescope.extensions.jj.conflicts, opts)
+    if jj_pick_status then
+        return
+    end
+
+    local git_files_status, git_res = pcall(telescope.extensions.conflicts.conflicts, opts)
+    if not git_files_status then
+        error("Could not launch jj/git conflicts: \n" .. jj_res .. "\n" .. git_res)
+    end
+end
+vim.keymap.set("n", "<Leader>gfc", vcs_conflicts_picker, {})
 
 require('gitsigns').setup {
   current_line_blame = true,

@@ -580,6 +580,24 @@ _compdef _git-clone gcl
 #     cd $(faketty jj git clone "$(sed -E 's|.*//(git@)?(.*)\.([^./]*)/|git@\2.\3:|; s_/(src|tree)/.*$__' <<< $1)" ${@:2} |& tee $(tty) | sed -En "/Fetching into/s/.*"(.*)".*/\1/p")
 # }
 
+gln() {
+    gl "$@" && n
+}
+
+gcln() {
+    gcl "$@" && n
+}
+
+gw() {
+    git show "$@"
+}
+_compdef _git-show gw
+
+# jj {{{
+
+alias jjls='jj log --no-pager --no-graph'
+alias jfnt='jjgf --bookmark "$(jjls -r "trunk()" -T "bookmarks.first().name()")" && jjnt'
+
 jjj() {
     cmd="${1:-show}"
     shift
@@ -601,18 +619,7 @@ jjj() {
     jj "$cmd" -r "$rev" "$@"
 }
 
-gln() {
-    gl "$@" && n
-}
-
-gcln() {
-    gcl "$@" && n
-}
-
-gw() {
-    git show "$@"
-}
-_compdef _git-show gw
+# jj }}}
 
 # git }}}
 

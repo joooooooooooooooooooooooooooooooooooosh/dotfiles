@@ -1,11 +1,4 @@
 # vim: ft=zsh tabstop=4 shiftwidth=4 expandtab list
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-# source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
-
-# If you come from bash you might have to change your $PATH.
 
 # NOTE: uncomment to profile shell startup. `zprof` to view results
 zmodload zsh/zprof
@@ -17,104 +10,31 @@ fi
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:/usr/local/go/bin/
 
-# export VIRTUAL_ENV_DISABLE_PROMPT=1
-
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-# ZSH_THEME="refined"
-# ZSH_THEME="random"
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
 ZSH_THEME="jira"
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
 
 setopt HIST_IGNORE_SPACE
 
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
+# CASE_SENSITIVE="true"
 HYPHEN_INSENSITIVE="true"
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
 DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to automatically update without prompting.
 # DISABLE_UPDATE_PROMPT="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
 DISABLE_MAGIC_FUNCTIONS=true
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-# Which plugins would you like to load?
-# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
 export FZF_BASE=/usr/bin/fzf
 plugins=(git jj autoenv zsh-autosuggestions colored-man-pages copybuffer)
 
 source "$ZSH"/oh-my-zsh.sh
-# source "$ZSH"/themes/bira.zsh-theme
 
 # User configuration
 
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='nvim'
-# else
-#   export EDITOR='mnvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# make C-l actually clear to reset the prompt
-clear-screen() {
-	echoti clear
-	print -P "$PRE_PROMPT"
-	zle redisplay
-}
-zle -N clear-screen
+# export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # Even though these are in ~/.zshenv to be sourced by non-interactive shells,
 # source them again here so that unalias can override aliases introduced earlier in this file.
@@ -125,10 +45,8 @@ unsetopt share_history
 
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# export EDITOR="h"
-# export VISUAL="h"
 export EDITOR=nvim
-export VISUAL=nvim
+export VISUAL="$EDITOR"
 
 PATH="$PATH:/opt/homebrew/bin"
 PATH="$HOME/.cargo/bin:$HOME/perl5/bin${PATH:+:${PATH}}"
@@ -148,37 +66,19 @@ fi
 export CARGO_REGISTRIES_CRATES_IO_PROTOCOL=sparse
 export XDG_CONFIG_HOME=~/.config
 
-# export MCFLY_FUZZY=10
-# export MCFLY_RESULTS=40
-# export MCFLY_RESULTS_SORT=RANK # options: [LAST_RUN, RANK]
-# eval "$(mcfly init zsh)"
 source <(fzf --zsh)
 
-# idk why this is still set
-# unset ESBUILD_BINARY_PATH
 eval "$(zoxide init zsh)"
 
-# This is lazy loaded in ~/.aliases via `node`, `npm` and `nvm`
-# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"                   # This loads nvm
-# [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-
-# This is lazy loaded in ~/.alises via `pyenv`
-# eval "$(pdm --pep582)"
-# export PYENV_ROOT="$HOME/.pyenv"
-# [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-# eval "$(pyenv init -)"
-
-# export PATH="/Users/jharcombe/.orbit/bin:$PATH"
-# export PATH="$PATH:/Users/jharcombe/.nvm/versions/node/v20.15.1/bin"
 export HOMEBREW_NO_AUTO_UPDATE=1
 unset _OLD_VIRTUAL_PS1 # starting a new shell from a venv sets this, causing PS1 to break once you deactivate
 
 # Chromium tools
 export PATH="$PATH:/Users/jharcombe/atlassian/google/depot_tools"
 
-# bun completions
-[ -s "/Users/jharcombe/.bun/_bun" ] && source "/Users/jharcombe/.bun/_bun"
+# # bun completions
+# [ -s "/Users/jharcombe/.bun/_bun" ] && source "/Users/jharcombe/.bun/_bun"
 
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
+# # bun
+# export BUN_INSTALL="$HOME/.bun"
+# export PATH="$BUN_INSTALL/bin:$PATH"
