@@ -76,7 +76,7 @@ _bm() {
             p
         ' \
             | tac \
-        | fzf --tmux 70% --preview-window=up,wrap --preview \
+        | fzf -0 -1 --tmux 70% --preview-window=up,wrap --preview \
             "<<< {} sed -E 's/(.*)(#[^#]*$)/\2\n\1/' | bat -l zsh --color=always --decorations=never --theme=auto:system" \
         | sed s/\\\\/\\\\\\\\/g \
         | sed 's/[[:space:]]*#[^#]*$//'
@@ -94,6 +94,15 @@ setb() {
 
 jwt() {
     cut -d. -f2 | sed 's/$/===/' | base64 -d | jq
+}
+
+csql() {
+    file=$1
+    shift
+    [ -z "$1" ] && 1="$(basename $file | cut -d. -f1)"
+    table=$1
+    shift
+    sqlite3 -cmd ".mode csv" -cmd ".import $file $table" "$@"
 }
 
 fileserver() {
@@ -299,12 +308,14 @@ fzd() {
 }
 
 fzn() {
-    e $(fzf) "$@"
+    e $(fzf -1 -0) "$@"
 }
 
 cfzcn() {
-    cd ~/.config
-    fzcn "$@"
+    (
+        cd ~/.config
+        fzcn "$@"
+    )
 }
 
 fns() {
@@ -605,6 +616,7 @@ jjj() {
     selected=$(
       jj log -r 'all()' -T builtin_log_oneline --color=always \
         | fzf \
+            -0 -1 \
             --tmux 70% \
             --min-height=15 \
             --cycle \
@@ -660,12 +672,12 @@ swap() {
 }
 
 fzc() {
-    local file=$(fzf)
+    local file=$(fzf -0 -1) || return
     cd $(echo $file | sed 's/\/[^\/]*$//') 2> /dev/null
 }
 
 fzcn() {
-    local file=$(fzf -q "$@")
+    local file=$(fzf -0 -1 -q "$@") || return
     cn $file
 }
 

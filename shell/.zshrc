@@ -28,7 +28,15 @@ DISABLE_AUTO_UPDATE="true"
 DISABLE_MAGIC_FUNCTIONS=true
 
 export FZF_BASE=/usr/bin/fzf
-plugins=(git jj autoenv zsh-autosuggestions colored-man-pages copybuffer)
+plugins=(
+	git
+	jj
+	autoenv
+	zsh-autosuggestions
+	colored-man-pages
+	copybuffer
+	per-directory-history
+)
 
 source "$ZSH"/oh-my-zsh.sh
 
@@ -54,6 +62,8 @@ export PERL5LIB="$HOME/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"
 export PERL_LOCAL_LIB_ROOT="$HOME/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_ROOT}}"
 export PERL_MB_OPT="--install_base \"$HOME/perl5\""
 export PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"
+
+HISTORY_START_WITH_GLOBAL=true
 
 # . `which env_parallel.zsh`
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
@@ -82,3 +92,5 @@ export PATH="$PATH:/Users/jharcombe/atlassian/google/depot_tools"
 # # bun
 # export BUN_INSTALL="$HOME/.bun"
 # export PATH="$BUN_INSTALL/bin:$PATH"
+
+bindkey '^U' backward-kill-line

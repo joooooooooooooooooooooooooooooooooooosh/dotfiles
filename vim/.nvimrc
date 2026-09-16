@@ -71,8 +71,6 @@ autocmd VimResized * wincmd =
 
 autocmd FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | silent! checktime | endif
 
-autocmd FileType csv,tsv CsvViewEnable display_mode=border
-
 " TODO: only compile tex once and copy resulting pdf to view.pdf
 autocmd BufWritePost *.tex exec 'Dispatch! cp % view.tex; tectonic view.tex'
 autocmd BufWritePost *.tex exec 'Dispatch! tectonic %'
@@ -83,6 +81,8 @@ autocmd FileType js setlocal filetype=javascript
 autocmd FileType md setlocal filetype=markdown
 
 autocmd FileType qf setlocal winfixheight " quickfix buffers
+
+autocmd FileType csv,tsv CsvViewEnable display_mode=border
 autocmd FileType markdown,text setlocal spell wrap
 autocmd FileType tex,plaintex setlocal spell wrap
 autocmd FileType text setlocal textwidth=78
@@ -107,8 +107,6 @@ autocmd BufReadPost README setlocal ft=markdown
 autocmd BufReadPre,BufNewFile *.s setlocal tabstop=8 shiftwidth=8 expandtab
 autocmd BufNewFile *.c  0r ~/.vim/skeletons/skeleton.c
 autocmd BufNewFile day*.rs  0r ~/.vim/skeletons/aoc.rs
-" autocmd BufWritePre *.hs CocCommand editor.action.formatDocument
-" autocmd BufWritePre *.tf CocCommand editor.action.formatDocument
 " }}}
 
 let mapleader=" "
@@ -561,6 +559,9 @@ let g:lightline = {'colorscheme' : 'gruvbox_material'}
 " lua configuration {{{
 lua << EOF
 
+vim.opt.title = true
+vim.opt.titlestring = "%t"
+
 require("jj").setup({
     cmd = {
         keymaps = {
@@ -572,7 +573,11 @@ require("jj").setup({
     },
 })
 
-require("csvview").setup()
+require("csvview").setup({
+    view = {
+        header_lnum = 1, -- force sticky header
+    }
+})
 
 require("mole").setup({
     virtual_text = true,
