@@ -93,7 +93,9 @@ setb() {
 }
 
 jwt() {
-    cut -d. -f2 | sed 's/$/===/' | base64 -d | jq
+    tr '.' '\n' | while IFS= read -r section; do
+        <<< $section sed 's/$/===/' | base64 -d | jq
+    done 2>/dev/null
 }
 
 csql() {
