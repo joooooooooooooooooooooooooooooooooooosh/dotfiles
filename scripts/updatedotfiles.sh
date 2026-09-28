@@ -29,6 +29,7 @@ sync_dir ~/.config aerospace
 sync_dir ~/.config helix
 sync_dir ~/.config yamlfmt
 sync_dir ~/.config ghostty
+sync_dir ~/.config rift
 
 rm -r "${DOT_DIR}/vim/skeletons/"
 cp -r ~/.vim/skeletons "${DOT_DIR}/vim/"
