@@ -239,7 +239,7 @@ enabled = true
 # so macOS and the foreground app do not also handle them
 consume_dock_swipe = true
 # Invert horizontal direction (swap next/prev)
-invert_horizontal_swipe = true
+invert_horizontal_swipe = false
 # Maximum vertical travel allowed for the horizontal swipe to register.
 # Accepts normalized fraction (0..1) or percent (0..100). Example: 0.4 or 40.0
 swipe_vertical_tolerance = 0.4
@@ -392,7 +392,18 @@ workspace_names = [
 #       ]
 #
 # By default there are no app rules; add or uncomment rules below as needed.
-app_rules = []
+app_rules = [
+  { app_id = "com.apple.Calculator", floating = true },
+  { app_id = "com.apple.ActivityMonitor", floating = true },
+  { app_id = "com.apple.systempreferences", floating = true },
+  { app_id = "com.okta.mobile", floating = true },
+  { title_substring = "scratchpad", floating = true },
+
+  { app_id = "com.spotify.client", workspace = 4 },
+  { app_id = "com.tinyspeck.slackmacgap", workspace = 4 },
+  { app_id = "com.friendlyfoxes.paws-beta", workspace = 4 }, # Trello
+  { app_id = "us.zoom.xos", workspace = 5 },
+]
 
 # Modifier combinations that can be reused in key bindings
 # Define common modifier combinations to avoid repetition.
@@ -444,7 +455,7 @@ app_rules = []
 # - show_mission_control_all / show_mission_control_current / dismiss_mission_control (this is rift's own mission control, not macOS's)
 
 # To enter a resize mode, add a binding to [keys] before declaring the mode.
-# "Alt + R" = { binding_mode = "resize" }
+"Alt + R" = { binding_mode = "resize" }
 
 # the following commands *only* work when the master stack layout is active
 # - adjust_master_ratio = 0.05 / adjust_master_count = 1
@@ -526,10 +537,11 @@ app_rules = []
 "Alt + Ctrl + G" = { "exec" = ["open", "https://calendar.google.com"] }
 # "Alt + Ctrl + W" = { "exec" = ["/bin/bash", "-c",  "/usr/bin/open -b $(plutil -convert json -o - \"$HOME/Library/Preferences/com.apple.LaunchServices/com.apple.launchservices.secure.plist\" | jq -r '.LSHandlers[] | select( .LSHandlerURLScheme==\"https\" ) | .LSHandlerRoleAll'"] }
 
-"Alt + Ctrl + O" = { "exec" = ["~/scripts/switchmic.sh"] }
+"Alt + Ctrl + O" = { "exec" = ["/bin/bash", "~/scripts/switchmic.sh"] }
 # "Alt + S" = { "exec" = ["~/scripts/scratchpad.sh"] }
 
 
+# Slack shortcut 
 "Alt + P" = { "exec" = ["skhd", "-k", "alt + shift - up"] }
 "Alt + N" = { "exec" = ["skhd", "-k", "alt + shift - down"] }
 
@@ -542,22 +554,10 @@ app_rules = []
 "Alt + Slash" = "toggle_orientation"
 "Alt + Ctrl + E" = "unjoin_windows"
 
-"Alt + Shift + F" = "toggle_window_floating"
-# Optional floating placement (sizes are in logical points):
-# "Alt + Shift + Space" = { toggle_window_floating = { center = true } }
-# "Alt + Shift + Space" = { toggle_window_floating = { center = true, size = { w = 640, h = 480 } } }
-# "Alt + Shift + Space" = { toggle_window_floating = { center = true, size = "smart" } }
+"Alt + Shift + F" = { toggle_window_floating = { center = true, size = "smart" } }
+# "Alt + Shift + F" = "toggle_window_floating"
 "Alt + F" = "toggle_fullscreen"
-# "Alt + Shift + F" = "toggle_fullscreen_within_gaps"
 "Alt + Shift + Ctrl + Space" = "toggle_focus_floating" # briefly bring focus to floating window
-
-# smartly resize windows
-"Alt + Shift + Equal" = "resize_window_grow"
-"Alt + Shift + Minus" = "resize_window_shrink"
-# Example vertical bindings for windows stacked in a scrolling-layout column:
-# "Alt + Ctrl + Equal" = { resize_window_grow = "vertical" }
-# "Alt + Ctrl + Minus" = { resize_window_shrink = "vertical" }
-# Use "smart" to resize the nearest applicable split automatically.
 
 # Move mouse cursor to display by index (0-based) or UUID
 # Examples:
@@ -567,33 +567,21 @@ app_rules = []
 # Focus another display (direction/index/uuid)
 # "Alt + Shift + F" = { focus_display = "right" }
 
-# Move a window to a display (by index, UUID, or direction)
-# "Alt + Ctrl + Up" = { move_window_to_display = { selector = "up" } }
-# "Alt + Ctrl + Down" = { move_window_to_display = { selector = "down" } }
-# "Alt + Ctrl + Left" = { move_window_to_display = { selector = "left" } }
-# "Alt + Ctrl + Right" = { move_window_to_display = { selector = "right" } }
-# "Alt + Ctrl + A" = { move_window_to_display = { selector = 0 } }
-# Move the active workspace to another display. Add `wrap_around = true` to cycle at an edge.
-# "Alt + Ctrl + Shift + Left" = { move_workspace_to_display = { selector = "left", wrap_around = true } }
-# "Alt + Ctrl + Shift + Right" = { move_workspace_to_display = { selector = "right", wrap_around = true } }
-
 # if mission control is enabled
 # this will show an exploded view of the windows in the active workspace
 # "Alt + Ctrl + Shift + M" = "show_mission_control_current"
 # this will show the mission control view shown in the readme
-# "Alt + Ctrl + M" = "show_mission_control_all"
+"Alt + Ctrl + M" = "show_mission_control_current"
 
-
-"Alt + Shift + D" = "debug" # prints layout tree
-
-"Alt + Ctrl + S" = "serialize"
-"Alt + Ctrl + Q" = "save_and_exit"
 
 # Binding modes replace the active keymap until another mode is selected.
 # Keep all [keys] entries above the first [binding_modes.*] table: TOML table
 # headers set the scope for following entries, so later keys would belong to
 # the binding mode instead.
-# [binding_modes.resize]
-# "H" = { resize_window_shrink = "horizontal" }
-# "L" = { resize_window_grow = "horizontal" }
-# "Escape" = { binding_mode = "default" }
+[binding_modes.resize]
+"H" = { resize_window_shrink = "horizontal" }
+"L" = { resize_window_grow = "horizontal" }
+"J" = { resize_window_shrink = "vertical" }
+"K" = { resize_window_grow = "vertical" }
+"Alt + R" = { binding_mode = "default" }
+"Escape" = { binding_mode = "default" }

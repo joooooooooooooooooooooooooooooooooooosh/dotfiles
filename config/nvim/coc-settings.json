@@ -58,6 +58,7 @@
     "zsh"
   ],
   "tsserver.formatOnType": false,
+  "rust-analyzer.cargo.cfgs": [],
   "sql.formatOptions": {
     "language": "mysql"
   },

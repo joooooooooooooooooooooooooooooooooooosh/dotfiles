@@ -52,7 +52,7 @@
     "BTTTpFourFingerSwipeSensitivity" : 0.40000000000000002,
     "BSTMoveTreshold" : 2,
     "BTTHideFomControlStripWhenOpen" : false,
-    "BTTNumberOfStarts" : 119,
+    "BTTNumberOfStarts" : 132,
     "BTTForceNormalClickPressure3F" : 150,
     "showSiriRemoteTab" : true,
     "SIRIScrollSpeed" : 1,
@@ -159,8 +159,16 @@
     "BTTNotchBarNotchMenubarModeHideRightScrollable" : true,
     "BSTSnapAreaDefaultPictoDistanceFromLeft" : 0.10000000149011612
   },
-  "BTTPresetUUID" : "2547AD5E-F0C7-43C3-A844-1CF0FF1AB905",
+  "BTTPresetUUID" : "262BE467-D8F4-4FCB-954C-6B416DDDFA9F",
   "BTTPresetContent" : [
+    {
+      "BTTAppBundleIdentifier" : "com.apple.finder",
+      "BTTAppName" : "Finder",
+      "BTTAppAutoInvertIcon" : 1,
+      "BTTTriggers" : [
+
+      ]
+    },
     {
       "BTTAppBundleIdentifier" : "BT.L",
       "BTTAppName" : "Recently Used",
@@ -178,74 +186,12 @@
       },
       "BTTTriggers" : [
         {
-          "BTTLastUpdatedAt" : 1748240364.103754,
-          "BTTTriggerType" : 105,
-          "BTTTriggerTypeDescriptionReadOnly" : "4 Finger Swipe Left",
-          "BTTTriggerClass" : "BTTTriggerTypeTouchpadAll",
-          "BTTUUID" : "15503A19-CBC3-469E-8C25-5A0EABA27D9B",
-          "BTTOrder" : 0,
-          "BTTActionsToExecute" : [
-            {
-              "BTTLastUpdatedAt" : 1746761003.2734041,
-              "BTTTriggerParentUUID" : "15503A19-CBC3-469E-8C25-5A0EABA27D9B",
-              "BTTIsPureAction" : true,
-              "BTTTriggerClass" : "BTTTriggerTypeTouchpadAll",
-              "BTTUUID" : "6D4A8828-F48A-4F38-B870-EE267FB9E55F",
-              "BTTPredefinedActionType" : 137,
-              "BTTPredefinedActionName" : "Execute Terminal Command (Async, non-blocking)",
-              "BTTTerminalCommand" : "\/opt\/homebrew\/bin\/aerospace workspace-back-and-forth",
-              "BTTOrder" : 0
-            }
-          ]
-        },
-        {
-          "BTTLastUpdatedAt" : 1748240364.1036658,
-          "BTTTriggerType" : 106,
-          "BTTTriggerTypeDescriptionReadOnly" : "4 Finger Swipe Right",
-          "BTTTriggerClass" : "BTTTriggerTypeTouchpadAll",
-          "BTTUUID" : "66C37957-DF85-4D81-8A3B-14C4DEB9DA6B",
-          "BTTOrder" : 1,
-          "BTTActionsToExecute" : [
-            {
-              "BTTLastUpdatedAt" : 1746761018.5163488,
-              "BTTTriggerParentUUID" : "66C37957-DF85-4D81-8A3B-14C4DEB9DA6B",
-              "BTTIsPureAction" : true,
-              "BTTTriggerClass" : "BTTTriggerTypeTouchpadAll",
-              "BTTUUID" : "7965BF63-0E81-45C7-B8B3-08AA13967AF7",
-              "BTTPredefinedActionType" : 137,
-              "BTTPredefinedActionName" : "Execute Terminal Command (Async, non-blocking)",
-              "BTTTerminalCommand" : "\/opt\/homebrew\/bin\/aerospace workspace-back-and-forth",
-              "BTTOrder" : 0
-            }
-          ]
-        },
-        {
-          "BTTLastUpdatedAt" : 1748240364.1037269,
-          "BTTTriggerType" : 107,
-          "BTTTriggerTypeDescriptionReadOnly" : "4 Finger Swipe Down",
-          "BTTTriggerClass" : "BTTTriggerTypeTouchpadAll",
-          "BTTUUID" : "D3AD887E-1C91-40A0-9D8B-C58D8D6D7734",
-          "BTTOrder" : 3,
-          "BTTActionsToExecute" : [
-            {
-              "BTTLastUpdatedAt" : 1748240553.414355,
-              "BTTTriggerParentUUID" : "D3AD887E-1C91-40A0-9D8B-C58D8D6D7734",
-              "BTTIsPureAction" : true,
-              "BTTTriggerClass" : "BTTTriggerTypeTouchpadAll",
-              "BTTUUID" : "BDCBAD79-A3FC-479E-B72A-76E7BBABC43E",
-              "BTTPredefinedActionType" : 137,
-              "BTTPredefinedActionName" : "Execute Terminal Command (Async, non-blocking)",
-              "BTTTerminalCommand" : "\/opt\/homebrew\/bin\/aerospace focus --boundaries-action wrap-around-the-workspace up",
-              "BTTOrder" : 0
-            }
-          ]
-        },
-        {
-          "BTTLastUpdatedAt" : 1748240364.1037412,
+          "BTTLastUpdatedAt" : 1790580035.314713,
           "BTTTriggerType" : 100,
           "BTTTriggerTypeDescriptionReadOnly" : "3 Finger Swipe Left",
           "BTTTriggerClass" : "BTTTriggerTypeTouchpadAll",
           "BTTUUID" : "F2CBFC0D-8A03-42FD-B598-C8D468C52EEF",
+          "BTTEnabled2" : 0,
           "BTTOrder" : 6,
           "BTTActionsToExecute" : [
             {
@@ -262,7 +208,28 @@
           ]
         },
         {
-          "BTTLastUpdatedAt" : 1752735322.563014,
+          "BTTLastUpdatedAt" : 1790650059.4752522,
+          "BTTTriggerType" : 107,
+          "BTTTriggerTypeDescriptionReadOnly" : "4 Finger Swipe Down",
+          "BTTTriggerClass" : "BTTTriggerTypeTouchpadAll",
+          "BTTUUID" : "D3AD887E-1C91-40A0-9D8B-C58D8D6D7734",
+          "BTTOrder" : 3,
+          "BTTActionsToExecute" : [
+            {
+              "BTTLastUpdatedAt" : 1790650073.6498661,
+              "BTTTriggerParentUUID" : "D3AD887E-1C91-40A0-9D8B-C58D8D6D7734",
+              "BTTIsPureAction" : true,
+              "BTTTriggerClass" : "BTTTriggerTypeTouchpadAll",
+              "BTTUUID" : "BDCBAD79-A3FC-479E-B72A-76E7BBABC43E",
+              "BTTPredefinedActionType" : 137,
+              "BTTPredefinedActionName" : "Execute Terminal Command (Async, non-blocking)",
+              "BTTTerminalCommand" : "\/opt\/homebrew\/bin\/rift-cli execute window focus down",
+              "BTTOrder" : 0
+            }
+          ]
+        },
+        {
+          "BTTLastUpdatedAt" : 1790650013.598448,
           "BTTTriggerType" : 103,
           "BTTTriggerTypeDescriptionReadOnly" : "3 Finger Swipe Down",
           "BTTTriggerClass" : "BTTTriggerTypeTouchpadAll",
@@ -282,11 +249,12 @@
           ]
         },
         {
-          "BTTLastUpdatedAt" : 1748240364.1037679,
+          "BTTLastUpdatedAt" : 1790580034.1789942,
           "BTTTriggerType" : 101,
           "BTTTriggerTypeDescriptionReadOnly" : "3 Finger Swipe Right",
           "BTTTriggerClass" : "BTTTriggerTypeTouchpadAll",
           "BTTUUID" : "E99E7FCF-0510-411E-991F-00D25DEE35E1",
+          "BTTEnabled2" : 0,
           "BTTOrder" : 5,
           "BTTActionsToExecute" : [
             {
@@ -301,15 +269,49 @@
               "BTTOrder" : 0
             }
           ]
+        },
+        {
+          "BTTLastUpdatedAt" : 1790650103.079633,
+          "BTTTriggerType" : 105,
+          "BTTTriggerTypeDescriptionReadOnly" : "4 Finger Swipe Left",
+          "BTTTriggerClass" : "BTTTriggerTypeTouchpadAll",
+          "BTTUUID" : "15503A19-CBC3-469E-8C25-5A0EABA27D9B",
+          "BTTOrder" : 0,
+          "BTTActionsToExecute" : [
+            {
+              "BTTLastUpdatedAt" : 1790650100.943747,
+              "BTTTriggerParentUUID" : "15503A19-CBC3-469E-8C25-5A0EABA27D9B",
+              "BTTIsPureAction" : true,
+              "BTTTriggerClass" : "BTTTriggerTypeTouchpadAll",
+              "BTTUUID" : "6D4A8828-F48A-4F38-B870-EE267FB9E55F",
+              "BTTPredefinedActionType" : 137,
+              "BTTPredefinedActionName" : "Execute Terminal Command (Async, non-blocking)",
+              "BTTTerminalCommand" : "\/opt\/homebrew\/bin\/rift-cli execute workspace last",
+              "BTTOrder" : 0
+            }
+          ]
+        },
+        {
+          "BTTLastUpdatedAt" : 1790650078.1816721,
+          "BTTTriggerType" : 106,
+          "BTTTriggerTypeDescriptionReadOnly" : "4 Finger Swipe Right",
+          "BTTTriggerClass" : "BTTTriggerTypeTouchpadAll",
+          "BTTUUID" : "66C37957-DF85-4D81-8A3B-14C4DEB9DA6B",
+          "BTTOrder" : 1,
+          "BTTActionsToExecute" : [
+            {
+              "BTTLastUpdatedAt" : 1790650090.894171,
+              "BTTTriggerParentUUID" : "66C37957-DF85-4D81-8A3B-14C4DEB9DA6B",
+              "BTTIsPureAction" : true,
+              "BTTTriggerClass" : "BTTTriggerTypeTouchpadAll",
+              "BTTUUID" : "7965BF63-0E81-45C7-B8B3-08AA13967AF7",
+              "BTTPredefinedActionType" : 137,
+              "BTTPredefinedActionName" : "Execute Terminal Command (Async, non-blocking)",
+              "BTTTerminalCommand" : "\/opt\/homebrew\/bin\/rift-cli execute workspace last",
+              "BTTOrder" : 0
+            }
+          ]
         }
-      ]
-    },
-    {
-      "BTTAppBundleIdentifier" : "com.apple.finder",
-      "BTTAppName" : "Finder",
-      "BTTAppAutoInvertIcon" : 1,
-      "BTTTriggers" : [
-
       ]
     }
   ],
