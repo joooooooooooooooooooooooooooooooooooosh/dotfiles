@@ -324,7 +324,9 @@ noremap <Leader>t/ <CMD>set hlsearch!<CR>
 noremap <Leader>th <CMD>CocCommand document.toggleInlayHint<CR>
 
 noremap <Leader>y "+y
+noremap <Leader>Y "+Y
 noremap <Leader>p "+p
+noremap <Leader>P "+P
 " nnoremap <Leader>t  :sp<CR><C-W>J:res 10<CR>:setl wfh<CR>:terminal<CR>
 nnoremap <Leader>T  :tabnew<CR><Esc>:terminal<CR>
 nnoremap <Leader>,  :tabmove -1<CR>
@@ -356,6 +358,10 @@ nnoremap <Leader>gsl <CMD>Dispatch zsh -c "gsl"<CR>
 nnoremap <Leader>gsm <CMD>Dispatch zsh -c "gslm"<CR>
 nnoremap <Leader>glm <CMD>Dispatch zsh -c "glm"<CR>
 nnoremap <Leader>gon <CMD>Dispatch! zsh -c "gon"<CR>
+nnoremap <Leader>gln <CMD>Dispatch zsh -ic "jfnt"<CR>
+nnoremap <Leader>gn  <CMD>Dispatch zsh -c "jjnt"<CR>
+nnoremap <Leader>gap  <CMD>! jjgap<CR>
+nnoremap <Leader>gcp  <CMD>! jjgcp<CR>
 " nnoremap <Leader>gfc <CMD>Telescope conflicts<CR>
 nnoremap <Leader>gfs <CMD>Telescope git_signs<CR>
 nnoremap <Leader>gg  <CMD>Git<CR>

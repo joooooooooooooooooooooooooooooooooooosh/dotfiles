@@ -14,8 +14,12 @@ _unalias() {
     unalias $@ 2>/dev/null
 }
 
-# all aliases are functions in order to work with things like `notify` and `compdef`
+# NOTE: sourcing shortcuts for zsh -c invocations
+{ type ga || source ~/.oh-my-zsh/plugins/git/git.plugin.zsh } &> /dev/null
+{ type jja || source ~/.oh-my-zsh/plugins/jj/jj.plugin.zsh } &> /dev/null
 { type _git-pull || _git } &> /dev/null # NOTE: loads the _git completion system, including subcommands
+
+export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 
 alias aliases=' n ~/.aliases'
@@ -34,7 +38,7 @@ alias gg=' n -c "Git" -c "only"'
 alias cdiff='git diff --no-index --word-diff=color --word-diff-regex=.'
 
 
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+# all aliases are functions in order to work with things like `notify` and `compdef`
 
 
 e() {
@@ -113,7 +117,7 @@ fileserver() {
 }
 
 psgrep() {
-    ps aux | grep "$@" | grep -v "grep .*$*"
+    ps wwaux | grep "$@" | grep -v "grep .*$*"
 }
 
 watch() {
@@ -610,6 +614,9 @@ _compdef _git-show gw
 
 alias jjls='jj log --no-pager --no-graph'
 alias jfnt='jjgf --bookmark "$(jjls -r "trunk()" -T "bookmarks.first().name()")" && jjnt'
+alias jjrbt='jjrb -s @- -o "trunk()"'
+alias jjgap='jjba && jjgp'
+alias jjgcp='jjgp -c @-'
 
 jjj() {
     cmd="${1:-show}"
@@ -828,4 +835,8 @@ _compdef _gnu_generic pdfgrep
 
 urldecode() {
     <<< $1 python3 -c "import sys, urllib.parse; print(urllib.parse.unquote_plus(sys.stdin.read().strip()))"
+}
+
+ifempty() {
+    awk "BEGIN{e=1} {print; e=0} END{if(e) print \"${1}\"}"
 }
